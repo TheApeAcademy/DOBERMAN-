@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { Sidebar } from './Sidebar'
 import { Header } from './Header'
 import type { Profile } from '../../lib/supabase'
+import { ChromeBlob } from '../ui/ChromeBlob'
 
 interface LayoutProps {
   profile: Profile | null
@@ -15,38 +16,34 @@ export function Layout({ profile, onSignOut, children, title }: LayoutProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <div className="flex h-screen bg-bg-primary overflow-hidden">
+    <div style={{ display: 'flex', height: '100vh', background: 'var(--void)', overflow: 'hidden', position: 'relative' }}>
+      {/* Background blob */}
+      <ChromeBlob size={500} speed={0.2} distort={0.4}
+        style={{ top: '10%', right: '-100px', opacity: 0.06, zIndex: 0, pointerEvents: 'none' }} />
+
       {/* Desktop sidebar */}
-      <div className="hidden lg:flex shrink-0">
+      <div style={{ flexShrink: 0, zIndex: 10, display: 'none' }} className="lg-sidebar">
+        <style>{`@media (min-width: 1024px) { .lg-sidebar { display: flex !important; } }`}</style>
         <Sidebar profile={profile} onSignOut={onSignOut} />
       </div>
 
       {/* Mobile sidebar overlay */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-40 flex lg:hidden">
+        <div style={{ position: 'fixed', inset: 0, zIndex: 40, display: 'flex' }}>
           <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}
             onClick={() => setMobileOpen(false)}
           />
-          <div className="relative z-50">
-            <Sidebar
-              profile={profile}
-              onSignOut={onSignOut}
-              mobile
-              onClose={() => setMobileOpen(false)}
-            />
+          <div style={{ position: 'relative', zIndex: 50 }}>
+            <Sidebar profile={profile} onSignOut={onSignOut} mobile onClose={() => setMobileOpen(false)} />
           </div>
         </div>
       )}
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <Header
-          profile={profile}
-          onMenuClick={() => setMobileOpen(true)}
-          title={title}
-        />
-        <main className="flex-1 overflow-y-auto">
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden', zIndex: 1 }}>
+        <Header profile={profile} onMenuClick={() => setMobileOpen(true)} title={title} />
+        <main style={{ flex: 1, overflowY: 'auto' }}>
           {children}
         </main>
       </div>

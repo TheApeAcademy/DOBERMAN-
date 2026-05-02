@@ -1,0 +1,23 @@
+{
+  "name": "DOBERMAN",
+  "short_name": "DOBERMAN",
+  "description": "Detect deepfakes. Expose IoT vulnerabilities. Verify news.",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ],
+  "share_target": {
+    "action": "/share-target",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [{ "name": "file", "accept": ["image/*", "video/*"] }]
+    }
+  }
+}
