@@ -346,7 +346,7 @@ export default function Landing() {
               <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
                 <video
                   autoPlay muted loop playsInline preload="auto"
-                  src="/assets/video/blob-hero.mp4"
+                  src="/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4"
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                 />
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
