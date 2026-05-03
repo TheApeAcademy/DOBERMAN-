@@ -346,7 +346,7 @@ export default function Landing() {
               <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: 'linear-gradient(135deg, #0a0a1f 0%, #1a0a2e 50%, #0d1a2e 100%)' }}>
                 <video
                   autoPlay muted loop playsInline preload="auto"
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', mixBlendMode: 'screen' }}
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                 >
                   <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
                 </video>
@@ -632,10 +632,10 @@ export default function Landing() {
         />
         <div style={{ position: 'relative', zIndex: 1, padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 720 }}>
           {/* Orange blob in the open space above the card */}
-          <div style={{ position: 'relative', height: 300, width: '100%', marginBottom: -40, overflow: 'visible', pointerEvents: 'none' }}>
+          <div style={{ position: 'relative', height: 480, width: '100%', marginBottom: -60, overflow: 'visible', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <video
               autoPlay muted loop playsInline preload="auto"
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen' }}
+              style={{ width: '90%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', transform: 'scale(1.4)', transformOrigin: 'center center' }}
             >
               <source src="/assets/video/blob-hero-2.mp4" type="video/mp4" />
             </video>
