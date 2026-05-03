@@ -77,7 +77,7 @@ export default function Settings() {
       <div className="p-6 max-w-2xl mx-auto page-fade space-y-6">
         <div className="mb-6">
           <h1 className="font-heading font-bold text-2xl text-text-primary">Settings</h1>
-          <p className="text-text-muted font-body text-sm mt-1">Manage your DOBERMAN account</p>
+          <p className="text-text-muted font-body text-sm mt-1">Manage your D0B3RMAN account</p>
         </div>
 
         {saved && (
@@ -217,7 +217,7 @@ export default function Settings() {
           <div className="space-y-2">
             {[
               { label: 'Version', value: '1.0.0' },
-              { label: 'Platform', value: 'DOBERMAN SaaS' },
+              { label: 'Platform', value: 'D0B3RMAN SaaS' },
               { label: 'AI Engine', value: 'Claude (claude-sonnet-4-20250514)' },
               { label: 'Detection', value: 'Hive AI Moderation' },
             ].map(({ label, value }) => (

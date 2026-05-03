@@ -5,7 +5,7 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string
 
 if (!supabaseUrl || !supabaseAnonKey) {
   console.error(
-    'DOBERMAN: Missing Supabase environment variables.\n' +
+    'D0B3RMAN: Missing Supabase environment variables.\n' +
     'Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your Vercel project settings.'
   )
 }

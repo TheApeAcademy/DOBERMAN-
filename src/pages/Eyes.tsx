@@ -76,7 +76,7 @@ export default function Eyes() {
                   <Eye className="absolute inset-0 m-auto text-accent-blue" size={20} />
                 </div>
                 <div className="text-center space-y-1">
-                  <p className="text-text-primary font-body text-sm">Analyzing with DOBERMAN...</p>
+                  <p className="text-text-primary font-body text-sm">Analyzing with D0B3RMAN...</p>
                   <p className="text-text-muted font-label text-xs">Scanning for synthetic markers</p>
                 </div>
               </div>

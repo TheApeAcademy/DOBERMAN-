@@ -90,7 +90,7 @@ export default function ShareTarget() {
 
         <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 560, padding: '0 24px' }}>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
-            <span style={{ fontFamily: 'Bebas Neue', fontSize: 28, letterSpacing: '0.2em' }}>DOBERMAN</span>
+            <span style={{ fontFamily: 'Bebas Neue', fontSize: 28, letterSpacing: '0.2em' }}>D0B3RMAN</span>
           </div>
 
           <div className="glass" style={{ borderRadius: 28, padding: 40, textAlign: 'center' }}>

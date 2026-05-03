@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "DOBERMAN",
+  "name": "D0B3RMAN",
   "version": "1.0.0",
   "description": "Detect deepfakes and verify content instantly. Right-click any image, video, or text.",
   "permissions": ["activeTab", "contextMenus", "storage"],

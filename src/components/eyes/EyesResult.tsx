@@ -95,7 +95,7 @@ export function EyesResult({ scan }: EyesResultProps) {
         {expanded && (
           <div className="p-4 bg-bg-tertiary rounded-lg border border-border-color space-y-2 page-fade">
             <p className="text-text-secondary font-body text-xs leading-relaxed">
-              DOBERMAN uses the Hive AI Moderation system to analyze your media for synthetic manipulation markers.
+              D0B3RMAN uses the Hive AI Moderation system to analyze your media for synthetic manipulation markers.
               Deepfake detection works by looking for inconsistencies in facial landmarks, unnatural blinking patterns,
               lighting artifacts, audio-visual sync issues, and compression anomalies that are characteristic of
               AI-generated or AI-manipulated media.

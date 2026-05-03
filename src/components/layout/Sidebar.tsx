@@ -44,7 +44,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
       <div style={{ padding: '24px 24px 20px', borderBottom: '1px solid var(--glass-border)' }}>
         <NavLink to="/dashboard" onClick={onClose} style={{ textDecoration: 'none' }}>
           <span style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.2em', color: 'var(--text-1)', display: 'block' }}>
-            DOBERMAN
+            D0B3RMAN
           </span>
           <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', display: 'block', marginTop: 2 }}>
             CYBER WATCHDOG

@@ -105,7 +105,7 @@ export default function Dashboard() {
               {greeting}, {firstName}.
             </h1>
             <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-2)', marginTop: 6 }}>
-              DOBERMAN is watching. Here's your threat overview.
+              D0B3RMAN is watching. Here's your threat overview.
             </p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.2)', borderRadius: 8 }}>

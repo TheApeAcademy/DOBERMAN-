@@ -1,6 +1,6 @@
 {
-  "name": "DOBERMAN",
-  "short_name": "DOBERMAN",
+  "name": "D0B3RMAN",
+  "short_name": "D0B3RMAN",
   "description": "Detect deepfakes. Expose IoT vulnerabilities. Verify news.",
   "start_url": "/dashboard",
   "display": "standalone",

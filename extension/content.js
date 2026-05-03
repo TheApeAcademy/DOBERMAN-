@@ -1,7 +1,7 @@
 chrome.runtime.onMessage.addListener((msg) => {
-  if (msg.type === 'DOBERMAN_LOADING') showOverlay(null, true)
-  if (msg.type === 'DOBERMAN_RESULT') showOverlay(msg.data, false, msg.analysisType)
-  if (msg.type === 'DOBERMAN_ERROR') showOverlay(null, false, null, true)
+  if (msg.type === 'D0B3RMAN_LOADING') showOverlay(null, true)
+  if (msg.type === 'D0B3RMAN_RESULT') showOverlay(msg.data, false, msg.analysisType)
+  if (msg.type === 'D0B3RMAN_ERROR') showOverlay(null, false, null, true)
 })
 
 function showOverlay(data, loading = false, type = null, error = false) {
@@ -28,7 +28,7 @@ function showOverlay(data, loading = false, type = null, error = false) {
       animation:dobSlideUp 0.35s ease;
     ">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-        <span style="font-family:monospace;font-size:10px;letter-spacing:0.2em;color:#666;">DOBERMAN</span>
+        <span style="font-family:monospace;font-size:10px;letter-spacing:0.2em;color:#666;">D0B3RMAN</span>
         <button onclick="document.getElementById('dob-overlay').remove()"
           style="background:none;border:none;color:#555;font-size:20px;line-height:1;cursor:pointer;">x</button>
       </div>
@@ -49,7 +49,7 @@ function showOverlay(data, loading = false, type = null, error = false) {
         <p style="font-size:12px;color:#888;line-height:1.55;margin-bottom:18px;font-family:sans-serif;">
           ${explanation}
         </p>
-        <a href="https://doberman.vercel.app/dashboard" target="_blank"
+        <a href="https://d0b3rman.vercel.app/dashboard" target="_blank"
           style="display:block;text-align:center;padding:10px;background:white;color:black;text-decoration:none;border-radius:10px;font-size:12px;font-weight:700;font-family:monospace;">
           VIEW FULL REPORT
         </a>
