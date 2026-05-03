@@ -87,16 +87,26 @@ body::after {
   min-height: 100vh;
 }
 
-/* Reusable glassmorphism utility */
+/* True glassmorphism — requires moving content behind it to look real */
 .glass {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  transition: border-color 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  /* Top edge highlight — simulates light catching real glass */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    0 32px 64px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .glass:hover {
-  border-color: var(--glass-border-bright);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+    0 40px 80px rgba(0, 0, 0, 0.55);
 }
 
 /* Chrome gradient text utility */

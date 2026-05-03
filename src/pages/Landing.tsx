@@ -3,13 +3,32 @@ import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ChromeBlob } from '../components/ui/ChromeBlob'
-import { AssetSlot } from '../components/ui/AssetSlot'
 import { AnimatedCounter } from '../components/ui/AnimatedCounter'
-import { useScrollReveal } from '../hooks/useScrollReveal'
 import { useShockwave } from '../hooks/useShockwave'
 
 gsap.registerPlugin(ScrollTrigger)
+
+/* Reusable video blob — appears as floating chrome object on pure black.
+   mixBlendMode:'screen' makes the video's black background invisible.
+   Only the chrome object shows through. */
+function BlobVideo({ src, style }: { src: string; style?: React.CSSProperties }) {
+  return (
+    <video
+      autoPlay
+      muted
+      loop
+      playsInline
+      style={{
+        position: 'absolute',
+        mixBlendMode: 'screen',
+        pointerEvents: 'none',
+        ...style,
+      }}
+    >
+      <source src={src} type="video/mp4" />
+    </video>
+  )
+}
 
 const stats = [
   '400% -- DEEPFAKE ATTACKS UP YoY',
@@ -25,54 +44,12 @@ const stats = [
 ]
 
 const reviews = [
-  {
-    text: 'I uploaded a video of my CEO that turned out to be completely AI-generated. DOBERMAN caught it in 3 seconds.',
-    author: 'Marcus T.',
-    role: 'IT Security Lead, London',
-    badge: '98% FAKE',
-    badgeColor: 'var(--danger)',
-    rotate: -1.5,
-  },
-  {
-    text: 'My home network had 4 critical vulnerabilities I had no idea about. Patched all of them in one afternoon.',
-    author: 'Priya K.',
-    role: 'Remote Software Engineer',
-    badge: 'RISK: 74',
-    badgeColor: 'var(--warning)',
-    rotate: 1.5,
-  },
-  {
-    text: 'The news verification alone is worth it. I paste every headline before sharing anything now. Saved me embarrassment twice.',
-    author: 'David O.',
-    role: 'Independent Journalist',
-    badge: '3 FALSE FLAGS',
-    badgeColor: 'var(--danger)',
-    rotate: -1,
-  },
-  {
-    text: 'BRAIN explained a zero-day exploit to me like a human being. Not like reading a CVE database. Actually useful.',
-    author: 'Aisha M.',
-    role: 'Cybersecurity Student',
-    badge: 'BRAIN 5/5',
-    badgeColor: 'var(--safe)',
-    rotate: 1,
-  },
-  {
-    text: 'Right-clicked a suspicious LinkedIn profile picture on my phone. DOBERMAN said 97% fake. Blocked immediately.',
-    author: 'Tom R.',
-    role: 'Senior Recruiter',
-    badge: '97% FAKE',
-    badgeColor: 'var(--danger)',
-    rotate: -1.5,
-  },
-  {
-    text: 'Scanned my entire smart home. Bulbs, TV, cameras, router. Got a full risk report with actual numbered steps.',
-    author: 'Yuki N.',
-    role: 'Smart Home Enthusiast',
-    badge: '6 VULNS FOUND',
-    badgeColor: 'var(--warning)',
-    rotate: 1.5,
-  },
+  { text: 'I uploaded a video of my CEO that turned out to be completely AI-generated. DOBERMAN caught it in 3 seconds.', author: 'Marcus T.', role: 'IT Security Lead, London', badge: '98% FAKE', badgeColor: 'var(--danger)', rotate: -1.5 },
+  { text: 'My home network had 4 critical vulnerabilities I had no idea about. Patched all of them in one afternoon.', author: 'Priya K.', role: 'Remote Software Engineer', badge: 'RISK: 74', badgeColor: 'var(--warning)', rotate: 1.5 },
+  { text: 'The news verification alone is worth it. I paste every headline before sharing anything now.', author: 'David O.', role: 'Independent Journalist', badge: '3 FALSE FLAGS', badgeColor: 'var(--danger)', rotate: -1 },
+  { text: 'BRAIN explained a zero-day exploit to me like a human being. Not like reading a CVE database. Actually useful.', author: 'Aisha M.', role: 'Cybersecurity Student', badge: 'BRAIN 5/5', badgeColor: 'var(--safe)', rotate: 1 },
+  { text: 'Right-clicked a suspicious LinkedIn profile picture. DOBERMAN said 97% fake. Blocked immediately.', author: 'Tom R.', role: 'Senior Recruiter', badge: '97% FAKE', badgeColor: 'var(--danger)', rotate: -1.5 },
+  { text: 'Scanned my entire smart home. Bulbs, TV, cameras, router. Got a full risk report with numbered steps.', author: 'Yuki N.', role: 'Smart Home Enthusiast', badge: '6 VULNS FOUND', badgeColor: 'var(--warning)', rotate: 1.5 },
 ]
 
 const hPanels = [
@@ -83,15 +60,12 @@ const hPanels = [
   { num: '05', module: 'EXTENSION', headline: 'Works\neverywhere\nyou do.', sub: 'Right-click any image on the web. Get results instantly.' },
 ]
 
+const IN_VIEW = { initial: { opacity: 0, y: 48 }, whileInView: { opacity: 1, y: 0 }, transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] as const }, viewport: { once: true, margin: '-60px' } }
+
 export default function Landing() {
   const navigate = useNavigate()
   const shockwave = useShockwave()
   const hContainerRef = useRef<HTMLDivElement>(null)
-
-  const modulesHeaderRef = useScrollReveal()
-  const newsHeaderRef = useScrollReveal()
-  const extensionHeaderRef = useScrollReveal()
-  const ctaCardRef = useScrollReveal({ y: 40, scale: 0.92 })
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -113,240 +87,250 @@ export default function Landing() {
   }, [])
 
   return (
-    <div style={{ background: 'var(--void)', minHeight: '100vh', overflowX: 'hidden' }}>
+    <div style={{ background: '#000', minHeight: '100vh', overflowX: 'hidden' }}>
 
-      {/* NAV */}
-      <nav
-        className="glass"
-        style={{
-          position: 'fixed',
-          top: 16,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: 'calc(100% - 48px)',
-          maxWidth: 1200,
-          padding: '12px 24px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          zIndex: 200,
-          borderRadius: 14,
-        }}
-      >
-        <span style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.2em' }}>
-          DOBERMAN
-        </span>
-        <div style={{ display: 'flex', gap: 40, fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-2)' }}>
+      {/* ─── NAV ─────────────────────────────────────────── */}
+      <nav style={{
+        position: 'fixed', top: 12, left: '50%', transform: 'translateX(-50%)',
+        width: 'calc(100% - 32px)', maxWidth: 1200,
+        padding: '12px 24px',
+        background: 'rgba(0,0,0,0.4)',
+        backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)',
+        border: '1px solid rgba(255,255,255,0.1)',
+        borderRadius: 14,
+        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12)',
+        zIndex: 200,
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      }}>
+        <span style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.2em' }}>DOBERMAN</span>
+        <div style={{ display: 'flex', gap: 40, fontFamily: 'JetBrains Mono', fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>
           <a href="#modules" style={{ color: 'inherit', textDecoration: 'none' }}>MODULES</a>
           <a href="#news" style={{ color: 'inherit', textDecoration: 'none' }}>NEWS</a>
           <a href="#extension" style={{ color: 'inherit', textDecoration: 'none' }}>EXTENSION</a>
           <a href="#reviews" style={{ color: 'inherit', textDecoration: 'none' }}>REVIEWS</a>
         </div>
         <div style={{ display: 'flex', gap: 12 }}>
-          <motion.button
-            className="glass"
-            whileHover={{ scale: 1.03 }}
-            onClick={() => navigate('/auth')}
-            style={{ padding: '8px 20px', fontSize: 13, fontFamily: 'Syne', fontWeight: 600, color: 'white', border: 'none', borderRadius: 8 }}
-          >
+          <motion.button whileHover={{ scale: 1.03 }} onClick={() => navigate('/auth')}
+            style={{ padding: '8px 20px', background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, color: 'white', fontFamily: 'Syne', fontWeight: 600, fontSize: 13, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12)' }}>
             Sign In
           </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            onClick={() => navigate('/auth')}
-            style={{ padding: '8px 20px', background: 'white', color: 'black', fontSize: 13, fontFamily: 'Syne', fontWeight: 700, border: 'none', borderRadius: 8 }}
-          >
+          <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} onClick={() => navigate('/auth')}
+            style={{ padding: '8px 20px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 13, border: 'none', borderRadius: 8 }}>
             Get Started Free
           </motion.button>
         </div>
       </nav>
 
-      {/* HERO */}
-      <section style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
-        <ChromeBlob size={700} speed={0.5} distort={0.45} style={{ top: '-120px', right: '-180px', opacity: 0.65, zIndex: 0 }} />
-        <ChromeBlob size={280} speed={1.1} distort={0.65} style={{ bottom: '5%', left: '-60px', opacity: 0.3, zIndex: 0 }} />
-        <ChromeBlob size={160} speed={0.7} distort={0.8} style={{ top: '40%', left: '35%', opacity: 0.15, zIndex: 0 }} />
+      {/* ─── HERO ────────────────────────────────────────── */}
+      <section style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', background: '#000', display: 'flex', alignItems: 'center' }}>
+
+        {/* Full-section ambient chrome glow behind everything */}
+        <BlobVideo src="/assets/video/blob-hero.mp4"
+          style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.45, zIndex: 0 }} />
 
         <div style={{ position: 'relative', zIndex: 1, padding: '120px 48px 80px', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
-            <div>
-              <motion.p
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2, duration: 0.6 }}
-                style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'var(--chrome-dim)', marginBottom: 32, textTransform: 'uppercase' }}
-              >
-                [ CYBERSECURITY INTELLIGENCE -- 2026 ]
-              </motion.p>
 
-              {['THE', 'WATCH-', 'DOG.'].map((word, i) => (
-                <motion.div
-                  key={word}
-                  initial={{ opacity: 0, y: 100, rotateX: 30 }}
-                  animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                  transition={{ delay: 0.3 + i * 0.14, duration: 1.0, ease: [0.25, 0.1, 0.25, 1] }}
-                  style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(72px, 13vw, 160px)', lineHeight: 0.88, display: 'block', color: 'var(--chrome-white)' }}
-                >
-                  {word}
-                </motion.div>
-              ))}
+          <motion.p
+            initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15, duration: 0.6 }}
+            style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 36, textTransform: 'uppercase' }}>
+            [ CYBERSECURITY INTELLIGENCE -- 2026 ]
+          </motion.p>
 
-              <motion.p
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.85, duration: 0.7 }}
-                style={{ fontFamily: 'Syne', fontSize: 17, color: 'var(--text-2)', maxWidth: 460, marginTop: 40, lineHeight: 1.65 }}
-              >
-                Detect deepfakes. Expose IoT vulnerabilities.
-                Verify news. Get expert cybersecurity advice.
-                Three modules. One platform. Zero guesswork.
-              </motion.p>
+          {/* TYPE STACK — blob intersects between words */}
+          <div style={{ position: 'relative', marginBottom: 48 }}>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.05, duration: 0.6 }}
-                style={{ display: 'flex', gap: 14, marginTop: 48, flexWrap: 'wrap' }}
-              >
-                <motion.button
-                  whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(255,255,255,0.15)' }}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={(e) => { shockwave(e); navigate('/auth') }}
-                  style={{ padding: '16px 44px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 15, border: 'none', borderRadius: 12 }}
-                >
-                  Deploy Free
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.04 }}
-                  className="glass"
-                  onClick={() => navigate('/auth')}
-                  style={{ padding: '16px 44px', fontFamily: 'Syne', fontWeight: 600, fontSize: 15, color: 'white', border: '1px solid var(--glass-border)', borderRadius: 12, background: 'transparent' }}
-                >
-                  See It Work
-                </motion.button>
-              </motion.div>
-
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.3 }}
-                style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)', marginTop: 20 }}
-              >
-                Free tier -- no credit card required
-              </motion.p>
-            </div>
-
+            {/* Word 1 — BEHIND the blob */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5, duration: 1.0 }}
-            >
-              <AssetSlot
-                id="slot-hero-3d"
-                label="HERO 3D ASSET"
-                description="Spline doberman / chrome sphere / shield orb -- 600x700px"
-                type="spline"
-                height={600}
-                style={{ borderRadius: 24 }}
-              />
+              initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
+              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(80px, 15vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
+              THE
             </motion.div>
+
+            {/* Blob video — sits IN THE MIDDLE of the word stack */}
+            <BlobVideo src="/assets/video/blob-hero.mp4"
+              style={{ right: '-5%', top: '-15%', width: '58%', opacity: 0.92, zIndex: 2 }} />
+
+            {/* Word 2 — IN FRONT of the blob */}
+            <motion.div
+              initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
+              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(80px, 15vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 3 }}>
+              WATCH-
+            </motion.div>
+
+            {/* Word 3 — BEHIND the blob again */}
+            <motion.div
+              initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
+              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(80px, 15vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
+              DOG.
+            </motion.div>
+
           </div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}
+            style={{ fontFamily: 'Syne', fontSize: 17, color: 'rgba(255,255,255,0.5)', maxWidth: 460, lineHeight: 1.65, position: 'relative', zIndex: 4 }}>
+            Detect deepfakes. Expose IoT vulnerabilities.
+            Verify news. Get expert cybersecurity advice.
+            Three modules. One platform. Zero guesswork.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }}
+            style={{ display: 'flex', gap: 16, marginTop: 40, flexWrap: 'wrap', position: 'relative', zIndex: 4 }}>
+            <motion.button
+              whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(255,255,255,0.2)' }}
+              whileTap={{ scale: 0.97 }}
+              onClick={(e) => { shockwave(e); navigate('/auth') }}
+              style={{ padding: '16px 44px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 15, border: 'none', borderRadius: 12 }}>
+              Deploy Free
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.04 }}
+              onClick={() => navigate('/auth')}
+              style={{ padding: '16px 44px', background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 12, color: 'white', fontFamily: 'Syne', fontWeight: 600, fontSize: 15, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)' }}>
+              See It Work
+            </motion.button>
+          </motion.div>
+
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3 }}
+            style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)', marginTop: 20, position: 'relative', zIndex: 4 }}>
+            Free tier -- no credit card required
+          </motion.p>
+
+          {/* Decorative metadata */}
+          <p style={{ position: 'absolute', top: 120, right: 0, fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(255,255,255,0.1)', letterSpacing: '0.1em', writingMode: 'vertical-rl', zIndex: 5 }}>
+            CYBERSECURITY -- EST. 2026
+          </p>
+          <p style={{ position: 'absolute', bottom: 40, right: 0, fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(255,255,255,0.1)', letterSpacing: '0.1em', zIndex: 5 }}>
+            v1.0.0 -- DOBERMAN.AI
+          </p>
         </div>
 
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 200, background: 'linear-gradient(to bottom, transparent, var(--void))', pointerEvents: 'none', zIndex: 2 }} />
+        {/* Bottom fade */}
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 200, background: 'linear-gradient(to bottom, transparent, #000)', zIndex: 3, pointerEvents: 'none' }} />
       </section>
 
-      {/* STATS TICKER */}
-      <div style={{ overflow: 'hidden', borderTop: '1px solid var(--glass-border)', borderBottom: '1px solid var(--glass-border)', padding: '14px 0', background: 'var(--void-1)' }}>
+      {/* ─── STATS TICKER ────────────────────────────────── */}
+      <div style={{ overflow: 'hidden', borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '14px 0', background: 'rgba(6,6,6,0.95)' }}>
         <div style={{ display: 'flex', animation: 'ticker-scroll 35s linear infinite', width: 'max-content' }}>
           {[...stats, ...stats].map((s, i) => (
-            <span key={i} style={{ fontFamily: 'JetBrains Mono', fontSize: 12, letterSpacing: '0.12em', color: 'var(--chrome-dim)', paddingRight: 48, whiteSpace: 'nowrap', textTransform: 'uppercase' }}>
+            <span key={i} style={{ fontFamily: 'JetBrains Mono', fontSize: 12, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.25)', paddingRight: 48, whiteSpace: 'nowrap', textTransform: 'uppercase' }}>
               {s}
             </span>
           ))}
         </div>
       </div>
 
-      {/* MODULES */}
-      <section id="modules" style={{ padding: '120px 48px', maxWidth: 1200, margin: '0 auto' }}>
-        <div ref={modulesHeaderRef} style={{ textAlign: 'center', marginBottom: 80 }}>
-          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'var(--chrome-dim)', marginBottom: 20 }}>
-            [ THREE MODULES. ONE WATCHDOG. ]
-          </p>
-          <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92 }}>
-            Intelligence built<br />for today's threats.
-          </h2>
-        </div>
+      {/* ─── MODULES ─────────────────────────────────────── */}
+      <section id="modules" style={{ position: 'relative', overflow: 'hidden', padding: '120px 48px' }}>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
-          {/* EYES */}
-          <motion.div
-            className="glass"
-            initial={{ opacity: 0, x: -120, rotate: -4 }}
-            whileInView={{ opacity: 1, x: 0, rotate: 0 }}
-            transition={{ duration: 0.85, ease: [0.25, 0.1, 0.25, 1] }}
-            viewport={{ once: true, margin: '-60px' }}
-            whileHover={{ y: -8, transition: { duration: 0.2 } }}
-            style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
-          >
-            <AssetSlot id="slot-eyes-3d" label="EYES 3D ASSET" description="Spline rotating eyeball -- 300x260px" type="spline" height={260} style={{ marginBottom: 28 }} />
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--chrome-dim)', marginBottom: 12 }}>01 -- DEEPFAKE DETECTION</p>
-            <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>EYES</h3>
-            <p style={{ color: 'var(--text-2)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
-              Upload any image, video, or audio. DOBERMAN's detection engine analyzes it
-              against known deepfake signatures and returns a trust score in seconds.
+        {/* Ambient video background — gives glass cards something to blur */}
+        <BlobVideo src="/assets/video/blob-divider.mp4"
+          style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.3, zIndex: 0 }} />
+
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto' }}>
+          <motion.div {...IN_VIEW} style={{ textAlign: 'center', marginBottom: 80 }}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 20 }}>
+              [ THREE MODULES. ONE WATCHDOG. ]
             </p>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>Hive AI - XceptionNet - EfficientNet - MesoNet</p>
-            <ChromeBlob size={200} speed={0.2} distort={0.5} style={{ bottom: -80, right: -80, opacity: 0.04, pointerEvents: 'none' }} />
+            <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92 }}>
+              Intelligence built<br />for today's threats.
+            </h2>
           </motion.div>
 
-          {/* NOSE */}
-          <motion.div
-            className="glass"
-            initial={{ opacity: 0, y: 100, scale: 0.93 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.85, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
-            viewport={{ once: true, margin: '-60px' }}
-            whileHover={{ y: -8, transition: { duration: 0.2 } }}
-            style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
-          >
-            <AssetSlot id="slot-nose-3d" label="NOSE 3D ASSET" description="Spline radar / network nodes -- 300x260px" type="spline" height={260} style={{ marginBottom: 28 }} />
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--chrome-dim)', marginBottom: 12 }}>02 -- NETWORK INTELLIGENCE</p>
-            <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>NOSE</h3>
-            <p style={{ color: 'var(--text-2)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
-              Describe your network environment. DOBERMAN identifies device vulnerabilities,
-              maps real CVEs, and gives you a prioritized action plan.
-            </p>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>NIST NVD - Real CVE Mapping - Device Fingerprinting</p>
-            <ChromeBlob size={200} speed={0.2} distort={0.5} style={{ bottom: -80, right: -80, opacity: 0.04, pointerEvents: 'none' }} />
-          </motion.div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
 
-          {/* BRAIN */}
-          <motion.div
-            className="glass"
-            initial={{ opacity: 0, x: 120, rotate: 4 }}
-            whileInView={{ opacity: 1, x: 0, rotate: 0 }}
-            transition={{ duration: 0.85, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-            viewport={{ once: true, margin: '-60px' }}
-            whileHover={{ y: -8, transition: { duration: 0.2 } }}
-            style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
-          >
-            <AssetSlot id="slot-brain-3d" label="BRAIN 3D ASSET" description="Spline neural mesh / glowing brain -- 300x260px" type="spline" height={260} style={{ marginBottom: 28 }} />
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--chrome-dim)', marginBottom: 12 }}>03 -- AI SECURITY ANALYST</p>
-            <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>BRAIN</h3>
-            <p style={{ color: 'var(--text-2)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
-              Ask anything. Upload suspicious files. DOBERMAN explains threats in plain language
-              and gives you a concrete next step. Like having a security analyst on call 24/7.
-            </p>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>Claude Sonnet - Context-aware - File Upload Support</p>
-            <ChromeBlob size={200} speed={0.2} distort={0.5} style={{ bottom: -80, right: -80, opacity: 0.04, pointerEvents: 'none' }} />
-          </motion.div>
+            {/* EYES — from left */}
+            <motion.div
+              className="glass"
+              initial={{ opacity: 0, x: -80, rotate: -3 }}
+              whileInView={{ opacity: 1, x: 0, rotate: 0 }}
+              transition={{ duration: 0.85, ease: [0.25, 0.1, 0.25, 1] }}
+              viewport={{ once: true, margin: '-60px' }}
+              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+              style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
+            >
+              {/* Video inside card — playing through glass window */}
+              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28 }}>
+                <BlobVideo src="/assets/video/blob-eyes.mp4"
+                  style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', border: '1px solid rgba(255,255,255,0.06)' }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
+                  EYES -- DEEPFAKE DETECTION
+                </div>
+              </div>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>01 -- DEEPFAKE DETECTION</p>
+              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>EYES</h3>
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
+                Upload any image, video, or audio. DOBERMAN's detection engine analyzes it
+                against known deepfake signatures and returns a trust score in seconds.
+              </p>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>Hive AI - XceptionNet - EfficientNet - MesoNet</p>
+            </motion.div>
+
+            {/* NOSE — from below */}
+            <motion.div
+              className="glass"
+              initial={{ opacity: 0, y: 80, scale: 0.94 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.85, delay: 0.12, ease: [0.25, 0.1, 0.25, 1] }}
+              viewport={{ once: true, margin: '-60px' }}
+              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+              style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
+            >
+              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28 }}>
+                <BlobVideo src="/assets/video/blob-nose.mp4"
+                  style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', border: '1px solid rgba(255,255,255,0.06)' }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
+                  NOSE -- NETWORK INTELLIGENCE
+                </div>
+              </div>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>02 -- NETWORK INTELLIGENCE</p>
+              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>NOSE</h3>
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
+                Describe your network environment. DOBERMAN identifies device vulnerabilities,
+                maps real CVEs, and gives you a prioritized action plan.
+              </p>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>NIST NVD - Real CVE Mapping - Device Fingerprinting</p>
+            </motion.div>
+
+            {/* BRAIN — from right */}
+            <motion.div
+              className="glass"
+              initial={{ opacity: 0, x: 80, rotate: 3 }}
+              whileInView={{ opacity: 1, x: 0, rotate: 0 }}
+              transition={{ duration: 0.85, delay: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+              viewport={{ once: true, margin: '-60px' }}
+              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+              style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
+            >
+              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28 }}>
+                <BlobVideo src="/assets/video/blob-brain.mp4"
+                  style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', border: '1px solid rgba(255,255,255,0.06)' }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
+                  BRAIN -- AI SECURITY ANALYST
+                </div>
+              </div>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>03 -- AI SECURITY ANALYST</p>
+              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>BRAIN</h3>
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
+                Ask anything. Upload suspicious files. DOBERMAN explains threats in plain language
+                and gives you a concrete next step. Like having a security analyst on call 24/7.
+              </p>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>Claude Sonnet - Context-aware - File Upload Support</p>
+            </motion.div>
+
+          </div>
         </div>
       </section>
 
-      {/* STATS ROW */}
-      <div style={{ padding: '80px 48px', background: 'var(--void-1)', borderTop: '1px solid var(--glass-border)', borderBottom: '1px solid var(--glass-border)' }}>
+      {/* ─── STATS ROW ───────────────────────────────────── */}
+      <div style={{ padding: '80px 48px', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'rgba(6,6,6,0.98)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 40, textAlign: 'center' }}>
           {[
             { target: 400, suffix: '%', label: 'Rise in deepfake attacks' },
@@ -354,49 +338,35 @@ export default function Landing() {
             { target: 4, suffix: 'M+', prefix: '$', label: 'Average breach cost' },
             { target: 3, suffix: ' modules', label: 'One platform' },
           ].map((stat, i) => (
-            <div key={i}>
+            <motion.div key={i} {...IN_VIEW} style={{ ...(IN_VIEW as { style?: React.CSSProperties }).style }}>
               <div style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 5vw, 64px)', lineHeight: 1, marginBottom: 8 }}>
                 <AnimatedCounter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} />
               </div>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)', letterSpacing: '0.1em' }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.1em' }}>
                 {stat.label.toUpperCase()}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
 
-      {/* HORIZONTAL PINNED SCROLL */}
+      {/* ─── HORIZONTAL PINNED SCROLL ────────────────────── */}
       <div ref={hContainerRef} className="h-container" style={{ overflow: 'hidden' }}>
         <div style={{ display: 'flex', width: `${hPanels.length * 100}vw`, height: '100vh' }}>
           {hPanels.map((panel, i) => (
-            <div
-              key={i}
-              className="h-panel"
-              style={{
-                width: '100vw',
-                height: '100vh',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                overflow: 'hidden',
-                background: i % 2 === 0 ? 'var(--void)' : 'var(--void-1)',
-              }}
-            >
-              <ChromeBlob size={600} speed={0.3} distort={0.5}
-                style={{ opacity: 0.2, top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />
-              <div
-                className="glass"
-                style={{ position: 'relative', zIndex: 1, padding: '60px 72px', borderRadius: 32, maxWidth: 600, textAlign: 'center' }}
-              >
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.25em', color: 'var(--chrome-dim)', marginBottom: 20 }}>
+            <div key={i} className="h-panel"
+              style={{ width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: '#000' }}>
+              <BlobVideo src="/assets/video/blob-divider.mp4"
+                style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.25, zIndex: 0 }} />
+              <div className="glass"
+                style={{ position: 'relative', zIndex: 1, padding: '60px 72px', borderRadius: 32, maxWidth: 600, textAlign: 'center' }}>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.25)', marginBottom: 20 }}>
                   {panel.num} -- {panel.module}
                 </p>
                 <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(48px, 8vw, 96px)', lineHeight: 0.9, whiteSpace: 'pre-line', marginBottom: 32 }}>
                   {panel.headline}
                 </h2>
-                <p style={{ fontFamily: 'Syne', fontSize: 18, color: 'var(--text-2)', lineHeight: 1.6 }}>
+                <p style={{ fontFamily: 'Syne', fontSize: 18, color: 'rgba(255,255,255,0.5)', lineHeight: 1.6 }}>
                   {panel.sub}
                 </p>
               </div>
@@ -405,94 +375,127 @@ export default function Landing() {
         </div>
       </div>
 
-      {/* BLOB DIVIDER */}
-      <div style={{ position: 'relative', height: 280, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <ChromeBlob size={480} speed={0.35} distort={0.55} style={{ opacity: 0.45 }} />
-        <span style={{ position: 'absolute', zIndex: 2, fontFamily: 'Bebas Neue', fontSize: 'clamp(60px, 12vw, 140px)', letterSpacing: '0.25em', color: 'rgba(255,255,255,0.04)', pointerEvents: 'none', userSelect: 'none' }}>
+      {/* ─── BLOB DIVIDER ────────────────────────────────── */}
+      <div style={{ position: 'relative', height: 240, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000' }}>
+        <BlobVideo src="/assets/video/blob-divider.mp4"
+          style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.4, zIndex: 0 }} />
+        <span style={{ position: 'relative', zIndex: 1, fontFamily: 'Bebas Neue', fontSize: 'clamp(60px, 12vw, 140px)', letterSpacing: '0.25em', color: 'rgba(255,255,255,0.03)', pointerEvents: 'none', userSelect: 'none' }}>
           DOBERMAN
         </span>
       </div>
 
-      {/* NEWS SECTION */}
-      <section id="news" style={{ padding: '120px 48px', maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
-          <div ref={newsHeaderRef}>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'var(--danger)', marginBottom: 20 }}>
-              [ FAKE NEWS DETECTION ]
-            </p>
-            <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, marginBottom: 20 }}>
-              Don't believe<br />everything<br />you read.
-            </h2>
-            <p style={{ color: 'var(--text-2)', fontSize: 16, maxWidth: 500, lineHeight: 1.65, marginBottom: 36 }}>
-              Paste any headline, claim, or article URL. DOBERMAN cross-references it,
-              checks source quality, and gives you a credibility verdict in seconds.
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => navigate('/auth')}
-              style={{ padding: '14px 36px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}
-            >
-              Try News Verification
-            </motion.button>
+      {/* ─── NEWS SECTION ────────────────────────────────── */}
+      <section id="news" style={{ position: 'relative', overflow: 'hidden', padding: '100px 48px' }}>
+        <BlobVideo src="/assets/video/blob-divider.mp4"
+          style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.22, zIndex: 0 }} />
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
+            <motion.div {...IN_VIEW}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'var(--danger)', marginBottom: 20 }}>
+                [ FAKE NEWS DETECTION ]
+              </p>
+              <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, marginBottom: 20 }}>
+                Don't believe<br />everything<br />you read.
+              </h2>
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16, maxWidth: 500, lineHeight: 1.65, marginBottom: 36 }}>
+                Paste any headline, claim, or article URL. DOBERMAN cross-references it,
+                checks source quality, and gives you a credibility verdict in seconds.
+              </p>
+              <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} onClick={() => navigate('/auth')}
+                style={{ padding: '14px 36px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}>
+                Try News Verification
+              </motion.button>
+            </motion.div>
+
+            {/* Glass panel with decorative news metadata */}
+            <motion.div {...IN_VIEW}
+              className="glass"
+              style={{ padding: 40, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 360, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+              <BlobVideo src="/assets/video/blob-divider.mp4"
+                style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5, zIndex: 0 }} />
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--danger)', marginBottom: 16 }}>VERDICT -- LIKELY FALSE</p>
+                <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 18, lineHeight: 1.4, marginBottom: 12 }}>"Breaking: Scientists Confirm AI Will Replace All Jobs By 2025"</p>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  {['Sensationalist framing', 'No primary source', 'Vague attribution'].map((flag) => (
+                    <span key={flag} style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--danger)', background: 'rgba(255,45,45,0.12)', border: '1px solid rgba(255,45,45,0.25)', padding: '4px 10px', borderRadius: 4 }}>{flag}</span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
           </div>
-          <AssetSlot id="slot-news-photo" label="NEWS SECTION PHOTO" description="Newspaper or phone with news app -- 600x500px" type="image" height={400} />
         </div>
       </section>
 
-      {/* EXTENSION SECTION */}
-      <section id="extension" style={{ padding: '120px 48px', background: 'var(--void-1)', borderTop: '1px solid var(--glass-border)' }}>
+      {/* ─── EXTENSION SECTION ───────────────────────────── */}
+      <section id="extension" style={{ padding: '100px 48px', borderTop: '1px solid rgba(255,255,255,0.05)', background: 'rgba(4,4,4,0.98)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center', marginBottom: 60 }}>
-            <div ref={extensionHeaderRef}>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'var(--chrome-dim)', marginBottom: 20 }}>
-                [ BROWSER EXTENSION ]
-              </p>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
+            <motion.div {...IN_VIEW}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 20 }}>[ BROWSER EXTENSION ]</p>
               <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, marginBottom: 20 }}>
                 DOBERMAN<br />everywhere<br />you browse.
               </h2>
-              <p style={{ color: 'var(--text-2)', fontSize: 16, maxWidth: 500, lineHeight: 1.65, marginBottom: 36 }}>
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16, maxWidth: 500, lineHeight: 1.65, marginBottom: 36 }}>
                 Right-click any image, video, or selected text on any website.
-                DOBERMAN analyzes it instantly and shows you the result in a
-                floating panel - without ever leaving the page.
+                Results appear in a floating panel - without leaving the page.
               </p>
-              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 36 }}>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 36 }}>
                 {['Right-click any image', 'Selected text verification', 'Works on all sites'].map((feat) => (
-                  <span key={feat} className="glass" style={{ padding: '8px 16px', borderRadius: 8, fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-2)' }}>
+                  <span key={feat} style={{ padding: '8px 14px', background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.4)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)' }}>
                     {feat}
                   </span>
                 ))}
               </div>
-              <motion.button
-                whileHover={{ scale: 1.04, boxShadow: '0 0 30px rgba(255,255,255,0.1)' }}
-                style={{ padding: '14px 36px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}
-              >
+              <motion.button whileHover={{ scale: 1.04, boxShadow: '0 0 30px rgba(255,255,255,0.1)' }}
+                style={{ padding: '14px 36px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}>
                 Add to Chrome -- Free
               </motion.button>
-            </div>
-            <AssetSlot id="slot-extension-demo" label="EXTENSION DEMO VIDEO" description="Screen recording -- right-click image, see overlay -- 800x500px MP4" type="video" height={460} />
+            </motion.div>
+
+            {/* Extension demo — glass frame showing mock overlay */}
+            <motion.div {...IN_VIEW}
+              className="glass"
+              style={{ padding: 32, borderRadius: 24, minHeight: 400, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.25)', marginBottom: 24 }}>
+                EXTENSION DEMO VIDEO -- /assets/video/extension-demo.mp4
+              </div>
+              <div style={{ padding: '24px', background: 'rgba(6,6,6,0.94)', backdropFilter: 'blur(28px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)' }}>DOBERMAN</span>
+                  <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: 18, lineHeight: 1 }}>x</span>
+                </div>
+                <div style={{ fontFamily: 'JetBrains Mono', fontSize: 64, fontWeight: 700, color: 'var(--danger)', lineHeight: 1, marginBottom: 4 }}>97<span style={{ fontSize: 28 }}>%</span></div>
+                <div style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--danger)', marginBottom: 12 }}>FAKE</div>
+                <p style={{ fontFamily: 'Syne', fontSize: 12, color: 'rgba(255,255,255,0.5)', lineHeight: 1.55, marginBottom: 16 }}>
+                  This image shows strong deepfake indicators. The facial boundaries and lighting are inconsistent with authentic photography.
+                </p>
+                <div style={{ display: 'block', textAlign: 'center', padding: '10px', background: 'white', color: 'black', borderRadius: 10, fontFamily: 'JetBrains Mono', fontSize: 12, fontWeight: 700 }}>
+                  VIEW FULL REPORT
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* BLOB DIVIDER 2 */}
-      <div style={{ position: 'relative', height: 280, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <ChromeBlob size={520} speed={0.28} distort={0.6} style={{ opacity: 0.4 }} />
-        <span style={{ position: 'absolute', zIndex: 2, fontFamily: 'Bebas Neue', fontSize: 'clamp(60px, 12vw, 140px)', letterSpacing: '0.25em', color: 'rgba(255,255,255,0.03)', pointerEvents: 'none', userSelect: 'none' }}>
+      {/* ─── BLOB DIVIDER 2 ──────────────────────────────── */}
+      <div style={{ position: 'relative', height: 240, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000' }}>
+        <BlobVideo src="/assets/video/blob-cta.mp4"
+          style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.35, zIndex: 0 }} />
+        <span style={{ position: 'relative', zIndex: 1, fontFamily: 'Bebas Neue', fontSize: 'clamp(60px, 12vw, 140px)', letterSpacing: '0.25em', color: 'rgba(255,255,255,0.03)', userSelect: 'none' }}>
           SECURITY
         </span>
       </div>
 
-      {/* REVIEWS */}
-      <section id="reviews" style={{ padding: '120px 0 120px 48px', overflow: 'hidden' }}>
-        <div style={{ maxWidth: 1200, marginBottom: 60 }}>
-          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'var(--chrome-dim)', marginBottom: 20 }}>
-            [ WHAT USERS SAY ]
-          </p>
+      {/* ─── REVIEWS ─────────────────────────────────────── */}
+      <section id="reviews" style={{ padding: '100px 0 100px 48px', overflow: 'hidden', background: '#000' }}>
+        <motion.div {...IN_VIEW} style={{ maxWidth: 1200, marginBottom: 56 }}>
+          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 20 }}>[ WHAT USERS SAY ]</p>
           <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92 }}>
             The dog<br />delivers.
           </h2>
-        </div>
+        </motion.div>
 
         <motion.div
           drag="x"
@@ -500,79 +503,65 @@ export default function Landing() {
           style={{ display: 'flex', gap: 20, width: 'max-content' }}
         >
           {reviews.map((r, i) => (
-            <motion.div
-              key={i}
-              className="glass"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
+            <motion.div key={i}
+              initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
               whileHover={{ y: -8, rotate: 0, transition: { duration: 0.2 } }}
-              style={{ width: 360, padding: 32, borderRadius: 20, flexShrink: 0, position: 'relative', overflow: 'hidden', rotate: r.rotate }}
-            >
-              <span style={{
-                position: 'absolute', top: 20, right: 20,
-                fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em',
-                color: r.badgeColor,
-                background: `${r.badgeColor}22`,
-                border: `1px solid ${r.badgeColor}44`,
-                padding: '3px 8px', borderRadius: 4,
-              }}>
+              style={{ width: 360, padding: 32, flexShrink: 0, position: 'relative', overflow: 'hidden', rotate: r.rotate, background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12), 0 24px 48px rgba(0,0,0,0.5)' }}>
+              <span style={{ position: 'absolute', top: 20, right: 20, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: r.badgeColor, background: `${r.badgeColor}22`, border: `1px solid ${r.badgeColor}44`, padding: '3px 8px', borderRadius: 4 }}>
                 {r.badge}
               </span>
-              <p style={{ fontFamily: 'Syne', fontSize: 15, color: 'var(--text-2)', lineHeight: 1.65, marginBottom: 24, marginTop: 8 }}>
-                "{r.text}"
-              </p>
-              <div>
-                <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 14, color: 'var(--text-1)' }}>{r.author}</p>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)', marginTop: 4 }}>{r.role}</p>
-              </div>
-              <ChromeBlob size={120} speed={0.15} distort={0.4} style={{ bottom: -40, right: -40, opacity: 0.05 }} />
+              <p style={{ fontFamily: 'Syne', fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.65, marginBottom: 24, marginTop: 8 }}>"{r.text}"</p>
+              <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 14, color: 'white' }}>{r.author}</p>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.25)', marginTop: 4 }}>{r.role}</p>
             </motion.div>
           ))}
         </motion.div>
       </section>
 
-      {/* FINAL CTA */}
-      <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
-        <ChromeBlob size={800} speed={0.25} distort={0.55} style={{ opacity: 0.35 }} />
-        <div ref={ctaCardRef} style={{ position: 'relative', zIndex: 1 }}>
-          <div className="glass" style={{ padding: '90px 72px', borderRadius: 36, textAlign: 'center', maxWidth: 720 }}>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'var(--chrome-dim)', marginBottom: 28 }}>
+      {/* ─── FINAL CTA ───────────────────────────────────── */}
+      <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: '#000' }}>
+        <BlobVideo src="/assets/video/blob-cta.mp4"
+          style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5, zIndex: 0 }} />
+        <div style={{ position: 'relative', zIndex: 1, padding: '0 24px' }}>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.94, y: 40 }} whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }} viewport={{ once: true }}
+            className="glass"
+            style={{ padding: '90px 72px', borderRadius: 36, textAlign: 'center', maxWidth: 720 }}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 28 }}>
               THE WATCHDOG IS READY
             </p>
             <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(52px, 9vw, 110px)', lineHeight: 0.88, marginBottom: 36 }}>
               Deploy<br />DOBERMAN.
             </h2>
-            <p style={{ fontFamily: 'Syne', fontSize: 17, color: 'var(--text-2)', marginBottom: 52 }}>
+            <p style={{ fontFamily: 'Syne', fontSize: 17, color: 'rgba(255,255,255,0.5)', marginBottom: 52 }}>
               Free tier. No credit card. No limits on intelligence.
             </p>
             <motion.button
-              whileHover={{ scale: 1.05, boxShadow: '0 0 60px rgba(255,255,255,0.2)' }}
+              whileHover={{ scale: 1.05, boxShadow: '0 0 60px rgba(255,255,255,0.25)' }}
               whileTap={{ scale: 0.96 }}
               onClick={(e) => { shockwave(e); navigate('/auth') }}
-              style={{ padding: '20px 72px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 17, border: 'none', borderRadius: 14 }}
-            >
+              style={{ padding: '20px 72px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 17, border: 'none', borderRadius: 14 }}>
               Get Started Free
             </motion.button>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)', marginTop: 20 }}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)', marginTop: 20 }}>
               3 free scans per module per day -- no card required
             </p>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer style={{ borderTop: '1px solid var(--glass-border)', padding: '32px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--void-1)', flexWrap: 'wrap', gap: 20 }}>
+      {/* ─── FOOTER ──────────────────────────────────────── */}
+      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(4,4,4,0.98)', flexWrap: 'wrap', gap: 20 }}>
         <span style={{ fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.2em' }}>DOBERMAN</span>
-        <div style={{ display: 'flex', gap: 32, fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>
+        <div style={{ display: 'flex', gap: 32, fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>
           <a href="/privacy" style={{ color: 'inherit', textDecoration: 'none' }}>Privacy</a>
           <a href="/terms" style={{ color: 'inherit', textDecoration: 'none' }}>Terms</a>
           <a href="mailto:hello@doberman.ai" style={{ color: 'inherit', textDecoration: 'none' }}>Contact</a>
         </div>
-        <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>
-          2026 DOBERMAN. All rights reserved.
-        </p>
+        <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>2026 DOBERMAN. All rights reserved.</p>
       </footer>
+
     </div>
   )
 }
