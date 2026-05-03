@@ -343,15 +343,20 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
+              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: 'radial-gradient(ellipse at 40% 40%, #1a0050 0%, #0a0a2a 55%, #000 100%)' }}>
+                {/* Glowing orbs fallback — always visible */}
+                <div style={{ position: 'absolute', top: '15%', left: '20%', width: 140, height: 140, borderRadius: '50%', background: 'radial-gradient(circle, rgba(140,80,255,0.55) 0%, transparent 70%)', filter: 'blur(24px)', zIndex: 1 }} />
+                <div style={{ position: 'absolute', top: '45%', right: '15%', width: 90, height: 90, borderRadius: '50%', background: 'radial-gradient(circle, rgba(60,140,255,0.45) 0%, transparent 70%)', filter: 'blur(18px)', zIndex: 1 }} />
+                <div style={{ position: 'absolute', bottom: '20%', left: '40%', width: 60, height: 60, borderRadius: '50%', background: 'radial-gradient(circle, rgba(200,80,255,0.3) 0%, transparent 70%)', filter: 'blur(12px)', zIndex: 1 }} />
+                {/* Video on top — shows if it loads */}
                 <video
                   autoPlay muted loop playsInline preload="auto"
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', mixBlendMode: 'screen' }}
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', mixBlendMode: 'screen', zIndex: 2 }}
                 >
                   <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
                 </video>
-                <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)' }} />
-                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
+                <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', zIndex: 3 }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 4 }}>
                   BRAIN -- AI SECURITY ANALYST
                 </div>
               </div>
