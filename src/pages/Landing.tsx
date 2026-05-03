@@ -174,9 +174,17 @@ export default function Landing() {
             Three modules. One platform. Zero guesswork.
           </motion.p>
 
+          {/* Doberman portrait — centred above CTA */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.85, duration: 0.7 }}
+            style={{ marginTop: 40, display: 'flex', justifyContent: 'flex-start', position: 'relative', zIndex: 4 }}>
+            <img src="/assets/images/doberman-portrait.jpg" alt="D0B3RMAN"
+              style={{ width: 120, height: 120, objectFit: 'cover', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 0 0 4px rgba(255,255,255,0.04), 0 20px 40px rgba(0,0,0,0.5)' }} />
+          </motion.div>
+
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }}
-            style={{ display: 'flex', gap: 16, marginTop: 40, flexWrap: 'wrap', position: 'relative', zIndex: 4 }}>
+            style={{ display: 'flex', gap: 16, marginTop: 20, flexWrap: 'wrap', position: 'relative', zIndex: 4 }}>
             <motion.button
               whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(255,255,255,0.2)' }}
               whileTap={{ scale: 0.97 }}
@@ -250,7 +258,7 @@ export default function Landing() {
               <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28 }}>
                 <BlobVideo src="/assets/video/blob-eyes.mp4"
                   style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }} />
-                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', border: '1px solid rgba(255,255,255,0.06)' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
                   EYES -- DEEPFAKE DETECTION
                 </div>
@@ -274,8 +282,11 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'flex-end', padding: 14 }}>
-                <div style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)' }}>
+              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28 }}>
+                <img src="/assets/images/nose.jpg" alt=""
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
                   NOSE -- NETWORK INTELLIGENCE
                 </div>
               </div>
@@ -298,8 +309,11 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'flex-end', padding: 14 }}>
-                <div style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)' }}>
+              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28 }}>
+                <BlobVideo src="/assets/video/Pin_em_Medical_videos_,_Medical_stock_footage.mp4"
+                  style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
                   BRAIN -- AI SECURITY ANALYST
                 </div>
               </div>
@@ -372,9 +386,7 @@ export default function Landing() {
       </div>
 
       {/* ─── NEWS SECTION ────────────────────────────────── */}
-      <section id="news" style={{ position: 'relative', overflow: 'hidden', padding: '100px 48px' }}>
-        <BlobVideo src="/assets/video/blob-divider.mp4"
-          style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.22, zIndex: 0 }} />
+      <section id="news" style={{ position: 'relative', overflow: 'hidden', padding: '100px 48px', background: '#000' }}>
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 60, alignItems: 'center' }}>
             <motion.div {...IN_VIEW} style={{ flex: '1 1 300px' }}>
@@ -398,8 +410,8 @@ export default function Landing() {
             <motion.div {...IN_VIEW}
               className="glass"
               style={{ padding: 40, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 360, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-              <BlobVideo src="/assets/video/blob-divider.mp4"
-                style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5, zIndex: 0 }} />
+              <BlobVideo src="/assets/video/Пин_от_пользователя_Harsh_Vekariya_на_доске_Pins_by_you___Моушн-дизайн,_Анимационный_дизайн,_Элементы_дизайна.mp4"
+                style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.4, zIndex: 0 }} />
               <div style={{ position: 'relative', zIndex: 1 }}>
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--danger)', marginBottom: 16 }}>VERDICT -- LIKELY FALSE</p>
                 <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 18, lineHeight: 1.4, marginBottom: 12 }}>"Breaking: Scientists Confirm AI Will Replace All Jobs By 2025"</p>
