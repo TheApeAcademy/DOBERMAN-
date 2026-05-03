@@ -346,7 +346,7 @@ export default function Landing() {
               <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: 'linear-gradient(135deg, #0a0a1f 0%, #1a0a2e 50%, #0d1a2e 100%)' }}>
                 <video
                   autoPlay muted loop playsInline preload="auto"
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(3) saturate(2) contrast(1.2)' }}
                 >
                   <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
                 </video>
