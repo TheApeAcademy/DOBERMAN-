@@ -102,8 +102,9 @@ export default function Landing() {
         zIndex: 200,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
+        <style>{`@media(max-width:768px){.nav-links,.nav-signin{display:none!important}}`}</style>
         <span style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.2em' }}>D0B3RMAN</span>
-        <div style={{ display: 'flex', gap: 40, fontFamily: 'JetBrains Mono', fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>
+        <div className="nav-links" style={{ display: 'flex', gap: 40, fontFamily: 'JetBrains Mono', fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>
           <a href="#modules" style={{ color: 'inherit', textDecoration: 'none' }}>MODULES</a>
           <a href="#news" style={{ color: 'inherit', textDecoration: 'none' }}>NEWS</a>
           <a href="#extension" style={{ color: 'inherit', textDecoration: 'none' }}>EXTENSION</a>
@@ -111,11 +112,12 @@ export default function Landing() {
         </div>
         <div style={{ display: 'flex', gap: 12 }}>
           <motion.button whileHover={{ scale: 1.03 }} onClick={() => navigate('/auth')}
+            className="nav-signin"
             style={{ padding: '8px 20px', background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, color: 'white', fontFamily: 'Syne', fontWeight: 600, fontSize: 13, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12)' }}>
             Sign In
           </motion.button>
           <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} onClick={() => navigate('/auth')}
-            style={{ padding: '8px 20px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 13, border: 'none', borderRadius: 8 }}>
+            style={{ padding: '8px 14px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 12, border: 'none', borderRadius: 8 }}>
             Get Started Free
           </motion.button>
         </div>
@@ -128,7 +130,7 @@ export default function Landing() {
         <BlobVideo src="/assets/video/blob-hero.mp4"
           style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.45, zIndex: 0 }} />
 
-        <div style={{ position: 'relative', zIndex: 1, padding: '120px 48px 80px', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
+        <div style={{ position: 'relative', zIndex: 1, padding: 'clamp(100px,15vw,120px) clamp(20px,5vw,48px) 80px', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
 
           <motion.p
             initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15, duration: 0.6 }}
@@ -174,11 +176,12 @@ export default function Landing() {
             Three modules. One platform. Zero guesswork.
           </motion.p>
 
-          {/* Doberman portrait — centred above CTA */}
+          {/* Doberman portrait — hidden until image file is committed */}
           <motion.div
             initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.85, duration: 0.7 }}
             style={{ marginTop: 40, display: 'flex', justifyContent: 'flex-start', position: 'relative', zIndex: 4 }}>
-            <img src="/assets/images/doberman-portrait.jpg" alt="D0B3RMAN"
+            <img src="/assets/images/doberman-portrait.jpg" alt=""
+              onError={(e) => { const p = e.currentTarget.parentElement; if (p) p.style.display = 'none' }}
               style={{ width: 120, height: 120, objectFit: 'cover', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 0 0 4px rgba(255,255,255,0.04), 0 20px 40px rgba(0,0,0,0.5)' }} />
           </motion.div>
 
@@ -282,11 +285,11 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28 }}>
+              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <img src="/assets/images/nose.jpg" alt=""
+                  onError={(e) => { e.currentTarget.style.display = 'none' }}
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }} />
-                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
-                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', zIndex: 2 }}>
                   NOSE -- NETWORK INTELLIGENCE
                 </div>
               </div>
@@ -309,10 +312,12 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28 }}>
-                <BlobVideo src="/assets/video/blob-brain.mp4"
-                  style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }} />
-                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
+              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#000' }}>
+                <video autoPlay muted loop playsInline
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}>
+                  <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
+                </video>
+                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.06)' }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
                   BRAIN -- AI SECURITY ANALYST
                 </div>
@@ -526,11 +531,11 @@ export default function Landing() {
             initial={{ opacity: 0, scale: 0.94, y: 40 }} whileInView={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }} viewport={{ once: true }}
             className="glass"
-            style={{ padding: '90px 72px', borderRadius: 36, textAlign: 'center', maxWidth: 720 }}>
+            style={{ padding: 'clamp(40px,8vw,90px) clamp(20px,6vw,72px)', borderRadius: 36, textAlign: 'center', maxWidth: 720, width: '100%' }}>
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 28 }}>
               THE WATCHDOG IS READY
             </p>
-            <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(52px, 9vw, 110px)', lineHeight: 0.88, marginBottom: 36 }}>
+            <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(38px, 9vw, 110px)', lineHeight: 0.92, marginBottom: 36 }}>
               Deploy<br />D0B3RMAN.
             </h2>
             <p style={{ fontFamily: 'Syne', fontSize: 17, color: 'rgba(255,255,255,0.5)', marginBottom: 52 }}>
