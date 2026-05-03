@@ -115,6 +115,16 @@ export default function Auth() {
             <span className="font-display text-3xl tracking-widest text-text-primary">D0B3RMAN</span>
           </div>
 
+          {/* 3D animation */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: -8 }}>
+            <video
+              autoPlay muted loop playsInline
+              style={{ width: 220, height: 220, objectFit: 'contain', mixBlendMode: 'screen', pointerEvents: 'none' }}
+            >
+              <source src="/assets/video/3D_animation___Quick_study__b3d.mp4" type="video/mp4" />
+            </video>
+          </div>
+
           <div>
             <h2 className="font-heading font-bold text-2xl text-text-primary">
               {mode === 'signin' ? 'Welcome back.' : 'Create your account.'}
