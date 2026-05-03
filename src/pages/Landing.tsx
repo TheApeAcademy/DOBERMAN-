@@ -150,7 +150,28 @@ export default function Landing() {
           style={{ zIndex: 0 }}
         />
 
-        <div style={{ position: 'relative', zIndex: 1, padding: 'clamp(100px,15vw,120px) clamp(20px,5vw,48px) 80px', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
+        {/* Doberman portrait — right-side editorial. Pure black bg blends into void. */}
+        <motion.div
+          className="hero-portrait"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          transition={{ delay: 0.25, duration: 1.4 }}
+          style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'clamp(260px, 44%, 580px)', zIndex: 2, pointerEvents: 'none' }}
+        >
+          <img
+            src="/assets/images/doberman-portrait.jpg"
+            alt=""
+            onError={(e) => { const p = e.currentTarget.parentElement; if (p) p.style.display = 'none' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+          />
+          {/* Left edge fades into the black void so the dog emerges from darkness */}
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #000 0%, rgba(0,0,0,0.5) 30%, transparent 65%)' }} />
+          {/* Bottom vignette */}
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to bottom, transparent, #000)' }} />
+        </motion.div>
+
+        <style>{`@media(max-width:768px){.hero-portrait{display:none!important}}`}</style>
+
+        <div style={{ position: 'relative', zIndex: 3, padding: 'clamp(100px,15vw,120px) clamp(20px,5vw,48px) 80px', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
 
           <motion.p
             initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15, duration: 0.6 }}
@@ -195,21 +216,9 @@ export default function Landing() {
             Three modules. One platform. Zero guesswork.
           </motion.p>
 
-          {/* Doberman portrait — hidden until image file is committed */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.85, duration: 0.7 }}
-            style={{ marginTop: 40, display: 'flex', justifyContent: 'flex-start', position: 'relative', zIndex: 4 }}>
-            <img
-              src="/assets/images/doberman-portrait.jpg"
-              alt=""
-              onError={(e) => { const p = e.currentTarget.parentElement; if (p) p.style.display = 'none' }}
-              style={{ width: 120, height: 120, objectFit: 'cover', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 0 0 4px rgba(255,255,255,0.04)' }}
-            />
-          </motion.div>
-
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }}
-            style={{ display: 'flex', gap: 16, marginTop: 20, flexWrap: 'wrap', position: 'relative', zIndex: 4 }}>
+            style={{ display: 'flex', gap: 16, marginTop: 40, flexWrap: 'wrap', position: 'relative', zIndex: 4 }}>
             <motion.button
               whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(255,255,255,0.2)' }}
               whileTap={{ scale: 0.97 }}
