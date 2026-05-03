@@ -357,7 +357,7 @@ export default function Landing() {
           {hPanels.map((panel, i) => (
             <div key={i} className="h-panel"
               style={{ width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: '#000' }}>
-              <BlobVideo src="/assets/video/blob-divider.mp4"
+              <BlobVideo src="/assets/video/blob-news.mp4"
                 style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.25, zIndex: 0 }} />
               <div className="glass"
                 style={{ position: 'relative', zIndex: 1, padding: '60px 72px', borderRadius: 32, maxWidth: 600, textAlign: 'center' }}>
@@ -410,7 +410,7 @@ export default function Landing() {
             <motion.div {...IN_VIEW}
               className="glass"
               style={{ padding: 40, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 360, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-              <BlobVideo src="/assets/video/blob-news.mp4"
+              <BlobVideo src="/assets/video/blob-divider.mp4"
                 style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.4, zIndex: 0 }} />
               <div style={{ position: 'relative', zIndex: 1 }}>
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--danger)', marginBottom: 16 }}>VERDICT -- LIKELY FALSE</p>
