@@ -52,8 +52,9 @@ export default function Landing() {
   const hContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    // No scope — queries must be global so .gsap-heading and .h-container
+    // resolve across the whole document, not just inside hContainerRef
     const ctx = gsap.context(() => {
-      // Section headings triggered by scroll
       gsap.utils.toArray<HTMLElement>('.gsap-heading').forEach((el) => {
         gsap.fromTo(
           el,
@@ -72,14 +73,14 @@ export default function Landing() {
         )
       })
 
-      // Horizontal pinned scroll
-      const panels = gsap.utils.toArray<HTMLElement>('.h-panel')
+      const container = hContainerRef.current
+      const panels = container ? Array.from(container.querySelectorAll<HTMLElement>('.h-panel')) : []
       if (panels.length > 1) {
         gsap.to(panels, {
           xPercent: -100 * (panels.length - 1),
           ease: 'none',
           scrollTrigger: {
-            trigger: '.h-container',
+            trigger: container,
             pin: true,
             scrub: 1.2,
             snap: {
@@ -91,7 +92,7 @@ export default function Landing() {
           },
         })
       }
-    }, hContainerRef)
+    })
 
     return () => ctx.revert()
   }, [])
@@ -322,14 +323,15 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606', border: '1px solid rgba(255,255,255,0.06)' }}>
-                <img
-                  src="/assets/images/nose.jpg"
-                  alt=""
-                  onError={(e) => { e.currentTarget.style.display = 'none' }}
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }}
-                />
-                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', zIndex: 2 }}>
+              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
+                <video
+                  autoPlay muted loop playsInline
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                >
+                  <source src="/assets/video/blob-nose.mp4" type="video/mp4" />
+                </video>
+                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
                   NOSE -- NETWORK INTELLIGENCE
                 </div>
               </div>
