@@ -148,7 +148,7 @@ export default function Landing() {
             </motion.div>
 
             {/* Blob video — sits IN THE MIDDLE of the word stack */}
-            <BlobVideo src="/assets/video/blob-hero.mp4"
+            <BlobVideo src="/assets/video/blob-hero-2.mp4"
               style={{ right: '-5%', top: '-15%', width: '58%', opacity: 0.92, zIndex: 2 }} />
 
             {/* Word 2 — IN FRONT of the blob */}
@@ -281,11 +281,8 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28 }}>
-                <BlobVideo src="/assets/video/blob-nose.mp4"
-                  style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }} />
-                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', border: '1px solid rgba(255,255,255,0.06)' }} />
-                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
+              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'flex-end', padding: 14 }}>
+                <div style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)' }}>
                   NOSE -- NETWORK INTELLIGENCE
                 </div>
               </div>
@@ -308,11 +305,8 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28 }}>
-                <BlobVideo src="/assets/video/blob-brain.mp4"
-                  style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }} />
-                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', border: '1px solid rgba(255,255,255,0.06)' }} />
-                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
+              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'flex-end', padding: 14 }}>
+                <div style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)' }}>
                   BRAIN -- AI SECURITY ANALYST
                 </div>
               </div>
