@@ -147,9 +147,6 @@ export default function Landing() {
               THE
             </motion.div>
 
-            {/* Blob video — sits IN THE MIDDLE of the word stack */}
-            <BlobVideo src="/assets/video/blob-hero-2.mp4"
-              style={{ right: '-5%', top: '-15%', width: '58%', opacity: 0.92, zIndex: 2 }} />
 
             {/* Word 2 — IN FRONT of the blob */}
             <motion.div
@@ -225,11 +222,7 @@ export default function Landing() {
       </div>
 
       {/* ─── MODULES ─────────────────────────────────────── */}
-      <section id="modules" style={{ position: 'relative', overflow: 'hidden', padding: '120px 48px' }}>
-
-        {/* Ambient video background — gives glass cards something to blur */}
-        <BlobVideo src="/assets/video/blob-divider.mp4"
-          style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.3, zIndex: 0 }} />
+      <section id="modules" style={{ position: 'relative', overflow: 'hidden', padding: '120px 48px', background: '#000' }}>
 
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto' }}>
           <motion.div {...IN_VIEW} style={{ textAlign: 'center', marginBottom: 80 }}>
@@ -383,8 +376,8 @@ export default function Landing() {
         <BlobVideo src="/assets/video/blob-divider.mp4"
           style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.22, zIndex: 0 }} />
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
-            <motion.div {...IN_VIEW}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 60, alignItems: 'center' }}>
+            <motion.div {...IN_VIEW} style={{ flex: '1 1 300px' }}>
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'var(--danger)', marginBottom: 20 }}>
                 [ FAKE NEWS DETECTION ]
               </p>
@@ -424,8 +417,8 @@ export default function Landing() {
       {/* ─── EXTENSION SECTION ───────────────────────────── */}
       <section id="extension" style={{ padding: '100px 48px', borderTop: '1px solid rgba(255,255,255,0.05)', background: 'rgba(4,4,4,0.98)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
-            <motion.div {...IN_VIEW}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 60, alignItems: 'center' }}>
+            <motion.div {...IN_VIEW} style={{ flex: '1 1 300px' }}>
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 20 }}>[ BROWSER EXTENSION ]</p>
               <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, marginBottom: 20 }}>
                 D0B3RMAN<br />everywhere<br />you browse.
@@ -450,7 +443,7 @@ export default function Landing() {
             {/* Extension demo — glass frame showing mock overlay */}
             <motion.div {...IN_VIEW}
               className="glass"
-              style={{ padding: 32, borderRadius: 24, minHeight: 400, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              style={{ flex: '1 1 300px', padding: 32, borderRadius: 24, minHeight: 400, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.25)', marginBottom: 24 }}>
                 EXTENSION DEMO VIDEO -- /assets/video/extension-demo.mp4
               </div>
@@ -500,7 +493,7 @@ export default function Landing() {
             <motion.div key={i}
               initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
               whileHover={{ y: -8, rotate: 0, transition: { duration: 0.2 } }}
-              style={{ width: 360, padding: 32, flexShrink: 0, position: 'relative', overflow: 'hidden', rotate: r.rotate, background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12), 0 24px 48px rgba(0,0,0,0.5)' }}>
+              style={{ width: 360, padding: 32, flexShrink: 0, position: 'relative', overflow: 'hidden', rotate: r.rotate, background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 20, boxShadow: 'inset 0 1.5px 0 rgba(255,255,255,0.3), 0 24px 48px rgba(0,0,0,0.4)' }}>
               <span style={{ position: 'absolute', top: 20, right: 20, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: r.badgeColor, background: `${r.badgeColor}22`, border: `1px solid ${r.badgeColor}44`, padding: '3px 8px', borderRadius: 4 }}>
                 {r.badge}
               </span>
