@@ -9,6 +9,16 @@ import { useAuth } from '../hooks/useAuth'
 import { useEyes } from '../hooks/useEyes'
 import type { EyesScan } from '../lib/supabase'
 
+const card: React.CSSProperties = {
+  background: 'rgba(255,255,255,0.03)',
+  border: '1px solid rgba(255,255,255,0.08)',
+  borderRadius: 20,
+  padding: 24,
+  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07)',
+  backdropFilter: 'blur(28px)',
+  WebkitBackdropFilter: 'blur(28px)',
+}
+
 export default function Eyes() {
   const { user, profile, signOut } = useAuth()
   const { scanning, result, error, analyze, getHistory, getDailyCount, setResult } = useEyes(user?.id)
@@ -17,9 +27,7 @@ export default function Eyes() {
   const [historyKey, setHistoryKey] = useState(0)
 
   useEffect(() => {
-    if (user) {
-      getDailyCount().then(setDailyCount)
-    }
+    if (user) getDailyCount().then(setDailyCount)
   }, [user])
 
   const handleAnalyze = async (file: File) => {
@@ -32,24 +40,36 @@ export default function Eyes() {
   const remainingScans = Math.max(0, 3 - dailyCount)
 
   return (
-    <Layout profile={profile} onSignOut={signOut} title="EYES - Deepfake Detection">
-      <div className="p-6 max-w-6xl mx-auto page-fade">
-        {/* Page header */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-lg bg-accent-blue/10 flex items-center justify-center border border-accent-blue/20">
-            <Eye size={20} className="text-accent-blue" />
+    <Layout profile={profile} onSignOut={signOut} title="EYES — DEEPFAKE DETECTION">
+      <div style={{ padding: '28px 28px 48px', maxWidth: 1200, margin: '0 auto' }}>
+
+        {/* Module header */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 32, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <div style={{ width: 52, height: 52, borderRadius: 14, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)' }}>
+            <Eye size={22} style={{ color: 'var(--text-1)' }} />
           </div>
-          <div>
-            <h1 className="font-heading font-bold text-xl text-text-primary">EYES</h1>
-            <p className="text-text-muted font-body text-sm">Deepfake and synthetic media detection</p>
+          <div style={{ flex: 1 }}>
+            <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>EYES</h1>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.18em', color: 'var(--text-3)', marginTop: 3 }}>DEEPFAKE + SYNTHETIC MEDIA DETECTION</p>
+          </div>
+          <div style={{
+            padding: '6px 14px', borderRadius: 8,
+            background: remainingScans > 0 ? 'rgba(48,209,88,0.07)' : 'rgba(255,45,45,0.07)',
+            border: `1px solid ${remainingScans > 0 ? 'rgba(48,209,88,0.2)' : 'rgba(255,45,45,0.2)'}`,
+            fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em',
+            color: remainingScans > 0 ? 'var(--safe)' : 'var(--danger)',
+          }}>
+            {remainingScans} / 3 SCANS TODAY
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Two-column layout */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, alignItems: 'start' }}>
+
           {/* Upload panel */}
-          <div className="space-y-4">
-            <div className="card p-5">
-              <h2 className="font-heading font-bold text-text-primary mb-4">Upload File</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div style={card}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Upload File</p>
               <EyesUploader
                 onAnalyze={handleAnalyze}
                 scanning={scanning}
@@ -57,44 +77,43 @@ export default function Eyes() {
                 onUpgradeClick={() => setUpgradeOpen(true)}
               />
             </div>
-
             {error && (
-              <div className="p-4 rounded-lg bg-red-900/20 border border-red-800/40">
-                <p className="text-accent-red font-body text-sm">{error}</p>
+              <div style={{ padding: '12px 16px', borderRadius: 12, background: 'rgba(255,45,45,0.06)', border: '1px solid rgba(255,45,45,0.18)' }}>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--danger)' }}>{error}</p>
               </div>
             )}
           </div>
 
           {/* Results panel */}
-          <div className="card p-5">
-            <h2 className="font-heading font-bold text-text-primary mb-4">Analysis Results</h2>
+          <div style={card}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Analysis Results</p>
             {scanning ? (
-              <div className="flex flex-col items-center justify-center py-16 space-y-4">
-                <div className="relative w-16 h-16">
-                  <div className="absolute inset-0 rounded-full border-2 border-accent-blue/20" />
-                  <div className="absolute inset-0 rounded-full border-2 border-t-accent-blue animate-spin" />
-                  <Eye className="absolute inset-0 m-auto text-accent-blue" size={20} />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 0', gap: 16 }}>
+                <div style={{ position: 'relative', width: 56, height: 56 }}>
+                  <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.08)' }} />
+                  <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid transparent', borderTopColor: 'var(--text-1)', animation: 'spin 0.8s linear infinite' }} />
+                  <Eye size={18} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: 'var(--text-3)' }} />
                 </div>
-                <div className="text-center space-y-1">
-                  <p className="text-text-primary font-body text-sm">Analyzing with D0B3RMAN...</p>
-                  <p className="text-text-muted font-label text-xs">Scanning for synthetic markers</p>
+                <div style={{ textAlign: 'center' }}>
+                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-2)' }}>Analyzing with D0B3RMAN...</p>
+                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', marginTop: 4, letterSpacing: '0.12em' }}>SCANNING FOR SYNTHETIC MARKERS</p>
                 </div>
               </div>
             ) : result ? (
               <EyesResult scan={result} />
             ) : (
-              <div className="flex flex-col items-center justify-center py-16 space-y-3 text-center">
-                <Eye size={32} className="text-text-muted" />
-                <p className="text-text-muted font-body text-sm">Upload a file to begin analysis.</p>
-                <p className="text-text-muted font-label text-xs">Supports images, videos, and audio</p>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 0', gap: 10, textAlign: 'center' }}>
+                <Eye size={28} style={{ color: 'var(--text-3)', opacity: 0.5 }} />
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-3)' }}>Upload a file to begin analysis.</p>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', letterSpacing: '0.1em', opacity: 0.6 }}>IMAGES · VIDEOS · AUDIO</p>
               </div>
             )}
           </div>
         </div>
 
         {/* History */}
-        <div className="card p-5 mt-6">
-          <h2 className="font-heading font-bold text-text-primary mb-4">Scan History</h2>
+        <div style={{ ...card, marginTop: 20 }}>
+          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Scan History</p>
           <EyesScanHistory
             key={historyKey}
             userId={user?.id || ''}

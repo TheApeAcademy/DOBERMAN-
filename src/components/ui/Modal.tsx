@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import type { ReactNode } from 'react'
-import { X } from 'lucide-react'
+import { X, Crown } from 'lucide-react'
 
 interface ModalProps {
   open: boolean
@@ -11,9 +11,7 @@ interface ModalProps {
 
 export function Modal({ open, onClose, title, children }: ModalProps) {
   useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
+    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
     if (open) document.addEventListener('keydown', handleKey)
     return () => document.removeEventListener('keydown', handleKey)
   }, [open, onClose])
@@ -21,24 +19,30 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
   if (!open) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div style={{ position: 'fixed', inset: 0, zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
       <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
         onClick={onClose}
       />
-      <div className="relative z-10 w-full max-w-lg bg-bg-secondary border border-border-color rounded-xl shadow-2xl animate-fade-in">
+      <div style={{
+        position: 'relative', zIndex: 51, width: '100%', maxWidth: 480,
+        background: 'rgba(255,255,255,0.04)',
+        border: '1px solid rgba(255,255,255,0.12)',
+        borderRadius: 20,
+        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.14), 0 40px 80px rgba(0,0,0,0.6)',
+        backdropFilter: 'blur(40px)',
+        WebkitBackdropFilter: 'blur(40px)',
+        animation: 'pageIn 0.25s ease',
+      }}>
         {title && (
-          <div className="flex items-center justify-between p-6 border-b border-border-color">
-            <h2 className="text-text-primary font-heading font-bold text-lg">{title}</h2>
-            <button
-              onClick={onClose}
-              className="text-text-muted hover:text-text-primary transition-colors p-1 rounded"
-            >
-              <X size={18} />
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 22px 16px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-2)', textTransform: 'uppercase' }}>{title}</p>
+            <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-3)', display: 'flex', alignItems: 'center' }}>
+              <X size={16} />
             </button>
           </div>
         )}
-        <div className="p-6">{children}</div>
+        <div style={{ padding: '20px 22px' }}>{children}</div>
       </div>
     </div>
   )
@@ -47,32 +51,29 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
 export function UpgradeModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   return (
     <Modal open={open} onClose={onClose} title="Upgrade to Pro">
-      <div className="text-center space-y-4">
-        <div className="text-4xl">🐕</div>
-        <p className="text-text-secondary font-body text-sm leading-relaxed">
-          You have reached your daily limit. Pro plan gives you unlimited scans,
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, textAlign: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 48, height: 48, borderRadius: 14, background: 'rgba(255,176,32,0.1)', border: '1px solid rgba(255,176,32,0.2)', margin: '0 auto' }}>
+          <Crown size={20} style={{ color: '#FFB020' }} />
+        </div>
+        <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-2)', lineHeight: 1.7 }}>
+          You have reached your daily limit. Pro gives you unlimited scans,
           priority analysis, and advanced threat reports.
         </p>
-        <div className="bg-bg-tertiary border border-border-color rounded-lg p-4 text-left space-y-2">
-          <p className="text-text-secondary text-xs font-label">Pro includes:</p>
-          <ul className="space-y-1">
+        <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '14px 16px', textAlign: 'left' }}>
+          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 10, textTransform: 'uppercase' }}>Pro includes:</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {['Unlimited EYES scans', 'Unlimited NOSE scans', '100 BRAIN messages/day', 'Export reports', 'Priority support'].map((item) => (
-              <li key={item} className="text-text-primary text-sm font-body flex items-center gap-2">
-                <span className="text-accent-green">+</span> {item}
-              </li>
+              <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ color: 'var(--safe)', fontFamily: 'JetBrains Mono', fontSize: 10 }}>+</span>
+                <span style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-1)' }}>{item}</span>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
-        <button
-          onClick={onClose}
-          className="w-full btn-primary"
-        >
-          Coming Soon - Notify Me
+        <button onClick={onClose} className="btn-primary" style={{ width: '100%', padding: '12px 0' }}>
+          Coming Soon — Notify Me
         </button>
-        <button
-          onClick={onClose}
-          className="w-full btn-secondary text-sm"
-        >
+        <button onClick={onClose} className="btn-secondary" style={{ width: '100%', padding: '10px 0', fontSize: 11 }}>
           Maybe Later
         </button>
       </div>

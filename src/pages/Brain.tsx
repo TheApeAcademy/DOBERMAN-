@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Brain, Menu, X } from 'lucide-react'
+import { Brain, X, MessageSquarePlus } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { BrainChat } from '../components/brain/BrainChat'
 import { BrainHistory } from '../components/brain/BrainHistory'
@@ -27,9 +27,7 @@ export default function BrainPage() {
   const [historyKey, setHistoryKey] = useState(0)
 
   useEffect(() => {
-    if (user) {
-      getDailyCount().then(setDailyCount)
-    }
+    if (user) getDailyCount().then(setDailyCount)
   }, [user])
 
   const handleSend = async (content: string) => {
@@ -46,36 +44,57 @@ export default function BrainPage() {
 
   const dailyRemaining = Math.max(0, 10 - dailyCount)
 
+  const sidebarStyle: React.CSSProperties = {
+    width: 240,
+    flexShrink: 0,
+    borderRight: '1px solid rgba(255,255,255,0.06)',
+    display: 'flex',
+    flexDirection: 'column',
+    background: 'rgba(255,255,255,0.01)',
+  }
+
   return (
-    <Layout profile={profile} onSignOut={signOut} title="BRAIN - AI Security Analyst">
-      <div className="flex h-[calc(100vh-56px)] page-fade">
-        {/* History sidebar - desktop */}
-        <div className="hidden lg:flex flex-col w-64 shrink-0 border-r border-border-color bg-bg-secondary">
-          <div className="p-4 border-b border-border-color">
-            <div className="flex items-center gap-2">
-              <Brain size={16} className="text-accent-green" />
-              <span className="font-display text-sm tracking-wider text-text-primary">BRAIN</span>
+    <Layout profile={profile} onSignOut={signOut} title="BRAIN — AI SECURITY ANALYST">
+      <div style={{ display: 'flex', height: 'calc(100vh - 56px)' }}>
+
+        {/* Desktop sidebar */}
+        <div style={{ ...sidebarStyle }} className="lg-show">
+          <style>{`@media (max-width: 1023px) { .lg-show { display: none !important; } }`}</style>
+
+          {/* Sidebar header */}
+          <div style={{ padding: '16px 16px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Brain size={14} style={{ color: 'var(--text-3)' }} />
+              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-3)', textTransform: 'uppercase' }}>Conversations</span>
             </div>
+            <button
+              onClick={() => newConversation()}
+              style={{ background: 'none', border: 'none', color: 'var(--text-3)', display: 'flex', alignItems: 'center' }}
+              title="New conversation"
+            >
+              <MessageSquarePlus size={14} />
+            </button>
           </div>
+
           <BrainHistory
             key={historyKey}
             userId={user?.id || ''}
             activeId={activeConversation?.id}
             getHistory={getHistory}
             onSelect={handleSelect}
-            onNew={() => { newConversation(); }}
+            onNew={() => newConversation()}
           />
         </div>
 
         {/* Mobile history drawer */}
         {historyOpen && (
-          <div className="fixed inset-0 z-50 flex lg:hidden">
-            <div className="absolute inset-0 bg-black/60" onClick={() => setHistoryOpen(false)} />
-            <div className="relative w-64 bg-bg-secondary border-r border-border-color z-50 flex flex-col">
-              <div className="flex items-center justify-between p-4 border-b border-border-color">
-                <span className="font-display text-sm tracking-wider text-text-primary">CONVERSATIONS</span>
-                <button onClick={() => setHistoryOpen(false)}>
-                  <X size={16} className="text-text-muted" />
+          <div style={{ position: 'fixed', inset: 0, zIndex: 50, display: 'flex' }}>
+            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }} onClick={() => setHistoryOpen(false)} />
+            <div style={{ position: 'relative', zIndex: 51, width: 260, background: 'var(--void-1)', borderRight: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ padding: '16px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-3)', textTransform: 'uppercase' }}>Conversations</span>
+                <button onClick={() => setHistoryOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-3)' }}>
+                  <X size={16} />
                 </button>
               </div>
               <BrainHistory
@@ -91,18 +110,20 @@ export default function BrainPage() {
         )}
 
         {/* Chat area */}
-        <div className="flex-1 flex flex-col min-w-0">
-          {/* Mobile history toggle */}
-          <div className="lg:hidden flex items-center gap-2 px-4 py-2 border-b border-border-color">
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+
+          {/* Mobile toolbar */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)' }} className="lg-hide-brain">
+            <style>{`@media (min-width: 1024px) { .lg-hide-brain { display: none !important; } }`}</style>
             <button
               onClick={() => setHistoryOpen(true)}
-              className="text-text-muted hover:text-text-primary transition-colors flex items-center gap-2 text-xs font-label"
+              style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '5px 10px', display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-3)', fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em' }}
             >
-              <Menu size={14} />
-              Conversations
+              <Brain size={12} />
+              CONVERSATIONS
             </button>
             {activeConversation && (
-              <span className="text-text-muted font-body text-xs truncate ml-2">
+              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {activeConversation.title}
               </span>
             )}
