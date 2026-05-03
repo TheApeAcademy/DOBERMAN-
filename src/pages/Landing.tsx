@@ -143,14 +143,6 @@ export default function Landing() {
       {/* ─── HERO ────────────────────────────────────────── */}
       <section style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', background: '#000', display: 'flex', alignItems: 'center' }}>
 
-        {/* Full-section ambient chrome glow behind everything */}
-        <VideoBlob
-          src="/assets/video/blob-hero.mp4"
-          cover
-          opacity={0.45}
-          style={{ zIndex: 0 }}
-        />
-
         {/* Doberman portrait — right-side editorial. Pure black bg blends into void. */}
         <motion.div
           className="hero-portrait"
@@ -351,10 +343,10 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#000' }}>
+              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: 'linear-gradient(135deg, #0a0a1f 0%, #1a0a2e 50%, #0d1a2e 100%)' }}>
                 <video
                   autoPlay muted loop playsInline preload="auto"
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', mixBlendMode: 'screen' }}
                 >
                   <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
                 </video>
@@ -577,7 +569,7 @@ export default function Landing() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.0, ease: [0.25, 0.1, 0.25, 1] }}
             viewport={{ once: true }}
-            style={{ marginBottom: 40, borderRadius: 20, overflow: 'hidden', maxWidth: 560, height: 360, position: 'relative' }}
+            style={{ margin: '0 auto 40px', borderRadius: 20, overflow: 'hidden', width: '100%', maxWidth: 1120, height: 720, position: 'relative' }}
           >
             <img
               src="/assets/video/b78ad4f230a4015d24a420fce2a7d53b.jpg"
@@ -631,33 +623,34 @@ export default function Landing() {
       </section>
 
       {/* ─── FINAL CTA ───────────────────────────────────── */}
-      <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: '#000' }}>
+      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: '#000' }}>
         <VideoBlob
           src="/assets/video/blob-cta.mp4"
           cover
           opacity={0.5}
           style={{ zIndex: 0 }}
         />
-        <div style={{ position: 'relative', zIndex: 1, padding: '0 24px' }}>
+        <div style={{ position: 'relative', zIndex: 1, padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 720 }}>
+          {/* Orange blob in the open space above the card */}
+          <div style={{ position: 'relative', height: 300, width: '100%', marginBottom: -40, overflow: 'visible', pointerEvents: 'none' }}>
+            <video
+              autoPlay muted loop playsInline preload="auto"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen' }}
+            >
+              <source src="/assets/video/blob-hero-2.mp4" type="video/mp4" />
+            </video>
+          </div>
           <motion.div
             initial={{ opacity: 0, scale: 0.94, y: 40 }}
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
             viewport={{ once: true }}
             className="glass"
-            style={{ padding: 'clamp(40px,8vw,90px) clamp(20px,6vw,72px)', borderRadius: 36, textAlign: 'center', maxWidth: 720, width: '100%' }}
+            style={{ padding: 'clamp(40px,8vw,90px) clamp(20px,6vw,72px)', borderRadius: 36, textAlign: 'center', width: '100%' }}
           >
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 28 }}>
               THE WATCHDOG IS READY
             </p>
-            <div style={{ position: 'relative', height: 200, marginBottom: 32, overflow: 'hidden', borderRadius: 16 }}>
-              <video
-                autoPlay muted loop playsInline preload="auto"
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', mixBlendMode: 'screen' }}
-              >
-                <source src="/assets/video/blob-hero-2.mp4" type="video/mp4" />
-              </video>
-            </div>
             <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(38px, 9vw, 110px)', lineHeight: 0.92, marginBottom: 36 }}>
               Deploy<br />D0B3RMAN.
             </h2>
