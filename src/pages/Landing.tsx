@@ -159,14 +159,12 @@ export default function Landing() {
           style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'clamp(260px, 44%, 580px)', zIndex: 2, pointerEvents: 'none' }}
         >
           <img
-            src="/assets/images/doberman-portrait.jpg"
+            src="/assets/video/b78ad4f230a4015d24a420fce2a7d53b.jpg"
             alt=""
             onError={(e) => { const p = e.currentTarget.parentElement; if (p) p.style.display = 'none' }}
             style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
           />
-          {/* Left edge fades into the black void so the dog emerges from darkness */}
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #000 0%, rgba(0,0,0,0.5) 30%, transparent 65%)' }} />
-          {/* Bottom vignette */}
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to bottom, transparent, #000)' }} />
         </motion.div>
 
@@ -324,12 +322,11 @@ export default function Landing() {
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
               <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
-                <video
-                  autoPlay muted loop playsInline
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-                >
-                  <source src="/assets/video/blob-nose.mp4" type="video/mp4" />
-                </video>
+                <img
+                  src="/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg"
+                  alt=""
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
                   NOSE -- NETWORK INTELLIGENCE
@@ -356,12 +353,12 @@ export default function Landing() {
             >
               <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#000' }}>
                 <video
-                  autoPlay muted loop playsInline
+                  autoPlay muted loop playsInline preload="auto"
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                 >
                   <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
                 </video>
-                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.06)' }} />
+                <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)' }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
                   BRAIN -- AI SECURITY ANALYST
                 </div>
@@ -575,6 +572,20 @@ export default function Landing() {
       {/* ─── REVIEWS ─────────────────────────────────────── */}
       <section id="reviews" style={{ padding: 'clamp(60px,8vw,100px) 0 clamp(60px,8vw,100px) clamp(20px,4vw,48px)', overflow: 'hidden', background: '#000' }}>
         <motion.div {...IN_VIEW} style={{ maxWidth: 1200, marginBottom: 56 }}>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.0, ease: [0.25, 0.1, 0.25, 1] }}
+            viewport={{ once: true }}
+            style={{ marginBottom: 40, borderRadius: 20, overflow: 'hidden', maxWidth: 560, height: 360, position: 'relative' }}
+          >
+            <img
+              src="/assets/video/b78ad4f230a4015d24a420fce2a7d53b.jpg"
+              alt="Doberman"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+            />
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '40%', background: 'linear-gradient(to bottom, transparent, #000)' }} />
+          </motion.div>
           <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 20 }}>[ WHAT USERS SAY ]</p>
           <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92 }}>
             The dog<br />delivers.
@@ -639,6 +650,14 @@ export default function Landing() {
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 28 }}>
               THE WATCHDOG IS READY
             </p>
+            <div style={{ position: 'relative', height: 200, marginBottom: 32, overflow: 'hidden', borderRadius: 16 }}>
+              <video
+                autoPlay muted loop playsInline preload="auto"
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', mixBlendMode: 'screen' }}
+              >
+                <source src="/assets/video/blob-hero-2.mp4" type="video/mp4" />
+              </video>
+            </div>
             <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(38px, 9vw, 110px)', lineHeight: 0.92, marginBottom: 36 }}>
               Deploy<br />D0B3RMAN.
             </h2>
