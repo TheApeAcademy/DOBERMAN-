@@ -119,7 +119,7 @@ export default function Auth() {
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: -8 }}>
             <video
               autoPlay muted loop playsInline
-              style={{ width: 220, height: 220, objectFit: 'contain', mixBlendMode: 'screen', pointerEvents: 'none' }}
+              style={{ width: 340, height: 340, objectFit: 'contain', mixBlendMode: 'screen', pointerEvents: 'none' }}
             >
               <source src="/assets/video/3D_animation___Quick_study__b3d.mp4" type="video/mp4" />
             </video>
