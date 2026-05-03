@@ -1,14 +1,6 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import {
-  Eye,
-  Wifi,
-  Brain,
-  LayoutDashboard,
-  History,
-  Settings,
-  LogOut,
-  User,
-} from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Eye, Wifi, Brain, LayoutDashboard, History, Settings, LogOut, User, Newspaper } from 'lucide-react'
 import type { Profile } from '../../lib/supabase'
 import { getInitials, getAvatarColor } from '../../lib/utils'
 
@@ -20,12 +12,13 @@ interface SidebarProps {
 }
 
 const navItems = [
-  { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', sub: '' },
   { to: '/eyes', icon: Eye, label: 'EYES', sub: 'Deepfake Detection' },
   { to: '/nose', icon: Wifi, label: 'NOSE', sub: 'IoT Intelligence' },
   { to: '/brain', icon: Brain, label: 'BRAIN', sub: 'AI Assistant' },
-  { to: '/history', icon: History, label: 'History' },
-  { to: '/settings', icon: Settings, label: 'Settings' },
+  { to: '/news', icon: Newspaper, label: 'NEWS', sub: 'Verify Content' },
+  { to: '/history', icon: History, label: 'History', sub: '' },
+  { to: '/settings', icon: Settings, label: 'Settings', sub: '' },
 ]
 
 export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
@@ -34,82 +27,140 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
   const avatarColor = getAvatarColor(profile?.email || profile?.name || 'U')
 
   return (
-    <aside className={`flex flex-col h-full bg-bg-secondary border-r border-border-color ${mobile ? 'w-72' : 'w-64'}`}>
+    <aside
+      className="glass"
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        width: mobile ? 288 : 256,
+        borderRight: '1px solid var(--glass-border)',
+        borderRadius: 0,
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
       {/* Logo */}
-      <div className="px-6 py-5 border-b border-border-color">
-        <NavLink to="/dashboard" onClick={onClose}>
-          <span className="font-display text-2xl tracking-widest text-text-primary">
-            DOBERMAN
+      <div style={{ padding: '24px 24px 20px', borderBottom: '1px solid var(--glass-border)' }}>
+        <NavLink to="/dashboard" onClick={onClose} style={{ textDecoration: 'none' }}>
+          <span style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.2em', color: 'var(--text-1)', display: 'block' }}>
+            D0B3RMAN
           </span>
-          <span className="block text-xs font-label text-text-muted tracking-widest mt-0.5">
+          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', display: 'block', marginTop: 2 }}>
             CYBER WATCHDOG
           </span>
         </NavLink>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-        {navItems.map(({ to, icon: Icon, label, sub }) => {
+      <nav style={{ flex: 1, padding: '12px', overflowY: 'auto' }}>
+        {navItems.map(({ to, icon: Icon, label, sub }, i) => {
           const isActive = location.pathname === to
           return (
-            <NavLink
+            <motion.div
               key={to}
-              to={to}
-              onClick={onClose}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${
-                isActive
-                  ? 'bg-accent-blue/10 text-accent-blue border border-accent-blue/20'
-                  : 'text-text-secondary hover:text-text-primary hover:bg-bg-tertiary'
-              }`}
+              initial={{ opacity: 0, x: -16 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.05 }}
             >
-              <Icon
-                size={18}
-                className={isActive ? 'text-accent-blue' : 'text-text-muted group-hover:text-text-secondary'}
-              />
-              <div className="min-w-0">
-                <p className={`text-sm font-label font-medium ${isActive ? 'text-accent-blue' : ''}`}>
-                  {label}
-                </p>
-                {sub && (
-                  <p className="text-xs font-body text-text-muted truncate">{sub}</p>
-                )}
-              </div>
-              {isActive && (
-                <div className="ml-auto w-1 h-4 bg-accent-blue rounded-full" />
-              )}
-            </NavLink>
+              <NavLink
+                to={to}
+                onClick={onClose}
+                style={{ textDecoration: 'none', display: 'block', marginBottom: 2 }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 12,
+                    padding: '10px 12px',
+                    borderRadius: 10,
+                    background: isActive ? 'rgba(255,255,255,0.06)' : 'transparent',
+                    border: isActive ? '1px solid var(--glass-border)' : '1px solid transparent',
+                    transition: 'all 0.2s',
+                  }}
+                >
+                  <Icon
+                    size={16}
+                    style={{ color: isActive ? 'var(--text-1)' : 'var(--text-3)', flexShrink: 0 }}
+                  />
+                  <div style={{ minWidth: 0 }}>
+                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, letterSpacing: '0.05em', color: isActive ? 'var(--text-1)' : 'var(--text-2)', fontWeight: isActive ? 600 : 400 }}>
+                      {label}
+                    </p>
+                    {sub && (
+                      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', marginTop: 1 }}>{sub}</p>
+                    )}
+                  </div>
+                  {isActive && (
+                    <div style={{ marginLeft: 'auto', width: 3, height: 16, background: 'var(--text-1)', borderRadius: 2 }} />
+                  )}
+                </div>
+              </NavLink>
+            </motion.div>
           )
         })}
       </nav>
 
       {/* User profile */}
-      <div className="p-3 border-t border-border-color space-y-1">
+      <div style={{ padding: '12px', borderTop: '1px solid var(--glass-border)' }}>
         <NavLink
           to="/profile"
           onClick={onClose}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-bg-tertiary transition-colors group"
+          style={{ textDecoration: 'none', display: 'block', marginBottom: 4 }}
         >
-          <div
-            className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-label font-semibold shrink-0"
-            style={{ background: avatarColor }}
-          >
-            {initials}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 10, border: '1px solid transparent', transition: 'all 0.2s' }}>
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontSize: 12,
+                fontFamily: 'JetBrains Mono',
+                fontWeight: 600,
+                flexShrink: 0,
+                background: avatarColor,
+              }}
+            >
+              {initials}
+            </div>
+            <div style={{ minWidth: 0, flex: 1 }}>
+              <p style={{ fontFamily: 'Syne', fontSize: 13, fontWeight: 600, color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {profile?.name || profile?.email?.split('@')[0] || 'User'}
+              </p>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', textTransform: 'capitalize' }}>
+                {profile?.plan || 'free'}
+              </p>
+            </div>
+            <User size={13} style={{ color: 'var(--text-3)', flexShrink: 0 }} />
           </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-text-primary text-sm font-label font-medium truncate">
-              {profile?.name || profile?.email?.split('@')[0] || 'User'}
-            </p>
-            <p className="text-text-muted text-xs font-body capitalize">{profile?.plan || 'free'}</p>
-          </div>
-          <User size={14} className="text-text-muted group-hover:text-text-secondary shrink-0" />
         </NavLink>
 
         <button
           onClick={onSignOut}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-muted hover:text-accent-red hover:bg-red-900/10 transition-all duration-200"
+          style={{
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            padding: '10px 12px',
+            borderRadius: 10,
+            background: 'none',
+            border: 'none',
+            color: 'var(--text-3)',
+            fontFamily: 'JetBrains Mono',
+            fontSize: 12,
+            transition: 'all 0.2s',
+          }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--danger)'; (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,45,45,0.06)' }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-3)'; (e.currentTarget as HTMLButtonElement).style.background = 'none' }}
         >
-          <LogOut size={16} />
-          <span className="text-sm font-label">Sign Out</span>
+          <LogOut size={14} />
+          <span>Sign Out</span>
         </button>
       </div>
     </aside>

@@ -1,10 +1,30 @@
 import { useState } from 'react'
-import { User, Bell, Trash2, Info, AlertTriangle, CheckCircle } from 'lucide-react'
+import { User, Bell, Trash2, Info, AlertTriangle, CheckCircle, Lock } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { Modal } from '../components/ui/Modal'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
 import { useNavigate } from 'react-router-dom'
+
+const card: React.CSSProperties = {
+  background: 'rgba(255,255,255,0.03)',
+  border: '1px solid rgba(255,255,255,0.08)',
+  borderRadius: 20,
+  padding: 24,
+  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07)',
+  backdropFilter: 'blur(28px)',
+  WebkitBackdropFilter: 'blur(28px)',
+}
+
+const label: React.CSSProperties = {
+  display: 'block',
+  fontFamily: 'JetBrains Mono',
+  fontSize: 9,
+  letterSpacing: '0.2em',
+  color: 'var(--text-3)',
+  marginBottom: 8,
+  textTransform: 'uppercase',
+}
 
 export default function Settings() {
   const { user, profile, signOut, updateProfile } = useAuth()
@@ -25,7 +45,6 @@ export default function Settings() {
     e.preventDefault()
     setSaving(true)
     setError(null)
-
     const { error: updateError } = await updateProfile({ name, email })
     if (updateError) {
       setError(updateError.message)
@@ -40,7 +59,6 @@ export default function Settings() {
     e.preventDefault()
     setSaving(true)
     setError(null)
-
     const { error } = await supabase.auth.updateUser({ password: newPassword })
     if (error) {
       setError(error.message)
@@ -72,180 +90,157 @@ export default function Settings() {
     navigate('/')
   }
 
+  const sectionHeader = (icon: React.ReactNode, title: string) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, paddingBottom: 14, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      <div style={{ color: 'var(--text-3)' }}>{icon}</div>
+      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.12em', color: 'var(--text-2)', textTransform: 'uppercase' }}>{title}</p>
+    </div>
+  )
+
   return (
-    <Layout profile={profile} onSignOut={signOut} title="Settings">
-      <div className="p-6 max-w-2xl mx-auto page-fade space-y-6">
-        <div className="mb-6">
-          <h1 className="font-heading font-bold text-2xl text-text-primary">Settings</h1>
-          <p className="text-text-muted font-body text-sm mt-1">Manage your DOBERMAN account</p>
+    <Layout profile={profile} onSignOut={signOut} title="SETTINGS">
+      <div style={{ padding: '28px 28px 48px', maxWidth: 680, margin: '0 auto' }}>
+
+        {/* Page header */}
+        <div style={{ marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>SETTINGS</h1>
+          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-3)', marginTop: 3 }}>MANAGE YOUR D0B3RMAN ACCOUNT</p>
         </div>
 
+        {/* Feedback banners */}
         {saved && (
-          <div className="flex items-center gap-2 p-3 rounded-lg bg-green-900/20 border border-green-800/30 page-fade">
-            <CheckCircle size={16} className="text-accent-green" />
-            <p className="text-accent-green font-body text-sm">Changes saved successfully.</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', borderRadius: 12, background: 'rgba(48,209,88,0.07)', border: '1px solid rgba(48,209,88,0.2)', marginBottom: 16 }}>
+            <CheckCircle size={14} style={{ color: 'var(--safe)', flexShrink: 0 }} />
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--safe)' }}>Changes saved successfully.</p>
           </div>
         )}
-
         {error && (
-          <div className="flex items-center gap-2 p-3 rounded-lg bg-red-900/20 border border-red-800/40">
-            <AlertTriangle size={16} className="text-accent-red" />
-            <p className="text-accent-red font-body text-sm">{error}</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', borderRadius: 12, background: 'rgba(255,45,45,0.06)', border: '1px solid rgba(255,45,45,0.2)', marginBottom: 16 }}>
+            <AlertTriangle size={14} style={{ color: 'var(--danger)', flexShrink: 0 }} />
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--danger)' }}>{error}</p>
           </div>
         )}
 
-        {/* Account */}
-        <div className="card p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <User size={16} className="text-text-muted" />
-            <h2 className="font-heading font-bold text-text-primary">Account</h2>
-          </div>
-          <form onSubmit={handleSaveAccount} className="space-y-4">
-            <div className="space-y-1.5">
-              <label className="text-text-secondary font-label text-xs font-medium tracking-wide">NAME</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="input"
-                placeholder="Your full name"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <label className="text-text-secondary font-label text-xs font-medium tracking-wide">EMAIL</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="input"
-                placeholder="your@email.com"
-              />
-            </div>
-            <button type="submit" disabled={saving} className="btn-primary">
-              {saving ? 'Saving...' : 'Save Changes'}
-            </button>
-          </form>
-        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
 
-        {/* Password */}
-        <div className="card p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <User size={16} className="text-text-muted" />
-            <h2 className="font-heading font-bold text-text-primary">Change Password</h2>
-          </div>
-          <form onSubmit={handleChangePassword} className="space-y-4">
-            <div className="space-y-1.5">
-              <label className="text-text-secondary font-label text-xs font-medium tracking-wide">NEW PASSWORD</label>
-              <input
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="input"
-                placeholder="Minimum 8 characters"
-                minLength={8}
-                required
-              />
-            </div>
-            <button type="submit" disabled={saving || !newPassword} className="btn-secondary">
-              {saving ? 'Updating...' : 'Update Password'}
-            </button>
-          </form>
-        </div>
-
-        {/* Notifications */}
-        <div className="card p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <Bell size={16} className="text-text-muted" />
-            <h2 className="font-heading font-bold text-text-primary">Notifications</h2>
-          </div>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-text-primary font-body text-sm">Email alerts for high-risk scans</p>
-              <p className="text-text-muted font-label text-xs mt-0.5">Get notified when a scan returns a critical threat</p>
-            </div>
-            <button
-              onClick={() => setNotifications(!notifications)}
-              className={`w-11 h-6 rounded-full transition-colors relative ${notifications ? 'bg-accent-blue' : 'bg-bg-tertiary border border-border-color'}`}
-            >
-              <div
-                className={`absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform ${notifications ? 'translate-x-5' : 'translate-x-0.5'}`}
-              />
-            </button>
-          </div>
-        </div>
-
-        {/* Data */}
-        <div className="card p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <Trash2 size={16} className="text-accent-red" />
-            <h2 className="font-heading font-bold text-text-primary">Data Management</h2>
-          </div>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 bg-bg-tertiary rounded-lg">
+          {/* Account */}
+          <div style={card}>
+            {sectionHeader(<User size={14} />, 'Account')}
+            <form onSubmit={handleSaveAccount} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <div>
-                <p className="text-text-primary font-body text-sm">Delete scan history</p>
-                <p className="text-text-muted font-label text-xs mt-0.5">Removes all EYES, NOSE, and BRAIN data</p>
+                <span style={label}>Name</span>
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="input" placeholder="Your full name" />
               </div>
-              <button
-                onClick={() => setDeleteHistoryOpen(true)}
-                className="btn-secondary text-sm px-3 py-1.5 text-accent-red border-red-800/30"
-              >
-                Delete History
+              <div>
+                <span style={label}>Email</span>
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input" placeholder="your@email.com" />
+              </div>
+              <button type="submit" disabled={saving} className="btn-primary" style={{ alignSelf: 'flex-start', padding: '10px 24px' }}>
+                {saving ? 'Saving...' : 'Save Changes'}
               </button>
-            </div>
-            <div className="flex items-center justify-between p-3 bg-bg-tertiary rounded-lg border border-red-900/30">
+            </form>
+          </div>
+
+          {/* Password */}
+          <div style={card}>
+            {sectionHeader(<Lock size={14} />, 'Change Password')}
+            <form onSubmit={handleChangePassword} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <div>
-                <p className="text-text-primary font-body text-sm">Delete account</p>
-                <p className="text-text-muted font-label text-xs mt-0.5">This action is permanent and cannot be undone</p>
+                <span style={label}>New Password</span>
+                <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="input" placeholder="Minimum 8 characters" minLength={8} required />
+              </div>
+              <button type="submit" disabled={saving || !newPassword} className="btn-secondary" style={{ alignSelf: 'flex-start', padding: '10px 24px' }}>
+                {saving ? 'Updating...' : 'Update Password'}
+              </button>
+            </form>
+          </div>
+
+          {/* Notifications */}
+          <div style={card}>
+            {sectionHeader(<Bell size={14} />, 'Notifications')}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+              <div>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-1)', marginBottom: 4 }}>Email alerts for high-risk scans</p>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', letterSpacing: '0.05em' }}>Get notified when a scan returns a critical threat</p>
               </div>
               <button
-                onClick={() => setDeleteOpen(true)}
-                className="btn-danger text-sm px-3 py-1.5"
+                onClick={() => setNotifications(!notifications)}
+                style={{
+                  width: 44, height: 24, borderRadius: 12, position: 'relative', flexShrink: 0,
+                  background: notifications ? 'rgba(48,209,88,0.3)' : 'rgba(255,255,255,0.06)',
+                  border: `1px solid ${notifications ? 'rgba(48,209,88,0.4)' : 'rgba(255,255,255,0.1)'}`,
+                  transition: 'all 0.2s',
+                }}
               >
-                Delete Account
+                <div style={{
+                  position: 'absolute', top: 2, width: 18, height: 18, borderRadius: '50%',
+                  background: notifications ? 'var(--safe)' : 'var(--text-3)',
+                  left: notifications ? 22 : 2,
+                  transition: 'all 0.2s',
+                }} />
               </button>
             </div>
           </div>
-        </div>
 
-        {/* About */}
-        <div className="card p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <Info size={16} className="text-text-muted" />
-            <h2 className="font-heading font-bold text-text-primary">About</h2>
-          </div>
-          <div className="space-y-2">
-            {[
-              { label: 'Version', value: '1.0.0' },
-              { label: 'Platform', value: 'DOBERMAN SaaS' },
-              { label: 'AI Engine', value: 'Claude (claude-sonnet-4-20250514)' },
-              { label: 'Detection', value: 'Hive AI Moderation' },
-            ].map(({ label, value }) => (
-              <div key={label} className="flex items-center justify-between py-1 border-b border-border-color last:border-0">
-                <span className="text-text-muted font-label text-xs">{label}</span>
-                <span className="text-text-primary font-body text-sm">{value}</span>
+          {/* Data management */}
+          <div style={card}>
+            {sectionHeader(<Trash2 size={14} />, 'Data Management')}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: 12, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                <div>
+                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-1)', marginBottom: 3 }}>Delete scan history</p>
+                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)' }}>Removes all EYES, NOSE, and BRAIN data</p>
+                </div>
+                <button onClick={() => setDeleteHistoryOpen(true)} className="btn-danger" style={{ padding: '7px 16px', fontSize: 11 }}>
+                  Delete History
+                </button>
               </div>
-            ))}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: 12, background: 'rgba(255,45,45,0.04)', border: '1px solid rgba(255,45,45,0.15)' }}>
+                <div>
+                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-1)', marginBottom: 3 }}>Delete account</p>
+                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)' }}>Permanent — cannot be undone</p>
+                </div>
+                <button onClick={() => setDeleteOpen(true)} className="btn-danger" style={{ padding: '7px 16px', fontSize: 11 }}>
+                  Delete Account
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="flex gap-4 mt-4">
-            {['Privacy Policy', 'Terms of Service', 'Contact'].map((link) => (
-              <span key={link} className="text-accent-blue text-xs font-label hover:underline cursor-pointer">
-                {link}
-              </span>
-            ))}
+
+          {/* About */}
+          <div style={card}>
+            {sectionHeader(<Info size={14} />, 'About')}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+              {[
+                { label: 'Version', value: '1.0.0' },
+                { label: 'Platform', value: 'D0B3RMAN SaaS' },
+                { label: 'AI Engine', value: 'Claude claude-sonnet-4-20250514' },
+                { label: 'Detection', value: 'Hive AI Moderation' },
+              ].map(({ label: l, value }, i, arr) => (
+                <div key={l} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em', color: 'var(--text-3)', textTransform: 'uppercase' }}>{l}</span>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-2)' }}>{value}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: 'flex', gap: 20, marginTop: 16 }}>
+              {['Privacy Policy', 'Terms of Service', 'Contact'].map((link) => (
+                <span key={link} style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', letterSpacing: '0.05em', textDecoration: 'underline', textUnderlineOffset: 3 }}>{link}</span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
       {/* Delete history modal */}
       <Modal open={deleteHistoryOpen} onClose={() => setDeleteHistoryOpen(false)} title="Delete Scan History">
-        <div className="space-y-4">
-          <p className="text-text-secondary font-body text-sm">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-2)', lineHeight: 1.6 }}>
             This will permanently delete all your EYES scans, NOSE scans, and BRAIN conversations. This cannot be undone.
           </p>
-          <div className="flex gap-3">
-            <button onClick={() => setDeleteHistoryOpen(false)} className="flex-1 btn-secondary">Cancel</button>
-            <button onClick={handleDeleteHistory} disabled={deleting} className="flex-1 btn-danger">
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button onClick={() => setDeleteHistoryOpen(false)} className="btn-secondary" style={{ flex: 1 }}>Cancel</button>
+            <button onClick={handleDeleteHistory} disabled={deleting} className="btn-danger" style={{ flex: 1 }}>
               {deleting ? 'Deleting...' : 'Delete All History'}
             </button>
           </div>
@@ -254,17 +249,17 @@ export default function Settings() {
 
       {/* Delete account modal */}
       <Modal open={deleteOpen} onClose={() => setDeleteOpen(false)} title="Delete Account">
-        <div className="space-y-4">
-          <div className="flex items-center gap-3 p-3 bg-red-900/20 border border-red-800/40 rounded-lg">
-            <AlertTriangle size={16} className="text-accent-red shrink-0" />
-            <p className="text-accent-red font-body text-sm">This action is permanent and cannot be undone.</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', borderRadius: 10, background: 'rgba(255,45,45,0.06)', border: '1px solid rgba(255,45,45,0.2)' }}>
+            <AlertTriangle size={14} style={{ color: 'var(--danger)', flexShrink: 0 }} />
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--danger)' }}>This action is permanent and cannot be undone.</p>
           </div>
-          <p className="text-text-secondary font-body text-sm">
+          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-2)', lineHeight: 1.6 }}>
             Your account and all associated data will be permanently deleted.
           </p>
-          <div className="flex gap-3">
-            <button onClick={() => setDeleteOpen(false)} className="flex-1 btn-secondary">Cancel</button>
-            <button onClick={handleDeleteAccount} disabled={deleting} className="flex-1 btn-danger">
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button onClick={() => setDeleteOpen(false)} className="btn-secondary" style={{ flex: 1 }}>Cancel</button>
+            <button onClick={handleDeleteAccount} disabled={deleting} className="btn-danger" style={{ flex: 1 }}>
               {deleting ? 'Deleting...' : 'Yes, Delete Account'}
             </button>
           </div>

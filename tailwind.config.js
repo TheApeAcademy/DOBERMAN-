@@ -7,38 +7,37 @@ export default {
   theme: {
     extend: {
       colors: {
-        'bg-primary': '#080B0F',
-        'bg-secondary': '#0D1117',
-        'bg-tertiary': '#161B22',
-        'border-color': '#21262D',
-        'accent-red': '#FF3B3B',
-        'accent-amber': '#FFB020',
-        'accent-green': '#00D46A',
-        'accent-blue': '#3B82F6',
-        'text-primary': '#E6EDF3',
-        'text-secondary': '#8B949E',
-        'text-muted': '#484F58',
+        /* Legacy names mapped to CHROME VOID palette */
+        'bg-primary': '#000000',
+        'bg-secondary': '#060606',
+        'bg-tertiary': '#0C0C0C',
+        'border-color': 'rgba(255,255,255,0.08)',
+        'accent-red': '#FF2D2D',
+        'accent-amber': '#FF9500',
+        'accent-green': '#30D158',
+        'accent-blue': '#ABABAB',
+        'text-primary': '#F5F5F7',
+        'text-secondary': '#98989D',
+        'text-muted': '#48484A',
       },
       fontFamily: {
         'display': ['"Bebas Neue"', 'sans-serif'],
         'heading': ['Syne', 'sans-serif'],
-        'body': ['"DM Mono"', 'monospace'],
-        'label': ['Inter', 'sans-serif'],
+        'body': ['"JetBrains Mono"', 'monospace'],
+        'label': ['Syne', 'sans-serif'],
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'fade-in': 'fadeIn 0.4s ease-in-out',
-        'count-up': 'countUp 1s ease-out',
-        'scan-line': 'scanLine 8s linear infinite',
+        'spin': 'spin 0.8s linear infinite',
       },
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0', transform: 'translateY(8px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        scanLine: {
-          '0%': { transform: 'translateY(-100%)' },
-          '100%': { transform: 'translateY(100vh)' },
+        spin: {
+          to: { transform: 'rotate(360deg)' },
         },
       },
     },

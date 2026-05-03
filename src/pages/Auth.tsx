@@ -68,7 +68,7 @@ export default function Auth() {
         />
 
         <div className="relative z-10">
-          <span className="font-display text-4xl tracking-widest text-text-primary">DOBERMAN</span>
+          <span className="font-display text-4xl tracking-widest text-text-primary">D0B3RMAN</span>
           <p className="text-text-muted font-body text-sm mt-1 tracking-widest">CYBER WATCHDOG</p>
         </div>
 
@@ -112,7 +112,17 @@ export default function Auth() {
         <div className="w-full max-w-md space-y-8 page-fade">
           {/* Mobile logo */}
           <div className="lg:hidden text-center">
-            <span className="font-display text-3xl tracking-widest text-text-primary">DOBERMAN</span>
+            <span className="font-display text-3xl tracking-widest text-text-primary">D0B3RMAN</span>
+          </div>
+
+          {/* 3D animation */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: -8 }}>
+            <video
+              autoPlay muted loop playsInline
+              style={{ width: 340, height: 340, objectFit: 'contain', mixBlendMode: 'screen', pointerEvents: 'none' }}
+            >
+              <source src="/assets/video/blob-cube.mp4" type="video/mp4" />
+            </video>
           </div>
 
           <div>
@@ -122,7 +132,7 @@ export default function Auth() {
             <p className="text-text-secondary font-body text-sm mt-1">
               {mode === 'signin'
                 ? 'Sign in to access your watchdog.'
-                : 'Deploy DOBERMAN in seconds.'}
+                : 'Deploy D0B3RMAN in seconds.'}
             </p>
           </div>
 

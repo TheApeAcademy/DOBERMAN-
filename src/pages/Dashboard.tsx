@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Eye, Wifi, Brain, ArrowRight, TrendingUp, Shield, AlertTriangle, Clock } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Eye, Wifi, Brain, Newspaper, ArrowRight, Clock } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
@@ -8,7 +9,7 @@ import { formatRelativeTime, getResultLabel, getRiskColor } from '../lib/utils'
 
 interface ActivityItem {
   id: string
-  type: 'eyes' | 'nose' | 'brain'
+  type: 'eyes' | 'nose' | 'brain' | 'news'
   label: string
   result?: string
   score?: number
@@ -23,6 +24,7 @@ interface Stats {
   eyesToday: number
   noseToday: number
   brainToday: number
+  newsToday: number
 }
 
 export default function Dashboard() {
@@ -30,13 +32,8 @@ export default function Dashboard() {
   const navigate = useNavigate()
   const [activity, setActivity] = useState<ActivityItem[]>([])
   const [stats, setStats] = useState<Stats>({
-    eyesTotal: 0,
-    noseTotal: 0,
-    brainTotal: 0,
-    threatsDetected: 0,
-    eyesToday: 0,
-    noseToday: 0,
-    brainToday: 0,
+    eyesTotal: 0, noseTotal: 0, brainTotal: 0, threatsDetected: 0,
+    eyesToday: 0, noseToday: 0, brainToday: 0, newsToday: 0,
   })
   const [loading, setLoading] = useState(true)
 
@@ -63,34 +60,14 @@ export default function Dashboard() {
     const logs = logsRes.data || []
 
     const todayLogs = logs.filter((l) => new Date(l.created_at) >= today)
-    const eyesToday = todayLogs.filter((l) => l.module === 'eyes').length
-    const noseToday = todayLogs.filter((l) => l.module === 'nose').length
-    const brainToday = todayLogs.filter((l) => l.module === 'brain').length
-    const threatsDetected = eyes.filter((e) => e.result === 'fake').length + nose.filter((n) => n.overall_risk_score >= 70).length
 
     const allActivity: ActivityItem[] = [
-      ...eyes.map((e) => ({
-        id: e.id,
-        type: 'eyes' as const,
-        label: e.file_name || 'Unnamed file',
-        result: e.result,
-        score: e.confidence_score,
-        created_at: e.created_at,
-      })),
-      ...nose.map((n) => ({
-        id: n.id,
-        type: 'nose' as const,
-        label: (n.environment_description || '').slice(0, 50) + '...',
-        score: n.overall_risk_score,
-        created_at: n.created_at,
-      })),
-      ...brain.map((b) => ({
-        id: b.id,
-        type: 'brain' as const,
-        label: b.title || 'Conversation',
-        created_at: b.created_at,
-      })),
-    ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 5)
+      ...eyes.map((e) => ({ id: e.id, type: 'eyes' as const, label: e.file_name || 'Unnamed file', result: e.result, score: e.confidence_score, created_at: e.created_at })),
+      ...nose.map((n) => ({ id: n.id, type: 'nose' as const, label: (n.environment_description || '').slice(0, 50), score: n.overall_risk_score, created_at: n.created_at })),
+      ...brain.map((b) => ({ id: b.id, type: 'brain' as const, label: b.title || 'Conversation', created_at: b.created_at })),
+    ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 6)
+
+    const threatsDetected = eyes.filter((e) => e.result === 'fake').length + nose.filter((n) => n.overall_risk_score >= 70).length
 
     setActivity(allActivity)
     setStats({
@@ -98,253 +75,172 @@ export default function Dashboard() {
       noseTotal: nose.length,
       brainTotal: brain.length,
       threatsDetected,
-      eyesToday,
-      noseToday,
-      brainToday,
+      eyesToday: todayLogs.filter((l) => l.module === 'eyes').length,
+      noseToday: todayLogs.filter((l) => l.module === 'nose').length,
+      brainToday: todayLogs.filter((l) => l.module === 'brain').length,
+      newsToday: todayLogs.filter((l) => l.module === 'news').length,
     })
     setLoading(false)
   }
 
   const moduleCards = [
-    {
-      to: '/eyes',
-      icon: Eye,
-      name: 'EYES',
-      description: 'Deepfake Detection',
-      sub: 'Analyze images, videos, and audio for synthetic media manipulation.',
-      color: '#3B82F6',
-      count: stats.eyesToday,
-      limit: 3,
-      label: 'scans today',
-    },
-    {
-      to: '/nose',
-      icon: Wifi,
-      name: 'NOSE',
-      description: 'Vulnerability Intelligence',
-      sub: 'Map your IoT environment and identify network security weaknesses.',
-      color: '#8B5CF6',
-      count: stats.noseToday,
-      limit: 3,
-      label: 'scans today',
-    },
-    {
-      to: '/brain',
-      icon: Brain,
-      name: 'BRAIN',
-      description: 'AI Security Analyst',
-      sub: 'Chat with your dedicated cybersecurity expert - powered by Claude.',
-      color: '#00D46A',
-      count: stats.brainToday,
-      limit: 10,
-      label: 'messages today',
-    },
+    { to: '/eyes', icon: Eye, name: 'EYES', sub: 'Deepfake Detection', desc: 'Analyze images, videos, and audio for synthetic media manipulation.', count: stats.eyesToday, limit: 3 },
+    { to: '/nose', icon: Wifi, name: 'NOSE', sub: 'IoT Intelligence', desc: 'Map your network environment and identify security weaknesses.', count: stats.noseToday, limit: 3 },
+    { to: '/brain', icon: Brain, name: 'BRAIN', sub: 'AI Analyst', desc: 'Chat with your dedicated cybersecurity expert powered by Claude.', count: stats.brainToday, limit: 10 },
+    { to: '/news', icon: Newspaper, name: 'NEWS', sub: 'Verify Content', desc: 'Paste any headline or claim. Get a credibility verdict instantly.', count: stats.newsToday, limit: 3 },
   ]
 
-  const greeting = () => {
-    const h = new Date().getHours()
-    if (h < 12) return 'Good morning'
-    if (h < 17) return 'Good afternoon'
-    return 'Good evening'
-  }
-
   const firstName = profile?.name?.split(' ')[0] || profile?.email?.split('@')[0] || 'Operator'
+  const h = new Date().getHours()
+  const greeting = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening'
 
   return (
     <Layout profile={profile} onSignOut={signOut} title="Dashboard">
-      <div className="p-6 space-y-6 page-fade max-w-6xl mx-auto">
-        {/* Welcome bar */}
-        <div className="flex items-center justify-between">
+      <div style={{ padding: '32px', maxWidth: 1200, margin: '0 auto' }}>
+
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 40, flexWrap: 'wrap', gap: 16 }}>
           <div>
-            <h1 className="font-heading font-bold text-2xl text-text-primary">
-              {greeting()}, {firstName}.
+            <h1 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(24px, 4vw, 40px)', lineHeight: 1 }}>
+              {greeting}, {firstName}.
             </h1>
-            <p className="text-text-secondary font-body text-sm mt-0.5">
-              DOBERMAN is watching. Here's your threat overview.
+            <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-2)', marginTop: 6 }}>
+              D0B3RMAN is watching. Here's your threat overview.
             </p>
           </div>
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-green-900/20 border border-green-800/30 rounded-lg">
-            <div className="w-2 h-2 rounded-full bg-accent-green animate-pulse" />
-            <span className="text-accent-green font-label text-xs font-medium">ALL SYSTEMS ACTIVE</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.2)', borderRadius: 8 }}>
+            <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--safe)', animation: 'pulse 2s infinite' }} />
+            <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.1em', color: 'var(--safe)' }}>ALL SYSTEMS ACTIVE</span>
           </div>
         </div>
 
         {/* Stats row */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 40 }}>
           {[
-            { icon: Eye, label: 'Scans Today', value: stats.eyesToday + stats.noseToday, color: '#3B82F6' },
-            { icon: AlertTriangle, label: 'Threats Found', value: stats.threatsDetected, color: '#FF3B3B' },
-            { icon: Brain, label: 'AI Messages', value: stats.brainToday, color: '#00D46A' },
-            { icon: Shield, label: 'Total Scans', value: stats.eyesTotal + stats.noseTotal, color: '#8B5CF6' },
-          ].map(({ icon: Icon, label, value, color }) => (
-            <div key={label} className="card p-4">
-              <div className="flex items-center gap-2 mb-2">
-                <Icon size={14} style={{ color }} />
-                <span className="text-text-muted font-label text-xs">{label}</span>
-              </div>
-              <p className="font-display text-3xl text-text-primary">{loading ? '-' : value}</p>
-            </div>
+            { label: 'Scans Today', value: stats.eyesToday + stats.noseToday + stats.newsToday, color: 'var(--chrome-mid)' },
+            { label: 'Threats Found', value: stats.threatsDetected, color: 'var(--danger)' },
+            { label: 'AI Messages', value: stats.brainToday, color: 'var(--safe)' },
+            { label: 'Total Scans', value: stats.eyesTotal + stats.noseTotal, color: 'var(--warning)' },
+          ].map(({ label, value, color }, i) => (
+            <motion.div
+              key={label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.06 }}
+              className="glass"
+              style={{ padding: '20px 24px', borderRadius: 16 }}
+            >
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.1em', color: 'var(--text-3)', marginBottom: 8 }}>{label.toUpperCase()}</p>
+              <p style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 40, lineHeight: 1, color: loading ? 'var(--text-3)' : color }}>
+                {loading ? '-' : value}
+              </p>
+            </motion.div>
           ))}
         </div>
 
-        {/* Module launcher cards */}
-        <div>
-          <h2 className="font-heading font-bold text-text-primary mb-4">Modules</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {moduleCards.map(({ to, icon: Icon, name, description, sub, color, count, limit, label }) => (
-              <button
+        {/* Module cards */}
+        <div style={{ marginBottom: 40 }}>
+          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 20 }}>
+            MODULES
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
+            {moduleCards.map(({ to, icon: Icon, name, sub, desc, count, limit }, i) => (
+              <motion.button
                 key={to}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 + i * 0.07 }}
+                className="glass"
+                whileHover={{ y: -4, borderColor: 'var(--glass-border-bright)', transition: { duration: 0.2 } }}
                 onClick={() => navigate(to)}
-                className="card p-6 text-left group w-full"
-                style={{ borderColor: 'transparent' }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = `${color}40`
-                  e.currentTarget.style.boxShadow = `0 0 20px ${color}15`
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'transparent'
-                  e.currentTarget.style.boxShadow = 'none'
-                }}
+                style={{ padding: 24, borderRadius: 20, textAlign: 'left', position: 'relative', overflow: 'hidden' }}
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div
-                    className="w-10 h-10 rounded-lg flex items-center justify-center"
-                    style={{ background: `${color}20` }}
-                  >
-                    <Icon size={20} style={{ color }} />
-                  </div>
-                  <ArrowRight size={16} className="text-text-muted group-hover:text-text-primary transition-colors" />
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+                  <Icon size={18} style={{ color: 'var(--text-2)' }} />
+                  <ArrowRight size={14} style={{ color: 'var(--text-3)' }} />
                 </div>
-                <p className="font-display text-xl text-text-primary tracking-wider mb-0.5">{name}</p>
-                <p className="font-label font-medium text-sm mb-2" style={{ color }}>{description}</p>
-                <p className="text-text-muted font-body text-xs leading-relaxed mb-4">{sub}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-text-muted font-label text-xs">{count}/{limit} {label}</span>
-                  <div className="h-1 flex-1 mx-3 bg-bg-tertiary rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full transition-all"
-                      style={{ width: `${(count / limit) * 100}%`, background: color }}
-                    />
+                <p style={{ fontFamily: 'Bebas Neue', fontSize: 32, letterSpacing: '0.1em', marginBottom: 2 }}>{name}</p>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em', color: 'var(--text-3)', marginBottom: 12 }}>{sub.toUpperCase()}</p>
+                <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-2)', lineHeight: 1.55, marginBottom: 16 }}>{desc}</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>{count}/{limit}</span>
+                  <div style={{ flex: 1, height: 2, background: 'var(--void-4)', borderRadius: 1 }}>
+                    <div style={{ height: '100%', borderRadius: 1, background: 'var(--chrome-mid)', width: `${Math.min((count / limit) * 100, 100)}%`, transition: 'width 0.5s ease' }} />
                   </div>
                 </div>
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
 
-        {/* Recent activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-heading font-bold text-text-primary">Recent Activity</h2>
-              <button onClick={() => navigate('/history')} className="text-accent-blue text-xs font-label hover:underline">
-                View all
-              </button>
-            </div>
-            <div className="card divide-y divide-border-color">
-              {loading ? (
-                [...Array(3)].map((_, i) => (
-                  <div key={i} className="p-4 flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-bg-tertiary animate-pulse" />
-                    <div className="flex-1 space-y-1.5">
-                      <div className="h-3 bg-bg-tertiary rounded animate-pulse w-3/4" />
-                      <div className="h-2 bg-bg-tertiary rounded animate-pulse w-1/3" />
-                    </div>
-                  </div>
-                ))
-              ) : activity.length === 0 ? (
-                <div className="p-8 text-center">
-                  <p className="text-text-muted font-body text-sm">No activity yet. Run your first scan.</p>
-                </div>
-              ) : (
-                activity.map((item) => {
-                  const icons = { eyes: Eye, nose: Wifi, brain: Brain }
-                  const colors = { eyes: '#3B82F6', nose: '#8B5CF6', brain: '#00D46A' }
-                  const Icon = icons[item.type]
-                  const color = colors[item.type]
-
-                  return (
-                    <div key={item.id} className="p-4 flex items-center gap-3">
-                      <div
-                        className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                        style={{ background: `${color}15` }}
-                      >
-                        <Icon size={14} style={{ color }} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-text-primary font-body text-sm truncate">{item.label}</p>
-                        <div className="flex items-center gap-2 mt-0.5">
-                          <Clock size={10} className="text-text-muted" />
-                          <span className="text-text-muted font-label text-xs">{formatRelativeTime(item.created_at)}</span>
-                          {item.result && (
-                            <span
-                              className="text-xs font-label font-medium px-1.5 py-0.5 rounded"
-                              style={{
-                                color: getResultLabel(item.result).color,
-                                background: `${getResultLabel(item.result).color}15`,
-                              }}
-                            >
-                              {getResultLabel(item.result).label}
-                            </span>
-                          )}
-                          {item.type === 'nose' && item.score !== undefined && (
-                            <span
-                              className="text-xs font-label font-medium px-1.5 py-0.5 rounded"
-                              style={{
-                                color: getRiskColor(item.score),
-                                background: `${getRiskColor(item.score)}15`,
-                              }}
-                            >
-                              Risk: {item.score}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )
-                })
-              )}
-            </div>
+        {/* Activity feed */}
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-3)' }}>
+              RECENT ACTIVITY
+            </p>
+            <button
+              onClick={() => navigate('/history')}
+              style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--chrome-dim)', background: 'none', border: 'none' }}
+            >
+              View all
+            </button>
           </div>
-
-          {/* Threat summary */}
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-heading font-bold text-text-primary">Threat Summary</h2>
-              <TrendingUp size={16} className="text-text-muted" />
-            </div>
-            <div className="card p-6 space-y-4">
-              {[
-                { label: 'Authentic Media', value: stats.eyesTotal - stats.threatsDetected > 0 ? stats.eyesTotal - stats.threatsDetected : 0, color: '#00D46A', bg: 'rgba(0,212,106,0.1)' },
-                { label: 'Fake / Manipulated', value: stats.threatsDetected, color: '#FF3B3B', bg: 'rgba(255,59,59,0.1)' },
-                { label: 'Uncertain / Review', value: 0, color: '#FFB020', bg: 'rgba(255,176,32,0.1)' },
-              ].map(({ label, value, color }) => (
-                <div key={label} className="space-y-1.5">
-                  <div className="flex items-center justify-between">
-                    <span className="text-text-secondary font-label text-xs">{label}</span>
-                    <span className="font-body text-sm" style={{ color }}>{value}</span>
-                  </div>
-                  <div className="h-1.5 bg-bg-tertiary rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full"
-                      style={{
-                        width: stats.eyesTotal > 0 ? `${(value / stats.eyesTotal) * 100}%` : '0%',
-                        background: color,
-                        boxShadow: `0 0 8px ${color}60`,
-                        transition: 'width 1s ease',
-                      }}
-                    />
+          <div className="glass" style={{ borderRadius: 20, overflow: 'hidden' }}>
+            {loading ? (
+              [...Array(3)].map((_, i) => (
+                <div key={i} style={{ padding: '16px 20px', borderBottom: '1px solid var(--glass-border)', display: 'flex', gap: 12, alignItems: 'center' }}>
+                  <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--void-3)' }} />
+                  <div style={{ flex: 1 }}>
+                    <div style={{ height: 12, background: 'var(--void-3)', borderRadius: 4, marginBottom: 6, width: '60%' }} />
+                    <div style={{ height: 10, background: 'var(--void-3)', borderRadius: 4, width: '30%' }} />
                   </div>
                 </div>
-              ))}
-              <div className="pt-2 border-t border-border-color">
-                <p className="text-text-muted font-label text-xs">
-                  Based on {stats.eyesTotal} media scan{stats.eyesTotal !== 1 ? 's' : ''}
-                </p>
+              ))
+            ) : activity.length === 0 ? (
+              <div style={{ padding: 40, textAlign: 'center' }}>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-3)' }}>No activity yet. Run your first scan.</p>
               </div>
-            </div>
+            ) : (
+              activity.map((item, i) => {
+                const icons = { eyes: Eye, nose: Wifi, brain: Brain, news: Newspaper }
+                const Icon = icons[item.type]
+                return (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.06 }}
+                    style={{ padding: '14px 20px', borderBottom: i < activity.length - 1 ? '1px solid var(--glass-border)' : 'none', display: 'flex', alignItems: 'center', gap: 14 }}
+                  >
+                    <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <Icon size={14} style={{ color: 'var(--text-3)' }} />
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: 2 }}>{item.label}</p>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <Clock size={10} style={{ color: 'var(--text-3)' }} />
+                        <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>{formatRelativeTime(item.created_at)}</span>
+                        {item.result && (
+                          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: getResultLabel(item.result).color, background: `${getResultLabel(item.result).color}22`, padding: '2px 6px', borderRadius: 4 }}>
+                            {getResultLabel(item.result).label}
+                          </span>
+                        )}
+                        {item.type === 'nose' && item.score !== undefined && (
+                          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: getRiskColor(item.score), background: `${getRiskColor(item.score)}22`, padding: '2px 6px', borderRadius: 4 }}>
+                            Risk: {item.score}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                )
+              })
+            )}
           </div>
         </div>
+
+        <style>{`@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }`}</style>
       </div>
     </Layout>
   )

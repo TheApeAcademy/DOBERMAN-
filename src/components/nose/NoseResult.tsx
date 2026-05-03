@@ -92,7 +92,7 @@ export function NoseResult({ scan }: NoseResultProps) {
 
   const exportReport = () => {
     const report = [
-      'DOBERMAN NETWORK SECURITY REPORT',
+      'D0B3RMAN NETWORK SECURITY REPORT',
       '='.repeat(40),
       `Date: ${new Date(scan.created_at).toLocaleString()}`,
       `Overall Risk Score: ${scan.overall_risk_score}/100`,

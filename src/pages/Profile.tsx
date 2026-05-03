@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { LogOut, Eye, Wifi, Brain, Calendar, Crown } from 'lucide-react'
+import { LogOut, Eye, Wifi, Brain, Calendar, Crown, Settings } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
@@ -10,6 +10,16 @@ interface Stats {
   eyesTotal: number
   noseTotal: number
   brainTotal: number
+}
+
+const card: React.CSSProperties = {
+  background: 'rgba(255,255,255,0.03)',
+  border: '1px solid rgba(255,255,255,0.08)',
+  borderRadius: 20,
+  padding: 24,
+  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07)',
+  backdropFilter: 'blur(28px)',
+  WebkitBackdropFilter: 'blur(28px)',
 }
 
 export default function Profile() {
@@ -25,11 +35,7 @@ export default function Profile() {
       supabase.from('nose_scans').select('*', { count: 'exact', head: true }).eq('user_id', user.id),
       supabase.from('brain_conversations').select('*', { count: 'exact', head: true }).eq('user_id', user.id),
     ]).then(([eyes, nose, brain]) => {
-      setStats({
-        eyesTotal: eyes.count || 0,
-        noseTotal: nose.count || 0,
-        brainTotal: brain.count || 0,
-      })
+      setStats({ eyesTotal: eyes.count || 0, noseTotal: nose.count || 0, brainTotal: brain.count || 0 })
       setLoading(false)
     })
   }, [user])
@@ -42,94 +48,116 @@ export default function Profile() {
   const initials = getInitials(profile?.name || null, profile?.email || null)
   const avatarColor = getAvatarColor(profile?.email || profile?.name || 'U')
   const displayName = profile?.name || profile?.email?.split('@')[0] || 'User'
+  const isPro = profile?.plan === 'pro'
+
+  const statItems = [
+    { icon: Eye, label: 'EYES Scans', value: stats.eyesTotal, color: 'var(--text-2)' },
+    { icon: Wifi, label: 'NOSE Scans', value: stats.noseTotal, color: 'var(--text-2)' },
+    { icon: Brain, label: 'BRAIN Chats', value: stats.brainTotal, color: 'var(--text-2)' },
+  ]
 
   return (
-    <Layout profile={profile} onSignOut={signOut} title="Profile">
-      <div className="p-6 max-w-2xl mx-auto page-fade space-y-6">
-        {/* Profile card */}
-        <div className="card p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6">
-          <div
-            className="w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-display shrink-0"
-            style={{ background: avatarColor }}
-          >
-            {initials}
-          </div>
-          <div className="flex-1 text-center sm:text-left space-y-2">
-            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2">
-              <h1 className="font-heading font-bold text-2xl text-text-primary">{displayName}</h1>
-              <span
-                className="flex items-center gap-1 px-2 py-0.5 rounded text-xs font-label font-medium"
-                style={{
-                  background: profile?.plan === 'pro' ? 'rgba(255,176,32,0.15)' : 'rgba(59,130,246,0.15)',
-                  color: profile?.plan === 'pro' ? '#FFB020' : '#3B82F6',
-                  border: `1px solid ${profile?.plan === 'pro' ? 'rgba(255,176,32,0.3)' : 'rgba(59,130,246,0.3)'}`,
-                }}
-              >
-                {profile?.plan === 'pro' && <Crown size={10} />}
-                {(profile?.plan || 'FREE').toUpperCase()}
-              </span>
-            </div>
-            <p className="text-text-muted font-body text-sm">{profile?.email || user?.email}</p>
-            <div className="flex items-center gap-1.5 justify-center sm:justify-start">
-              <Calendar size={12} className="text-text-muted" />
-              <span className="text-text-muted font-label text-xs">
-                Member since {profile?.created_at ? formatDate(profile.created_at) : 'recently'}
-              </span>
-            </div>
-          </div>
+    <Layout profile={profile} onSignOut={signOut} title="PROFILE">
+      <div style={{ padding: '28px 28px 48px', maxWidth: 680, margin: '0 auto' }}>
+
+        {/* Page header */}
+        <div style={{ marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>PROFILE</h1>
+          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-3)', marginTop: 3 }}>ACCOUNT OVERVIEW</p>
         </div>
 
-        {/* Stats */}
-        <div>
-          <h2 className="font-heading font-bold text-text-primary mb-4">Activity Stats</h2>
-          <div className="grid grid-cols-3 gap-4">
-            {[
-              { icon: Eye, label: 'EYES Scans', value: stats.eyesTotal, color: '#3B82F6' },
-              { icon: Wifi, label: 'NOSE Scans', value: stats.noseTotal, color: '#8B5CF6' },
-              { icon: Brain, label: 'BRAIN Chats', value: stats.brainTotal, color: '#00D46A' },
-            ].map(({ icon: Icon, label, value, color }) => (
-              <div key={label} className="card p-4 text-center">
-                <Icon size={20} className="mx-auto mb-2" style={{ color }} />
-                <p className="font-display text-3xl text-text-primary">{loading ? '-' : value}</p>
-                <p className="text-text-muted font-label text-xs mt-1">{label}</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+          {/* Identity card */}
+          <div style={card}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+              <div style={{
+                width: 72, height: 72, borderRadius: '50%',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: 'white', fontSize: 22, fontFamily: 'Bebas Neue',
+                letterSpacing: '0.05em', flexShrink: 0, background: avatarColor,
+                boxShadow: '0 0 0 3px rgba(255,255,255,0.08)',
+              }}>
+                {initials}
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Plan */}
-        <div className="card p-5">
-          <h2 className="font-heading font-bold text-text-primary mb-4">Current Plan</h2>
-          <div className="flex items-center justify-between p-4 bg-bg-tertiary rounded-lg border border-border-color">
-            <div>
-              <p className="text-text-primary font-body font-medium">Free Plan</p>
-              <p className="text-text-muted font-label text-xs mt-0.5">3 EYES scans/day - 3 NOSE scans/day - 10 BRAIN messages/day</p>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                  <h2 style={{ fontFamily: 'Syne', fontSize: 20, fontWeight: 700, color: 'var(--text-1)' }}>{displayName}</h2>
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 4,
+                    padding: '3px 10px', borderRadius: 6,
+                    fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em',
+                    background: isPro ? 'rgba(255,176,32,0.1)' : 'rgba(255,255,255,0.05)',
+                    border: `1px solid ${isPro ? 'rgba(255,176,32,0.3)' : 'rgba(255,255,255,0.1)'}`,
+                    color: isPro ? '#FFB020' : 'var(--text-3)',
+                  }}>
+                    {isPro && <Crown size={9} />}
+                    {(profile?.plan || 'FREE').toUpperCase()}
+                  </span>
+                </div>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)', marginTop: 4 }}>{profile?.email || user?.email}</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 6 }}>
+                  <Calendar size={11} style={{ color: 'var(--text-3)' }} />
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)' }}>
+                    Member since {profile?.created_at ? formatDate(profile.created_at) : 'recently'}
+                  </span>
+                </div>
+              </div>
             </div>
-            <button
-              className="btn-primary text-sm px-4 py-2"
-              onClick={() => {}}
-            >
-              Upgrade to Pro
-            </button>
           </div>
-        </div>
 
-        {/* Actions */}
-        <div className="card p-5 space-y-3">
-          <h2 className="font-heading font-bold text-text-primary mb-2">Account Actions</h2>
-          <button
-            onClick={() => navigate('/settings')}
-            className="w-full btn-secondary justify-start"
-          >
-            Edit Profile Settings
-          </button>
-          <button
-            onClick={handleSignOut}
-            className="w-full btn-danger justify-start"
-          >
-            <LogOut size={16} />
-            Sign Out
-          </button>
+          {/* Activity stats */}
+          <div>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 10, textTransform: 'uppercase' }}>Activity Stats</p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12 }}>
+              {statItems.map(({ icon: Icon, label, value, color }) => (
+                <div key={label} style={{ ...card, padding: '20px 16px', textAlign: 'center' }}>
+                  <Icon size={18} style={{ color, margin: '0 auto 10px' }} />
+                  <p style={{ fontFamily: 'Bebas Neue', fontSize: 36, letterSpacing: '0.05em', color: 'var(--text-1)', lineHeight: 1 }}>
+                    {loading ? '—' : value}
+                  </p>
+                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--text-3)', marginTop: 6, textTransform: 'uppercase' }}>{label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Plan */}
+          <div style={card}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 16, textTransform: 'uppercase' }}>Current Plan</p>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 18px', borderRadius: 14, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)', gap: 16 }}>
+              <div>
+                <p style={{ fontFamily: 'Syne', fontSize: 14, fontWeight: 600, color: 'var(--text-1)', marginBottom: 4 }}>Free Plan</p>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)' }}>3 EYES · 3 NOSE · 10 BRAIN / day</p>
+              </div>
+              <button className="btn-primary" style={{ padding: '9px 18px', fontSize: 11, flexShrink: 0 }}>
+                Upgrade to Pro
+              </button>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div style={card}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 16, textTransform: 'uppercase' }}>Account Actions</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <button
+                onClick={() => navigate('/settings')}
+                className="btn-secondary"
+                style={{ justifyContent: 'flex-start', gap: 10, padding: '12px 16px' }}
+              >
+                <Settings size={14} />
+                Edit Profile Settings
+              </button>
+              <button
+                onClick={handleSignOut}
+                className="btn-danger"
+                style={{ justifyContent: 'flex-start', gap: 10, padding: '12px 16px' }}
+              >
+                <LogOut size={14} />
+                Sign Out
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </Layout>

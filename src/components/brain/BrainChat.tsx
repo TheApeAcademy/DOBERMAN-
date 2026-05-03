@@ -71,7 +71,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
               <div className="w-12 h-12 mx-auto rounded-full bg-green-900/20 border border-green-800/30 flex items-center justify-center">
                 <Brain size={20} className="text-accent-green" />
               </div>
-              <p className="font-heading font-bold text-text-primary">DOBERMAN BRAIN</p>
+              <p className="font-heading font-bold text-text-primary">D0B3RMAN BRAIN</p>
               <p className="text-text-muted font-body text-sm max-w-sm">
                 Your dedicated AI security analyst. Ask me anything about cybersecurity threats, vulnerabilities, and best practices.
               </p>
@@ -123,7 +123,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask DOBERMAN anything about cybersecurity..."
+                placeholder="Ask D0B3RMAN anything about cybersecurity..."
                 rows={1}
                 className="input pr-10 resize-none overflow-hidden"
                 style={{ minHeight: '42px', maxHeight: '120px' }}

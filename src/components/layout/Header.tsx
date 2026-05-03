@@ -1,4 +1,4 @@
-import { Menu, Bell, ChevronDown } from 'lucide-react'
+import { Menu } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import type { Profile } from '../../lib/supabase'
 import { getInitials, getAvatarColor } from '../../lib/utils'
@@ -13,52 +13,49 @@ export function Header({ profile, onMenuClick, title }: HeaderProps) {
   const initials = getInitials(profile?.name || null, profile?.email || null)
   const avatarColor = getAvatarColor(profile?.email || profile?.name || 'U')
   const now = new Date()
-  const dateStr = now.toLocaleDateString('en-GB', {
-    weekday: 'short',
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  })
+  const dateStr = now.toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })
 
   return (
-    <header className="h-14 bg-bg-secondary border-b border-border-color flex items-center px-4 gap-4 shrink-0">
-      {/* Mobile menu button */}
+    <header
+      className="glass"
+      style={{
+        height: 56,
+        borderBottom: '1px solid var(--glass-border)',
+        borderRadius: 0,
+        display: 'flex',
+        alignItems: 'center',
+        padding: '0 20px',
+        gap: 16,
+        flexShrink: 0,
+      }}
+    >
       <button
         onClick={onMenuClick}
-        className="lg:hidden text-text-muted hover:text-text-primary transition-colors p-1 rounded"
+        style={{ background: 'none', border: 'none', color: 'var(--text-3)', padding: 4 }}
+        className="lg-hide"
       >
+        <style>{`@media (min-width: 1024px) { .lg-hide { display: none !important; } }`}</style>
         <Menu size={20} />
       </button>
 
-      {/* Page title / breadcrumb */}
-      <div className="flex-1">
+      <div style={{ flex: 1 }}>
         {title && (
-          <h1 className="text-text-primary font-heading font-bold text-sm">{title}</h1>
+          <h1 style={{ fontFamily: 'JetBrains Mono', fontSize: 12, letterSpacing: '0.15em', color: 'var(--text-3)', textTransform: 'uppercase' }}>
+            {title}
+          </h1>
         )}
       </div>
 
-      {/* Right side */}
-      <div className="flex items-center gap-4">
-        <span className="hidden sm:block text-text-muted text-xs font-body">{dateStr}</span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+        <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>{dateStr}</span>
 
-        <button className="text-text-muted hover:text-text-primary transition-colors p-1 rounded relative">
-          <Bell size={18} />
-        </button>
-
-        <NavLink
-          to="/profile"
-          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-        >
-          <div
-            className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-label font-semibold"
-            style={{ background: avatarColor }}
-          >
+        <NavLink to="/profile" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 11, fontFamily: 'JetBrains Mono', fontWeight: 600, background: avatarColor }}>
             {initials}
           </div>
-          <span className="hidden sm:block text-text-primary text-sm font-label font-medium">
+          <span style={{ fontFamily: 'Syne', fontSize: 13, fontWeight: 600, color: 'var(--text-2)' }}>
             {profile?.name?.split(' ')[0] || profile?.email?.split('@')[0] || 'User'}
           </span>
-          <ChevronDown size={14} className="text-text-muted hidden sm:block" />
         </NavLink>
       </div>
     </header>
