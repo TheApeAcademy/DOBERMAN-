@@ -121,7 +121,7 @@ export default function Auth() {
               autoPlay muted loop playsInline
               style={{ width: 340, height: 340, objectFit: 'contain', mixBlendMode: 'screen', pointerEvents: 'none' }}
             >
-              <source src="/assets/video/3D_animation___Quick_study__b3d.mp4" type="video/mp4" />
+              <source src="/assets/video/blob-cube.mp4" type="video/mp4" />
             </video>
           </div>
 

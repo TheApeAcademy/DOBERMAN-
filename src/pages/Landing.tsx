@@ -310,7 +310,7 @@ export default function Landing() {
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
               <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28 }}>
-                <BlobVideo src="/assets/video/Pin_em_Medical_videos_,_Medical_stock_footage.mp4"
+                <BlobVideo src="/assets/video/blob-brain.mp4"
                   style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }} />
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
@@ -410,7 +410,7 @@ export default function Landing() {
             <motion.div {...IN_VIEW}
               className="glass"
               style={{ padding: 40, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 360, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-              <BlobVideo src="/assets/video/Пин_от_пользователя_Harsh_Vekariya_на_доске_Pins_by_you___Моушн-дизайн,_Анимационный_дизайн,_Элементы_дизайна.mp4"
+              <BlobVideo src="/assets/video/blob-news.mp4"
                 style={{ inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.4, zIndex: 0 }} />
               <div style={{ position: 'relative', zIndex: 1 }}>
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--danger)', marginBottom: 16 }}>VERDICT -- LIKELY FALSE</p>
