@@ -52,8 +52,6 @@ export default function Landing() {
   const hContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    // No scope — queries must be global so .gsap-heading and .h-container
-    // resolve across the whole document, not just inside hContainerRef
     const ctx = gsap.context(() => {
       gsap.utils.toArray<HTMLElement>('.gsap-heading').forEach((el) => {
         gsap.fromTo(
@@ -143,7 +141,6 @@ export default function Landing() {
       {/* ─── HERO ────────────────────────────────────────── */}
       <section style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', background: '#000', display: 'flex', alignItems: 'center' }}>
 
-        {/* Doberman portrait — right-side editorial. Pure black bg blends into void. */}
         <motion.div
           className="hero-portrait"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
@@ -170,33 +167,25 @@ export default function Landing() {
             [ CYBERSECURITY INTELLIGENCE -- 2026 ]
           </motion.p>
 
-          {/* TYPE STACK — blob intersects between words */}
           <div style={{ position: 'relative', marginBottom: 48 }}>
-
-            {/* Word 1 — BEHIND the blob */}
             <motion.div
               initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
               style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(80px, 15vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
               THE
             </motion.div>
-
-            {/* Word 2 — IN FRONT of the blob */}
             <motion.div
               initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
               style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(80px, 15vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 3 }}>
               WATCH-
             </motion.div>
-
-            {/* Word 3 — BEHIND the blob again */}
             <motion.div
               initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
               style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(80px, 15vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
               DOG.
             </motion.div>
-
           </div>
 
           <motion.p
@@ -232,7 +221,6 @@ export default function Landing() {
             Free tier -- no credit card required
           </motion.p>
 
-          {/* Decorative metadata */}
           <p style={{ position: 'absolute', top: 120, right: 0, fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(255,255,255,0.1)', letterSpacing: '0.1em', writingMode: 'vertical-rl', zIndex: 5 }}>
             CYBERSECURITY -- EST. 2026
           </p>
@@ -241,7 +229,6 @@ export default function Landing() {
           </p>
         </div>
 
-        {/* Bottom fade */}
         <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 200, background: 'linear-gradient(to bottom, transparent, #000)', zIndex: 3, pointerEvents: 'none' }} />
       </section>
 
@@ -271,7 +258,7 @@ export default function Landing() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
 
-            {/* EYES — from left */}
+            {/* EYES */}
             <motion.div
               className="glass"
               initial={{ opacity: 0, x: -80, rotate: -3 }}
@@ -281,7 +268,6 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              {/* Video inside card — playing through glass window */}
               <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
                 <video
                   autoPlay muted loop playsInline
@@ -303,7 +289,7 @@ export default function Landing() {
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>Hive AI - XceptionNet - EfficientNet - MesoNet</p>
             </motion.div>
 
-            {/* NOSE — from below */}
+            {/* NOSE */}
             <motion.div
               className="glass"
               initial={{ opacity: 0, y: 80, scale: 0.94 }}
@@ -314,12 +300,11 @@ export default function Landing() {
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
               <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
-                <video
-                  autoPlay muted loop playsInline
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-                >
-                  <source src="/assets/video/blob-nose.mp4" type="video/mp4" />
-                </video>
+                <img
+                  src="/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg"
+                  alt=""
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
                   NOSE -- NETWORK INTELLIGENCE
@@ -334,7 +319,7 @@ export default function Landing() {
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>NIST NVD - Real CVE Mapping - Device Fingerprinting</p>
             </motion.div>
 
-            {/* BRAIN — from right */}
+            {/* BRAIN */}
             <motion.div
               className="glass"
               initial={{ opacity: 0, x: 80, rotate: 3 }}
@@ -346,11 +331,10 @@ export default function Landing() {
             >
               <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
                 <video
-                  autoPlay muted loop playsInline
+                  autoPlay muted loop playsInline preload="auto"
+                  src="/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4"
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-                >
-                  <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
-                </video>
+                />
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
                   BRAIN -- AI SECURITY ANALYST
@@ -405,16 +389,8 @@ export default function Landing() {
               className="h-panel"
               style={{ width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: '#000' }}
             >
-              <VideoBlob
-                src="/assets/video/blob-news.mp4"
-                cover
-                opacity={0.25}
-                style={{ zIndex: 0 }}
-              />
-              <div
-                className="glass"
-                style={{ position: 'relative', zIndex: 1, padding: 'clamp(32px,6vw,60px) clamp(24px,7vw,72px)', borderRadius: 32, maxWidth: 600, textAlign: 'center' }}
-              >
+              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.25} style={{ zIndex: 0 }} />
+              <div className="glass" style={{ position: 'relative', zIndex: 1, padding: 'clamp(32px,6vw,60px) clamp(24px,7vw,72px)', borderRadius: 32, maxWidth: 600, textAlign: 'center' }}>
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.25)', marginBottom: 20 }}>
                   {panel.num} -- {panel.module}
                 </p>
@@ -432,12 +408,7 @@ export default function Landing() {
 
       {/* ─── BLOB DIVIDER ────────────────────────────────── */}
       <div style={{ position: 'relative', height: 240, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000' }}>
-        <VideoBlob
-          src="/assets/video/blob-divider.mp4"
-          cover
-          opacity={0.4}
-          style={{ zIndex: 0 }}
-        />
+        <VideoBlob src="/assets/video/blob-divider.mp4" cover opacity={0.4} style={{ zIndex: 0 }} />
         <span style={{ position: 'relative', zIndex: 1, fontFamily: 'Bebas Neue', fontSize: 'clamp(60px, 12vw, 140px)', letterSpacing: '0.25em', color: 'rgba(255,255,255,0.03)', pointerEvents: 'none', userSelect: 'none' }}>
           D0B3RMAN
         </span>
@@ -467,18 +438,12 @@ export default function Landing() {
               </motion.button>
             </motion.div>
 
-            {/* Glass panel with decorative news metadata */}
             <motion.div
               {...IN_VIEW}
               className="glass"
               style={{ flex: '1 1 300px', padding: 40, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 360, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}
             >
-              <VideoBlob
-                src="/assets/video/blob-news.mp4"
-                cover
-                opacity={0.4}
-                style={{ zIndex: 0 }}
-              />
+              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.4} style={{ zIndex: 0 }} />
               <div style={{ position: 'relative', zIndex: 1 }}>
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--danger)', marginBottom: 16 }}>VERDICT -- LIKELY FALSE</p>
                 <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 18, lineHeight: 1.4, marginBottom: 12 }}>"Breaking: Scientists Confirm AI Will Replace All Jobs By 2025"</p>
@@ -521,7 +486,6 @@ export default function Landing() {
               </motion.button>
             </motion.div>
 
-            {/* Extension demo — glass frame showing mock overlay */}
             <motion.div
               {...IN_VIEW}
               className="glass"
@@ -551,12 +515,7 @@ export default function Landing() {
 
       {/* ─── BLOB DIVIDER 2 ──────────────────────────────── */}
       <div style={{ position: 'relative', height: 240, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000' }}>
-        <VideoBlob
-          src="/assets/video/blob-cta.mp4"
-          cover
-          opacity={0.35}
-          style={{ zIndex: 0 }}
-        />
+        <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.35} style={{ zIndex: 0 }} />
         <span style={{ position: 'relative', zIndex: 1, fontFamily: 'Bebas Neue', fontSize: 'clamp(60px, 12vw, 140px)', letterSpacing: '0.25em', color: 'rgba(255,255,255,0.03)', userSelect: 'none' }}>
           SECURITY
         </span>
@@ -615,7 +574,7 @@ export default function Landing() {
               <span style={{ position: 'absolute', top: 20, right: 20, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: r.badgeColor, background: `${r.badgeColor}22`, border: `1px solid ${r.badgeColor}44`, padding: '3px 8px', borderRadius: 4 }}>
                 {r.badge}
               </span>
-              <p style={{ fontFamily: 'Syne', fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.65, marginBottom: 24, marginTop: 8 }}>"{ r.text}"</p>
+              <p style={{ fontFamily: 'Syne', fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.65, marginBottom: 24, marginTop: 8 }}>"{r.text}"</p>
               <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 14, color: 'white' }}>{r.author}</p>
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.25)', marginTop: 4 }}>{r.role}</p>
             </motion.div>
@@ -625,14 +584,8 @@ export default function Landing() {
 
       {/* ─── FINAL CTA ───────────────────────────────────── */}
       <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: '#000' }}>
-        <VideoBlob
-          src="/assets/video/blob-cta.mp4"
-          cover
-          opacity={0.5}
-          style={{ zIndex: 0 }}
-        />
+        <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.5} style={{ zIndex: 0 }} />
         <div style={{ position: 'relative', zIndex: 1, padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 720 }}>
-          {/* Orange blob in the open space above the card */}
           <div style={{ position: 'relative', height: 480, width: '100%', marginBottom: -60, overflow: 'visible', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <video
               autoPlay muted loop playsInline preload="auto"
