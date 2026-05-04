@@ -184,7 +184,7 @@ export default function Landing() {
   }, [])
 
   return (
-    <div style={{ background: '#000', minHeight: '100vh', overflowX: 'hidden' }}>
+    <div style={{ background: 'transparent', minHeight: '100vh', overflowX: 'hidden' }}>
 
       {/* ─── NAV ─────────────────────────────────────────── */}
       <nav style={{
@@ -227,7 +227,7 @@ export default function Landing() {
       </nav>
 
       {/* ─── HERO ────────────────────────────────────────── */}
-      <section style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', background: '#000', display: 'flex', alignItems: 'center' }}>
+      <section style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', background: 'transparent', display: 'flex', alignItems: 'center' }}>
         <HeroSparkles />
 
         <motion.div
@@ -318,7 +318,7 @@ export default function Landing() {
           </p>
         </div>
 
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 200, background: 'linear-gradient(to bottom, transparent, #000)', zIndex: 3, pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 200, background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.7))', zIndex: 3, pointerEvents: 'none' }} />
       </section>
 
       {/* ─── STATS TICKER ────────────────────────────────── */}
@@ -333,7 +333,7 @@ export default function Landing() {
       </div>
 
       {/* ─── MODULES ─────────────────────────────────────── */}
-      <section id="modules" style={{ position: 'relative', overflow: 'hidden', padding: 'clamp(60px,10vw,120px) clamp(20px,4vw,48px)', background: '#000' }}>
+      <section id="modules" style={{ position: 'relative', overflow: 'hidden', padding: 'clamp(60px,10vw,120px) clamp(20px,4vw,48px)', background: 'transparent' }}>
 
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 80 }}>
@@ -476,7 +476,7 @@ export default function Landing() {
             <div
               key={i}
               className="h-panel"
-              style={{ width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: '#000' }}
+              style={{ width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: 'transparent' }}
             >
               <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.25} style={{ zIndex: 0 }} />
               <div className="glass" style={{ position: 'relative', zIndex: 1, padding: 'clamp(32px,6vw,60px) clamp(24px,7vw,72px)', borderRadius: 32, maxWidth: 600, textAlign: 'center' }}>
@@ -496,7 +496,7 @@ export default function Landing() {
       </div>
 
       {/* ─── BLOB DIVIDER ────────────────────────────────── */}
-      <div style={{ position: 'relative', height: 240, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000' }}>
+      <div style={{ position: 'relative', height: 240, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent' }}>
         <VideoBlob src="/assets/video/blob-divider.mp4" cover opacity={0.4} style={{ zIndex: 0 }} />
         <span style={{ position: 'relative', zIndex: 1, fontFamily: 'Bebas Neue', fontSize: 'clamp(60px, 12vw, 140px)', letterSpacing: '0.25em', color: 'rgba(255,255,255,0.03)', pointerEvents: 'none', userSelect: 'none' }}>
           D0B3RMAN
@@ -504,7 +504,7 @@ export default function Landing() {
       </div>
 
       {/* ─── NEWS SECTION ────────────────────────────────── */}
-      <section id="news" style={{ position: 'relative', overflow: 'hidden', padding: 'clamp(60px,10vw,100px) clamp(20px,4vw,48px)', background: '#000' }}>
+      <section id="news" style={{ position: 'relative', overflow: 'hidden', padding: 'clamp(60px,10vw,100px) clamp(20px,4vw,48px)', background: 'transparent' }}>
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 60, alignItems: 'center' }}>
             <motion.div {...IN_VIEW} style={{ flex: '1 1 300px' }}>
@@ -548,7 +548,7 @@ export default function Landing() {
       </section>
 
       {/* ─── EXTENSION SECTION ───────────────────────────── */}
-      <section id="extension" style={{ padding: 'clamp(60px,10vw,100px) clamp(20px,4vw,48px)', borderTop: '1px solid rgba(255,255,255,0.05)', background: 'rgba(4,4,4,0.98)' }}>
+      <section id="extension" style={{ padding: 'clamp(60px,10vw,100px) clamp(20px,4vw,48px)', borderTop: '1px solid rgba(255,255,255,0.05)', background: 'transparent' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 60, alignItems: 'center' }}>
             <motion.div {...IN_VIEW} style={{ flex: '1 1 300px' }}>
@@ -603,7 +603,7 @@ export default function Landing() {
       </section>
 
       {/* ─── BLOB DIVIDER 2 ──────────────────────────────── */}
-      <div style={{ position: 'relative', height: 240, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000' }}>
+      <div style={{ position: 'relative', height: 240, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent' }}>
         <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.35} style={{ zIndex: 0 }} />
         <span style={{ position: 'relative', zIndex: 1, fontFamily: 'Bebas Neue', fontSize: 'clamp(60px, 12vw, 140px)', letterSpacing: '0.25em', color: 'rgba(255,255,255,0.03)', userSelect: 'none' }}>
           SECURITY
@@ -611,7 +611,7 @@ export default function Landing() {
       </div>
 
       {/* ─── REVIEWS ─────────────────────────────────────── */}
-      <section id="reviews" style={{ padding: 'clamp(60px,8vw,100px) 0 clamp(60px,8vw,100px) clamp(20px,4vw,48px)', overflow: 'hidden', background: '#000' }}>
+      <section id="reviews" style={{ padding: 'clamp(60px,8vw,100px) 0 clamp(60px,8vw,100px) clamp(20px,4vw,48px)', overflow: 'hidden', background: 'transparent' }}>
         <motion.div {...IN_VIEW} style={{ maxWidth: 1200, marginBottom: 56 }}>
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
@@ -625,7 +625,7 @@ export default function Landing() {
               alt="Doberman"
               style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
             />
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '40%', background: 'linear-gradient(to bottom, transparent, #000)' }} />
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '40%', background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.8))' }} />
           </motion.div>
           <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 20 }}>[ WHAT USERS SAY ]</p>
           <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92 }}>
@@ -672,7 +672,7 @@ export default function Landing() {
       </section>
 
       {/* ─── FINAL CTA ───────────────────────────────────── */}
-      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: '#000' }}>
+      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: 'transparent' }}>
         <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.5} style={{ zIndex: 0 }} />
         <div style={{ position: 'relative', zIndex: 1, padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 720 }}>
           <div style={{ position: 'relative', height: 480, width: '100%', marginBottom: -60, overflow: 'visible', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
