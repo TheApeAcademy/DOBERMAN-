@@ -87,6 +87,17 @@ export default function News() {
 
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 1000, margin: '0 auto', padding: '40px 32px' }}>
 
+          {/* Hero video */}
+          <div style={{ position: 'relative', height: 280, borderRadius: 24, overflow: 'hidden', marginBottom: 40, background: '#060606' }}>
+            <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
+              <source src="/assets/video/blob-news.mp4" type="video/mp4" />
+            </video>
+            <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', borderRadius: 24 }} />
+            <div style={{ position: 'absolute', bottom: 16, left: 20, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', zIndex: 2 }}>
+              NEWS -- VERIFY CONTENT
+            </div>
+          </div>
+
           {/* Header */}
           <div style={{ marginBottom: 48 }}>
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'var(--danger)', marginBottom: 12 }}>
@@ -169,7 +180,6 @@ export default function News() {
                 className="glass"
                 style={{ borderRadius: 24, padding: 36, marginBottom: 32 }}
               >
-                {/* Score + verdict */}
                 <div style={{ display: 'flex', alignItems: 'flex-end', gap: 24, marginBottom: 32, flexWrap: 'wrap' }}>
                   <div>
                     <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 4 }}>
@@ -181,17 +191,7 @@ export default function News() {
                     <span style={{ fontFamily: 'JetBrains Mono', fontSize: 28, color: verdictColor }}>/100</span>
                   </div>
                   <div>
-                    <span style={{
-                      fontFamily: 'Bebas Neue',
-                      fontSize: 24,
-                      letterSpacing: '0.15em',
-                      color: verdictColor,
-                      background: `${verdictColor}22`,
-                      border: `1px solid ${verdictColor}44`,
-                      padding: '6px 16px',
-                      borderRadius: 8,
-                      display: 'inline-block',
-                    }}>
+                    <span style={{ fontFamily: 'Bebas Neue', fontSize: 24, letterSpacing: '0.15em', color: verdictColor, background: `${verdictColor}22`, border: `1px solid ${verdictColor}44`, padding: '6px 16px', borderRadius: 8, display: 'inline-block' }}>
                       {result.verdict.replace(/_/g, ' ')}
                     </span>
                     <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)', marginTop: 8 }}>
@@ -199,19 +199,13 @@ export default function News() {
                     </p>
                   </div>
                 </div>
-
-                {/* Summary */}
                 <p style={{ fontFamily: 'Syne', fontSize: 16, color: 'var(--text-2)', lineHeight: 1.7, marginBottom: 32, padding: '20px 24px', background: 'rgba(255,255,255,0.03)', borderRadius: 12, borderLeft: `3px solid ${verdictColor}` }}>
                   {result.summary}
                 </p>
-
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
-                  {/* Red flags */}
                   {result.red_flags.length > 0 && (
                     <div className="glass" style={{ padding: 20, borderRadius: 16 }}>
-                      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--danger)', marginBottom: 14 }}>
-                        RED FLAGS ({result.red_flags.length})
-                      </p>
+                      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--danger)', marginBottom: 14 }}>RED FLAGS ({result.red_flags.length})</p>
                       {result.red_flags.map((flag, i) => (
                         <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 8 }}>
                           <span style={{ color: 'var(--danger)', fontSize: 10, marginTop: 3, flexShrink: 0 }}>●</span>
@@ -220,13 +214,9 @@ export default function News() {
                       ))}
                     </div>
                   )}
-
-                  {/* Positive signals */}
                   {result.positive_signals.length > 0 && (
                     <div className="glass" style={{ padding: 20, borderRadius: 16 }}>
-                      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--safe)', marginBottom: 14 }}>
-                        POSITIVE SIGNALS ({result.positive_signals.length})
-                      </p>
+                      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--safe)', marginBottom: 14 }}>POSITIVE SIGNALS ({result.positive_signals.length})</p>
                       {result.positive_signals.map((sig, i) => (
                         <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 8 }}>
                           <span style={{ color: 'var(--safe)', fontSize: 10, marginTop: 3, flexShrink: 0 }}>●</span>
@@ -236,8 +226,6 @@ export default function News() {
                     </div>
                   )}
                 </div>
-
-                {/* Recommendation */}
                 <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: '16px 20px', display: 'flex', gap: 12, alignItems: 'flex-start' }}>
                   <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.1em', color: 'var(--chrome-dim)', whiteSpace: 'nowrap', marginTop: 2 }}>NEXT STEP</span>
                   <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-1)', lineHeight: 1.6 }}>{result.recommendation}</p>
@@ -249,16 +237,9 @@ export default function News() {
           {/* History */}
           <div ref={historyRef}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-3)' }}>
-                PAST VERIFICATIONS
-              </p>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-3)' }}>PAST VERIFICATIONS</p>
               {!historyLoaded && (
-                <button
-                  onClick={loadHistory}
-                  style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--chrome-dim)', background: 'none', border: '1px solid var(--glass-border)', padding: '6px 14px', borderRadius: 6 }}
-                >
-                  Load History
-                </button>
+                <button onClick={loadHistory} style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--chrome-dim)', background: 'none', border: '1px solid var(--glass-border)', padding: '6px 14px', borderRadius: 6 }}>Load History</button>
               )}
             </div>
             {historyLoaded && history.length === 0 && (
@@ -267,28 +248,13 @@ export default function News() {
             {history.map((item, i) => {
               const color = VERDICT_COLORS[item.verdict] || 'var(--chrome-dim)'
               return (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06 }}
-                  className="glass"
-                  style={{ borderRadius: 14, padding: '16px 20px', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 16 }}
-                >
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 18, fontWeight: 700, color, minWidth: 40 }}>
-                    {item.credibility_score}
-                  </span>
+                <motion.div key={item.id} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }} className="glass" style={{ borderRadius: 14, padding: '16px 20px', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 16 }}>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 18, fontWeight: 700, color, minWidth: 40 }}>{item.credibility_score}</span>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-1)', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {item.content.slice(0, 80)}{item.content.length > 80 ? '...' : ''}
-                    </p>
-                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>
-                      {new Date(item.created_at).toLocaleDateString()}
-                    </p>
+                    <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-1)', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.content.slice(0, 80)}{item.content.length > 80 ? '...' : ''}</p>
+                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>{new Date(item.created_at).toLocaleDateString()}</p>
                   </div>
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em', color, background: `${color}22`, border: `1px solid ${color}44`, padding: '3px 8px', borderRadius: 4, whiteSpace: 'nowrap' }}>
-                    {item.verdict.replace(/_/g, ' ')}
-                  </span>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em', color, background: `${color}22`, border: `1px solid ${color}44`, padding: '3px 8px', borderRadius: 4, whiteSpace: 'nowrap' }}>{item.verdict.replace(/_/g, ' ')}</span>
                 </motion.div>
               )
             })}
