@@ -9,6 +9,75 @@ import { VideoBlob } from '../components/ui/VideoBlob'
 
 gsap.registerPlugin(ScrollTrigger)
 
+// Lightweight 2D foreground sparkles — sit above hero text (z-index 4)
+// to create the "sandwich" effect where particles pass over the headline
+function HeroSparkles() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth
+      canvas.height = canvas.offsetHeight
+    }
+    resize()
+    window.addEventListener('resize', resize)
+
+    type Particle = { x: number; y: number; vx: number; vy: number; opacity: number; size: number; life: number; maxLife: number }
+    const particles: Particle[] = []
+    const spawn = () => {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: canvas.height + 10,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: -(0.4 + Math.random() * 0.8),
+        opacity: 0,
+        size: 1 + Math.random() * 2.5,
+        life: 0,
+        maxLife: 180 + Math.random() * 120,
+      })
+    }
+
+    let frame = 0
+    let raf: number
+    const tick = () => {
+      raf = requestAnimationFrame(tick)
+      frame++
+      if (frame % 8 === 0 && particles.length < 55) spawn()
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i]
+        p.x += p.vx
+        p.y += p.vy
+        p.life++
+        const progress = p.life / p.maxLife
+        p.opacity = progress < 0.15 ? progress / 0.15 : progress > 0.75 ? 1 - (progress - 0.75) / 0.25 : 1
+        if (p.life >= p.maxLife || p.y < -10) { particles.splice(i, 1); continue }
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(220, 220, 255, ${p.opacity * 0.7})`
+        ctx.fill()
+      }
+    }
+    tick()
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('resize', resize)
+    }
+  }, [])
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 4, pointerEvents: 'none' }}
+    />
+  )
+}
+
 const stats = [
   '400% -- DEEPFAKE ATTACKS UP YoY',
   '✦',
@@ -66,6 +135,25 @@ export default function Landing() {
               trigger: el,
               start: 'top 85%',
               toggleActions: 'play none none none',
+            },
+          }
+        )
+      })
+
+      // Scroll-linked float + rotate on module card media panels
+      gsap.utils.toArray<HTMLElement>('.module-card-media').forEach((el) => {
+        gsap.fromTo(
+          el,
+          { y: 40, rotateX: 6 },
+          {
+            y: -20,
+            rotateX: -4,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 1.5,
             },
           }
         )
@@ -140,6 +228,7 @@ export default function Landing() {
 
       {/* ─── HERO ────────────────────────────────────────── */}
       <section style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', background: '#000', display: 'flex', alignItems: 'center' }}>
+        <HeroSparkles />
 
         <motion.div
           className="hero-portrait"
@@ -268,7 +357,7 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
+              <div className="module-card-media" style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606', perspective: 1000, transformStyle: 'preserve-3d' }}>
                 <video
                   autoPlay muted loop playsInline
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
@@ -299,7 +388,7 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
+              <div className="module-card-media" style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606', perspective: 1000, transformStyle: 'preserve-3d' }}>
                 <img
                   src="/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg"
                   alt=""
@@ -329,7 +418,7 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
+              <div className="module-card-media" style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606', perspective: 1000, transformStyle: 'preserve-3d' }}>
                 <video
                   autoPlay muted loop playsInline preload="auto"
                   src="/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4"
