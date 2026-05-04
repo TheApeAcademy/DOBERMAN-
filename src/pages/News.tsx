@@ -87,6 +87,13 @@ export default function News() {
 
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 1000, margin: '0 auto', padding: '40px 32px' }}>
 
+          {/* Hero video */}
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 36 }}>
+            <video autoPlay muted loop playsInline style={{ width: '100%', maxWidth: 460, borderRadius: 28, mixBlendMode: 'screen', opacity: 0.9, pointerEvents: 'none' }}>
+              <source src="/assets/video/blob-news.mp4" type="video/mp4" />
+            </video>
+          </div>
+
           {/* Header */}
           <div style={{ marginBottom: 48 }}>
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'var(--danger)', marginBottom: 12 }}>
