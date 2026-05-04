@@ -21,8 +21,8 @@ function HeroSparkles() {
     if (!ctx) return
 
     const resize = () => {
-      canvas.width = canvas.offsetWidth
-      canvas.height = canvas.offsetHeight
+      canvas.width = canvas.offsetWidth || window.innerWidth
+      canvas.height = canvas.offsetHeight || window.innerHeight
     }
     resize()
     window.addEventListener('resize', resize)

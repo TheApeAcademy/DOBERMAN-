@@ -10,15 +10,23 @@ import {
 import { BlendFunction } from 'postprocessing'
 import * as THREE from 'three'
 
+// Stars placed within the camera frustum so every particle is actually visible.
+// Camera is at z=7, fov=42. For each star we pick a depth then compute the
+// visible x/y extent at that depth so no particles are clipped by the frustum.
 function StarField({ mouse, count }: { mouse: React.MutableRefObject<[number, number]>; count: number }) {
   const pointsRef = useRef<THREE.Points>(null)
+  const FOV_HALF_RAD = (21 * Math.PI) / 180
 
   const positions = useMemo(() => {
     const arr = new Float32Array(count * 3)
     for (let i = 0; i < count; i++) {
-      arr[i * 3]     = (Math.random() - 0.5) * 80
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 60
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 40
+      const z = -(Math.random() * 48 + 2)          // depth: z=-2 to z=-50
+      const dist = 7 - z                            // distance from camera
+      const spreadY = Math.tan(FOV_HALF_RAD) * dist // frustum half-height at this depth
+      const spreadX = spreadY * 1.78               // ~16:9 aspect
+      arr[i * 3]     = (Math.random() - 0.5) * 2 * spreadX
+      arr[i * 3 + 1] = (Math.random() - 0.5) * 2 * spreadY
+      arr[i * 3 + 2] = z
     }
     return arr
   }, [count])
@@ -36,7 +44,7 @@ function StarField({ mouse, count }: { mouse: React.MutableRefObject<[number, nu
       0.04
     )
     const mat = pointsRef.current.material as THREE.PointsMaterial
-    mat.opacity = 0.55 + Math.sin(state.clock.elapsedTime * 1.1) * 0.18
+    mat.opacity = 0.6 + Math.sin(state.clock.elapsedTime * 1.1) * 0.22
   })
 
   return (
@@ -48,14 +56,35 @@ function StarField({ mouse, count }: { mouse: React.MutableRefObject<[number, nu
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.07}
-        color="#e8e8ff"
+        size={0.18}
+        color="#dde0ff"
         transparent
-        opacity={0.65}
+        opacity={0.75}
         sizeAttenuation
         depthWrite={false}
       />
     </points>
+  )
+}
+
+// Nebula in the 3D scene — large back-side spheres with emissive purple/blue.
+// Inside the canvas so they're always visible regardless of page z-index stacking.
+function NebulaClouds() {
+  return (
+    <>
+      <mesh position={[-6, 4, -26]}>
+        <sphereGeometry args={[16, 10, 10]} />
+        <meshBasicMaterial color="#2a0845" transparent opacity={0.14} depthWrite={false} side={THREE.BackSide} />
+      </mesh>
+      <mesh position={[9, -3, -20]}>
+        <sphereGeometry args={[13, 10, 10]} />
+        <meshBasicMaterial color="#080f55" transparent opacity={0.10} depthWrite={false} side={THREE.BackSide} />
+      </mesh>
+      <mesh position={[1, 3, -38]}>
+        <sphereGeometry args={[20, 10, 10]} />
+        <meshBasicMaterial color="#3a0d58" transparent opacity={0.08} depthWrite={false} side={THREE.BackSide} />
+      </mesh>
+    </>
   )
 }
 
@@ -126,6 +155,7 @@ function SatelliteOrb({
 function Scene({ mouse, starCount }: { mouse: React.MutableRefObject<[number, number]>; starCount: number }) {
   return (
     <>
+      <NebulaClouds />
       <StarField mouse={mouse} count={starCount} />
 
       <ambientLight intensity={0.2} />
@@ -161,7 +191,7 @@ function Scene({ mouse, starCount }: { mouse: React.MutableRefObject<[number, nu
 
 export function GlobalChrome3D() {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
-  const starCount = isMobile ? 800 : 2500
+  const starCount = isMobile ? 600 : 2500
   const mouse = useRef<[number, number]>([0, 0])
 
   useEffect(() => {

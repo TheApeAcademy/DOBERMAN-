@@ -63,14 +63,6 @@ export default function App() {
       <style>{`
         @keyframes spin { to { transform: rotate(360deg); } }
       `}</style>
-
-      {/* Nebula atmosphere — deep purple/blue gas clouds for cinematic depth */}
-      <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', width: '75vw', height: '75vw', left: '-20vw', top: '-20vw', background: 'radial-gradient(ellipse, rgba(45,20,80,0.14) 0%, transparent 70%)', mixBlendMode: 'screen' }} />
-        <div style={{ position: 'absolute', width: '60vw', height: '60vw', right: '-15vw', top: '25vw', background: 'radial-gradient(ellipse, rgba(15,25,100,0.11) 0%, transparent 70%)', mixBlendMode: 'screen' }} />
-        <div style={{ position: 'absolute', width: '55vw', height: '55vw', left: '20vw', bottom: '-10vw', background: 'radial-gradient(ellipse, rgba(60,15,100,0.09) 0%, transparent 70%)', mixBlendMode: 'screen' }} />
-      </div>
-
       <GlobalChrome3D />
       <div style={{ position: 'relative', zIndex: 1 }}>
         <AnimatedRoutes />
