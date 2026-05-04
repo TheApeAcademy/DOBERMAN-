@@ -281,7 +281,7 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              {/* Video inside card — playing through glass window, no mixBlendMode:screen */}
+              {/* Video inside card — playing through glass window */}
               <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
                 <video
                   autoPlay muted loop playsInline
@@ -314,11 +314,12 @@ export default function Landing() {
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
               <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
-                <img
-                  src="/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg"
-                  alt=""
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                />
+                <video
+                  autoPlay muted loop playsInline
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                >
+                  <source src="/assets/video/blob-nose.mp4" type="video/mp4" />
+                </video>
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
                   NOSE -- NETWORK INTELLIGENCE
@@ -345,10 +346,11 @@ export default function Landing() {
             >
               <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
                 <video
-                  autoPlay muted loop playsInline preload="auto"
-                  src="/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4"
+                  autoPlay muted loop playsInline
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-                />
+                >
+                  <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
+                </video>
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
                   BRAIN -- AI SECURITY ANALYST
@@ -472,7 +474,7 @@ export default function Landing() {
               style={{ flex: '1 1 300px', padding: 40, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 360, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}
             >
               <VideoBlob
-                src="/assets/video/blob-divider.mp4"
+                src="/assets/video/blob-news.mp4"
                 cover
                 opacity={0.4}
                 style={{ zIndex: 0 }}
@@ -613,7 +615,7 @@ export default function Landing() {
               <span style={{ position: 'absolute', top: 20, right: 20, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: r.badgeColor, background: `${r.badgeColor}22`, border: `1px solid ${r.badgeColor}44`, padding: '3px 8px', borderRadius: 4 }}>
                 {r.badge}
               </span>
-              <p style={{ fontFamily: 'Syne', fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.65, marginBottom: 24, marginTop: 8 }}>"{r.text}"</p>
+              <p style={{ fontFamily: 'Syne', fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.65, marginBottom: 24, marginTop: 8 }}>"{ r.text}"</p>
               <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 14, color: 'white' }}>{r.author}</p>
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.25)', marginTop: 4 }}>{r.role}</p>
             </motion.div>
