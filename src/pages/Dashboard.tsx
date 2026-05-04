@@ -155,8 +155,8 @@ export default function Dashboard() {
                 onClick={() => navigate(to)}
                 style={{ padding: 24, borderRadius: 20, textAlign: 'left', position: 'relative', overflow: 'hidden' }}
               >
-                <div style={{ width: '100%', height: 140, borderRadius: 12, overflow: 'hidden', marginBottom: 18, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <video autoPlay muted loop playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', mixBlendMode: 'screen', opacity: 0.85, pointerEvents: 'none' }}>
+                <div style={{ width: '100%', height: 140, borderRadius: 12, overflow: 'hidden', marginBottom: 18 }}>
+                  <video autoPlay muted loop playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
                     <source src={video} type="video/mp4" />
                   </video>
                 </div>

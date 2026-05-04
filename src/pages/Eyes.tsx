@@ -45,7 +45,7 @@ export default function Eyes() {
 
         {/* Hero video */}
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 36 }}>
-          <video autoPlay muted loop playsInline style={{ width: '100%', maxWidth: 460, borderRadius: 28, mixBlendMode: 'screen', opacity: 0.9, pointerEvents: 'none' }}>
+          <video autoPlay muted loop playsInline style={{ width: '100%', maxWidth: 460, borderRadius: 28, pointerEvents: 'none' }}>
             <source src="/assets/video/blob-eyes.mp4" type="video/mp4" />
           </video>
         </div>
