@@ -84,10 +84,10 @@ export default function Dashboard() {
   }
 
   const moduleCards = [
-    { to: '/eyes', icon: Eye, name: 'EYES', sub: 'Deepfake Detection', desc: 'Analyze images, videos, and audio for synthetic media manipulation.', count: stats.eyesToday, limit: 3, video: '/assets/video/blob-eyes.mp4', label: 'EYES -- DEEPFAKE DETECTION' },
-    { to: '/nose', icon: Wifi, name: 'NOSE', sub: 'IoT Intelligence', desc: 'Map your network environment and identify security weaknesses.', count: stats.noseToday, limit: 3, video: '/assets/video/blob-nose.mp4', label: 'NOSE -- IOT INTELLIGENCE' },
-    { to: '/brain', icon: Brain, name: 'BRAIN', sub: 'AI Analyst', desc: 'Chat with your dedicated cybersecurity expert powered by Claude.', count: stats.brainToday, limit: 10, video: '/assets/video/blob-brain.mp4', label: 'BRAIN -- AI ANALYST' },
-    { to: '/news', icon: Newspaper, name: 'NEWS', sub: 'Verify Content', desc: 'Paste any headline or claim. Get a credibility verdict instantly.', count: stats.newsToday, limit: 3, video: '/assets/video/blob-news.mp4', label: 'NEWS -- VERIFY CONTENT' },
+    { to: '/eyes', icon: Eye, name: 'EYES', sub: 'Deepfake Detection', desc: 'Analyze images, videos, and audio for synthetic media manipulation.', count: stats.eyesToday, limit: 3, src: '/assets/video/blob-eyes.mp4', isImage: false, label: 'EYES -- DEEPFAKE DETECTION' },
+    { to: '/nose', icon: Wifi, name: 'NOSE', sub: 'IoT Intelligence', desc: 'Map your network environment and identify security weaknesses.', count: stats.noseToday, limit: 3, src: '/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg', isImage: true, label: 'NOSE -- IOT INTELLIGENCE' },
+    { to: '/brain', icon: Brain, name: 'BRAIN', sub: 'AI Analyst', desc: 'Chat with your dedicated cybersecurity expert powered by Claude.', count: stats.brainToday, limit: 10, src: '/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4', isImage: false, label: 'BRAIN -- AI ANALYST' },
+    { to: '/news', icon: Newspaper, name: 'NEWS', sub: 'Verify Content', desc: 'Paste any headline or claim. Get a credibility verdict instantly.', count: stats.newsToday, limit: 3, src: '/assets/video/blob-news.mp4', isImage: false, label: 'NEWS -- VERIFY CONTENT' },
   ]
 
   const firstName = profile?.name?.split(' ')[0] || profile?.email?.split('@')[0] || 'Operator'
@@ -144,7 +144,7 @@ export default function Dashboard() {
             MODULES
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
-            {moduleCards.map(({ to, icon: Icon, name, sub, desc, count, limit, video, label }, i) => (
+            {moduleCards.map(({ to, icon: Icon, name, sub, desc, count, limit, src, isImage, label }, i) => (
               <motion.button
                 key={to}
                 initial={{ opacity: 0, x: -20 }}
@@ -155,17 +155,19 @@ export default function Dashboard() {
                 onClick={() => navigate(to)}
                 style={{ padding: 0, borderRadius: 20, textAlign: 'left', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
               >
-                {/* Video preview — same pattern as Landing page */}
                 <div style={{ position: 'relative', height: 200, borderRadius: '20px 20px 0 0', overflow: 'hidden', background: '#060606', flexShrink: 0 }}>
-                  <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
-                    <source src={video} type="video/mp4" />
-                  </video>
+                  {isImage ? (
+                    <img src={src} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
+                  ) : (
+                    <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
+                      <source src={src} type="video/mp4" />
+                    </video>
+                  )}
                   <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', borderRadius: '20px 20px 0 0' }} />
                   <div style={{ position: 'absolute', bottom: 10, left: 14, fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', zIndex: 2 }}>
                     {label}
                   </div>
                 </div>
-                {/* Card content */}
                 <div style={{ padding: '20px 24px 24px', flex: 1 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
                     <Icon size={18} style={{ color: 'var(--text-2)' }} />
