@@ -112,6 +112,13 @@ export default function BrainPage() {
         {/* Chat area */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
 
+          {/* Hero video */}
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px 24px 0', borderBottom: '1px solid rgba(255,255,255,0.06)', flexShrink: 0 }}>
+            <video autoPlay muted loop playsInline style={{ width: '100%', maxWidth: 380, borderRadius: 24, pointerEvents: 'none' }}>
+              <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
+            </video>
+          </div>
+
           {/* Mobile toolbar */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)' }} className="lg-hide-brain">
             <style>{`@media (min-width: 1024px) { .lg-hide-brain { display: none !important; } }`}</style>
