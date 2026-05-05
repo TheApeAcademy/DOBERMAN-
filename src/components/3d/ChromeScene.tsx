@@ -10,20 +10,38 @@ import {
 import { BlendFunction } from 'postprocessing'
 import * as THREE from 'three'
 
-// Stars placed within the camera frustum so every particle is actually visible.
-// Camera is at z=7, fov=42. For each star we pick a depth then compute the
-// visible x/y extent at that depth so no particles are clipped by the frustum.
-function StarField({ mouse, count }: { mouse: React.MutableRefObject<[number, number]>; count: number }) {
+function StarField({
+  mouse,
+  count,
+}: {
+  mouse: React.MutableRefObject<[number, number]>
+  count: number
+}) {
   const pointsRef = useRef<THREE.Points>(null)
   const FOV_HALF_RAD = (21 * Math.PI) / 180
 
+  // Circular glow sprite so particles render as round stars, not square quads
+  const starTexture = useMemo(() => {
+    const c = document.createElement('canvas')
+    c.width = 32; c.height = 32
+    const ctx = c.getContext('2d')!
+    const g = ctx.createRadialGradient(16, 16, 0, 16, 16, 16)
+    g.addColorStop(0,   'rgba(255,255,255,1)')
+    g.addColorStop(0.4, 'rgba(200,215,255,0.6)')
+    g.addColorStop(1,   'rgba(255,255,255,0)')
+    ctx.fillStyle = g
+    ctx.fillRect(0, 0, 32, 32)
+    return new THREE.CanvasTexture(c)
+  }, [])
+
+  // Place every star inside the camera frustum so all are visible
   const positions = useMemo(() => {
     const arr = new Float32Array(count * 3)
     for (let i = 0; i < count; i++) {
-      const z = -(Math.random() * 48 + 2)          // depth: z=-2 to z=-50
-      const dist = 7 - z                            // distance from camera
-      const spreadY = Math.tan(FOV_HALF_RAD) * dist // frustum half-height at this depth
-      const spreadX = spreadY * 1.78               // ~16:9 aspect
+      const z = -(Math.random() * 48 + 2)
+      const dist = 7 - z
+      const spreadY = Math.tan(FOV_HALF_RAD) * dist
+      const spreadX = spreadY * 1.78
       arr[i * 3]     = (Math.random() - 0.5) * 2 * spreadX
       arr[i * 3 + 1] = (Math.random() - 0.5) * 2 * spreadY
       arr[i * 3 + 2] = z
@@ -35,73 +53,54 @@ function StarField({ mouse, count }: { mouse: React.MutableRefObject<[number, nu
     if (!pointsRef.current) return
     pointsRef.current.rotation.x = THREE.MathUtils.lerp(
       pointsRef.current.rotation.x,
-      mouse.current[1] * 0.06,
-      0.04
+      mouse.current[1] * 0.05,
+      0.03
     )
     pointsRef.current.rotation.y = THREE.MathUtils.lerp(
       pointsRef.current.rotation.y,
-      mouse.current[0] * 0.06,
-      0.04
+      mouse.current[0] * 0.05,
+      0.03
     )
     const mat = pointsRef.current.material as THREE.PointsMaterial
-    mat.opacity = 0.6 + Math.sin(state.clock.elapsedTime * 1.1) * 0.22
+    mat.opacity = 0.7 + Math.sin(state.clock.elapsedTime * 0.9) * 0.2
   })
 
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          args={[positions, 3]}
-        />
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial
-        size={0.18}
-        color="#dde0ff"
+        map={starTexture}
+        size={0.38}
         transparent
-        opacity={0.75}
+        opacity={0.85}
         sizeAttenuation
         depthWrite={false}
+        alphaTest={0.001}
       />
     </points>
   )
 }
 
-// Nebula in the 3D scene — large back-side spheres with emissive purple/blue.
-// Inside the canvas so they're always visible regardless of page z-index stacking.
-function NebulaClouds() {
-  return (
-    <>
-      <mesh position={[-6, 4, -26]}>
-        <sphereGeometry args={[16, 10, 10]} />
-        <meshBasicMaterial color="#2a0845" transparent opacity={0.14} depthWrite={false} side={THREE.BackSide} />
-      </mesh>
-      <mesh position={[9, -3, -20]}>
-        <sphereGeometry args={[13, 10, 10]} />
-        <meshBasicMaterial color="#080f55" transparent opacity={0.10} depthWrite={false} side={THREE.BackSide} />
-      </mesh>
-      <mesh position={[1, 3, -38]}>
-        <sphereGeometry args={[20, 10, 10]} />
-        <meshBasicMaterial color="#3a0d58" transparent opacity={0.08} depthWrite={false} side={THREE.BackSide} />
-      </mesh>
-    </>
-  )
-}
-
-function HeroBlob() {
+function HeroBlob({ isMobile }: { isMobile: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null)
+  // On portrait mobile the camera frustum is narrow, so x=2.2 bleeds off-screen.
+  // Centre the torus and push it back so it frames the scene without clipping.
+  const pos: [number, number, number] = isMobile ? [0, 0.3, -1.5] : [2.2, 0.1, 0]
+  const scale = isMobile ? 0.75 : 1
 
   useFrame((state) => {
     if (!meshRef.current) return
     meshRef.current.rotation.x = state.clock.elapsedTime * 0.08
     meshRef.current.rotation.y = state.clock.elapsedTime * 0.14
     meshRef.current.rotation.z = state.clock.elapsedTime * 0.05
-    const breath = 1 + Math.sin(state.clock.elapsedTime * 0.5) * 0.02
+    const breath = scale * (1 + Math.sin(state.clock.elapsedTime * 0.5) * 0.02)
     meshRef.current.scale.setScalar(breath)
   })
 
   return (
-    <Torus ref={meshRef} args={[1.4, 0.65, 128, 200]} position={[2.2, 0.1, 0]}>
+    <Torus ref={meshRef} args={[1.4, 0.65, 128, 200]} position={pos}>
       <MeshDistortMaterial
         color="#c8c8c8"
         attach="material"
@@ -146,16 +145,23 @@ function SatelliteOrb({
         speed={1.8}
         roughness={0}
         metalness={1}
-        envMapIntensity={8}
+        envMapIntensity={6}
       />
     </mesh>
   )
 }
 
-function Scene({ mouse, starCount }: { mouse: React.MutableRefObject<[number, number]>; starCount: number }) {
+function Scene({
+  mouse,
+  starCount,
+  isMobile,
+}: {
+  mouse: React.MutableRefObject<[number, number]>
+  starCount: number
+  isMobile: boolean
+}) {
   return (
     <>
-      <NebulaClouds />
       <StarField mouse={mouse} count={starCount} />
 
       <ambientLight intensity={0.2} />
@@ -166,24 +172,24 @@ function Scene({ mouse, starCount }: { mouse: React.MutableRefObject<[number, nu
 
       <Environment preset="studio" />
 
-      <HeroBlob />
+      <HeroBlob isMobile={isMobile} />
 
-      <SatelliteOrb position={[-3.2, 1.8, -3]} scale={0.45} speed={1.2} distort={0.65} />
-      <SatelliteOrb position={[4.5, -2.5, -4]} scale={0.2} speed={0.8} distort={0.8} />
-      <SatelliteOrb position={[-1.5, -2.8, -2]} scale={0.3} speed={1.5} distort={0.55} />
+      {/* Satellite orbs — desktop only, they bleed off-screen on portrait mobile */}
+      {!isMobile && (
+        <>
+          <SatelliteOrb position={[-3.2, 1.8, -3]} scale={0.45} speed={1.2} distort={0.65} />
+          <SatelliteOrb position={[4.5, -2.5, -4]} scale={0.2} speed={0.8} distort={0.8} />
+          <SatelliteOrb position={[-1.5, -2.8, -2]} scale={0.3} speed={1.5} distort={0.55} />
+        </>
+      )}
 
       <EffectComposer>
-        <Bloom
-          intensity={0.5}
-          luminanceThreshold={0.55}
-          luminanceSmoothing={0.85}
-          mipmapBlur
-        />
+        <Bloom intensity={0.45} luminanceThreshold={0.55} luminanceSmoothing={0.85} mipmapBlur />
         <ChromaticAberration
           blendFunction={BlendFunction.NORMAL}
           offset={new THREE.Vector2(0.0006, 0.0006) as any}
         />
-        <Noise blendFunction={BlendFunction.SOFT_LIGHT} opacity={0.12} />
+        <Noise blendFunction={BlendFunction.SOFT_LIGHT} opacity={0.10} />
       </EffectComposer>
     </>
   )
@@ -191,18 +197,30 @@ function Scene({ mouse, starCount }: { mouse: React.MutableRefObject<[number, nu
 
 export function GlobalChrome3D() {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
-  const starCount = isMobile ? 600 : 2500
+  const starCount = isMobile ? 700 : 2500
   const mouse = useRef<[number, number]>([0, 0])
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
+    const onMouseMove = (e: MouseEvent) => {
       mouse.current = [
         (e.clientX / window.innerWidth - 0.5) * 2,
         -(e.clientY / window.innerHeight - 0.5) * 2,
       ]
     }
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
+    // Touch parallax for mobile
+    const onTouchMove = (e: TouchEvent) => {
+      const t = e.touches[0]
+      mouse.current = [
+        (t.clientX / window.innerWidth - 0.5) * 2,
+        -(t.clientY / window.innerHeight - 0.5) * 2,
+      ]
+    }
+    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('touchmove', onTouchMove, { passive: true })
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('touchmove', onTouchMove)
+    }
   }, [])
 
   return (
@@ -213,7 +231,7 @@ export function GlobalChrome3D() {
         dpr={isMobile ? [1, 1] : [1, 1.5]}
         style={{ background: 'transparent' }}
       >
-        <Scene mouse={mouse} starCount={starCount} />
+        <Scene mouse={mouse} starCount={starCount} isMobile={isMobile} />
       </Canvas>
     </div>
   )
