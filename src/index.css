@@ -58,8 +58,10 @@ body {
   overflow-x: hidden;
 }
 
-/* Crosshair cursor */
-*, a, button, input, textarea { cursor: crosshair !important; }
+/* Hide native cursor on pointer-fine devices (desktop) — custom cursor renders instead */
+@media (pointer: fine) {
+  *, *::before, *::after { cursor: none !important; }
+}
 
 /* Chrome text selection */
 ::selection {
@@ -142,6 +144,13 @@ body::after {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* Cinematic page transition clip-path sweep */
+@keyframes sweep-in  { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0% 0 0); } }
+@keyframes sweep-out { from { clip-path: inset(0 0% 0 0); } to { clip-path: inset(0 0% 0 100%); } }
+
+/* SplitReveal overflow mask */
+.split-word-mask { display: inline-block; overflow: hidden; }
 
 /* Pulse ring for asset placeholder slots */
 @keyframes pulse-ring {
