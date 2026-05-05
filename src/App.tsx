@@ -1,7 +1,12 @@
+import { useEffect, useRef } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Lenis from 'lenis'
 import { useAuth } from './hooks/useAuth'
 import { PageWrapper } from './components/ui/PageWrapper'
+import { CustomCursor } from './components/ui/CustomCursor'
 import { GlobalChrome3D } from './components/3d/ChromeScene'
 import Landing from './pages/Landing'
 import Auth from './pages/Auth'
@@ -15,9 +20,10 @@ import Settings from './pages/Settings'
 import Profile from './pages/Profile'
 import ShareTarget from './pages/ShareTarget'
 
+gsap.registerPlugin(ScrollTrigger)
+
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
-
   if (loading) {
     return (
       <div style={{ minHeight: '100vh', background: 'var(--void)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 20 }}>
@@ -26,43 +32,94 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
       </div>
     )
   }
-
-  if (!user) {
-    return <Navigate to="/auth" replace />
-  }
-
+  if (!user) return <Navigate to="/auth" replace />
   return <>{children}</>
+}
+
+// ── Cinematic page transition: black panel sweeps left→right on route change ──
+function PageTransition() {
+  const location = useLocation()
+  const overlayRef = useRef<HTMLDivElement>(null)
+  const isFirst = useRef(true)
+
+  useEffect(() => {
+    if (isFirst.current) { isFirst.current = false; return }
+    const el = overlayRef.current
+    if (!el) return
+    gsap.timeline()
+      .set(el, { scaleX: 1, transformOrigin: 'left center', pointerEvents: 'all', display: 'block' })
+      .fromTo(el, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 0.28, ease: 'power2.in' })
+      .to(el, { clipPath: 'inset(0 0% 0 100%)', duration: 0.28, ease: 'power2.out' })
+      .set(el, { pointerEvents: 'none', display: 'none' })
+  }, [location.pathname])
+
+  return (
+    <div
+      ref={overlayRef}
+      style={{
+        position: 'fixed', inset: 0,
+        background: '#000',
+        zIndex: 999890,
+        display: 'none',
+        pointerEvents: 'none',
+      }}
+    />
+  )
 }
 
 function AnimatedRoutes() {
   const location = useLocation()
-
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Landing />} />
-        <Route path="/auth" element={<PageWrapper><Auth /></PageWrapper>} />
-        <Route path="/share-target" element={<ProtectedRoute><ShareTarget /></ProtectedRoute>} />
-        <Route path="/dashboard" element={<ProtectedRoute><PageWrapper><Dashboard /></PageWrapper></ProtectedRoute>} />
-        <Route path="/eyes" element={<ProtectedRoute><PageWrapper><Eyes /></PageWrapper></ProtectedRoute>} />
-        <Route path="/nose" element={<ProtectedRoute><PageWrapper><Nose /></PageWrapper></ProtectedRoute>} />
-        <Route path="/brain" element={<ProtectedRoute><PageWrapper><Brain /></PageWrapper></ProtectedRoute>} />
-        <Route path="/news" element={<ProtectedRoute><PageWrapper><News /></PageWrapper></ProtectedRoute>} />
-        <Route path="/history" element={<ProtectedRoute><PageWrapper><History /></PageWrapper></ProtectedRoute>} />
-        <Route path="/settings" element={<ProtectedRoute><PageWrapper><Settings /></PageWrapper></ProtectedRoute>} />
-        <Route path="/profile" element={<ProtectedRoute><PageWrapper><Profile /></PageWrapper></ProtectedRoute>} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </AnimatePresence>
+    <>
+      <PageTransition />
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Landing />} />
+          <Route path="/auth" element={<PageWrapper><Auth /></PageWrapper>} />
+          <Route path="/share-target" element={<ProtectedRoute><ShareTarget /></ProtectedRoute>} />
+          <Route path="/dashboard" element={<ProtectedRoute><PageWrapper><Dashboard /></PageWrapper></ProtectedRoute>} />
+          <Route path="/eyes" element={<ProtectedRoute><PageWrapper><Eyes /></PageWrapper></ProtectedRoute>} />
+          <Route path="/nose" element={<ProtectedRoute><PageWrapper><Nose /></PageWrapper></ProtectedRoute>} />
+          <Route path="/brain" element={<ProtectedRoute><PageWrapper><Brain /></PageWrapper></ProtectedRoute>} />
+          <Route path="/news" element={<ProtectedRoute><PageWrapper><News /></PageWrapper></ProtectedRoute>} />
+          <Route path="/history" element={<ProtectedRoute><PageWrapper><History /></PageWrapper></ProtectedRoute>} />
+          <Route path="/settings" element={<ProtectedRoute><PageWrapper><Settings /></PageWrapper></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><PageWrapper><Profile /></PageWrapper></ProtectedRoute>} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </AnimatePresence>
+    </>
   )
 }
 
 export default function App() {
+  // ── Lenis smooth scroll — connects to GSAP ScrollTrigger ──
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.25,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    })
+
+    lenis.on('scroll', ScrollTrigger.update)
+
+    const tick = (time: number) => lenis.raf(time * 1000)
+    gsap.ticker.add(tick)
+    gsap.ticker.lagSmoothing(0)
+
+    return () => {
+      lenis.destroy()
+      gsap.ticker.remove(tick)
+    }
+  }, [])
+
   return (
     <BrowserRouter>
       <style>{`
         @keyframes spin { to { transform: rotate(360deg); } }
+        @media (pointer: fine) { *, *::before, *::after { cursor: none !important; } }
       `}</style>
+      <CustomCursor />
       <GlobalChrome3D />
       <div style={{ position: 'relative', zIndex: 1 }}>
         <AnimatedRoutes />
