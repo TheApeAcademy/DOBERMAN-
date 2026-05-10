@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Eye, Wifi, Brain, Newspaper, Crosshair, ArrowRight, Clock } from 'lucide-react'
+import { Eye, Brain, Newspaper, ArrowRight, Clock } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
-import { formatRelativeTime, getResultLabel, getRiskColor } from '../lib/utils'
+import { formatRelativeTime, getResultLabel } from '../lib/utils'
 
 interface ActivityItem {
   id: string
-  type: 'eyes' | 'nose' | 'brain' | 'news' | 'fangs'
+  type: 'eyes' | 'brain' | 'news'
   label: string
   result?: string
   score?: number
@@ -18,14 +18,11 @@ interface ActivityItem {
 
 interface Stats {
   eyesTotal: number
-  noseTotal: number
   brainTotal: number
   threatsDetected: number
   eyesToday: number
-  noseToday: number
   brainToday: number
   newsToday: number
-  fangsToday: number
 }
 
 export default function Dashboard() {
@@ -33,8 +30,8 @@ export default function Dashboard() {
   const navigate = useNavigate()
   const [activity, setActivity] = useState<ActivityItem[]>([])
   const [stats, setStats] = useState<Stats>({
-    eyesTotal: 0, noseTotal: 0, brainTotal: 0, threatsDetected: 0,
-    eyesToday: 0, noseToday: 0, brainToday: 0, newsToday: 0, fangsToday: 0,
+    eyesTotal: 0, brainTotal: 0, threatsDetected: 0,
+    eyesToday: 0, brainToday: 0, newsToday: 0,
   })
   const [loading, setLoading] = useState(true)
 
@@ -48,54 +45,41 @@ export default function Dashboard() {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
-    const [eyesRes, noseRes, brainRes, fangsRes, logsRes] = await Promise.all([
+    const [eyesRes, brainRes, logsRes] = await Promise.all([
       supabase.from('eyes_scans').select('id, result, confidence_score, file_name, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(5),
-      supabase.from('nose_scans').select('id, overall_risk_score, environment_description, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(5),
       supabase.from('brain_conversations').select('id, title, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(5),
-      supabase.from('fangs_scans').select('id, input_value, verdict, risk_score, threat_name, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(5),
       supabase.from('usage_logs').select('module, created_at').eq('user_id', user.id),
     ])
 
     const eyes = eyesRes.data || []
-    const nose = noseRes.data || []
     const brain = brainRes.data || []
-    const fangs = fangsRes.data || []
     const logs = logsRes.data || []
 
     const todayLogs = logs.filter((l) => new Date(l.created_at) >= today)
 
     const allActivity: ActivityItem[] = [
       ...eyes.map((e) => ({ id: e.id, type: 'eyes' as const, label: e.file_name || 'Unnamed file', result: e.result, score: e.confidence_score, created_at: e.created_at })),
-      ...nose.map((n) => ({ id: n.id, type: 'nose' as const, label: (n.environment_description || '').slice(0, 50), score: n.overall_risk_score, created_at: n.created_at })),
       ...brain.map((b) => ({ id: b.id, type: 'brain' as const, label: b.title || 'Conversation', created_at: b.created_at })),
-      ...fangs.map((f) => ({ id: f.id, type: 'fangs' as const, label: f.threat_name || (f.input_value || '').slice(0, 50), result: f.verdict, score: f.risk_score, created_at: f.created_at })),
     ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 6)
 
     const threatsDetected = eyes.filter((e) => e.result === 'fake').length
-      + nose.filter((n) => n.overall_risk_score >= 70).length
-      + fangs.filter((f) => f.verdict === 'malicious').length
 
     setActivity(allActivity)
     setStats({
       eyesTotal: eyes.length,
-      noseTotal: nose.length,
       brainTotal: brain.length,
       threatsDetected,
       eyesToday: todayLogs.filter((l) => l.module === 'eyes').length,
-      noseToday: todayLogs.filter((l) => l.module === 'nose').length,
       brainToday: todayLogs.filter((l) => l.module === 'brain').length,
       newsToday: todayLogs.filter((l) => l.module === 'news').length,
-      fangsToday: todayLogs.filter((l) => l.module === 'fangs').length,
     })
     setLoading(false)
   }
 
   const moduleCards = [
     { to: '/eyes', icon: Eye, name: 'EYES', sub: 'Deepfake Detection', desc: 'Analyze images, videos, and audio for synthetic media manipulation.', count: stats.eyesToday, limit: 3, src: '/assets/video/blob-eyes.mp4', isImage: false, label: 'EYES -- DEEPFAKE DETECTION' },
-    { to: '/nose', icon: Wifi, name: 'NOSE', sub: 'IoT Intelligence', desc: 'Map your network environment and identify security weaknesses.', count: stats.noseToday, limit: 3, src: '/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg', isImage: true, label: 'NOSE -- IOT INTELLIGENCE' },
     { to: '/brain', icon: Brain, name: 'BRAIN', sub: 'AI Analyst', desc: 'Chat with your dedicated cybersecurity expert powered by Claude.', count: stats.brainToday, limit: 10, src: '/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4', isImage: false, label: 'BRAIN -- AI ANALYST' },
     { to: '/news', icon: Newspaper, name: 'NEWS', sub: 'Verify Content', desc: 'Paste any headline or claim. Get a credibility verdict instantly.', count: stats.newsToday, limit: 3, src: '/assets/video/blob-news.mp4', isImage: false, label: 'NEWS -- VERIFY CONTENT' },
-    { to: '/fangs', icon: Crosshair, name: 'FANGS', sub: 'Threat Analyzer', desc: 'Submit any URL, IP, domain, hash, or code. Get a full threat intelligence report.', count: stats.fangsToday, limit: 5, src: '/assets/video/blob-hero.mp4', isImage: false, label: 'FANGS -- THREAT ANALYZER' },
   ]
 
   const firstName = profile?.name?.split(' ')[0] || profile?.email?.split('@')[0] || 'Operator'
@@ -125,10 +109,10 @@ export default function Dashboard() {
         {/* Stats row */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 40 }}>
           {[
-            { label: 'Scans Today', value: stats.eyesToday + stats.noseToday + stats.newsToday, color: 'var(--chrome-mid)' },
+            { label: 'Scans Today', value: stats.eyesToday + stats.newsToday, color: 'var(--chrome-mid)' },
             { label: 'Threats Found', value: stats.threatsDetected, color: 'var(--danger)' },
             { label: 'AI Messages', value: stats.brainToday, color: 'var(--safe)' },
-            { label: 'Total Scans', value: stats.eyesTotal + stats.noseTotal, color: 'var(--warning)' },
+            { label: 'Total Scans', value: stats.eyesTotal, color: 'var(--warning)' },
           ].map(({ label, value, color }, i) => (
             <motion.div
               key={label}
@@ -226,7 +210,7 @@ export default function Dashboard() {
               </div>
             ) : (
               activity.map((item, i) => {
-                const icons = { eyes: Eye, nose: Wifi, brain: Brain, news: Newspaper, fangs: Crosshair }
+                const icons = { eyes: Eye, brain: Brain, news: Newspaper }
                 const Icon = icons[item.type]
                 return (
                   <motion.div
@@ -247,11 +231,6 @@ export default function Dashboard() {
                         {item.result && (
                           <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: getResultLabel(item.result).color, background: `${getResultLabel(item.result).color}22`, padding: '2px 6px', borderRadius: 4 }}>
                             {getResultLabel(item.result).label}
-                          </span>
-                        )}
-                        {item.type === 'nose' && item.score !== undefined && (
-                          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: getRiskColor(item.score), background: `${getRiskColor(item.score)}22`, padding: '2px 6px', borderRadius: 4 }}>
-                            Risk: {item.score}
                           </span>
                         )}
                       </div>
