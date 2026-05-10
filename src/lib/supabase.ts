@@ -72,10 +72,41 @@ export type ChatMessage = {
   timestamp?: string
 }
 
+export type ThreatIndicator = {
+  type: string
+  value: string
+  confidence: number
+  description: string
+}
+
+export type CVEReference = {
+  id: string
+  description: string
+  severity: string
+  cvss: number
+}
+
+export type FangsScan = {
+  id: string
+  user_id: string
+  input_value: string
+  input_type: 'url' | 'ip' | 'domain' | 'hash' | 'email' | 'code' | 'text'
+  threat_type: 'phishing' | 'malware' | 'intrusion' | 'vulnerability' | 'darkweb' | 'general'
+  verdict: 'malicious' | 'suspicious' | 'clean' | 'unknown'
+  risk_score: number
+  threat_name: string | null
+  description: string
+  indicators: ThreatIndicator[]
+  cves: CVEReference[]
+  apt_groups: string[]
+  recommendations: string[]
+  created_at: string
+}
+
 export type UsageLog = {
   id: string
   user_id: string
-  module: 'eyes' | 'nose' | 'brain'
+  module: 'eyes' | 'nose' | 'brain' | 'fangs'
   action: string
   created_at: string
 }

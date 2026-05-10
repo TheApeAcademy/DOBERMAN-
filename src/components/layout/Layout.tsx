@@ -3,7 +3,6 @@ import type { ReactNode } from 'react'
 import { Sidebar } from './Sidebar'
 import { Header } from './Header'
 import type { Profile } from '../../lib/supabase'
-import { ChromeBlob } from '../ui/ChromeBlob'
 
 interface LayoutProps {
   profile: Profile | null
@@ -16,10 +15,7 @@ export function Layout({ profile, onSignOut, children, title }: LayoutProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <div style={{ display: 'flex', height: '100vh', background: 'var(--void)', overflow: 'hidden', position: 'relative' }}>
-      {/* Background blob */}
-      <ChromeBlob size={500} speed={0.2} distort={0.4}
-        style={{ top: '10%', right: '-100px', opacity: 0.06, zIndex: 0, pointerEvents: 'none' }} />
+    <div style={{ display: 'flex', height: '100vh', background: '#F5F6F8', overflow: 'hidden' }}>
 
       {/* Desktop sidebar */}
       <div style={{ flexShrink: 0, zIndex: 10, display: 'none' }} className="lg-sidebar">
@@ -31,7 +27,7 @@ export function Layout({ profile, onSignOut, children, title }: LayoutProps) {
       {mobileOpen && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 40, display: 'flex' }}>
           <div
-            style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}
+            style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}
             onClick={() => setMobileOpen(false)}
           />
           <div style={{ position: 'relative', zIndex: 50 }}>
@@ -41,9 +37,9 @@ export function Layout({ profile, onSignOut, children, title }: LayoutProps) {
       )}
 
       {/* Main content */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden', zIndex: 1 }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden' }}>
         <Header profile={profile} onMenuClick={() => setMobileOpen(true)} title={title} />
-        <main style={{ flex: 1, overflowY: 'auto' }}>
+        <main style={{ flex: 1, overflowY: 'auto', background: '#F5F6F8' }}>
           {children}
         </main>
       </div>

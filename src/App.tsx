@@ -7,7 +7,6 @@ import Landing from './pages/Landing'
 import Auth from './pages/Auth'
 import Dashboard from './pages/Dashboard'
 import Eyes from './pages/Eyes'
-import Nose from './pages/Nose'
 import Brain from './pages/Brain'
 import News from './pages/News'
 import History from './pages/History'
@@ -45,7 +44,6 @@ function AnimatedRoutes() {
         <Route path="/share-target" element={<ProtectedRoute><ShareTarget /></ProtectedRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><PageWrapper><Dashboard /></PageWrapper></ProtectedRoute>} />
         <Route path="/eyes" element={<ProtectedRoute><PageWrapper><Eyes /></PageWrapper></ProtectedRoute>} />
-        <Route path="/nose" element={<ProtectedRoute><PageWrapper><Nose /></PageWrapper></ProtectedRoute>} />
         <Route path="/brain" element={<ProtectedRoute><PageWrapper><Brain /></PageWrapper></ProtectedRoute>} />
         <Route path="/news" element={<ProtectedRoute><PageWrapper><News /></PageWrapper></ProtectedRoute>} />
         <Route path="/history" element={<ProtectedRoute><PageWrapper><History /></PageWrapper></ProtectedRoute>} />

@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Brain, X, MessageSquarePlus } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { BrainChat } from '../components/brain/BrainChat'
@@ -10,6 +11,8 @@ import type { BrainConversation } from '../lib/supabase'
 
 export default function BrainPage() {
   const { user, profile, signOut } = useAuth()
+  const location = useLocation()
+  const prefillSentRef = useRef(false)
   const {
     loading,
     error,
@@ -28,6 +31,15 @@ export default function BrainPage() {
 
   useEffect(() => {
     if (user) getDailyCount().then(setDailyCount)
+  }, [user])
+
+  useEffect(() => {
+    const prefill = location.state?.prefill
+    if (prefill && user && !prefillSentRef.current) {
+      prefillSentRef.current = true
+      handleSend(prefill)
+      window.history.replaceState({}, document.title)
+    }
   }, [user])
 
   const handleSend = async (content: string) => {

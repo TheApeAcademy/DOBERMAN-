@@ -1,7 +1,7 @@
-import { CheckCircle, XCircle, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { CheckCircle, XCircle, AlertCircle, ChevronDown, ChevronUp, Brain } from 'lucide-react'
 import type { EyesScan } from '../../lib/supabase'
-import { ConfidenceBar } from '../ui/ConfidenceBar'
 
 interface EyesResultProps {
   scan: EyesScan
@@ -10,121 +10,108 @@ interface EyesResultProps {
 const resultConfig = {
   authentic: {
     icon: CheckCircle,
-    color: '#00D46A',
-    bg: 'rgba(0,212,106,0.08)',
-    border: 'rgba(0,212,106,0.25)',
+    color: '#1A9F57',
+    bg: 'rgba(26,159,87,0.06)',
+    border: 'rgba(26,159,87,0.18)',
     label: 'AUTHENTIC',
-    desc: 'This media appears to be genuine and unmanipulated.',
+    desc: 'This media appears genuine and unmanipulated.',
   },
   fake: {
     icon: XCircle,
-    color: '#FF3B3B',
-    bg: 'rgba(255,59,59,0.08)',
-    border: 'rgba(255,59,59,0.25)',
+    color: '#E5292A',
+    bg: 'rgba(229,41,42,0.06)',
+    border: 'rgba(229,41,42,0.18)',
     label: 'LIKELY FAKE',
-    desc: 'Significant manipulation indicators detected in this media.',
+    desc: 'Significant manipulation indicators detected.',
   },
   uncertain: {
     icon: AlertCircle,
-    color: '#FFB020',
-    bg: 'rgba(255,176,32,0.08)',
-    border: 'rgba(255,176,32,0.25)',
+    color: '#CC7A00',
+    bg: 'rgba(204,122,0,0.06)',
+    border: 'rgba(204,122,0,0.18)',
     label: 'UNCERTAIN',
-    desc: 'Inconclusive results - manual review recommended.',
+    desc: 'Inconclusive — manual review recommended.',
   },
 }
 
 export function EyesResult({ scan }: EyesResultProps) {
   const [expanded, setExpanded] = useState(false)
+  const navigate = useNavigate()
   const config = resultConfig[scan.result] || resultConfig.uncertain
   const Icon = config.icon
+  const trustScore = Math.round(scan.confidence_score)
+
+  const handleAskDoberman = () => {
+    const msg = `I just ran a deepfake analysis on a file called "${scan.file_name}" (${scan.file_type}). The verdict was "${config.label}" with a confidence score of ${trustScore}/100. The analyst report said: "${scan.explanation}". Can you help me understand what this means and what I should do next?`
+    navigate('/brain', { state: { prefill: msg } })
+  }
+
   return (
-    <div className="space-y-4 page-fade">
-      {/* Main result card */}
-      <div
-        className="rounded-xl p-6 space-y-5"
-        style={{ background: config.bg, border: `1px solid ${config.border}` }}
-      >
-        <div className="flex items-center gap-3">
-          <Icon size={24} style={{ color: config.color }} />
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+
+      {/* Verdict */}
+      <div style={{ padding: '18px 20px', borderRadius: 14, background: config.bg, border: `1px solid ${config.border}` }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+          <Icon size={22} style={{ color: config.color, flexShrink: 0 }} />
           <div>
-            <p
-              className="font-display text-3xl tracking-wider"
-              style={{ color: config.color }}
-            >
-              {config.label}
-            </p>
-            <p className="text-text-secondary font-body text-sm">{config.desc}</p>
+            <p style={{ fontFamily: 'Bebas Neue', fontSize: 26, letterSpacing: '0.1em', color: config.color, lineHeight: 1 }}>{config.label}</p>
+            <p style={{ fontFamily: 'Syne', fontSize: 12, color: '#6B6B70', marginTop: 2 }}>{config.desc}</p>
           </div>
         </div>
-
-        {/* Trust score */}
-        <div className="space-y-2">
-          <div className="flex items-baseline justify-between">
-            <span className="text-text-secondary font-label text-xs tracking-wide">TRUST SCORE</span>
-            <span
-              className="font-display text-5xl leading-none"
-              style={{ color: config.color }}
-            >
-              {Math.round(scan.confidence_score)}
-            </span>
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
+            <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.14em', color: '#8E8E93', textTransform: 'uppercase' }}>Trust Score</span>
+            <span style={{ fontFamily: 'Bebas Neue', fontSize: 28, lineHeight: 1, color: config.color }}>{trustScore}</span>
           </div>
-          <ConfidenceBar
-            score={scan.confidence_score}
-            label="Analysis confidence"
-            colorMode={scan.result === 'fake' ? 'inverse' : 'normal'}
-          />
+          <div style={{ height: 5, background: 'rgba(0,0,0,0.08)', borderRadius: 3, overflow: 'hidden' }}>
+            <div style={{ height: '100%', width: `${trustScore}%`, background: config.color, borderRadius: 3, transition: 'width 0.6s ease' }} />
+          </div>
         </div>
       </div>
 
-      {/* Explanation */}
-      <div className="card p-5 space-y-3">
-        <p className="font-label font-medium text-xs text-text-muted tracking-wide">ANALYST REPORT</p>
-        <p className="text-text-secondary font-body text-sm leading-relaxed">
-          {scan.explanation}
-        </p>
-
+      {/* Analyst report */}
+      <div style={{ padding: '16px 18px', borderRadius: 14, background: '#FAFAFA', border: '1px solid rgba(0,0,0,0.06)' }}>
+        <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.16em', color: '#8E8E93', textTransform: 'uppercase', marginBottom: 10 }}>Analyst Report</p>
+        <p style={{ fontFamily: 'Syne', fontSize: 13, color: '#44454B', lineHeight: 1.7 }}>{scan.explanation}</p>
         <button
           onClick={() => setExpanded(!expanded)}
-          className="flex items-center gap-1.5 text-accent-blue text-xs font-label font-medium hover:underline"
+          style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 10, background: 'none', border: 'none', fontFamily: 'JetBrains Mono', fontSize: 10, color: '#8E8E93', letterSpacing: '0.06em' }}
         >
-          {expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-          {expanded ? 'Hide' : 'What does this mean?'}
+          {expanded ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+          {expanded ? 'COLLAPSE' : 'HOW IT WORKS'}
         </button>
-
         {expanded && (
-          <div className="p-4 bg-bg-tertiary rounded-lg border border-border-color space-y-2 page-fade">
-            <p className="text-text-secondary font-body text-xs leading-relaxed">
-              D0B3RMAN uses the Hive AI Moderation system to analyze your media for synthetic manipulation markers.
-              Deepfake detection works by looking for inconsistencies in facial landmarks, unnatural blinking patterns,
-              lighting artifacts, audio-visual sync issues, and compression anomalies that are characteristic of
-              AI-generated or AI-manipulated media.
+          <div style={{ marginTop: 10, padding: '12px 14px', background: '#F5F5F7', borderRadius: 10, border: '1px solid rgba(0,0,0,0.05)' }}>
+            <p style={{ fontFamily: 'Syne', fontSize: 12, color: '#6B6B70', lineHeight: 1.7, marginBottom: 8 }}>
+              D0B3RMAN analyzes media for synthetic manipulation markers — facial landmark inconsistencies, unnatural blinking, lighting artifacts, and audio-visual sync issues characteristic of AI-generated content.
             </p>
-            <p className="text-text-secondary font-body text-xs leading-relaxed">
-              A score above 70% indicates high confidence in the result. Between 40-70% indicates uncertainty,
-              and below 40% suggests the media is likely authentic. Always treat uncertain results with caution
-              and seek additional verification for high-stakes situations.
+            <p style={{ fontFamily: 'Syne', fontSize: 12, color: '#6B6B70', lineHeight: 1.7 }}>
+              Scores above 70 indicate high confidence. Between 40-70 is uncertain. Below 40 suggests authentic. Always seek additional verification in high-stakes situations.
             </p>
           </div>
         )}
       </div>
 
-      {/* File info */}
-      <div className="card p-4">
-        <div className="grid grid-cols-2 gap-3">
-          {[
-            { label: 'File Name', value: scan.file_name },
-            { label: 'Type', value: scan.file_type?.toUpperCase() },
-            { label: 'Result', value: config.label },
-            { label: 'Score', value: `${Math.round(scan.confidence_score)}%` },
-          ].map(({ label, value }) => (
-            <div key={label}>
-              <p className="text-text-muted font-label text-xs">{label}</p>
-              <p className="text-text-primary font-body text-sm mt-0.5">{value}</p>
-            </div>
-          ))}
-        </div>
+      {/* File metadata */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        {[
+          { label: 'File', value: scan.file_name },
+          { label: 'Type', value: scan.file_type?.toUpperCase() },
+          { label: 'Verdict', value: config.label },
+          { label: 'Score', value: `${trustScore} / 100` },
+        ].map(({ label, value }) => (
+          <div key={label} style={{ padding: '12px 14px', background: '#FAFAFA', borderRadius: 10, border: '1px solid rgba(0,0,0,0.05)' }}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.12em', color: '#8E8E93', textTransform: 'uppercase', marginBottom: 4 }}>{label}</p>
+            <p style={{ fontFamily: 'Syne', fontSize: 13, fontWeight: 600, color: '#0F0F0F', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</p>
+          </div>
+        ))}
       </div>
+
+      {/* Ask DOBERMAN */}
+      <button onClick={handleAskDoberman} className="ask-doberman-btn" style={{ width: '100%', justifyContent: 'center', padding: '12px 18px' }}>
+        <Brain size={14} />
+        DISCUSS WITH DOBERMAN INTELLIGENCE
+      </button>
     </div>
   )
 }
