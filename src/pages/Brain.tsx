@@ -113,14 +113,10 @@ export default function BrainPage() {
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
 
           {/* Hero video */}
-          <div style={{ position: 'relative', height: 220, overflow: 'hidden', background: '#060606', flexShrink: 0 }}>
-            <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px 24px 0', borderBottom: '1px solid rgba(255,255,255,0.06)', flexShrink: 0 }}>
+            <video autoPlay muted loop playsInline style={{ width: '100%', maxWidth: 380, borderRadius: 24, pointerEvents: 'none' }}>
               <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
             </video>
-            <div style={{ position: 'absolute', inset: 0, borderBottom: '1px solid rgba(255,255,255,0.06)' }} />
-            <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', zIndex: 2 }}>
-              BRAIN -- AI SECURITY ANALYST
-            </div>
           </div>
 
           {/* Mobile toolbar */}
