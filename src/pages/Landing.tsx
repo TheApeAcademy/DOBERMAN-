@@ -26,16 +26,17 @@ const reviews = [
   { text: 'I uploaded a video of my CEO that turned out to be completely AI-generated. D0B3RMAN caught it in 3 seconds.', author: 'Marcus T.', role: 'IT Security Lead, London', badge: '98% FAKE', badgeColor: 'var(--danger)', rotate: -1.5 },
   { text: 'My home network had 4 critical vulnerabilities I had no idea about. Patched all of them in one afternoon.', author: 'Priya K.', role: 'Remote Software Engineer', badge: 'RISK: 74', badgeColor: 'var(--warning)', rotate: 1.5 },
   { text: 'The news verification alone is worth it. I paste every headline before sharing anything now.', author: 'David O.', role: 'Independent Journalist', badge: '3 FALSE FLAGS', badgeColor: 'var(--danger)', rotate: -1 },
-  { text: 'D0B3RMAN Intelligence explained a zero-day exploit to me like a human being. Not like reading a CVE database. Actually useful.', author: 'Aisha M.', role: 'Cybersecurity Student', badge: 'INTELLIGENCE 5/5', badgeColor: 'var(--safe)', rotate: 1 },
+  { text: 'BRAIN explained a zero-day exploit to me like a human being. Not like reading a CVE database. Actually useful.', author: 'Aisha M.', role: 'Cybersecurity Student', badge: 'BRAIN 5/5', badgeColor: 'var(--safe)', rotate: 1 },
   { text: 'Right-clicked a suspicious LinkedIn profile picture. D0B3RMAN said 97% fake. Blocked immediately.', author: 'Tom R.', role: 'Senior Recruiter', badge: '97% FAKE', badgeColor: 'var(--danger)', rotate: -1.5 },
   { text: 'Scanned my entire smart home. Bulbs, TV, cameras, router. Got a full risk report with numbered steps.', author: 'Yuki N.', role: 'Smart Home Enthusiast', badge: '6 VULNS FOUND', badgeColor: 'var(--warning)', rotate: 1.5 },
 ]
 
 const hPanels = [
-  { num: '01', module: 'DEEPFAKE INTELLIGENCE', headline: 'See\nthrough\nthe fake.', sub: 'Upload any media. Get a trust score in seconds.', showCta: true },
-  { num: '02', module: 'D0B3RMAN INTELLIGENCE', headline: 'Ask\nanything.\nKnow it all.', sub: 'A security analyst available every second of every day.', showCta: false },
-  { num: '03', module: 'NEWS', headline: 'Real or\nfake?\nKnow now.', sub: 'Verify any headline or article in seconds.', showCta: true },
-  { num: '04', module: 'EXTENSION', headline: 'Works\neverywhere\nyou do.', sub: 'Right-click any image on the web. Get results instantly.', showCta: true },
+  { num: '01', module: 'EYES', headline: 'See\nthrough\nthe fake.', sub: 'Upload any media. Get a trust score in seconds.' },
+  { num: '02', module: 'NOSE', headline: 'Sniff out\nevery\nthreat.', sub: 'Your network has secrets. D0B3RMAN finds them.' },
+  { num: '03', module: 'BRAIN', headline: 'Ask\nanything.\nKnow it all.', sub: 'A security analyst available every second of every day.' },
+  { num: '04', module: 'NEWS', headline: 'Real or\nfake?\nKnow now.', sub: 'Verify any headline or article in seconds.' },
+  { num: '05', module: 'EXTENSION', headline: 'Works\neverywhere\nyou do.', sub: 'Right-click any image on the web. Get results instantly.' },
 ]
 
 const IN_VIEW = {
@@ -44,29 +45,6 @@ const IN_VIEW = {
   transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] as const },
   viewport: { once: true, margin: '-60px' },
 }
-
-const AskIntelligenceBtn = ({ onClick, dark = false }: { onClick: () => void; dark?: boolean }) => (
-  <motion.button
-    whileHover={{ scale: 1.04 }}
-    whileTap={{ scale: 0.97 }}
-    onClick={onClick}
-    style={{
-      display: 'inline-flex', alignItems: 'center', gap: 8,
-      padding: '10px 20px',
-      background: dark ? 'rgba(160,99,42,0.12)' : 'rgba(255,255,255,0.05)',
-      backdropFilter: dark ? undefined : 'blur(20px)',
-      border: dark ? '1px solid rgba(160,99,42,0.35)' : '1px solid rgba(255,255,255,0.12)',
-      borderRadius: 10,
-      color: dark ? '#a0632a' : '#94A3B8',
-      fontFamily: 'JetBrains Mono',
-      fontSize: 12,
-      letterSpacing: '0.05em',
-      marginTop: 16,
-      cursor: 'crosshair',
-    }}>
-    Ask D0B3RMAN Intelligence →
-  </motion.button>
-)
 
 export default function Landing() {
   const navigate = useNavigate()
@@ -118,7 +96,7 @@ export default function Landing() {
   }, [])
 
   return (
-    <div style={{ background: '#000000', minHeight: '100vh', overflowX: 'hidden' }}>
+    <div style={{ background: 'linear-gradient(to bottom, #2a1409 0%, #1a0c05 18%, #0a0401 40%, #000000 62%)', minHeight: '100vh', overflowX: 'hidden' }}>
 
       {/* ─── NAV ─────────────────────────────────────────── */}
       <nav style={{
@@ -161,7 +139,7 @@ export default function Landing() {
       </nav>
 
       {/* ─── HERO ────────────────────────────────────────── */}
-      <section style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', background: '#000000', display: 'flex', alignItems: 'center' }}>
+      <section style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', background: 'transparent', display: 'flex', alignItems: 'center' }}>
 
         <motion.div
           className="hero-portrait"
@@ -175,19 +153,17 @@ export default function Landing() {
             onError={(e) => { const p = e.currentTarget.parentElement; if (p) p.style.display = 'none' }}
             style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
           />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #000000 0%, rgba(0,0,0,0.6) 25%, transparent 60%)' }} />
-          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '40%', background: 'linear-gradient(to bottom, transparent, #000000)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #2a1409 0%, rgba(42,20,9,0.5) 30%, transparent 65%)' }} />
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to bottom, transparent, #2a1409)' }} />
         </motion.div>
 
         <style>{`@media(max-width:768px){.hero-portrait{display:none!important}}`}</style>
-
-        <div style={{ position: 'absolute', top: '10%', left: '-10%', width: '70%', height: '80%', background: 'radial-gradient(ellipse at 30% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 65%)', pointerEvents: 'none', zIndex: 1 }} />
 
         <div style={{ position: 'relative', zIndex: 3, padding: 'clamp(100px,15vw,120px) clamp(20px,5vw,48px) 80px', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
 
           <motion.p
             initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15, duration: 0.6 }}
-            style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: '#64748B', marginBottom: 36, textTransform: 'uppercase' }}>
+            style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 36, textTransform: 'uppercase' }}>
             [ CYBERSECURITY INTELLIGENCE -- 2026 ]
           </motion.p>
 
@@ -214,10 +190,10 @@ export default function Landing() {
 
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}
-            style={{ fontFamily: 'Syne', fontSize: 17, color: '#94A3B8', maxWidth: 460, lineHeight: 1.65, position: 'relative', zIndex: 4 }}>
-            Detect deepfakes. Verify any headline.
-            Get expert cybersecurity advice 24/7.
-            Two modules. One platform. Zero guesswork.
+            style={{ fontFamily: 'Syne', fontSize: 17, color: 'rgba(255,255,255,0.5)', maxWidth: 460, lineHeight: 1.65, position: 'relative', zIndex: 4 }}>
+            Detect deepfakes. Expose IoT vulnerabilities.
+            Verify news. Get expert cybersecurity advice.
+            Three modules. One platform. Zero guesswork.
           </motion.p>
 
           <motion.div
@@ -241,7 +217,7 @@ export default function Landing() {
 
           <motion.p
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3 }}
-            style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: '#64748B', marginTop: 20, position: 'relative', zIndex: 4 }}>
+            style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)', marginTop: 20, position: 'relative', zIndex: 4 }}>
             Free tier -- no credit card required
           </motion.p>
 
@@ -253,14 +229,14 @@ export default function Landing() {
           </p>
         </div>
 
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 200, background: 'linear-gradient(to bottom, transparent, #000000)', zIndex: 3, pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 200, background: 'linear-gradient(to bottom, transparent, #2a1409)', zIndex: 3, pointerEvents: 'none' }} />
       </section>
 
       {/* ─── STATS TICKER ────────────────────────────────── */}
-      <div style={{ overflow: 'hidden', borderTop: '1px solid rgba(101,46,12,0.4)', borderBottom: '1px solid rgba(101,46,12,0.4)', padding: '14px 0', background: '#120701' }}>
+      <div style={{ overflow: 'hidden', borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '14px 0', background: 'rgba(0,0,0,0.55)' }}>
         <div style={{ display: 'flex', animation: 'ticker-scroll 35s linear infinite', width: 'max-content' }}>
           {[...stats, ...stats].map((s, i) => (
-            <span key={i} style={{ fontFamily: 'JetBrains Mono', fontSize: 12, letterSpacing: '0.12em', color: '#a0632a', paddingRight: 48, whiteSpace: 'nowrap', textTransform: 'uppercase' }}>
+            <span key={i} style={{ fontFamily: 'JetBrains Mono', fontSize: 12, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.25)', paddingRight: 48, whiteSpace: 'nowrap', textTransform: 'uppercase' }}>
               {s}
             </span>
           ))}
@@ -268,78 +244,109 @@ export default function Landing() {
       </div>
 
       {/* ─── MODULES ─────────────────────────────────────── */}
-      <section id="modules" style={{ position: 'relative', overflow: 'hidden', padding: 'clamp(60px,10vw,120px) clamp(20px,4vw,48px)', background: '#1c0e07' }}>
+      <section id="modules" style={{ position: 'relative', overflow: 'hidden', padding: 'clamp(60px,10vw,120px) clamp(20px,4vw,48px)', background: 'transparent' }}>
 
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 80 }}>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: '#a0632a', marginBottom: 20 }}>
-              [ TWO MODULES. ONE WATCHDOG. ]
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 20 }}>
+              [ THREE MODULES. ONE WATCHDOG. ]
             </p>
-            <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, color: '#ffffff' }}>
+            <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92 }}>
               Intelligence built<br />for today's threats.
             </h2>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
 
-            {/* DEEPFAKE INTELLIGENCE */}
+            {/* EYES */}
             <motion.div
+              className="glass"
               initial={{ opacity: 0, x: -80, rotate: -3 }}
               whileInView={{ opacity: 1, x: 0, rotate: 0 }}
               transition={{ duration: 0.85, ease: [0.25, 0.1, 0.25, 1] }}
               viewport={{ once: true, margin: '-60px' }}
-              whileHover={{ y: -5, transition: { duration: 0.25, ease: [0.25, 0.1, 0.25, 1] } }}
-              style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden', background: 'rgba(101,46,12,0.18)', border: '1px solid rgba(139,69,19,0.30)', boxShadow: 'inset 0 1px 0 rgba(255,180,100,0.10), 0 24px 48px rgba(0,0,0,0.4)' }}
+              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+              style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#0a0402', boxShadow: '0 0 40px rgba(139,69,19,0.15)' }}>
+              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
                 <video
                   autoPlay muted loop playsInline
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                 >
                   <source src="/assets/video/blob-eyes.mp4" type="video/mp4" />
                 </video>
-                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.08)', border: '1px solid rgba(139,69,19,0.20)' }} />
-                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: '#a0632a', zIndex: 2 }}>
-                  DEEPFAKE INTELLIGENCE
+                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
+                  EYES -- DEEPFAKE DETECTION
                 </div>
               </div>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: '#a0632a', marginBottom: 12 }}>01 -- DEEPFAKE INTELLIGENCE</p>
-              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 46, letterSpacing: '0.1em', lineHeight: 0.9, marginBottom: 16, color: '#ffffff' }}>DEEPFAKE<br />INTELLIGENCE</h3>
-              <p style={{ color: '#e8d5c4', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>01 -- DEEPFAKE DETECTION</p>
+              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>EYES</h3>
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
                 Upload any image, video, or audio. D0B3RMAN's detection engine analyzes it
                 against known deepfake signatures and returns a trust score in seconds.
               </p>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: '#7a4a20', marginBottom: 4 }}>Hive AI - XceptionNet - EfficientNet - MesoNet</p>
-              <AskIntelligenceBtn onClick={() => navigate('/auth')} dark />
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>Hive AI - XceptionNet - EfficientNet - MesoNet</p>
             </motion.div>
 
-            {/* D0B3RMAN INTELLIGENCE */}
+            {/* NOSE */}
             <motion.div
+              className="glass"
+              initial={{ opacity: 0, y: 80, scale: 0.94 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.85, delay: 0.12, ease: [0.25, 0.1, 0.25, 1] }}
+              viewport={{ once: true, margin: '-60px' }}
+              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+              style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
+            >
+              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
+                <img
+                  src="/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg"
+                  alt=""
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
+                  NOSE -- NETWORK INTELLIGENCE
+                </div>
+              </div>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>02 -- NETWORK INTELLIGENCE</p>
+              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>NOSE</h3>
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
+                Describe your network environment. D0B3RMAN identifies device vulnerabilities,
+                maps real CVEs, and gives you a prioritized action plan.
+              </p>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>NIST NVD - Real CVE Mapping - Device Fingerprinting</p>
+            </motion.div>
+
+            {/* BRAIN */}
+            <motion.div
+              className="glass"
               initial={{ opacity: 0, x: 80, rotate: 3 }}
               whileInView={{ opacity: 1, x: 0, rotate: 0 }}
-              transition={{ duration: 0.85, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.85, delay: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
               viewport={{ once: true, margin: '-60px' }}
-              whileHover={{ y: -5, transition: { duration: 0.25, ease: [0.25, 0.1, 0.25, 1] } }}
-              style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden', background: 'rgba(101,46,12,0.18)', border: '1px solid rgba(139,69,19,0.30)', boxShadow: 'inset 0 1px 0 rgba(255,180,100,0.10), 0 24px 48px rgba(0,0,0,0.4)' }}
+              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+              style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#0a0402', boxShadow: '0 0 40px rgba(139,69,19,0.15)' }}>
+              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
                 <video
                   autoPlay muted loop playsInline preload="auto"
                   src="/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4"
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                 />
-                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.08)', border: '1px solid rgba(139,69,19,0.20)' }} />
-                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: '#a0632a', zIndex: 2 }}>
-                  D0B3RMAN INTELLIGENCE
+                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
+                  BRAIN -- AI SECURITY ANALYST
                 </div>
               </div>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: '#a0632a', marginBottom: 12 }}>02 -- AI SECURITY ANALYST</p>
-              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 46, letterSpacing: '0.1em', lineHeight: 0.9, marginBottom: 16, color: '#ffffff' }}>D0B3RMAN<br />INTELLIGENCE</h3>
-              <p style={{ color: '#e8d5c4', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>03 -- AI SECURITY ANALYST</p>
+              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>BRAIN</h3>
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
                 Ask anything. Upload suspicious files. D0B3RMAN explains threats in plain language
                 and gives you a concrete next step. Like having a security analyst on call 24/7.
               </p>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: '#7a4a20' }}>Claude Sonnet - Context-aware - File Upload Support</p>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>Claude Sonnet - Context-aware - File Upload Support</p>
             </motion.div>
 
           </div>
@@ -347,13 +354,13 @@ export default function Landing() {
       </section>
 
       {/* ─── STATS ROW ───────────────────────────────────── */}
-      <div style={{ padding: '80px clamp(20px,4vw,48px)', borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)', background: '#000000' }}>
+      <div style={{ padding: '80px clamp(20px,4vw,48px)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'transparent' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 40, textAlign: 'center' }}>
           {[
             { target: 400, suffix: '%', label: 'Rise in deepfake attacks' },
             { target: 70, suffix: '%', label: 'IoT devices with critical vulns' },
             { target: 4, suffix: 'M+', prefix: '$', label: 'Average breach cost' },
-            { target: 2, suffix: ' modules', label: 'One platform' },
+            { target: 3, suffix: ' modules', label: 'One platform' },
           ].map((stat, i) => (
             <motion.div
               key={i}
@@ -365,7 +372,7 @@ export default function Landing() {
               <div style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 5vw, 64px)', lineHeight: 1, marginBottom: 8 }}>
                 <AnimatedCounter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} />
               </div>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: '#64748B', letterSpacing: '0.1em' }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.1em' }}>
                 {stat.label.toUpperCase()}
               </p>
             </motion.div>
@@ -380,28 +387,19 @@ export default function Landing() {
             <div
               key={i}
               className="h-panel"
-              style={{ width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: '#000000' }}
+              style={{ width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: 'transparent' }}
             >
-              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.20} style={{ zIndex: 0 }} />
+              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.25} style={{ zIndex: 0 }} />
               <div className="glass" style={{ position: 'relative', zIndex: 1, padding: 'clamp(32px,6vw,60px) clamp(24px,7vw,72px)', borderRadius: 32, maxWidth: 600, textAlign: 'center' }}>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.25em', color: '#64748B', marginBottom: 20 }}>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.25)', marginBottom: 20 }}>
                   {panel.num} -- {panel.module}
                 </p>
                 <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(48px, 8vw, 96px)', lineHeight: 0.9, whiteSpace: 'pre-line', marginBottom: 32 }}>
                   {panel.headline}
                 </h2>
-                <p style={{ fontFamily: 'Syne', fontSize: 18, color: '#94A3B8', lineHeight: 1.6, marginBottom: panel.showCta ? 28 : 0 }}>
+                <p style={{ fontFamily: 'Syne', fontSize: 18, color: 'rgba(255,255,255,0.5)', lineHeight: 1.6 }}>
                   {panel.sub}
                 </p>
-                {panel.showCta && (
-                  <motion.button
-                    whileHover={{ scale: 1.04 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => navigate('/auth')}
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 22px', background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.14)', borderRadius: 10, color: '#94A3B8', fontFamily: 'JetBrains Mono', fontSize: 12, letterSpacing: '0.05em' }}>
-                    Ask D0B3RMAN Intelligence →
-                  </motion.button>
-                )}
               </div>
             </div>
           ))}
@@ -409,60 +407,50 @@ export default function Landing() {
       </div>
 
       {/* ─── BLOB DIVIDER ────────────────────────────────── */}
-      <div style={{ position: 'relative', height: 240, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000000' }}>
-        <VideoBlob src="/assets/video/blob-divider.mp4" cover opacity={0.32} style={{ zIndex: 0 }} />
+      <div style={{ position: 'relative', height: 240, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent' }}>
+        <VideoBlob src="/assets/video/blob-divider.mp4" cover opacity={0.4} style={{ zIndex: 0 }} />
         <span style={{ position: 'relative', zIndex: 1, fontFamily: 'Bebas Neue', fontSize: 'clamp(60px, 12vw, 140px)', letterSpacing: '0.25em', color: 'rgba(255,255,255,0.03)', pointerEvents: 'none', userSelect: 'none' }}>
           D0B3RMAN
         </span>
       </div>
 
       {/* ─── NEWS SECTION ────────────────────────────────── */}
-      <section id="news" style={{ position: 'relative', overflow: 'hidden', padding: 'clamp(60px,10vw,100px) clamp(20px,4vw,48px)', background: '#1c0e07' }}>
+      <section id="news" style={{ position: 'relative', overflow: 'hidden', padding: 'clamp(60px,10vw,100px) clamp(20px,4vw,48px)', background: 'transparent' }}>
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 60, alignItems: 'center' }}>
             <motion.div {...IN_VIEW} style={{ flex: '1 1 300px' }}>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: '#a0632a', marginBottom: 20 }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'var(--danger)', marginBottom: 20 }}>
                 [ FAKE NEWS DETECTION ]
               </p>
-              <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, marginBottom: 20, color: '#ffffff' }}>
+              <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, marginBottom: 20 }}>
                 Don't believe<br />everything<br />you read.
               </h2>
-              <p style={{ color: '#e8d5c4', fontSize: 16, maxWidth: 500, lineHeight: 1.65, marginBottom: 28 }}>
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16, maxWidth: 500, lineHeight: 1.65, marginBottom: 36 }}>
                 Paste any headline, claim, or article URL. D0B3RMAN cross-references it,
                 checks source quality, and gives you a credibility verdict in seconds.
               </p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-                <motion.button
-                  whileHover={{ scale: 1.04 }}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => navigate('/auth')}
-                  style={{ padding: '14px 36px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}>
-                  Try News Verification
-                </motion.button>
-                <AskIntelligenceBtn onClick={() => navigate('/auth')} dark />
-              </div>
+              <motion.button
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => navigate('/auth')}
+                style={{ padding: '14px 36px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}>
+                Try News Verification
+              </motion.button>
             </motion.div>
 
             <motion.div
               {...IN_VIEW}
-              style={{ flex: '1 1 300px', padding: 40, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 360, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', background: 'rgba(101,46,12,0.18)', border: '1px solid rgba(139,69,19,0.30)', boxShadow: 'inset 0 1px 0 rgba(255,180,100,0.10), 0 24px 48px rgba(0,0,0,0.4)' }}
+              style={{ flex: '1 1 300px', padding: 40, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 360, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.15)' }}
             >
-              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.22} style={{ zIndex: 0 }} />
+              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.9} style={{ zIndex: 0 }} />
               <div style={{ position: 'relative', zIndex: 1 }}>
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--danger)', marginBottom: 16 }}>VERDICT -- LIKELY FALSE</p>
-                <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 18, lineHeight: 1.4, marginBottom: 12, color: '#ffffff' }}>"Breaking: Scientists Confirm AI Will Replace All Jobs By 2025"</p>
-                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
+                <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 18, lineHeight: 1.4, marginBottom: 12 }}>"Breaking: Scientists Confirm AI Will Replace All Jobs By 2025"</p>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   {['Sensationalist framing', 'No primary source', 'Vague attribution'].map((flag) => (
                     <span key={flag} style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--danger)', background: 'rgba(255,45,45,0.12)', border: '1px solid rgba(255,45,45,0.25)', padding: '4px 10px', borderRadius: 4 }}>{flag}</span>
                   ))}
                 </div>
-                <motion.button
-                  whileHover={{ scale: 1.04 }}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => navigate('/auth')}
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: 'rgba(160,99,42,0.12)', border: '1px solid rgba(160,99,42,0.35)', borderRadius: 8, color: '#a0632a', fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.05em' }}>
-                  Ask D0B3RMAN Intelligence →
-                </motion.button>
               </div>
             </motion.div>
           </div>
@@ -470,68 +458,54 @@ export default function Landing() {
       </section>
 
       {/* ─── EXTENSION SECTION ───────────────────────────── */}
-      <section id="extension" style={{ padding: 'clamp(60px,10vw,100px) clamp(20px,4vw,48px)', borderTop: '1px solid rgba(101,46,12,0.3)', background: '#1c0e07' }}>
+      <section id="extension" style={{ padding: 'clamp(60px,10vw,100px) clamp(20px,4vw,48px)', borderTop: '1px solid rgba(255,255,255,0.05)', background: 'transparent' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 60, alignItems: 'center' }}>
             <motion.div {...IN_VIEW} style={{ flex: '1 1 300px' }}>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: '#a0632a', marginBottom: 20 }}>[ BROWSER EXTENSION ]</p>
-              <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, marginBottom: 20, color: '#ffffff' }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 20 }}>[ BROWSER EXTENSION ]</p>
+              <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, marginBottom: 20 }}>
                 D0B3RMAN<br />everywhere<br />you browse.
               </h2>
-              <p style={{ color: '#e8d5c4', fontSize: 16, maxWidth: 500, lineHeight: 1.65, marginBottom: 28 }}>
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16, maxWidth: 500, lineHeight: 1.65, marginBottom: 36 }}>
                 Right-click any image, video, or selected text on any website.
                 Results appear in a floating panel — without leaving the page.
-                Powered by D0B3RMAN Intelligence.
               </p>
-              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 28 }}>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 36 }}>
                 {['Right-click any image', 'Selected text verification', 'Works on all sites'].map((feat) => (
-                  <span key={feat} style={{ padding: '8px 14px', background: 'rgba(101,46,12,0.18)', border: '1px solid rgba(139,69,19,0.30)', borderRadius: 8, fontFamily: 'JetBrains Mono', fontSize: 11, color: '#a0632a', boxShadow: 'inset 0 1px 0 rgba(255,180,100,0.08)' }}>
+                  <span key={feat} style={{ padding: '8px 14px', background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.4)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)' }}>
                     {feat}
                   </span>
                 ))}
               </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-                <motion.button
-                  whileHover={{ scale: 1.04, boxShadow: '0 0 30px rgba(255,255,255,0.1)' }}
-                  whileTap={{ scale: 0.97 }}
-                  style={{ padding: '14px 36px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}>
-                  Add to Chrome — Free
-                </motion.button>
-                <AskIntelligenceBtn onClick={() => navigate('/auth')} dark />
-              </div>
+              <motion.button
+                whileHover={{ scale: 1.04, boxShadow: '0 0 30px rgba(255,255,255,0.1)' }}
+                whileTap={{ scale: 0.97 }}
+                style={{ padding: '14px 36px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}>
+                Add to Chrome — Free
+              </motion.button>
             </motion.div>
 
             <motion.div
               {...IN_VIEW}
-              style={{ flex: '1 1 300px', padding: 32, borderRadius: 24, minHeight: 400, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: 'rgba(101,46,12,0.18)', border: '1px solid rgba(139,69,19,0.30)', boxShadow: 'inset 0 1px 0 rgba(255,180,100,0.10), 0 24px 48px rgba(0,0,0,0.4)' }}
+              className="glass"
+              style={{ flex: '1 1 300px', padding: 32, borderRadius: 24, minHeight: 400, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
             >
-              <div style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: '#7a4a20', marginBottom: 24 }}>
+              <div style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.25)', marginBottom: 24 }}>
                 EXTENSION DEMO VIDEO -- /assets/video/extension-demo.mp4
               </div>
-              <div style={{ padding: '24px', background: 'rgba(8,3,1,0.96)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', border: '1px solid rgba(139,69,19,0.25)', borderRadius: 20, boxShadow: 'inset 0 1px 0 rgba(255,180,100,0.08)' }}>
+              <div style={{ padding: '24px', background: 'rgba(6,6,6,0.94)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.18)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: '#a0632a' }}>D0B3RMAN</span>
-                  <span style={{ color: '#7a4a20', fontSize: 18, lineHeight: 1 }}>×</span>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)' }}>D0B3RMAN</span>
+                  <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: 18, lineHeight: 1 }}>×</span>
                 </div>
                 <div style={{ fontFamily: 'JetBrains Mono', fontSize: 64, fontWeight: 700, color: 'var(--danger)', lineHeight: 1, marginBottom: 4 }}>97<span style={{ fontSize: 28 }}>%</span></div>
                 <div style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--danger)', marginBottom: 12 }}>FAKE</div>
-                <p style={{ fontFamily: 'Syne', fontSize: 12, color: '#e8d5c4', lineHeight: 1.55, marginBottom: 16 }}>
+                <p style={{ fontFamily: 'Syne', fontSize: 12, color: 'rgba(255,255,255,0.5)', lineHeight: 1.55, marginBottom: 16 }}>
                   This image shows strong deepfake indicators. The facial boundaries and lighting are inconsistent with authentic photography.
                 </p>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => navigate('/auth')}
-                  style={{ display: 'block', width: '100%', textAlign: 'center', padding: '10px', background: 'white', color: 'black', borderRadius: 10, fontFamily: 'JetBrains Mono', fontSize: 12, fontWeight: 700, border: 'none', marginBottom: 8 }}>
+                <div style={{ display: 'block', textAlign: 'center', padding: '10px', background: 'white', color: 'black', borderRadius: 10, fontFamily: 'JetBrains Mono', fontSize: 12, fontWeight: 700 }}>
                   VIEW FULL REPORT
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => navigate('/auth')}
-                  style={{ display: 'block', width: '100%', textAlign: 'center', padding: '10px', background: 'rgba(160,99,42,0.12)', color: '#a0632a', borderRadius: 10, fontFamily: 'JetBrains Mono', fontSize: 11, border: '1px solid rgba(160,99,42,0.35)' }}>
-                  Ask D0B3RMAN Intelligence →
-                </motion.button>
+                </div>
               </div>
             </motion.div>
           </div>
@@ -539,15 +513,15 @@ export default function Landing() {
       </section>
 
       {/* ─── BLOB DIVIDER 2 ──────────────────────────────── */}
-      <div style={{ position: 'relative', height: 240, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000000' }}>
-        <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.28} style={{ zIndex: 0 }} />
+      <div style={{ position: 'relative', height: 240, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent' }}>
+        <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.35} style={{ zIndex: 0 }} />
         <span style={{ position: 'relative', zIndex: 1, fontFamily: 'Bebas Neue', fontSize: 'clamp(60px, 12vw, 140px)', letterSpacing: '0.25em', color: 'rgba(255,255,255,0.03)', userSelect: 'none' }}>
           SECURITY
         </span>
       </div>
 
       {/* ─── REVIEWS ─────────────────────────────────────── */}
-      <section id="reviews" style={{ padding: 'clamp(60px,8vw,100px) 0 clamp(60px,8vw,100px) clamp(20px,4vw,48px)', overflow: 'hidden', background: '#000000' }}>
+      <section id="reviews" style={{ padding: 'clamp(60px,8vw,100px) 0 clamp(60px,8vw,100px) clamp(20px,4vw,48px)', overflow: 'hidden', background: 'transparent' }}>
         <motion.div {...IN_VIEW} style={{ maxWidth: 1200, marginBottom: 56 }}>
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
@@ -563,7 +537,7 @@ export default function Landing() {
             />
             <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '40%', background: 'linear-gradient(to bottom, transparent, #000000)' }} />
           </motion.div>
-          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: '#64748B', marginBottom: 20 }}>[ WHAT USERS SAY ]</p>
+          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 20 }}>[ WHAT USERS SAY ]</p>
           <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92 }}>
             The dog<br />delivers.
           </h2>
@@ -580,7 +554,7 @@ export default function Landing() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              whileHover={{ y: -5, rotate: 0, transition: { duration: 0.25, ease: [0.25, 0.1, 0.25, 1] } }}
+              whileHover={{ y: -8, rotate: 0, transition: { duration: 0.2 } }}
               style={{
                 width: 360,
                 padding: 32,
@@ -588,35 +562,28 @@ export default function Landing() {
                 position: 'relative',
                 overflow: 'hidden',
                 rotate: r.rotate,
-                background: 'rgba(255,255,255,0.035)',
+                background: 'rgba(255,255,255,0.04)',
                 backdropFilter: 'blur(40px)',
                 WebkitBackdropFilter: 'blur(40px)',
                 border: '1px solid rgba(255,255,255,0.10)',
                 borderRadius: 20,
-                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.20), 0 24px 48px rgba(0,0,0,0.4)',
+                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.18), 0 24px 48px rgba(0,0,0,0.5)',
               }}
             >
-              <span style={{ position: 'absolute', top: 20, right: 20, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: r.badgeColor, background: `${r.badgeColor}18`, border: `1px solid ${r.badgeColor}40`, padding: '3px 8px', borderRadius: 4 }}>
+              <span style={{ position: 'absolute', top: 20, right: 20, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: r.badgeColor, background: `${r.badgeColor}22`, border: `1px solid ${r.badgeColor}44`, padding: '3px 8px', borderRadius: 4 }}>
                 {r.badge}
               </span>
-              <p style={{ fontFamily: 'Syne', fontSize: 15, color: '#94A3B8', lineHeight: 1.65, marginBottom: 20, marginTop: 8 }}>"{r.text}"</p>
-              <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 14, color: '#FFFFFF' }}>{r.author}</p>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: '#64748B', marginTop: 4, marginBottom: 16 }}>{r.role}</p>
-              <motion.button
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => navigate('/auth')}
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '8px 14px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: 8, color: '#64748B', fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.05em' }}>
-                Ask D0B3RMAN Intelligence →
-              </motion.button>
+              <p style={{ fontFamily: 'Syne', fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.65, marginBottom: 24, marginTop: 8 }}>"{r.text}"</p>
+              <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 14, color: 'white' }}>{r.author}</p>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.25)', marginTop: 4 }}>{r.role}</p>
             </motion.div>
           ))}
         </motion.div>
       </section>
 
       {/* ─── FINAL CTA ───────────────────────────────────── */}
-      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: '#000000' }}>
-        <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.38} style={{ zIndex: 0 }} />
+      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: 'transparent' }}>
+        <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.5} style={{ zIndex: 0 }} />
         <div style={{ position: 'relative', zIndex: 1, padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 720 }}>
           <div style={{ position: 'relative', height: 480, width: '100%', marginBottom: -60, overflow: 'visible', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <video
@@ -634,23 +601,23 @@ export default function Landing() {
             className="glass"
             style={{ padding: 'clamp(40px,8vw,90px) clamp(20px,6vw,72px)', borderRadius: 36, textAlign: 'center', width: '100%' }}
           >
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: '#64748B', marginBottom: 28 }}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 28 }}>
               THE WATCHDOG IS READY
             </p>
             <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(38px, 9vw, 110px)', lineHeight: 0.92, marginBottom: 36 }}>
               Deploy<br />D0B3RMAN.
             </h2>
-            <p style={{ fontFamily: 'Syne', fontSize: 17, color: '#94A3B8', marginBottom: 52 }}>
+            <p style={{ fontFamily: 'Syne', fontSize: 17, color: 'rgba(255,255,255,0.5)', marginBottom: 52 }}>
               Free tier. No credit card. No limits on intelligence.
             </p>
             <motion.button
-              whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(255,255,255,0.18)' }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.05, boxShadow: '0 0 60px rgba(255,255,255,0.25)' }}
+              whileTap={{ scale: 0.96 }}
               onClick={(e) => { shockwave(e); navigate('/auth') }}
               style={{ padding: '20px 72px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 17, border: 'none', borderRadius: 14 }}>
               Get Started Free
             </motion.button>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: '#64748B', marginTop: 20 }}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)', marginTop: 20 }}>
               3 free scans per module per day -- no card required
             </p>
           </motion.div>
@@ -658,14 +625,14 @@ export default function Landing() {
       </section>
 
       {/* ─── FOOTER ──────────────────────────────────────── */}
-      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px clamp(20px,4vw,48px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#000000', flexWrap: 'wrap', gap: 20 }}>
+      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px clamp(20px,4vw,48px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'transparent', flexWrap: 'wrap', gap: 20 }}>
         <span style={{ fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.2em' }}>D0B3RMAN</span>
-        <div style={{ display: 'flex', gap: 32, fontFamily: 'JetBrains Mono', fontSize: 11, color: '#64748B' }}>
+        <div style={{ display: 'flex', gap: 32, fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>
           <a href="/privacy" style={{ color: 'inherit', textDecoration: 'none' }}>Privacy</a>
           <a href="/terms" style={{ color: 'inherit', textDecoration: 'none' }}>Terms</a>
           <a href="mailto:hello@d0b3rman.ai" style={{ color: 'inherit', textDecoration: 'none' }}>Contact</a>
         </div>
-        <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: '#64748B' }}>2026 D0B3RMAN. All rights reserved.</p>
+        <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>2026 D0B3RMAN. All rights reserved.</p>
       </footer>
 
     </div>
