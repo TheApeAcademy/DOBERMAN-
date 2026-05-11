@@ -8,17 +8,17 @@ export default {
     extend: {
       colors: {
         /* Legacy names mapped to CHROME VOID palette */
-        'bg-primary': '#000000',
-        'bg-secondary': '#060606',
-        'bg-tertiary': '#0C0C0C',
-        'border-color': 'rgba(255,255,255,0.08)',
+        'bg-primary': '#09090b',
+        'bg-secondary': '#0d0d10',
+        'bg-tertiary': '#111116',
+        'border-color': 'rgba(255,255,255,0.10)',
         'accent-red': '#FF2D2D',
         'accent-amber': '#FF9500',
         'accent-green': '#30D158',
         'accent-blue': '#ABABAB',
-        'text-primary': '#F5F5F7',
-        'text-secondary': '#98989D',
-        'text-muted': '#48484A',
+        'text-primary': '#FFFFFF',
+        'text-secondary': '#94A3B8',
+        'text-muted': '#64748B',
       },
       fontFamily: {
         'display': ['"Bebas Neue"', 'sans-serif'],

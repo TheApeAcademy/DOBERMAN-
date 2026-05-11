@@ -17,12 +17,12 @@ function HeroBlob() {
 
   useFrame((state) => {
     if (!meshRef.current) return
-    // Slow, majestic rotation — like liquid mercury settling
-    meshRef.current.rotation.x = state.clock.elapsedTime * 0.08
-    meshRef.current.rotation.y = state.clock.elapsedTime * 0.14
-    meshRef.current.rotation.z = state.clock.elapsedTime * 0.05
-    // Subtle breathing pulse
-    const breath = 1 + Math.sin(state.clock.elapsedTime * 0.5) * 0.02
+    // Very slow, authoritative rotation — signals stability and power
+    meshRef.current.rotation.x = state.clock.elapsedTime * 0.04
+    meshRef.current.rotation.y = state.clock.elapsedTime * 0.07
+    meshRef.current.rotation.z = state.clock.elapsedTime * 0.025
+    // Slow breathing pulse — organic, alive, not anxious
+    const breath = 1 + Math.sin(state.clock.elapsedTime * 0.35) * 0.015
     meshRef.current.scale.setScalar(breath)
   })
 
@@ -59,9 +59,9 @@ function SatelliteOrb({
 
   useFrame((state) => {
     if (!meshRef.current) return
-    meshRef.current.rotation.x = state.clock.elapsedTime * 0.15 * speed
-    meshRef.current.rotation.y = state.clock.elapsedTime * 0.22 * speed
-    const breath = 1 + Math.sin(state.clock.elapsedTime * 0.7 + position[0]) * 0.025
+    meshRef.current.rotation.x = state.clock.elapsedTime * 0.09 * speed
+    meshRef.current.rotation.y = state.clock.elapsedTime * 0.13 * speed
+    const breath = 1 + Math.sin(state.clock.elapsedTime * 0.4 + position[0]) * 0.018
     meshRef.current.scale.setScalar(scale * breath)
   })
 
@@ -104,11 +104,11 @@ function Scene() {
 
       {/* Post-processing — the cinematic layer */}
       <EffectComposer>
-        {/* Bloom — chrome edges glow */}
+        {/* Bloom — chrome edges glow, kept under 20% to avoid gaming-site feel */}
         <Bloom
-          intensity={0.5}
-          luminanceThreshold={0.55}
-          luminanceSmoothing={0.85}
+          intensity={0.35}
+          luminanceThreshold={0.6}
+          luminanceSmoothing={0.9}
           mipmapBlur
         />
         {/* Chromatic aberration — real camera lens distortion */}
