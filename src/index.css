@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 :root {
-  /* Void blacks */
-  --void:    #000000;
-  --void-1:  #060606;
-  --void-2:  #0C0C0C;
-  --void-3:  #141414;
-  --void-4:  #1C1C1C;
+  /* Void blacks — rich deep black, not flat #000 */
+  --void:    #09090b;
+  --void-1:  #0d0d10;
+  --void-2:  #111116;
+  --void-3:  #18181f;
+  --void-4:  #222230;
 
   /* Chrome silver — the identity */
   --chrome-white:  #FFFFFF;
@@ -19,23 +19,23 @@
   --chrome-glow:   rgba(255, 255, 255, 0.12);
 
   /* Glassmorphism */
-  --glass-bg:            rgba(255, 255, 255, 0.03);
-  --glass-border:        rgba(255, 255, 255, 0.08);
-  --glass-border-bright: rgba(255, 255, 255, 0.20);
+  --glass-bg:            rgba(255, 255, 255, 0.035);
+  --glass-border:        rgba(255, 255, 255, 0.10);
+  --glass-border-bright: rgba(255, 255, 255, 0.22);
   --glass-blur:          blur(28px);
 
   /* Semantic */
   --danger:       #FF2D2D;
-  --danger-glow:  rgba(255, 45, 45, 0.25);
+  --danger-glow:  rgba(255, 45, 45, 0.18);
   --warning:      #FF9500;
-  --warning-glow: rgba(255, 149, 0, 0.25);
+  --warning-glow: rgba(255, 149, 0, 0.18);
   --safe:         #30D158;
-  --safe-glow:    rgba(48, 209, 88, 0.25);
+  --safe-glow:    rgba(48, 209, 88, 0.18);
 
-  /* Text */
-  --text-1: #F5F5F7;
-  --text-2: #98989D;
-  --text-3: #48484A;
+  /* Text hierarchy — creates visual depth without eye strain */
+  --text-1: #FFFFFF;
+  --text-2: #94A3B8;
+  --text-3: #64748B;
 }
 
 *, *::before, *::after {
@@ -55,6 +55,7 @@ body {
   color: var(--text-1);
   font-family: 'Syne', sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
@@ -97,24 +98,26 @@ body::after {
 
 /* True glassmorphism — requires moving content behind it to look real */
 .glass {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.035);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: 24px;
-  /* Polished glass edge — bright top line = light catching clean glass */
+  /* Rim-light effect: bright top edge = light catching premium glass */
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.20),
     inset 0 -1px 0 rgba(255, 255, 255, 0.04),
-    0 32px 64px rgba(0, 0, 0, 0.5);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    0 4px 6px rgba(0, 0, 0, 0.15),
+    0 32px 64px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.2s ease;
 }
 .glass:hover {
-  border-color: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.18);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26),
     inset 0 -1px 0 rgba(255, 255, 255, 0.06),
-    0 40px 80px rgba(0, 0, 0, 0.55);
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    0 40px 80px rgba(0, 0, 0, 0.45);
 }
 
 /* Chrome gradient text utility */
@@ -176,16 +179,20 @@ body::after {
 /* Legacy card utility -- used by inner pages */
 .card {
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: 16px;
-  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.20),
+    0 2px 8px rgba(0, 0, 0, 0.2);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .card:hover {
   border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.32);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
 /* Page fade utility */
