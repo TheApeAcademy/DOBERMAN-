@@ -191,9 +191,8 @@ export default function Landing() {
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}
             style={{ fontFamily: 'Syne', fontSize: 17, color: 'rgba(255,255,255,0.5)', maxWidth: 460, lineHeight: 1.65, position: 'relative', zIndex: 4 }}>
-            Detect deepfakes. Expose IoT vulnerabilities.
-            Verify news. Get expert cybersecurity advice.
-            Three modules. One platform. Zero guesswork.
+            Detect deepfakes. Verify news. Get expert cybersecurity advice.
+            Two modules. One platform. Zero guesswork.
           </motion.p>
 
           <motion.div
@@ -249,7 +248,7 @@ export default function Landing() {
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 80 }}>
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 20 }}>
-              [ THREE MODULES. ONE WATCHDOG. ]
+              [ TWO MODULES. ONE WATCHDOG. ]
             </p>
             <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92 }}>
               Intelligence built<br />for today's threats.
@@ -277,11 +276,11 @@ export default function Landing() {
                 </video>
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
-                  EYES -- DEEPFAKE DETECTION
+                  DEEPFAKE INTELLIGENCE
                 </div>
               </div>
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>01 -- DEEPFAKE DETECTION</p>
-              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>EYES</h3>
+              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>DEEPFAKE INTELLIGENCE</h3>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
                 Upload any image, video, or audio. D0B3RMAN's detection engine analyzes it
                 against known deepfake signatures and returns a trust score in seconds.
@@ -289,42 +288,12 @@ export default function Landing() {
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>Hive AI - XceptionNet - EfficientNet - MesoNet</p>
             </motion.div>
 
-            {/* NOSE */}
-            <motion.div
-              className="glass"
-              initial={{ opacity: 0, y: 80, scale: 0.94 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.85, delay: 0.12, ease: [0.25, 0.1, 0.25, 1] }}
-              viewport={{ once: true, margin: '-60px' }}
-              whileHover={{ y: -8, transition: { duration: 0.2 } }}
-              style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
-            >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
-                <img
-                  src="/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg"
-                  alt=""
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                />
-                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
-                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
-                  NOSE -- NETWORK INTELLIGENCE
-                </div>
-              </div>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>02 -- NETWORK INTELLIGENCE</p>
-              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>NOSE</h3>
-              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
-                Describe your network environment. D0B3RMAN identifies device vulnerabilities,
-                maps real CVEs, and gives you a prioritized action plan.
-              </p>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>NIST NVD - Real CVE Mapping - Device Fingerprinting</p>
-            </motion.div>
-
             {/* BRAIN */}
             <motion.div
               className="glass"
               initial={{ opacity: 0, x: 80, rotate: 3 }}
               whileInView={{ opacity: 1, x: 0, rotate: 0 }}
-              transition={{ duration: 0.85, delay: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.85, delay: 0.12, ease: [0.25, 0.1, 0.25, 1] }}
               viewport={{ once: true, margin: '-60px' }}
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
@@ -337,11 +306,11 @@ export default function Landing() {
                 />
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
-                  BRAIN -- AI SECURITY ANALYST
+                  DOB3RMAN INTELLIGENCE
                 </div>
               </div>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>03 -- AI SECURITY ANALYST</p>
-              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>BRAIN</h3>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>02 -- AI SECURITY ANALYST</p>
+              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>DOB3RMAN INTELLIGENCE</h3>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
                 Ask anything. Upload suspicious files. D0B3RMAN explains threats in plain language
                 and gives you a concrete next step. Like having a security analyst on call 24/7.
@@ -360,7 +329,7 @@ export default function Landing() {
             { target: 400, suffix: '%', label: 'Rise in deepfake attacks' },
             { target: 70, suffix: '%', label: 'IoT devices with critical vulns' },
             { target: 4, suffix: 'M+', prefix: '$', label: 'Average breach cost' },
-            { target: 3, suffix: ' modules', label: 'One platform' },
+            { target: 2, suffix: ' modules', label: 'One platform' },
           ].map((stat, i) => (
             <motion.div
               key={i}
@@ -429,13 +398,22 @@ export default function Landing() {
                 Paste any headline, claim, or article URL. D0B3RMAN cross-references it,
                 checks source quality, and gives you a credibility verdict in seconds.
               </p>
-              <motion.button
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => navigate('/auth')}
-                style={{ padding: '14px 36px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}>
-                Try News Verification
-              </motion.button>
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                <motion.button
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => navigate('/auth')}
+                  style={{ padding: '14px 36px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}>
+                  Try News Verification
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => navigate('/brain')}
+                  style={{ padding: '14px 36px', background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, color: 'white', fontFamily: 'Syne', fontWeight: 600, fontSize: 14 }}>
+                  Use D0B3RMAN Intelligence →
+                </motion.button>
+              </div>
             </motion.div>
 
             <motion.div
@@ -469,6 +447,7 @@ export default function Landing() {
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16, maxWidth: 500, lineHeight: 1.65, marginBottom: 36 }}>
                 Right-click any image, video, or selected text on any website.
                 Results appear in a floating panel — without leaving the page.
+                Powered by D0B3RMAN Intelligence.
               </p>
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 36 }}>
                 {['Right-click any image', 'Selected text verification', 'Works on all sites'].map((feat) => (
@@ -477,12 +456,21 @@ export default function Landing() {
                   </span>
                 ))}
               </div>
-              <motion.button
-                whileHover={{ scale: 1.04, boxShadow: '0 0 30px rgba(255,255,255,0.1)' }}
-                whileTap={{ scale: 0.97 }}
-                style={{ padding: '14px 36px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}>
-                Add to Chrome — Free
-              </motion.button>
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                <motion.button
+                  whileHover={{ scale: 1.04, boxShadow: '0 0 30px rgba(255,255,255,0.1)' }}
+                  whileTap={{ scale: 0.97 }}
+                  style={{ padding: '14px 36px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}>
+                  Add to Chrome — Free
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => navigate('/brain')}
+                  style={{ padding: '14px 36px', background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, color: 'white', fontFamily: 'Syne', fontWeight: 600, fontSize: 14 }}>
+                  Use D0B3RMAN Intelligence →
+                </motion.button>
+              </div>
             </motion.div>
 
             <motion.div
