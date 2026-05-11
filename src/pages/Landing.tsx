@@ -417,17 +417,17 @@ export default function Landing() {
       </div>
 
       {/* ─── NEWS SECTION ────────────────────────────────── */}
-      <section id="news" style={{ position: 'relative', overflow: 'hidden', padding: 'clamp(60px,10vw,100px) clamp(20px,4vw,48px)', background: '#000000' }}>
+      <section id="news" style={{ position: 'relative', overflow: 'hidden', padding: 'clamp(60px,10vw,100px) clamp(20px,4vw,48px)', background: '#1c0e07' }}>
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 60, alignItems: 'center' }}>
             <motion.div {...IN_VIEW} style={{ flex: '1 1 300px' }}>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'var(--danger)', marginBottom: 20 }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: '#a0632a', marginBottom: 20 }}>
                 [ FAKE NEWS DETECTION ]
               </p>
-              <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, marginBottom: 20 }}>
+              <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, marginBottom: 20, color: '#ffffff' }}>
                 Don't believe<br />everything<br />you read.
               </h2>
-              <p style={{ color: '#94A3B8', fontSize: 16, maxWidth: 500, lineHeight: 1.65, marginBottom: 28 }}>
+              <p style={{ color: '#e8d5c4', fontSize: 16, maxWidth: 500, lineHeight: 1.65, marginBottom: 28 }}>
                 Paste any headline, claim, or article URL. D0B3RMAN cross-references it,
                 checks source quality, and gives you a credibility verdict in seconds.
               </p>
@@ -439,19 +439,18 @@ export default function Landing() {
                   style={{ padding: '14px 36px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}>
                   Try News Verification
                 </motion.button>
-                <AskIntelligenceBtn onClick={() => navigate('/auth')} />
+                <AskIntelligenceBtn onClick={() => navigate('/auth')} dark />
               </div>
             </motion.div>
 
             <motion.div
               {...IN_VIEW}
-              className="glass"
-              style={{ flex: '1 1 300px', padding: 40, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 360, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}
+              style={{ flex: '1 1 300px', padding: 40, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 360, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', background: 'rgba(101,46,12,0.18)', border: '1px solid rgba(139,69,19,0.30)', boxShadow: 'inset 0 1px 0 rgba(255,180,100,0.10), 0 24px 48px rgba(0,0,0,0.4)' }}
             >
-              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.30} style={{ zIndex: 0 }} />
+              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.22} style={{ zIndex: 0 }} />
               <div style={{ position: 'relative', zIndex: 1 }}>
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--danger)', marginBottom: 16 }}>VERDICT -- LIKELY FALSE</p>
-                <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 18, lineHeight: 1.4, marginBottom: 12 }}>"Breaking: Scientists Confirm AI Will Replace All Jobs By 2025"</p>
+                <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 18, lineHeight: 1.4, marginBottom: 12, color: '#ffffff' }}>"Breaking: Scientists Confirm AI Will Replace All Jobs By 2025"</p>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
                   {['Sensationalist framing', 'No primary source', 'Vague attribution'].map((flag) => (
                     <span key={flag} style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--danger)', background: 'rgba(255,45,45,0.12)', border: '1px solid rgba(255,45,45,0.25)', padding: '4px 10px', borderRadius: 4 }}>{flag}</span>
@@ -461,7 +460,7 @@ export default function Landing() {
                   whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={() => navigate('/auth')}
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, color: '#94A3B8', fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.05em' }}>
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: 'rgba(160,99,42,0.12)', border: '1px solid rgba(160,99,42,0.35)', borderRadius: 8, color: '#a0632a', fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.05em' }}>
                   Ask D0B3RMAN Intelligence →
                 </motion.button>
               </div>
@@ -471,22 +470,22 @@ export default function Landing() {
       </section>
 
       {/* ─── EXTENSION SECTION ───────────────────────────── */}
-      <section id="extension" style={{ padding: 'clamp(60px,10vw,100px) clamp(20px,4vw,48px)', borderTop: '1px solid rgba(255,255,255,0.06)', background: '#000000' }}>
+      <section id="extension" style={{ padding: 'clamp(60px,10vw,100px) clamp(20px,4vw,48px)', borderTop: '1px solid rgba(101,46,12,0.3)', background: '#1c0e07' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 60, alignItems: 'center' }}>
             <motion.div {...IN_VIEW} style={{ flex: '1 1 300px' }}>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: '#64748B', marginBottom: 20 }}>[ BROWSER EXTENSION ]</p>
-              <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, marginBottom: 20 }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: '#a0632a', marginBottom: 20 }}>[ BROWSER EXTENSION ]</p>
+              <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, marginBottom: 20, color: '#ffffff' }}>
                 D0B3RMAN<br />everywhere<br />you browse.
               </h2>
-              <p style={{ color: '#94A3B8', fontSize: 16, maxWidth: 500, lineHeight: 1.65, marginBottom: 28 }}>
+              <p style={{ color: '#e8d5c4', fontSize: 16, maxWidth: 500, lineHeight: 1.65, marginBottom: 28 }}>
                 Right-click any image, video, or selected text on any website.
                 Results appear in a floating panel — without leaving the page.
                 Powered by D0B3RMAN Intelligence.
               </p>
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 28 }}>
                 {['Right-click any image', 'Selected text verification', 'Works on all sites'].map((feat) => (
-                  <span key={feat} style={{ padding: '8px 14px', background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: 8, fontFamily: 'JetBrains Mono', fontSize: 11, color: '#94A3B8', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.10)' }}>
+                  <span key={feat} style={{ padding: '8px 14px', background: 'rgba(101,46,12,0.18)', border: '1px solid rgba(139,69,19,0.30)', borderRadius: 8, fontFamily: 'JetBrains Mono', fontSize: 11, color: '#a0632a', boxShadow: 'inset 0 1px 0 rgba(255,180,100,0.08)' }}>
                     {feat}
                   </span>
                 ))}
@@ -498,26 +497,25 @@ export default function Landing() {
                   style={{ padding: '14px 36px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}>
                   Add to Chrome — Free
                 </motion.button>
-                <AskIntelligenceBtn onClick={() => navigate('/auth')} />
+                <AskIntelligenceBtn onClick={() => navigate('/auth')} dark />
               </div>
             </motion.div>
 
             <motion.div
               {...IN_VIEW}
-              className="glass"
-              style={{ flex: '1 1 300px', padding: 32, borderRadius: 24, minHeight: 400, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+              style={{ flex: '1 1 300px', padding: 32, borderRadius: 24, minHeight: 400, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: 'rgba(101,46,12,0.18)', border: '1px solid rgba(139,69,19,0.30)', boxShadow: 'inset 0 1px 0 rgba(255,180,100,0.10), 0 24px 48px rgba(0,0,0,0.4)' }}
             >
-              <div style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: '#64748B', marginBottom: 24 }}>
+              <div style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: '#7a4a20', marginBottom: 24 }}>
                 EXTENSION DEMO VIDEO -- /assets/video/extension-demo.mp4
               </div>
-              <div style={{ padding: '24px', background: 'rgba(13,13,16,0.96)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: 20, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.18)' }}>
+              <div style={{ padding: '24px', background: 'rgba(8,3,1,0.96)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', border: '1px solid rgba(139,69,19,0.25)', borderRadius: 20, boxShadow: 'inset 0 1px 0 rgba(255,180,100,0.08)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: '#94A3B8' }}>D0B3RMAN</span>
-                  <span style={{ color: '#64748B', fontSize: 18, lineHeight: 1 }}>×</span>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: '#a0632a' }}>D0B3RMAN</span>
+                  <span style={{ color: '#7a4a20', fontSize: 18, lineHeight: 1 }}>×</span>
                 </div>
                 <div style={{ fontFamily: 'JetBrains Mono', fontSize: 64, fontWeight: 700, color: 'var(--danger)', lineHeight: 1, marginBottom: 4 }}>97<span style={{ fontSize: 28 }}>%</span></div>
                 <div style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--danger)', marginBottom: 12 }}>FAKE</div>
-                <p style={{ fontFamily: 'Syne', fontSize: 12, color: '#94A3B8', lineHeight: 1.55, marginBottom: 16 }}>
+                <p style={{ fontFamily: 'Syne', fontSize: 12, color: '#e8d5c4', lineHeight: 1.55, marginBottom: 16 }}>
                   This image shows strong deepfake indicators. The facial boundaries and lighting are inconsistent with authentic photography.
                 </p>
                 <motion.button
@@ -531,7 +529,7 @@ export default function Landing() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => navigate('/auth')}
-                  style={{ display: 'block', width: '100%', textAlign: 'center', padding: '10px', background: 'rgba(255,255,255,0.06)', color: '#94A3B8', borderRadius: 10, fontFamily: 'JetBrains Mono', fontSize: 11, border: '1px solid rgba(255,255,255,0.10)' }}>
+                  style={{ display: 'block', width: '100%', textAlign: 'center', padding: '10px', background: 'rgba(160,99,42,0.12)', color: '#a0632a', borderRadius: 10, fontFamily: 'JetBrains Mono', fontSize: 11, border: '1px solid rgba(160,99,42,0.35)' }}>
                   Ask D0B3RMAN Intelligence →
                 </motion.button>
               </div>
