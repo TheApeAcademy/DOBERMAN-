@@ -153,11 +153,16 @@ export default function Landing() {
             onError={(e) => { const p = e.currentTarget.parentElement; if (p) p.style.display = 'none' }}
             style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
           />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #000 0%, rgba(0,0,0,0.5) 30%, transparent 65%)' }} />
+          <div className="hero-portrait-overlay" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #000 0%, rgba(0,0,0,0.5) 30%, transparent 65%)' }} />
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to bottom, transparent, #000)' }} />
         </motion.div>
 
-        <style>{`@media(max-width:768px){.hero-portrait{display:none!important}}`}</style>
+        <style>{`
+          @media(max-width:768px){
+            .hero-portrait{width:100%!important;left:0!important;}
+            .hero-portrait-overlay{background:linear-gradient(to right,#000 0%,rgba(0,0,0,0.92) 40%,rgba(0,0,0,0.55) 72%,rgba(0,0,0,0.15) 100%)!important;}
+          }
+        `}</style>
 
         <div style={{ position: 'relative', zIndex: 3, padding: 'clamp(100px,15vw,120px) clamp(20px,5vw,48px) 80px', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
 
@@ -171,19 +176,19 @@ export default function Landing() {
             <motion.div
               initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(80px, 15vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
+              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(52px, 14vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
               THE
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(80px, 15vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 3 }}>
+              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(52px, 14vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 3 }}>
               WATCH-
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(80px, 15vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
+              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(52px, 14vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
               DOG.
             </motion.div>
           </div>
