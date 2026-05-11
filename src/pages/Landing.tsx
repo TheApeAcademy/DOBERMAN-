@@ -95,7 +95,7 @@ export default function Landing() {
   }, [])
 
   return (
-    <div style={{ background: 'linear-gradient(to bottom, #2a1409 0%, #1a0c05 18%, #0a0401 40%, #000000 62%)', minHeight: '100vh', overflowX: 'hidden' }}>
+    <div style={{ background: '#000', minHeight: '100vh', overflowX: 'hidden' }}>
 
       {/* ─── NAV ─────────────────────────────────────────── */}
       <nav style={{
@@ -152,8 +152,8 @@ export default function Landing() {
             onError={(e) => { const p = e.currentTarget.parentElement; if (p) p.style.display = 'none' }}
             style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
           />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #2a1409 0%, rgba(42,20,9,0.5) 30%, transparent 65%)' }} />
-          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to bottom, transparent, #2a1409)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #000 0%, rgba(0,0,0,0.5) 30%, transparent 65%)' }} />
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to bottom, transparent, #000)' }} />
         </motion.div>
 
         <style>{`@media(max-width:768px){.hero-portrait{display:none!important}}`}</style>
@@ -227,7 +227,7 @@ export default function Landing() {
           </p>
         </div>
 
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 200, background: 'linear-gradient(to bottom, transparent, #2a1409)', zIndex: 3, pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 200, background: 'linear-gradient(to bottom, transparent, #000)', zIndex: 3, pointerEvents: 'none' }} />
       </section>
 
       {/* ─── STATS TICKER ────────────────────────────────── */}
@@ -242,7 +242,7 @@ export default function Landing() {
       </div>
 
       {/* ─── MODULES ─────────────────────────────────────── */}
-      <section id="modules" style={{ position: 'relative', overflow: 'hidden', padding: 'clamp(60px,10vw,120px) clamp(20px,4vw,48px)', background: 'transparent' }}>
+      <section id="modules" style={{ position: 'relative', overflow: 'hidden', padding: 'clamp(60px,10vw,120px) clamp(20px,4vw,48px)', background: '#120600' }}>
 
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 80 }}>

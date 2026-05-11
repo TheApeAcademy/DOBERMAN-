@@ -1,7 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './hooks/useAuth'
-import { PageWrapper } from './components/ui/PageWrapper'
 import { GlobalChrome3D } from './components/3d/ChromeScene'
 import Landing from './pages/Landing'
 import Auth from './pages/Auth'
@@ -35,25 +33,21 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 }
 
 function AnimatedRoutes() {
-  const location = useLocation()
-
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageWrapper><Landing /></PageWrapper>} />
-        <Route path="/auth" element={<PageWrapper><Auth /></PageWrapper>} />
-        <Route path="/share-target" element={<ProtectedRoute><ShareTarget /></ProtectedRoute>} />
-        <Route path="/dashboard" element={<ProtectedRoute><PageWrapper><Dashboard /></PageWrapper></ProtectedRoute>} />
-        <Route path="/eyes" element={<ProtectedRoute><PageWrapper><Eyes /></PageWrapper></ProtectedRoute>} />
-        <Route path="/nose" element={<ProtectedRoute><PageWrapper><Nose /></PageWrapper></ProtectedRoute>} />
-        <Route path="/brain" element={<ProtectedRoute><PageWrapper><Brain /></PageWrapper></ProtectedRoute>} />
-        <Route path="/news" element={<ProtectedRoute><PageWrapper><News /></PageWrapper></ProtectedRoute>} />
-        <Route path="/history" element={<ProtectedRoute><PageWrapper><History /></PageWrapper></ProtectedRoute>} />
-        <Route path="/settings" element={<ProtectedRoute><PageWrapper><Settings /></PageWrapper></ProtectedRoute>} />
-        <Route path="/profile" element={<ProtectedRoute><PageWrapper><Profile /></PageWrapper></ProtectedRoute>} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </AnimatePresence>
+    <Routes>
+      <Route path="/" element={<Landing />} />
+      <Route path="/auth" element={<Auth />} />
+      <Route path="/share-target" element={<ProtectedRoute><ShareTarget /></ProtectedRoute>} />
+      <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      <Route path="/eyes" element={<ProtectedRoute><Eyes /></ProtectedRoute>} />
+      <Route path="/nose" element={<ProtectedRoute><Nose /></ProtectedRoute>} />
+      <Route path="/brain" element={<ProtectedRoute><Brain /></ProtectedRoute>} />
+      <Route path="/news" element={<ProtectedRoute><News /></ProtectedRoute>} />
+      <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
+      <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+      <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   )
 }
 
