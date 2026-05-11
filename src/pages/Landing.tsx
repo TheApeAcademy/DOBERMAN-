@@ -96,7 +96,7 @@ export default function Landing() {
   }, [])
 
   return (
-    <div style={{ background: 'linear-gradient(to bottom, #1e0e06 0%, #0e0703 20%, #050201 42%, #000000 65%)', minHeight: '100vh', overflowX: 'hidden' }}>
+    <div style={{ background: 'linear-gradient(to bottom, #2a1409 0%, #1a0c05 18%, #0a0401 40%, #000000 62%)', minHeight: '100vh', overflowX: 'hidden' }}>
 
       {/* ─── NAV ─────────────────────────────────────────── */}
       <nav style={{
@@ -153,8 +153,8 @@ export default function Landing() {
             onError={(e) => { const p = e.currentTarget.parentElement; if (p) p.style.display = 'none' }}
             style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
           />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #1e0e06 0%, rgba(30,14,6,0.5) 30%, transparent 65%)' }} />
-          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to bottom, transparent, #1e0e06)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #2a1409 0%, rgba(42,20,9,0.5) 30%, transparent 65%)' }} />
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to bottom, transparent, #2a1409)' }} />
         </motion.div>
 
         <style>{`@media(max-width:768px){.hero-portrait{display:none!important}}`}</style>
@@ -229,7 +229,7 @@ export default function Landing() {
           </p>
         </div>
 
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 200, background: 'linear-gradient(to bottom, transparent, #1e0e06)', zIndex: 3, pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 200, background: 'linear-gradient(to bottom, transparent, #2a1409)', zIndex: 3, pointerEvents: 'none' }} />
       </section>
 
       {/* ─── STATS TICKER ────────────────────────────────── */}
@@ -440,10 +440,9 @@ export default function Landing() {
 
             <motion.div
               {...IN_VIEW}
-              className="glass"
-              style={{ flex: '1 1 300px', padding: 40, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 360, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}
+              style={{ flex: '1 1 300px', padding: 40, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 360, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.15)' }}
             >
-              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.4} style={{ zIndex: 0 }} />
+              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.9} style={{ zIndex: 0 }} />
               <div style={{ position: 'relative', zIndex: 1 }}>
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--danger)', marginBottom: 16 }}>VERDICT -- LIKELY FALSE</p>
                 <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 18, lineHeight: 1.4, marginBottom: 12 }}>"Breaking: Scientists Confirm AI Will Replace All Jobs By 2025"</p>
