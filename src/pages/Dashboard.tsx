@@ -113,7 +113,7 @@ export default function Dashboard() {
       desc: 'Analyze images, videos, and audio for synthetic media manipulation.',
       count: stats.eyesToday,
       limit: 3,
-      src: '/assets/video/blob-eyes.mp4',
+      src: '/assets/video/blob-nose.mp4',
       isImage: false,
     },
   ]
