@@ -26,17 +26,16 @@ const reviews = [
   { text: 'I uploaded a video of my CEO that turned out to be completely AI-generated. D0B3RMAN caught it in 3 seconds.', author: 'Marcus T.', role: 'IT Security Lead, London', badge: '98% FAKE', badgeColor: 'var(--danger)', rotate: -1.5 },
   { text: 'My home network had 4 critical vulnerabilities I had no idea about. Patched all of them in one afternoon.', author: 'Priya K.', role: 'Remote Software Engineer', badge: 'RISK: 74', badgeColor: 'var(--warning)', rotate: 1.5 },
   { text: 'The news verification alone is worth it. I paste every headline before sharing anything now.', author: 'David O.', role: 'Independent Journalist', badge: '3 FALSE FLAGS', badgeColor: 'var(--danger)', rotate: -1 },
-  { text: 'BRAIN explained a zero-day exploit to me like a human being. Not like reading a CVE database. Actually useful.', author: 'Aisha M.', role: 'Cybersecurity Student', badge: 'BRAIN 5/5', badgeColor: 'var(--safe)', rotate: 1 },
+  { text: 'D0B3RMAN Intelligence explained a zero-day exploit to me like a human being. Not like reading a CVE database. Actually useful.', author: 'Aisha M.', role: 'Cybersecurity Student', badge: 'D0B3RMAN I. 5/5', badgeColor: 'var(--safe)', rotate: 1 },
   { text: 'Right-clicked a suspicious LinkedIn profile picture. D0B3RMAN said 97% fake. Blocked immediately.', author: 'Tom R.', role: 'Senior Recruiter', badge: '97% FAKE', badgeColor: 'var(--danger)', rotate: -1.5 },
   { text: 'Scanned my entire smart home. Bulbs, TV, cameras, router. Got a full risk report with numbered steps.', author: 'Yuki N.', role: 'Smart Home Enthusiast', badge: '6 VULNS FOUND', badgeColor: 'var(--warning)', rotate: 1.5 },
 ]
 
 const hPanels = [
-  { num: '01', module: 'EYES', headline: 'See\nthrough\nthe fake.', sub: 'Upload any media. Get a trust score in seconds.' },
-  { num: '02', module: 'NOSE', headline: 'Sniff out\nevery\nthreat.', sub: 'Your network has secrets. D0B3RMAN finds them.' },
-  { num: '03', module: 'BRAIN', headline: 'Ask\nanything.\nKnow it all.', sub: 'A security analyst available every second of every day.' },
-  { num: '04', module: 'NEWS', headline: 'Real or\nfake?\nKnow now.', sub: 'Verify any headline or article in seconds.' },
-  { num: '05', module: 'EXTENSION', headline: 'Works\neverywhere\nyou do.', sub: 'Right-click any image on the web. Get results instantly.' },
+  { num: '01', module: 'DEEP FAKE INTELLIGENCE', headline: 'See\nthrough\nthe fake.', sub: 'Upload any media. Get a trust score in seconds.' },
+  { num: '02', module: 'D0B3RMAN INTELLIGENCE', headline: 'Ask\nanything.\nKnow it all.', sub: 'A security analyst available every second of every day.' },
+  { num: '03', module: 'NEWS', headline: 'Real or\nfake?\nKnow now.', sub: 'Verify any headline or article in seconds.' },
+  { num: '04', module: 'EXTENSION', headline: 'Works\neverywhere\nyou do.', sub: 'Right-click any image on the web. Get results instantly.' },
 ]
 
 const IN_VIEW = {
@@ -115,8 +114,8 @@ export default function Landing() {
         <span style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.2em' }}>D0B3RMAN</span>
         <div className="nav-links" style={{ display: 'flex', gap: 40, fontFamily: 'JetBrains Mono', fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>
           <a href="#modules" style={{ color: 'inherit', textDecoration: 'none' }}>MODULES</a>
+          <a href="#intelligence" style={{ color: 'inherit', textDecoration: 'none' }}>INTELLIGENCE</a>
           <a href="#news" style={{ color: 'inherit', textDecoration: 'none' }}>NEWS</a>
-          <a href="#extension" style={{ color: 'inherit', textDecoration: 'none' }}>EXTENSION</a>
           <a href="#reviews" style={{ color: 'inherit', textDecoration: 'none' }}>REVIEWS</a>
         </div>
         <div style={{ display: 'flex', gap: 12 }}>
@@ -191,9 +190,9 @@ export default function Landing() {
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}
             style={{ fontFamily: 'Syne', fontSize: 17, color: 'rgba(255,255,255,0.5)', maxWidth: 460, lineHeight: 1.65, position: 'relative', zIndex: 4 }}>
-            Detect deepfakes. Expose IoT vulnerabilities.
-            Verify news. Get expert cybersecurity advice.
-            Three modules. One platform. Zero guesswork.
+            Detect deepfakes. Verify news.
+            Get expert cybersecurity advice.
+            Two modules. One platform. Zero guesswork.
           </motion.p>
 
           <motion.div
@@ -249,26 +248,42 @@ export default function Landing() {
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 80 }}>
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 20 }}>
-              [ THREE MODULES. ONE WATCHDOG. ]
+              [ TWO MODULES. ONE WATCHDOG. ]
             </p>
             <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92 }}>
               Intelligence built<br />for today's threats.
             </h2>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
-
-            {/* EYES */}
-            <motion.div
-              className="glass"
-              initial={{ opacity: 0, x: -80, rotate: -3 }}
-              whileInView={{ opacity: 1, x: 0, rotate: 0 }}
-              transition={{ duration: 0.85, ease: [0.25, 0.1, 0.25, 1] }}
-              viewport={{ once: true, margin: '-60px' }}
-              whileHover={{ y: -8, transition: { duration: 0.2 } }}
-              style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
-            >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
+          {/* Deep Fake Intelligence card */}
+          <motion.div
+            className="glass"
+            initial={{ opacity: 0, x: -80, rotate: -2 }}
+            whileInView={{ opacity: 1, x: 0, rotate: 0 }}
+            transition={{ duration: 0.85, ease: [0.25, 0.1, 0.25, 1] }}
+            viewport={{ once: true, margin: '-60px' }}
+            whileHover={{ y: -8, transition: { duration: 0.2 } }}
+            style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden', marginBottom: 24 }}
+          >
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 36, alignItems: 'center' }}>
+              <div>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>01 -- DEEPFAKE DETECTION</p>
+                <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(40px, 6vw, 72px)', letterSpacing: '0.08em', marginBottom: 16, lineHeight: 0.95 }}>DEEP FAKE<br />INTELLIGENCE</h3>
+                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
+                  Upload any image, video, or audio. D0B3RMAN's detection engine analyzes it
+                  against known deepfake signatures and returns a trust score in seconds.
+                </p>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)', marginBottom: 28 }}>Hive AI · XceptionNet · EfficientNet · MesoNet</p>
+                <motion.button
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => navigate('/auth')}
+                  style={{ padding: '12px 32px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10, cursor: 'pointer' }}
+                >
+                  Try Deep Fake Detection
+                </motion.button>
+              </div>
+              <div style={{ position: 'relative', height: 320, borderRadius: 16, overflow: 'hidden', background: '#060606' }}>
                 <video
                   autoPlay muted loop playsInline
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
@@ -276,80 +291,74 @@ export default function Landing() {
                   <source src="/assets/video/blob-eyes.mp4" type="video/mp4" />
                 </video>
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
-                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
-                  EYES -- DEEPFAKE DETECTION
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', zIndex: 2 }}>
+                  DEEP FAKE INTELLIGENCE -- DEEPFAKE DETECTION
                 </div>
               </div>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>01 -- DEEPFAKE DETECTION</p>
-              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>EYES</h3>
-              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
-                Upload any image, video, or audio. D0B3RMAN's detection engine analyzes it
-                against known deepfake signatures and returns a trust score in seconds.
-              </p>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>Hive AI - XceptionNet - EfficientNet - MesoNet</p>
-            </motion.div>
+            </div>
+          </motion.div>
 
-            {/* NOSE */}
-            <motion.div
-              className="glass"
-              initial={{ opacity: 0, y: 80, scale: 0.94 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.85, delay: 0.12, ease: [0.25, 0.1, 0.25, 1] }}
-              viewport={{ once: true, margin: '-60px' }}
-              whileHover={{ y: -8, transition: { duration: 0.2 } }}
-              style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
-            >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
-                <img
-                  src="/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg"
-                  alt=""
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                />
-                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
-                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
-                  NOSE -- NETWORK INTELLIGENCE
-                </div>
+          {/* D0B3RMAN Intelligence — featured full-width with big standalone video */}
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+            viewport={{ once: true, margin: '-60px' }}
+            style={{ borderRadius: 28, overflow: 'hidden', border: '1px solid rgba(0,212,106,0.12)', background: 'rgba(0,0,0,0.8)' }}
+          >
+            {/* Big standalone brain video */}
+            <div style={{ position: 'relative', width: '100%', height: 'clamp(360px, 55vw, 640px)', background: '#000' }}>
+              <video
+                autoPlay muted loop playsInline preload="auto"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              >
+                <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
+              </video>
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.95))', pointerEvents: 'none' }} />
+              <div style={{ position: 'absolute', top: 20, left: 24, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(0,212,106,0.5)', zIndex: 2 }}>
+                D0B3RMAN INTELLIGENCE -- AI SECURITY ANALYST
               </div>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>02 -- NETWORK INTELLIGENCE</p>
-              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>NOSE</h3>
-              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
-                Describe your network environment. D0B3RMAN identifies device vulnerabilities,
-                maps real CVEs, and gives you a prioritized action plan.
-              </p>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>NIST NVD - Real CVE Mapping - Device Fingerprinting</p>
-            </motion.div>
+            </div>
 
-            {/* BRAIN */}
-            <motion.div
-              className="glass"
-              initial={{ opacity: 0, x: 80, rotate: 3 }}
-              whileInView={{ opacity: 1, x: 0, rotate: 0 }}
-              transition={{ duration: 0.85, delay: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
-              viewport={{ once: true, margin: '-60px' }}
-              whileHover={{ y: -8, transition: { duration: 0.2 } }}
-              style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
-            >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
-                <video
-                  autoPlay muted loop playsInline preload="auto"
-                  src="/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4"
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
-                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', zIndex: 2 }}>
-                  BRAIN -- AI SECURITY ANALYST
-                </div>
-              </div>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>03 -- AI SECURITY ANALYST</p>
-              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>BRAIN</h3>
-              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
-                Ask anything. Upload suspicious files. D0B3RMAN explains threats in plain language
-                and gives you a concrete next step. Like having a security analyst on call 24/7.
+            {/* Content below the video */}
+            <div style={{ padding: 'clamp(32px,5vw,56px)', textAlign: 'center' }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.25em', color: 'rgba(0,212,106,0.6)', marginBottom: 16 }}>
+                02 -- AI SECURITY ANALYST
               </p>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>Claude Sonnet - Context-aware - File Upload Support</p>
-            </motion.div>
+              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 8vw, 100px)', letterSpacing: '0.1em', lineHeight: 0.92, marginBottom: 20 }}>
+                D0B3RMAN<br /><span style={{ color: 'var(--safe)' }}>INTELLIGENCE</span>
+              </h3>
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16, lineHeight: 1.7, marginBottom: 36, maxWidth: 560, margin: '0 auto 36px' }}>
+                Ask anything. D0B3RMAN explains threats in plain language and gives you a concrete next step. Like having a security analyst on call 24/7.
+              </p>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)', marginBottom: 32 }}>
+                Claude Sonnet · Context-aware · Real-time Threat Intel
+              </p>
+              <motion.button
+                whileHover={{ scale: 1.04, boxShadow: '0 0 50px rgba(0,212,106,0.2)' }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => navigate('/auth')}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  padding: '16px 44px',
+                  background: 'var(--safe)',
+                  color: '#000',
+                  fontFamily: 'Syne',
+                  fontWeight: 800,
+                  fontSize: 15,
+                  border: 'none',
+                  borderRadius: 14,
+                  cursor: 'pointer',
+                  letterSpacing: '0.03em',
+                }}
+              >
+                Get Access to D0B3RMAN Intelligence
+              </motion.button>
+            </div>
+          </motion.div>
 
-          </div>
         </div>
       </section>
 
@@ -360,7 +369,7 @@ export default function Landing() {
             { target: 400, suffix: '%', label: 'Rise in deepfake attacks' },
             { target: 70, suffix: '%', label: 'IoT devices with critical vulns' },
             { target: 4, suffix: 'M+', prefix: '$', label: 'Average breach cost' },
-            { target: 3, suffix: ' modules', label: 'One platform' },
+            { target: 2, suffix: ' modules', label: 'One platform' },
           ].map((stat, i) => (
             <motion.div
               key={i}

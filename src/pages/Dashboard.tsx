@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Shield, Radio, ArrowRight, Clock, ExternalLink, ChevronRight, Zap } from 'lucide-react'
+import { Shield, ArrowRight, Clock, ExternalLink, ChevronRight, Zap } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
@@ -117,24 +117,13 @@ export default function Dashboard() {
     {
       to: '/eyes',
       icon: Shield,
-      name: 'SENTINEL',
+      name: 'DEEP FAKE INTELLIGENCE',
       sub: 'Deepfake Detection',
       desc: 'Analyze images, videos, and audio for synthetic media manipulation.',
       count: stats.eyesToday,
       limit: 3,
       src: '/assets/video/blob-eyes.mp4',
       isImage: false,
-    },
-    {
-      to: '/nose',
-      icon: Radio,
-      name: 'GUARDIAN',
-      sub: 'Network Intelligence',
-      desc: 'Map your network environment and identify security weaknesses.',
-      count: stats.noseToday,
-      limit: 3,
-      src: '/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg',
-      isImage: true,
     },
   ]
 
@@ -193,7 +182,7 @@ export default function Dashboard() {
           <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 20 }}>
             MODULES
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)', gap: 16, maxWidth: 480 }}>
             {moduleCards.map(({ to, icon: Icon, name, sub, desc, count, limit, src, isImage }, i) => (
               <motion.button
                 key={to}
@@ -442,6 +431,31 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* Dog image */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          style={{
+            marginBottom: 32,
+            borderRadius: 24,
+            overflow: 'hidden',
+            position: 'relative',
+            height: 280,
+          }}
+        >
+          <img
+            src="/assets/video/b78ad4f230a4015d24a420fce2a7d53b.jpg"
+            alt="D0B3RMAN"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%', display: 'block' }}
+          />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.85))', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', bottom: 20, left: 24 }}>
+            <p style={{ fontFamily: 'Bebas Neue', fontSize: 28, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.9)', lineHeight: 1 }}>D0B3RMAN</p>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.35)', marginTop: 4 }}>THE WATCHDOG IS WATCHING</p>
+          </div>
+        </motion.div>
+
         {/* Activity feed */}
         <div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
@@ -472,10 +486,10 @@ export default function Dashboard() {
               </div>
             ) : (
               activity.map((item, i) => {
-                const typeLabels: Record<string, string> = { eyes: 'SENTINEL', nose: 'GUARDIAN', brain: 'D.I.', news: 'NEWS' }
+                const typeLabels: Record<string, string> = { eyes: 'D.F.I.', nose: 'D.F.I.', brain: 'D0B3RMAN I.', news: 'NEWS' }
                 const typeIcons: Record<string, React.FC<{ size: number; style: React.CSSProperties }>> = {
                   eyes: (p) => <Shield {...p} />,
-                  nose: (p) => <Radio {...p} />,
+                  nose: (p) => <Shield {...p} />,
                   brain: (p) => <Zap {...p} />,
                   news: (p) => <ExternalLink {...p} />,
                 }
