@@ -56,21 +56,12 @@ export default function Dashboard() {
     eyesToday: 0, noseToday: 0, brainToday: 0, newsToday: 0,
   })
   const [loading, setLoading] = useState(true)
-  const [tickerOffset, setTickerOffset] = useState(0)
   const [visibleHeadlines, setVisibleHeadlines] = useState(3)
-  const tickerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!user) return
     fetchDashboardData()
   }, [user])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTickerOffset((prev) => (prev + 1) % CYBER_HEADLINES.length)
-    }, 4000)
-    return () => clearInterval(interval)
-  }, [])
 
   const fetchDashboardData = async () => {
     if (!user) return
