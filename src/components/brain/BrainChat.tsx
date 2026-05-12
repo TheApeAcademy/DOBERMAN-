@@ -101,16 +101,19 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <div style={{
-            width: 28,
-            height: 28,
-            borderRadius: 8,
-            background: 'rgba(0,212,106,0.1)',
-            border: '1px solid rgba(0,212,106,0.2)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            width: 40,
+            height: 40,
+            borderRadius: 10,
+            background: '#000',
+            border: '1px solid rgba(0,212,106,0.25)',
+            overflow: 'hidden',
           }}>
-            <Zap size={14} style={{ color: 'var(--safe)' }} />
+            <video
+              autoPlay muted loop playsInline preload="auto"
+              style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+            >
+              <source src="/assets/video/blob-di.mp4" type="video/mp4" />
+            </video>
           </div>
           <div>
             <p style={{ fontFamily: 'Bebas Neue', fontSize: 16, letterSpacing: '0.2em', color: 'var(--safe)', lineHeight: 1 }}>

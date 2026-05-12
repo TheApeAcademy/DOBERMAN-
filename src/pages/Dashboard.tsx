@@ -242,17 +242,20 @@ export default function Dashboard() {
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <div style={{
-              width: 44,
-              height: 44,
-              borderRadius: 12,
-              background: 'rgba(0,212,106,0.1)',
-              border: '1px solid rgba(0,212,106,0.2)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              width: 56,
+              height: 56,
+              borderRadius: 14,
+              background: '#000',
+              border: '1px solid rgba(0,212,106,0.3)',
+              overflow: 'hidden',
               flexShrink: 0,
             }}>
-              <Zap size={20} style={{ color: 'var(--safe)' }} />
+              <video
+                autoPlay muted loop playsInline preload="auto"
+                style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+              >
+                <source src="/assets/video/blob-di.mp4" type="video/mp4" />
+              </video>
             </div>
             <div>
               <p style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.15em', color: 'var(--safe)', lineHeight: 1, marginBottom: 4 }}>

@@ -1,4 +1,4 @@
-import { Zap, User } from 'lucide-react'
+import { User } from 'lucide-react'
 import type { ChatMessage } from '../../lib/supabase'
 import { formatRelativeTime } from '../../lib/utils'
 
@@ -133,18 +133,21 @@ export function BrainMessage({ message }: BrainMessageProps) {
       alignItems: 'flex-start',
     }}>
       <div style={{
-        width: 30,
-        height: 30,
-        borderRadius: 8,
-        background: 'rgba(0,212,106,0.1)',
-        border: '1px solid rgba(0,212,106,0.2)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        width: 36,
+        height: 36,
+        borderRadius: 10,
+        background: '#000',
+        border: '1px solid rgba(0,212,106,0.25)',
+        overflow: 'hidden',
         flexShrink: 0,
         marginTop: 2,
       }}>
-        <Zap size={14} style={{ color: 'var(--safe)' }} />
+        <video
+          autoPlay muted loop playsInline preload="auto"
+          style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+        >
+          <source src="/assets/video/blob-di.mp4" type="video/mp4" />
+        </video>
       </div>
       <div style={{ maxWidth: '80%' }}>
         <p style={{
@@ -198,17 +201,20 @@ export function TypingIndicator() {
       alignItems: 'flex-start',
     }}>
       <div style={{
-        width: 30,
-        height: 30,
-        borderRadius: 8,
-        background: 'rgba(0,212,106,0.1)',
-        border: '1px solid rgba(0,212,106,0.2)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        width: 36,
+        height: 36,
+        borderRadius: 10,
+        background: '#000',
+        border: '1px solid rgba(0,212,106,0.25)',
+        overflow: 'hidden',
         flexShrink: 0,
       }}>
-        <Zap size={14} style={{ color: 'var(--safe)' }} />
+        <video
+          autoPlay muted loop playsInline preload="auto"
+          style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+        >
+          <source src="/assets/video/blob-di.mp4" type="video/mp4" />
+        </video>
       </div>
       <div style={{
         background: 'rgba(255,255,255,0.03)',
