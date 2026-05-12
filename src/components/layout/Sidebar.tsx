@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Eye, Wifi, Brain, LayoutDashboard, History, Settings, LogOut, User, Newspaper } from 'lucide-react'
+import { Shield, Zap, LayoutDashboard, History, Settings, LogOut, User, Newspaper } from 'lucide-react'
 import type { Profile } from '../../lib/supabase'
 import { getInitials, getAvatarColor } from '../../lib/utils'
 
@@ -13,9 +13,8 @@ interface SidebarProps {
 
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', sub: '' },
-  { to: '/eyes', icon: Eye, label: 'EYES', sub: 'Deepfake Detection' },
-  { to: '/nose', icon: Wifi, label: 'NOSE', sub: 'IoT Intelligence' },
-  { to: '/brain', icon: Brain, label: 'BRAIN', sub: 'AI Assistant' },
+  { to: '/eyes', icon: Shield, label: 'D.F.I.', sub: 'Deep Fake Intelligence' },
+  { to: '/brain', icon: Zap, label: 'D0B3RMAN I.', sub: 'AI Intelligence' },
   { to: '/news', icon: Newspaper, label: 'NEWS', sub: 'Verify Content' },
   { to: '/history', icon: History, label: 'History', sub: '' },
   { to: '/settings', icon: Settings, label: 'Settings', sub: '' },
