@@ -467,6 +467,96 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ─── LIVE INTEL FEED (Samsung News style) ───────── */}
+      <section style={{ minHeight: '100vh', background: '#000', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', flexDirection: 'column', padding: 'clamp(40px,6vw,60px) clamp(20px,4vw,48px)' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', flex: 1, display: 'flex', flexDirection: 'column' }}>
+
+          {/* Header */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--danger)', animation: 'landingPulse 1.5s infinite' }} />
+              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.3)' }}>LIVE</span>
+            </div>
+            <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>
+              {new Date().toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }).toUpperCase()}
+            </span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
+            <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(24px, 4vw, 36px)' }}>Top Stories</h2>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+
+          {/* Hero story */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} viewport={{ once: true }}
+            onClick={() => navigate('/auth')}
+            style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', height: 'clamp(220px, 38vh, 340px)', marginBottom: 4, flexShrink: 0, cursor: 'pointer' }}
+          >
+            <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
+              <source src="/assets/video/blob-news.mp4" type="video/mp4" />
+            </video>
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.92) 100%)' }} />
+            <div style={{ position: 'absolute', inset: 0, padding: '24px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', zIndex: 1 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+                <div style={{ width: 20, height: 20, borderRadius: 4, background: 'rgba(255,45,45,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 10, color: '#fff' }}>T</span>
+                </div>
+                <span style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.9)' }}>THREATPOST</span>
+                <span style={{ fontFamily: 'Syne', fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>2 hours ago</span>
+              </div>
+              <h3 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 'clamp(17px, 2.5vw, 22px)', lineHeight: 1.3, color: '#fff', maxWidth: 680 }}>
+                Critical zero-day exploit targets Windows devices via CLFS driver vulnerability — patch required immediately
+              </h3>
+            </div>
+          </motion.div>
+
+          {/* Story list */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            {[
+              { source: 'DARK READING', text: 'AI-generated deepfake audio used in $25M corporate wire transfer fraud', time: '11m ago', color: '#FF9500' },
+              { source: 'BLEEPING COMPUTER', text: 'Massive botnet of 40,000 compromised IoT cameras targeting financial sector', time: '28m ago', color: '#FF6B35' },
+              { source: 'THE HACKER NEWS', text: 'State-sponsored group deploys rootkit via malicious firmware updates to routers', time: '44m ago', color: '#FF2D2D' },
+              { source: 'KREBS ON SECURITY', text: 'Ransomware group LockBit 4.0 claims breach of three critical infrastructure operators', time: '3h ago', color: '#FF6B35' },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} viewport={{ once: true }}
+                onClick={() => navigate('/auth')}
+                style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px 0', borderBottom: '1px solid rgba(255,255,255,0.06)', cursor: 'pointer' }}
+              >
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                    <div style={{ width: 18, height: 18, borderRadius: 4, background: item.color + '22', border: `1px solid ${item.color}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <span style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 9, color: item.color }}>{item.source[0]}</span>
+                    </div>
+                    <span style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.55)' }}>{item.source}</span>
+                  </div>
+                  <p style={{ fontFamily: 'Syne', fontWeight: 600, fontSize: 'clamp(14px, 1.8vw, 16px)', color: '#fff', lineHeight: 1.35, marginBottom: 6, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                    {item.text}
+                  </p>
+                  <span style={{ fontFamily: 'Syne', fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>{item.time}</span>
+                </div>
+                <div style={{ width: 88, height: 68, borderRadius: 10, flexShrink: 0, background: `linear-gradient(135deg, ${item.color}25, rgba(10,10,10,0.9))`, border: `1px solid ${item.color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontFamily: 'Bebas Neue', fontSize: 11, letterSpacing: '0.12em', color: item.color, opacity: 0.7 }}>THREAT</span>
+                </div>
+              </motion.div>
+            ))}
+
+            {/* CTA */}
+            <motion.button
+              whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+              onClick={() => navigate('/auth')}
+              style={{ marginTop: 32, padding: '16px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, fontFamily: 'Syne', fontWeight: 700, fontSize: 15, color: 'rgba(255,255,255,0.7)', width: '100%', maxWidth: 320, alignSelf: 'center' }}
+            >
+              Verify any headline free →
+            </motion.button>
+          </div>
+        </div>
+        <style>{`@keyframes landingPulse { 0%,100%{opacity:1} 50%{opacity:0.4} }`}</style>
+      </section>
+
       {/* ─── EXTENSION SECTION ───────────────────────────── */}
       <section id="extension" style={{ padding: 'clamp(60px,10vw,100px) clamp(20px,4vw,48px)', borderTop: '1px solid rgba(255,255,255,0.05)', background: 'rgba(4,4,4,0.98)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
