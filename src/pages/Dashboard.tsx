@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { Eye, Wifi, Brain, Newspaper, ArrowRight, Clock } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Shield, Radio, ArrowRight, Clock, ExternalLink, ChevronRight, Zap } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
@@ -27,6 +27,26 @@ interface Stats {
   newsToday: number
 }
 
+const CYBER_HEADLINES = [
+  { id: 1, tag: 'CRITICAL', text: 'New zero-day exploit targets 200M Windows devices via CLFS driver vulnerability', time: '3m ago' },
+  { id: 2, tag: 'WARNING', text: 'AI-generated deepfake audio used in $25M corporate wire transfer fraud', time: '11m ago' },
+  { id: 3, tag: 'ALERT', text: 'Massive botnet of 40,000 compromised IoT cameras targeting financial sector', time: '28m ago' },
+  { id: 4, tag: 'CRITICAL', text: 'State-sponsored group deploys rootkit via malicious firmware updates to routers', time: '44m ago' },
+  { id: 5, tag: 'WARNING', text: 'Phishing campaign impersonating GitHub 2FA notices hitting developers', time: '1h ago' },
+  { id: 6, tag: 'INFO', text: 'CISA adds four newly exploited vulnerabilities to Known Exploited Catalog', time: '2h ago' },
+  { id: 7, tag: 'ALERT', text: 'Ransomware group LockBit 4.0 claims breach of three critical infrastructure operators', time: '3h ago' },
+  { id: 8, tag: 'WARNING', text: 'Supply chain attack found in popular npm package with 8M weekly downloads', time: '4h ago' },
+  { id: 9, tag: 'INFO', text: 'Google patches 47 Android vulnerabilities including actively exploited privilege escalation', time: '5h ago' },
+  { id: 10, tag: 'ALERT', text: 'Nation-state actor uses synthetic media in disinformation operation targeting elections', time: '6h ago' },
+]
+
+const TAG_COLORS: Record<string, string> = {
+  CRITICAL: 'var(--danger)',
+  WARNING: 'var(--warning)',
+  ALERT: '#FF6B35',
+  INFO: 'var(--chrome-dim)',
+}
+
 export default function Dashboard() {
   const { user, profile, signOut } = useAuth()
   const navigate = useNavigate()
@@ -36,11 +56,21 @@ export default function Dashboard() {
     eyesToday: 0, noseToday: 0, brainToday: 0, newsToday: 0,
   })
   const [loading, setLoading] = useState(true)
+  const [tickerOffset, setTickerOffset] = useState(0)
+  const [visibleHeadlines, setVisibleHeadlines] = useState(3)
+  const tickerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!user) return
     fetchDashboardData()
   }, [user])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTickerOffset((prev) => (prev + 1) % CYBER_HEADLINES.length)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [])
 
   const fetchDashboardData = async () => {
     if (!user) return
@@ -84,15 +114,35 @@ export default function Dashboard() {
   }
 
   const moduleCards = [
-    { to: '/eyes', icon: Eye, name: 'EYES', sub: 'Deepfake Detection', desc: 'Analyze images, videos, and audio for synthetic media manipulation.', count: stats.eyesToday, limit: 3, src: '/assets/video/blob-eyes.mp4', isImage: false, label: 'EYES -- DEEPFAKE DETECTION' },
-    { to: '/nose', icon: Wifi, name: 'NOSE', sub: 'IoT Intelligence', desc: 'Map your network environment and identify security weaknesses.', count: stats.noseToday, limit: 3, src: '/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg', isImage: true, label: 'NOSE -- IOT INTELLIGENCE' },
-    { to: '/brain', icon: Brain, name: 'BRAIN', sub: 'AI Analyst', desc: 'Chat with your dedicated cybersecurity expert powered by Claude.', count: stats.brainToday, limit: 10, src: '/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4', isImage: false, label: 'BRAIN -- AI ANALYST' },
-    { to: '/news', icon: Newspaper, name: 'NEWS', sub: 'Verify Content', desc: 'Paste any headline or claim. Get a credibility verdict instantly.', count: stats.newsToday, limit: 3, src: '/assets/video/blob-news.mp4', isImage: false, label: 'NEWS -- VERIFY CONTENT' },
+    {
+      to: '/eyes',
+      icon: Shield,
+      name: 'SENTINEL',
+      sub: 'Deepfake Detection',
+      desc: 'Analyze images, videos, and audio for synthetic media manipulation.',
+      count: stats.eyesToday,
+      limit: 3,
+      src: '/assets/video/blob-eyes.mp4',
+      isImage: false,
+    },
+    {
+      to: '/nose',
+      icon: Radio,
+      name: 'GUARDIAN',
+      sub: 'Network Intelligence',
+      desc: 'Map your network environment and identify security weaknesses.',
+      count: stats.noseToday,
+      limit: 3,
+      src: '/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg',
+      isImage: true,
+    },
   ]
 
   const firstName = profile?.name?.split(' ')[0] || profile?.email?.split('@')[0] || 'Operator'
   const h = new Date().getHours()
   const greeting = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening'
+
+  const displayedHeadlines = CYBER_HEADLINES.slice(0, visibleHeadlines)
 
   return (
     <Layout profile={profile} onSignOut={signOut} title="Dashboard">
@@ -119,7 +169,7 @@ export default function Dashboard() {
           {[
             { label: 'Scans Today', value: stats.eyesToday + stats.noseToday + stats.newsToday, color: 'var(--chrome-mid)' },
             { label: 'Threats Found', value: stats.threatsDetected, color: 'var(--danger)' },
-            { label: 'AI Messages', value: stats.brainToday, color: 'var(--safe)' },
+            { label: 'AI Queries', value: stats.brainToday, color: 'var(--safe)' },
             { label: 'Total Scans', value: stats.eyesTotal + stats.noseTotal, color: 'var(--warning)' },
           ].map(({ label, value, color }, i) => (
             <motion.div
@@ -138,13 +188,13 @@ export default function Dashboard() {
           ))}
         </div>
 
-        {/* Module cards */}
+        {/* Module cards — 2 only */}
         <div style={{ marginBottom: 40 }}>
           <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 20 }}>
             MODULES
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
-            {moduleCards.map(({ to, icon: Icon, name, sub, desc, count, limit, src, isImage, label }, i) => (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
+            {moduleCards.map(({ to, icon: Icon, name, sub, desc, count, limit, src, isImage }, i) => (
               <motion.button
                 key={to}
                 initial={{ opacity: 0, x: -20 }}
@@ -165,7 +215,7 @@ export default function Dashboard() {
                   )}
                   <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', borderRadius: '20px 20px 0 0' }} />
                   <div style={{ position: 'absolute', bottom: 10, left: 14, fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', zIndex: 2 }}>
-                    {label}
+                    {name} -- {sub.toUpperCase()}
                   </div>
                 </div>
                 <div style={{ padding: '20px 24px 24px', flex: 1 }}>
@@ -185,6 +235,210 @@ export default function Dashboard() {
                 </div>
               </motion.button>
             ))}
+          </div>
+        </div>
+
+        {/* Doberman Intelligence banner */}
+        <motion.button
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          whileHover={{ borderColor: 'rgba(0,212,106,0.4)', background: 'rgba(0,212,106,0.04)', transition: { duration: 0.2 } }}
+          onClick={() => navigate('/brain')}
+          style={{
+            width: '100%',
+            marginBottom: 40,
+            padding: '20px 28px',
+            borderRadius: 20,
+            background: 'rgba(0,212,106,0.03)',
+            border: '1px solid rgba(0,212,106,0.15)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            cursor: 'pointer',
+            textAlign: 'left',
+            gap: 16,
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <div style={{
+              width: 44,
+              height: 44,
+              borderRadius: 12,
+              background: 'rgba(0,212,106,0.1)',
+              border: '1px solid rgba(0,212,106,0.2)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+            }}>
+              <Zap size={20} style={{ color: 'var(--safe)' }} />
+            </div>
+            <div>
+              <p style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.15em', color: 'var(--safe)', lineHeight: 1, marginBottom: 4 }}>
+                DOBERMAN INTELLIGENCE
+              </p>
+              <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-2)' }}>
+                Ask anything — threat analysis, CVEs, security guidance, and more.
+              </p>
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+            <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--safe)', letterSpacing: '0.1em' }}>
+              {stats.brainToday}/10 today
+            </span>
+            <ChevronRight size={16} style={{ color: 'var(--safe)' }} />
+          </div>
+        </motion.button>
+
+        {/* Live News Feed */}
+        <div style={{ marginBottom: 40 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--danger)', animation: 'pulse 1.5s infinite' }} />
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-3)' }}>
+                LIVE THREAT FEED
+              </p>
+            </div>
+            <button
+              onClick={() => navigate('/news')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+                fontFamily: 'JetBrains Mono',
+                fontSize: 11,
+                color: 'var(--chrome-dim)',
+                background: 'none',
+                border: '1px solid var(--glass-border)',
+                padding: '5px 12px',
+                borderRadius: 6,
+              }}
+            >
+              <ExternalLink size={11} />
+              Verify Headlines
+            </button>
+          </div>
+
+          <div className="glass" style={{ borderRadius: 20, overflow: 'hidden' }}>
+            <AnimatePresence mode="popLayout">
+              {displayedHeadlines.map((item, i) => {
+                const tagColor = TAG_COLORS[item.tag] || 'var(--chrome-dim)'
+                return (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 16 }}
+                    transition={{ delay: i * 0.05 }}
+                    style={{
+                      padding: '14px 20px',
+                      borderBottom: i < displayedHeadlines.length - 1 ? '1px solid var(--glass-border)' : 'none',
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: 14,
+                    }}
+                  >
+                    <span style={{
+                      fontFamily: 'JetBrains Mono',
+                      fontSize: 9,
+                      letterSpacing: '0.12em',
+                      color: tagColor,
+                      background: `${tagColor}18`,
+                      border: `1px solid ${tagColor}33`,
+                      padding: '3px 7px',
+                      borderRadius: 4,
+                      whiteSpace: 'nowrap',
+                      marginTop: 2,
+                      flexShrink: 0,
+                    }}>
+                      {item.tag}
+                    </span>
+                    <p style={{
+                      fontFamily: 'Syne',
+                      fontSize: 14,
+                      color: 'var(--text-1)',
+                      lineHeight: 1.5,
+                      flex: 1,
+                    }}>
+                      {item.text}
+                    </p>
+                    <span style={{
+                      fontFamily: 'JetBrains Mono',
+                      fontSize: 10,
+                      color: 'var(--text-3)',
+                      whiteSpace: 'nowrap',
+                      flexShrink: 0,
+                      marginTop: 2,
+                    }}>
+                      {item.time}
+                    </span>
+                  </motion.div>
+                )
+              })}
+            </AnimatePresence>
+
+            {visibleHeadlines < CYBER_HEADLINES.length && (
+              <button
+                onClick={() => setVisibleHeadlines(CYBER_HEADLINES.length)}
+                style={{
+                  width: '100%',
+                  padding: '14px 20px',
+                  background: 'rgba(255,255,255,0.02)',
+                  border: 'none',
+                  borderTop: '1px solid var(--glass-border)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                  fontFamily: 'JetBrains Mono',
+                  fontSize: 11,
+                  letterSpacing: '0.1em',
+                  color: 'var(--chrome-dim)',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s',
+                }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.05)' }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.02)' }}
+              >
+                <ChevronRight size={12} style={{ transform: 'rotate(90deg)' }} />
+                VIEW MORE ({CYBER_HEADLINES.length - visibleHeadlines} more threats)
+              </button>
+            )}
+
+            {visibleHeadlines >= CYBER_HEADLINES.length && (
+              <div
+                style={{
+                  padding: '14px 20px',
+                  borderTop: '1px solid var(--glass-border)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 10,
+                }}
+              >
+                <button
+                  onClick={() => navigate('/news')}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    fontFamily: 'JetBrains Mono',
+                    fontSize: 11,
+                    letterSpacing: '0.1em',
+                    color: 'var(--danger)',
+                    background: 'rgba(255,59,59,0.08)',
+                    border: '1px solid rgba(255,59,59,0.2)',
+                    padding: '8px 16px',
+                    borderRadius: 8,
+                    cursor: 'pointer',
+                  }}
+                >
+                  <ExternalLink size={11} />
+                  VERIFY ANY HEADLINE
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -218,8 +472,14 @@ export default function Dashboard() {
               </div>
             ) : (
               activity.map((item, i) => {
-                const icons = { eyes: Eye, nose: Wifi, brain: Brain, news: Newspaper }
-                const Icon = icons[item.type]
+                const typeLabels: Record<string, string> = { eyes: 'SENTINEL', nose: 'GUARDIAN', brain: 'D.I.', news: 'NEWS' }
+                const typeIcons: Record<string, React.FC<{ size: number; style: React.CSSProperties }>> = {
+                  eyes: (p) => <Shield {...p} />,
+                  nose: (p) => <Radio {...p} />,
+                  brain: (p) => <Zap {...p} />,
+                  news: (p) => <ExternalLink {...p} />,
+                }
+                const IconComp = typeIcons[item.type] || Shield
                 return (
                   <motion.div
                     key={item.id}
@@ -229,13 +489,14 @@ export default function Dashboard() {
                     style={{ padding: '14px 20px', borderBottom: i < activity.length - 1 ? '1px solid var(--glass-border)' : 'none', display: 'flex', alignItems: 'center', gap: 14 }}
                   >
                     <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <Icon size={14} style={{ color: 'var(--text-3)' }} />
+                      <IconComp size={14} style={{ color: 'var(--text-3)' }} />
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: 2 }}>{item.label}</p>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                         <Clock size={10} style={{ color: 'var(--text-3)' }} />
                         <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>{formatRelativeTime(item.created_at)}</span>
+                        <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.1em' }}>{typeLabels[item.type]}</span>
                         {item.result && (
                           <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: getResultLabel(item.result).color, background: `${getResultLabel(item.result).color}22`, padding: '2px 6px', borderRadius: 4 }}>
                             {getResultLabel(item.result).label}
@@ -255,7 +516,9 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <style>{`@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }`}</style>
+        <style>{`
+          @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        `}</style>
       </div>
     </Layout>
   )

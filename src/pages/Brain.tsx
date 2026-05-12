@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Brain, X, MessageSquarePlus } from 'lucide-react'
+import { Zap, X, Plus } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { BrainChat } from '../components/brain/BrainChat'
 import { BrainHistory } from '../components/brain/BrainHistory'
@@ -45,16 +45,16 @@ export default function BrainPage() {
   const dailyRemaining = Math.max(0, 10 - dailyCount)
 
   const sidebarStyle: React.CSSProperties = {
-    width: 240,
+    width: 256,
     flexShrink: 0,
     borderRight: '1px solid rgba(255,255,255,0.06)',
     display: 'flex',
     flexDirection: 'column',
-    background: 'rgba(255,255,255,0.01)',
+    background: 'rgba(0,0,0,0.4)',
   }
 
   return (
-    <Layout profile={profile} onSignOut={signOut} title="BRAIN — AI SECURITY ANALYST">
+    <Layout profile={profile} onSignOut={signOut} title="DOBERMAN INTELLIGENCE">
       <div style={{ display: 'flex', height: 'calc(100vh - 56px)' }}>
 
         {/* Desktop sidebar */}
@@ -64,15 +64,16 @@ export default function BrainPage() {
           {/* Sidebar header */}
           <div style={{ padding: '16px 16px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Brain size={14} style={{ color: 'var(--text-3)' }} />
-              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-3)', textTransform: 'uppercase' }}>Conversations</span>
+              <Zap size={14} style={{ color: 'var(--safe)' }} />
+              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-3)', textTransform: 'uppercase' }}>Threads</span>
             </div>
             <button
               onClick={() => newConversation()}
-              style={{ background: 'none', border: 'none', color: 'var(--text-3)', display: 'flex', alignItems: 'center' }}
+              style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, padding: '4px 8px', color: 'var(--text-3)', display: 'flex', alignItems: 'center', gap: 4, fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em' }}
               title="New conversation"
             >
-              <MessageSquarePlus size={14} />
+              <Plus size={11} />
+              NEW
             </button>
           </div>
 
@@ -89,10 +90,10 @@ export default function BrainPage() {
         {/* Mobile history drawer */}
         {historyOpen && (
           <div style={{ position: 'fixed', inset: 0, zIndex: 50, display: 'flex' }}>
-            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }} onClick={() => setHistoryOpen(false)} />
-            <div style={{ position: 'relative', zIndex: 51, width: 260, background: 'var(--void-1)', borderRight: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }} onClick={() => setHistoryOpen(false)} />
+            <div style={{ position: 'relative', zIndex: 51, width: 260, background: 'rgba(0,0,0,0.95)', borderRight: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column' }}>
               <div style={{ padding: '16px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-3)', textTransform: 'uppercase' }}>Conversations</span>
+                <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-3)', textTransform: 'uppercase' }}>Threads</span>
                 <button onClick={() => setHistoryOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-3)' }}>
                   <X size={16} />
                 </button>
@@ -111,18 +112,6 @@ export default function BrainPage() {
 
         {/* Chat area */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-
-          {/* Hero video */}
-          <div style={{ position: 'relative', height: 220, overflow: 'hidden', background: '#060606', flexShrink: 0 }}>
-            <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
-              <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
-            </video>
-            <div style={{ position: 'absolute', inset: 0, borderBottom: '1px solid rgba(255,255,255,0.06)' }} />
-            <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', zIndex: 2 }}>
-              BRAIN -- AI SECURITY ANALYST
-            </div>
-          </div>
-
           {/* Mobile toolbar */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)' }} className="lg-hide-brain">
             <style>{`@media (min-width: 1024px) { .lg-hide-brain { display: none !important; } }`}</style>
@@ -130,8 +119,8 @@ export default function BrainPage() {
               onClick={() => setHistoryOpen(true)}
               style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '5px 10px', display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-3)', fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em' }}
             >
-              <Brain size={12} />
-              CONVERSATIONS
+              <Zap size={12} style={{ color: 'var(--safe)' }} />
+              THREADS
             </button>
             {activeConversation && (
               <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
