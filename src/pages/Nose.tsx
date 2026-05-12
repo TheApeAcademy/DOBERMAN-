@@ -44,14 +44,10 @@ export default function Nose() {
       <div style={{ padding: '28px 28px 48px', maxWidth: 1200, margin: '0 auto' }}>
 
         {/* Hero video */}
-        <div style={{ position: 'relative', height: 280, borderRadius: 24, overflow: 'hidden', marginBottom: 36, background: '#060606' }}>
-          <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 36 }}>
+          <video autoPlay muted loop playsInline style={{ width: '100%', maxWidth: 460, borderRadius: 28, pointerEvents: 'none' }}>
             <source src="/assets/video/blob-nose.mp4" type="video/mp4" />
           </video>
-          <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', borderRadius: 24 }} />
-          <div style={{ position: 'absolute', bottom: 16, left: 20, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', zIndex: 2 }}>
-            NOSE -- IOT INTELLIGENCE
-          </div>
         </div>
 
         {/* Module header */}
