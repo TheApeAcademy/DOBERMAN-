@@ -176,10 +176,10 @@ export default function Dashboard() {
           <motion.div
             initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
             onClick={() => navigate('/brain')}
-            style={{ borderRadius: 24, marginBottom: 32, overflow: 'hidden', background: '#000', border: '1px solid rgba(255,255,255,0.08)', textAlign: 'center', padding: '56px 48px' }}
+            style={{ borderRadius: 24, marginBottom: 32, overflow: 'hidden', background: '#000', border: '1px solid rgba(255,255,255,0.08)', textAlign: 'center' }}
           >
-            {/* Green logo ABOVE the text */}
-            <div style={{ width: 260, height: 260, margin: '0 auto 40px', position: 'relative', background: '#000' }}>
+            {/* Green logo — full-width, large */}
+            <div style={{ position: 'relative', width: '100%', height: 'clamp(360px, 55vw, 620px)', background: '#000' }}>
               <video
                 autoPlay muted loop playsInline preload="auto"
                 style={{ width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', display: 'block' }}
@@ -189,23 +189,25 @@ export default function Dashboard() {
             </div>
 
             {/* Text below the logo */}
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.28)', marginBottom: 28 }}>
-              02 -- AI SECURITY ANALYST
-            </p>
-            <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(48px, 8vw, 96px)', lineHeight: 0.92, marginBottom: 28 }}>
-              DOB3RMAN<br /><span style={{ color: 'var(--safe)' }}>INTELLIGENCE</span>
-            </h2>
-            <p style={{ fontFamily: 'Syne', fontSize: 17, color: 'rgba(255,255,255,0.45)', maxWidth: 520, margin: '0 auto 44px', lineHeight: 1.7 }}>
-              Ask anything. D0B3RMAN responds in plain language and gives you a concrete next step. Like having a security analyst on call 24/7.
-            </p>
-            <motion.div
-              whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(48,209,88,0.3)' }}
-              whileTap={{ scale: 0.97 }}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 40px', background: 'var(--safe)', color: '#000', fontFamily: 'Syne', fontWeight: 700, fontSize: 15, borderRadius: 12 }}
-            >
-              Get Access to DoB3RMAN Intelligence
-              <ArrowRight size={16} />
-            </motion.div>
+            <div style={{ padding: '0 48px 56px' }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.28)', marginBottom: 28 }}>
+                02 -- AI SECURITY ANALYST
+              </p>
+              <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(48px, 8vw, 96px)', lineHeight: 0.92, marginBottom: 28 }}>
+                DOB3RMAN<br /><span style={{ color: 'var(--safe)' }}>INTELLIGENCE</span>
+              </h2>
+              <p style={{ fontFamily: 'Syne', fontSize: 17, color: 'rgba(255,255,255,0.45)', maxWidth: 480, margin: '0 auto 44px', lineHeight: 1.7 }}>
+                Ask anything. D0B3RMAN responds in plain language and gives you a concrete next step. Like having a security analyst on call 24/7.
+              </p>
+              <motion.div
+                whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(48,209,88,0.3)' }}
+                whileTap={{ scale: 0.97 }}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 40px', background: 'var(--safe)', color: '#000', fontFamily: 'Syne', fontWeight: 700, fontSize: 15, borderRadius: 12 }}
+              >
+                Get Access to DoB3RMAN Intelligence
+                <ArrowRight size={16} />
+              </motion.div>
+            </div>
           </motion.div>
 
           {/* ── NEWS VERIFICATION ─────────────────────────── */}
