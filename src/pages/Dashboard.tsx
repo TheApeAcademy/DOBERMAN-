@@ -96,36 +96,36 @@ export default function Dashboard() {
 
   return (
     <Layout profile={profile} onSignOut={signOut} title="Dashboard">
-      <div style={{ padding: '32px', maxWidth: 1200, margin: '0 auto' }}>
+      <div style={{ padding: 'clamp(16px, 4vw, 32px)', maxWidth: 1200, margin: '0 auto', overflowX: 'hidden' }}>
 
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 40, flexWrap: 'wrap', gap: 16 }}>
           <div>
-            <h1 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(24px, 4vw, 40px)', lineHeight: 1 }}>
+            <h1 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(20px, 3.5vw, 36px)', lineHeight: 1 }}>
               {greeting}, {firstName}.
             </h1>
             <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-2)', marginTop: 6 }}>
               D0B3RMAN is watching. Here's your threat overview.
             </p>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <div style={{ position: 'relative', width: 160, height: 160, flexShrink: 0, overflow: 'visible' }}>
-              <video
-                autoPlay muted loop playsInline preload="auto"
-                style={{ width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', transform: 'scale(1.6)', transformOrigin: 'center center', pointerEvents: 'none' }}
-              >
-                <source src="/assets/video/blob-hero-2.mp4" type="video/mp4" />
-              </video>
-            </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.2)', borderRadius: 8 }}>
               <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--safe)', animation: 'pulse 2s infinite' }} />
               <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.1em', color: 'var(--safe)' }}>ALL SYSTEMS ACTIVE</span>
+            </div>
+            <div style={{ position: 'relative', width: 100, height: 100, flexShrink: 0, overflow: 'hidden', clipPath: 'inset(0 round 0px)' }}>
+              <video
+                autoPlay muted loop playsInline preload="auto"
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', pointerEvents: 'none' }}
+              >
+                <source src="/assets/video/blob-hero-2.mp4" type="video/mp4" />
+              </video>
             </div>
           </div>
         </div>
 
         {/* Stats row */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 40 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12, marginBottom: 40 }}>
           {[
             { label: 'Scans Today', value: stats.eyesToday + stats.noseToday + stats.newsToday, color: 'var(--chrome-mid)' },
             { label: 'Threats Found', value: stats.threatsDetected, color: 'var(--danger)' },
@@ -138,10 +138,10 @@ export default function Dashboard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.06 }}
               className="glass"
-              style={{ padding: '20px 24px', borderRadius: 16 }}
+              style={{ padding: '16px 20px', borderRadius: 16 }}
             >
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.1em', color: 'var(--text-3)', marginBottom: 8 }}>{label.toUpperCase()}</p>
-              <p style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 40, lineHeight: 1, color: loading ? 'var(--text-3)' : color }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.08em', color: 'var(--text-3)', marginBottom: 8 }}>{label.toUpperCase()}</p>
+              <p style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(28px, 5vw, 40px)', lineHeight: 1, color: loading ? 'var(--text-3)' : color }}>
                 {loading ? '-' : value}
               </p>
             </motion.div>
