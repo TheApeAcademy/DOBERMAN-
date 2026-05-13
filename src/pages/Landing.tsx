@@ -306,13 +306,13 @@ export default function Landing() {
             viewport={{ once: true, margin: '-60px' }}
             style={{ borderRadius: 28, overflow: 'hidden', border: '1px solid rgba(0,212,106,0.12)', background: 'rgba(0,0,0,0.8)' }}
           >
-            {/* Big standalone brain video */}
+            {/* Big standalone green logo video */}
             <div style={{ position: 'relative', width: '100%', height: 'clamp(360px, 55vw, 640px)', background: '#000' }}>
               <video
                 autoPlay muted loop playsInline preload="auto"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                style={{ width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', display: 'block' }}
               >
-                <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
+                <source src="/assets/video/blob-di.mp4" type="video/mp4" />
               </video>
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.95))', pointerEvents: 'none' }} />
               <div style={{ position: 'absolute', top: 20, left: 24, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(0,212,106,0.5)', zIndex: 2 }}>
