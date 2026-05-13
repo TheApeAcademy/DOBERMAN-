@@ -685,10 +685,10 @@ export default function Landing() {
       <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: '#000' }}>
         <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.5} style={{ zIndex: 0 }} />
         <div style={{ position: 'relative', zIndex: 1, padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 720 }}>
-          <div style={{ position: 'relative', height: 480, width: '100%', marginBottom: -60, overflow: 'visible', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ position: 'relative', height: 320, width: '60%', maxWidth: 360, margin: '0 auto', marginBottom: -20, overflow: 'hidden', clipPath: 'inset(0)', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <video
               autoPlay muted loop playsInline preload="auto"
-              style={{ width: '90%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', transform: 'scale(1.4)', transformOrigin: 'center center' }}
+              style={{ width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen' }}
             >
               <source src="/assets/video/blob-hero-2.mp4" type="video/mp4" />
             </video>
@@ -704,7 +704,7 @@ export default function Landing() {
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.25)', marginBottom: 28 }}>
               THE WATCHDOG IS READY
             </p>
-            <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(38px, 9vw, 110px)', lineHeight: 0.92, marginBottom: 36 }}>
+            <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(32px, 6vw, 72px)', lineHeight: 0.92, marginBottom: 36, textAlign: 'center' }}>
               Deploy<br />D0B3RMAN.
             </h2>
             <p style={{ fontFamily: 'Syne', fontSize: 17, color: 'rgba(255,255,255,0.5)', marginBottom: 52 }}>
