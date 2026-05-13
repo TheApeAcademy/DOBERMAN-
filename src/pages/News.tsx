@@ -87,11 +87,9 @@ export default function News() {
 
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 1000, margin: '0 auto', padding: '40px 32px' }}>
 
-          {/* Hero video */}
+          {/* Hero image */}
           <div style={{ position: 'relative', height: 280, borderRadius: 24, overflow: 'hidden', marginBottom: 40, background: '#060606' }}>
-            <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
-              <source src="/assets/video/blob-news.mp4" type="video/mp4" />
-            </video>
+            <img src="/assets/video/cdd8c26722152919a8539f357363c238.jpg" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
             <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', borderRadius: 24 }} />
             <div style={{ position: 'absolute', bottom: 16, left: 20, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', zIndex: 2 }}>
               NEWS -- VERIFY CONTENT
