@@ -3,7 +3,6 @@ import type { ReactNode } from 'react'
 import { Sidebar } from './Sidebar'
 import { Header } from './Header'
 import type { Profile } from '../../lib/supabase'
-import { ChromeBlob } from '../ui/ChromeBlob'
 
 interface LayoutProps {
   profile: Profile | null
@@ -17,9 +16,6 @@ export function Layout({ profile, onSignOut, children, title }: LayoutProps) {
 
   return (
     <div style={{ display: 'flex', height: '100vh', background: 'var(--void)', overflow: 'hidden', position: 'relative' }}>
-      {/* Background blob */}
-      <ChromeBlob size={500} speed={0.2} distort={0.4}
-        style={{ top: '10%', right: '-100px', opacity: 0.06, zIndex: 0, pointerEvents: 'none' }} />
 
       {/* Desktop sidebar */}
       <div style={{ flexShrink: 0, zIndex: 10, display: 'none' }} className="lg-sidebar">

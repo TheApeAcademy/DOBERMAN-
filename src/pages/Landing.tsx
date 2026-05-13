@@ -443,7 +443,7 @@ export default function Landing() {
               className="glass"
               style={{ flex: '1 1 300px', padding: 40, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 360, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}
             >
-              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.4} style={{ zIndex: 0 }} />
+              <img src="/assets/video/cdd8c26722152919a8539f357363c238.jpg" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.55, zIndex: 0 }} />
               <div style={{ position: 'relative', zIndex: 1 }}>
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--danger)', marginBottom: 16 }}>VERDICT -- LIKELY FALSE</p>
                 <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 18, lineHeight: 1.4, marginBottom: 12 }}>"Breaking: Scientists Confirm AI Will Replace All Jobs By 2025"</p>
@@ -586,10 +586,10 @@ export default function Landing() {
       <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: '#000' }}>
         <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.5} style={{ zIndex: 0 }} />
         <div style={{ position: 'relative', zIndex: 1, padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 720 }}>
-          <div style={{ position: 'relative', height: 480, width: '100%', marginBottom: -60, overflow: 'visible', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ position: 'relative', height: 480, width: '80%', maxWidth: 480, margin: '0 auto', marginBottom: -40, overflow: 'hidden', clipPath: 'inset(0)', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <video
               autoPlay muted loop playsInline preload="auto"
-              style={{ width: '90%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', transform: 'scale(1.4)', transformOrigin: 'center center' }}
+              style={{ width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen' }}
             >
               <source src="/assets/video/blob-hero-2.mp4" type="video/mp4" />
             </video>
