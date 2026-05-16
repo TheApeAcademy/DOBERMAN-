@@ -112,7 +112,8 @@ export default function Dashboard() {
           </div>
 
           {/* ── STATS ─────────────────────────────────────── */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 96 }}>
+          <style>{`@media(max-width:600px){.stats-grid{grid-template-columns:repeat(2,1fr)!important}.stats-grid .glass{padding:20px!important}.stats-num{font-size:clamp(32px,8vw,52px)!important}}`}</style>
+          <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 96 }}>
             {[
               { label: 'Scans Today', value: stats.eyesToday + stats.newsToday, color: 'var(--chrome-mid)' },
               { label: 'Threats Found', value: stats.threatsDetected, color: 'var(--danger)' },
@@ -121,7 +122,7 @@ export default function Dashboard() {
             ].map(({ label, value, color }, i) => (
               <motion.div key={label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} className="glass" style={{ padding: '28px 32px', borderRadius: 16 }}>
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.22)', marginBottom: 12 }}>{label.toUpperCase()}</p>
-                <p style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 52, lineHeight: 1, color: loading ? 'rgba(255,255,255,0.08)' : color }}>
+                <p className="stats-num" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 52, lineHeight: 1, color: loading ? 'rgba(255,255,255,0.08)' : color }}>
                   {loading ? '—' : value}
                 </p>
               </motion.div>
@@ -139,7 +140,7 @@ export default function Dashboard() {
             onClick={() => navigate('/eyes')}
             style={{ padding: 40, borderRadius: 24, marginBottom: 32, overflow: 'hidden' }}
           >
-            <style>{`@media(max-width:768px){.dfi-grid{grid-template-columns:1fr!important}}`}</style>
+            <style>{`@media(max-width:768px){.dfi-grid{grid-template-columns:1fr!important}.dfi-video{order:-1!important;height:140px!important}}`}</style>
             <div className="dfi-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }}>
               <div>
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.28)', marginBottom: 24 }}>01 -- DEEPFAKE DETECTION</p>
@@ -160,7 +161,7 @@ export default function Dashboard() {
                   <ArrowRight size={16} style={{ color: 'rgba(255,255,255,0.28)', marginLeft: 4 }} />
                 </div>
               </div>
-              <div style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#060606' }}>
+              <div className="dfi-video" style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#060606' }}>
                 <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
                   <source src="/assets/video/blob-nose.mp4" type="video/mp4" />
                 </video>
@@ -189,11 +190,11 @@ export default function Dashboard() {
             </div>
 
             {/* Text below the logo */}
-            <div style={{ padding: '0 48px 56px' }}>
+            <div style={{ padding: 'clamp(0px,0px,0px) clamp(20px,5vw,48px) 56px' }}>
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.28)', marginBottom: 28 }}>
                 02 -- AI SECURITY ANALYST
               </p>
-              <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(48px, 8vw, 96px)', lineHeight: 0.92, marginBottom: 28 }}>
+              <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(32px, 8vw, 96px)', lineHeight: 0.92, marginBottom: 28 }}>
                 DOB3RMAN<br /><span style={{ color: 'var(--safe)' }}>INTELLIGENCE</span>
               </h2>
               <p style={{ fontFamily: 'Syne', fontSize: 17, color: 'rgba(255,255,255,0.45)', maxWidth: 480, margin: '0 auto 44px', lineHeight: 1.7 }}>
