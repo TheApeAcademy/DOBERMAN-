@@ -334,7 +334,7 @@ export default function Landing() {
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.25em', color: 'rgba(0,212,106,0.6)', marginBottom: 16 }}>
                 02 -- AI SECURITY ANALYST
               </p>
-              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 8vw, 100px)', letterSpacing: '0.1em', lineHeight: 0.92, marginBottom: 20 }}>
+              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(40px, 8vw, 100px)', letterSpacing: '0.1em', lineHeight: 0.92, marginBottom: 20 }}>
                 D0B3RMAN<br /><span style={{ color: 'var(--safe)' }}>INTELLIGENCE</span>
               </h3>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16, lineHeight: 1.7, marginBottom: 36, maxWidth: 560, margin: '0 auto 36px' }}>
