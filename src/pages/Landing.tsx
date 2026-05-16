@@ -161,7 +161,10 @@ export default function Landing() {
             .hero-portrait{width:100%!important}
             .hero-portrait img{opacity:0.35}
           }
-          @media(max-width:640px){.dfi-grid{grid-template-columns:1fr!important}}
+          @media(max-width:640px){
+            .dfi-grid{grid-template-columns:1fr!important}
+            .dfi-video{order:-1!important;height:160px!important}
+          }
         `}</style>
 
         <div style={{ position: 'relative', zIndex: 3, padding: 'clamp(100px,15vw,120px) clamp(20px,5vw,48px) 80px', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
@@ -289,7 +292,7 @@ export default function Landing() {
                   Try Deep Fake Detection
                 </motion.button>
               </div>
-              <div style={{ position: 'relative', height: 320, borderRadius: 16, overflow: 'hidden', background: '#060606' }}>
+              <div className="dfi-video" style={{ position: 'relative', height: 320, borderRadius: 16, overflow: 'hidden', background: '#060606' }}>
                 <video
                   autoPlay muted loop playsInline
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
