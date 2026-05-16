@@ -180,21 +180,22 @@ export default function Dashboard() {
             style={{ borderRadius: 24, marginBottom: 32, overflow: 'hidden', background: '#000', border: '1px solid rgba(255,255,255,0.08)', textAlign: 'center' }}
           >
             {/* Green logo — full-width, large */}
-            <div style={{ position: 'relative', width: '100%', height: 'clamp(360px, 55vw, 620px)', background: '#000' }}>
+            <div style={{ position: 'relative', width: '100%', height: 'clamp(260px, 50vw, 520px)', overflow: 'hidden', background: '#060606' }}>
               <video
                 autoPlay muted loop playsInline preload="auto"
-                style={{ width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', display: 'block' }}
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', pointerEvents: 'none' }}
               >
                 <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
               </video>
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.95))', pointerEvents: 'none' }} />
             </div>
 
             {/* Text below the logo */}
-            <div style={{ padding: 'clamp(0px,0px,0px) clamp(20px,5vw,48px) 56px' }}>
+            <div style={{ padding: '32px clamp(20px,5vw,48px) 56px', overflow: 'hidden' }}>
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.28)', marginBottom: 28 }}>
                 02 -- AI SECURITY ANALYST
               </p>
-              <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(32px, 8vw, 96px)', lineHeight: 0.92, marginBottom: 28 }}>
+              <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(20px, 7vw, 96px)', lineHeight: 0.92, marginBottom: 28, overflow: 'hidden' }}>
                 DOB3RMAN<br /><span style={{ color: 'var(--safe)' }}>INTELLIGENCE</span>
               </h2>
               <p style={{ fontFamily: 'Syne', fontSize: 17, color: 'rgba(255,255,255,0.45)', maxWidth: 480, margin: '0 auto 44px', lineHeight: 1.7 }}>
@@ -284,10 +285,8 @@ export default function Dashboard() {
               style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', height: 'clamp(220px, 38vh, 340px)', marginBottom: 4, flexShrink: 0, cursor: 'pointer' }}
               onClick={() => navigate('/news')}
             >
-              <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
-                <source src="/assets/video/blob-news.mp4" type="video/mp4" />
-              </video>
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.92) 100%)' }} />
+              <img src="/assets/video/cdd8c26722152919a8539f357363c238.jpg" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.92) 100%)' }} />
               <div style={{ position: 'absolute', inset: 0, padding: '24px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', zIndex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
                   <div style={{ width: 20, height: 20, borderRadius: 4, background: 'rgba(255,45,45,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

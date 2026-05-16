@@ -40,17 +40,19 @@ export default function Eyes() {
   const remainingScans = Math.max(0, 3 - dailyCount)
 
   return (
-    <Layout profile={profile} onSignOut={signOut} title="EYES — DEEPFAKE DETECTION">
+    <Layout profile={profile} onSignOut={signOut} title="DEEP FAKE INTELLIGENCE">
       <div style={{ padding: '28px 28px 48px', maxWidth: 1200, margin: '0 auto' }}>
 
         {/* Module header */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 32, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <div style={{ width: 52, height: 52, borderRadius: 14, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)' }}>
-            <Eye size={22} style={{ color: 'var(--text-1)' }} />
+          <div style={{ width: 52, height: 52, borderRadius: 14, overflow: 'hidden', flexShrink: 0, border: '1px solid rgba(255,255,255,0.1)', background: '#060606' }}>
+            <video autoPlay muted loop playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}>
+              <source src="/assets/video/blob-nose.mp4" type="video/mp4" />
+            </video>
           </div>
           <div style={{ flex: 1 }}>
-            <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>EYES</h1>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.18em', color: 'var(--text-3)', marginTop: 3 }}>DEEPFAKE + SYNTHETIC MEDIA DETECTION</p>
+            <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 26, letterSpacing: '0.05em', color: 'var(--text-1)', lineHeight: 1 }}>DEEP FAKE<br />INTELLIGENCE</h1>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.18em', color: 'var(--text-3)', marginTop: 3 }}>01 -- DEEPFAKE DETECTION</p>
           </div>
           <div style={{
             padding: '6px 14px', borderRadius: 8,
