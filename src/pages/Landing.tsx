@@ -152,11 +152,17 @@ export default function Landing() {
             onError={(e) => { const p = e.currentTarget.parentElement; if (p) p.style.display = 'none' }}
             style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
           />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #000 0%, rgba(0,0,0,0.5) 30%, transparent 65%)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #000 0%, #000 25%, rgba(0,0,0,0.7) 50%, transparent 80%)' }} />
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to bottom, transparent, #000)' }} />
         </motion.div>
 
-        <style>{`@media(max-width:768px){.hero-portrait{display:none!important}}`}</style>
+        <style>{`
+          @media(max-width:768px){
+            .hero-portrait{width:100%!important}
+            .hero-portrait img{opacity:0.35}
+          }
+          @media(max-width:640px){.dfi-grid{grid-template-columns:1fr!important}}
+        `}</style>
 
         <div style={{ position: 'relative', zIndex: 3, padding: 'clamp(100px,15vw,120px) clamp(20px,5vw,48px) 80px', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
 
@@ -170,19 +176,19 @@ export default function Landing() {
             <motion.div
               initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(80px, 15vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
+              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(44px, 11vw, 145px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
               THE
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(80px, 15vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 3 }}>
+              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(44px, 11vw, 145px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 3 }}>
               WATCH-
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(80px, 15vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
+              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(44px, 11vw, 145px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
               DOG.
             </motion.div>
           </div>
@@ -265,7 +271,7 @@ export default function Landing() {
             whileHover={{ y: -8, transition: { duration: 0.2 } }}
             style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden', marginBottom: 24 }}
           >
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 36, alignItems: 'center' }}>
+            <div className="dfi-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 36, alignItems: 'center' }}>
               <div>
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>01 -- DEEPFAKE DETECTION</p>
                 <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(40px, 6vw, 72px)', letterSpacing: '0.08em', marginBottom: 16, lineHeight: 0.95 }}>DEEP FAKE<br />INTELLIGENCE</h3>
@@ -488,26 +494,28 @@ export default function Landing() {
             </svg>
           </div>
 
-          {/* Hero story */}
+          {/* Hero story — real person image */}
           <motion.div
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} viewport={{ once: true }}
             onClick={() => navigate('/auth')}
             style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', height: 'clamp(220px, 38vh, 340px)', marginBottom: 4, flexShrink: 0, cursor: 'pointer' }}
           >
-            <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
-              <source src="/assets/video/blob-news.mp4" type="video/mp4" />
-            </video>
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/800px-Donald_Trump_official_portrait.jpg"
+              alt=""
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', pointerEvents: 'none' }}
+            />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.92) 100%)' }} />
             <div style={{ position: 'absolute', inset: 0, padding: '24px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', zIndex: 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
                 <div style={{ width: 20, height: 20, borderRadius: 4, background: 'rgba(255,45,45,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 10, color: '#fff' }}>T</span>
+                  <span style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 10, color: '#fff' }}>R</span>
                 </div>
-                <span style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.9)' }}>THREATPOST</span>
+                <span style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.9)' }}>REUTERS</span>
                 <span style={{ fontFamily: 'Syne', fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>2 hours ago</span>
               </div>
               <h3 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 'clamp(17px, 2.5vw, 22px)', lineHeight: 1.3, color: '#fff', maxWidth: 680 }}>
-                Critical zero-day exploit targets Windows devices via CLFS driver vulnerability — patch required immediately
+                Deepfake video of former US president spreads across platforms ahead of election, millions fooled before takedown
               </h3>
             </div>
           </motion.div>
@@ -515,10 +523,10 @@ export default function Landing() {
           {/* Story list */}
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             {[
-              { source: 'DARK READING', text: 'AI-generated deepfake audio used in $25M corporate wire transfer fraud', time: '11m ago', color: '#FF9500' },
-              { source: 'BLEEPING COMPUTER', text: 'Massive botnet of 40,000 compromised IoT cameras targeting financial sector', time: '28m ago', color: '#FF6B35' },
-              { source: 'THE HACKER NEWS', text: 'State-sponsored group deploys rootkit via malicious firmware updates to routers', time: '44m ago', color: '#FF2D2D' },
-              { source: 'KREBS ON SECURITY', text: 'Ransomware group LockBit 4.0 claims breach of three critical infrastructure operators', time: '3h ago', color: '#FF6B35' },
+              { source: 'DARK READING', text: 'AI-generated deepfake audio used in $25M corporate wire transfer fraud targeting CEO', time: '11m ago', color: '#FF9500', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Elon_Musk_Royal_Society_%28crop2%29.jpg/400px-Elon_Musk_Royal_Society_%28crop2%29.jpg' },
+              { source: 'BLEEPING COMPUTER', text: 'Massive botnet of 40,000 compromised IoT cameras targeting financial sector', time: '28m ago', color: '#FF6B35', img: '/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg' },
+              { source: 'THE HACKER NEWS', text: 'State-sponsored group deploys rootkit via malicious firmware updates to routers', time: '44m ago', color: '#FF2D2D', img: '/assets/video/cdd8c26722152919a8539f357363c238.jpg' },
+              { source: 'KREBS ON SECURITY', text: 'Ransomware group LockBit 4.0 claims breach of three critical infrastructure operators', time: '3h ago', color: '#FF6B35', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Joe_Biden_presidential_portrait.jpg/400px-Joe_Biden_presidential_portrait.jpg' },
             ].map((item, i) => (
               <motion.div
                 key={i}
@@ -538,8 +546,8 @@ export default function Landing() {
                   </p>
                   <span style={{ fontFamily: 'Syne', fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>{item.time}</span>
                 </div>
-                <div style={{ width: 88, height: 68, borderRadius: 10, flexShrink: 0, background: `linear-gradient(135deg, ${item.color}25, rgba(10,10,10,0.9))`, border: `1px solid ${item.color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span style={{ fontFamily: 'Bebas Neue', fontSize: 11, letterSpacing: '0.12em', color: item.color, opacity: 0.7 }}>THREAT</span>
+                <div style={{ width: 88, height: 68, borderRadius: 10, flexShrink: 0, overflow: 'hidden', border: `1px solid ${item.color}22` }}>
+                  <img src={item.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} />
                 </div>
               </motion.div>
             ))}
