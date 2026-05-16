@@ -159,7 +159,7 @@ export default function Landing() {
         <style>{`
           @media(max-width:768px){
             .hero-portrait{width:100%!important}
-            .hero-portrait img{opacity:0.35}
+            .hero-portrait img{opacity:0.65}
           }
           @media(max-width:640px){
             .dfi-grid{grid-template-columns:1fr!important}
@@ -321,7 +321,7 @@ export default function Landing() {
                 autoPlay muted loop playsInline preload="auto"
                 style={{ width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', display: 'block' }}
               >
-                <source src="/assets/video/blob-di.mp4" type="video/mp4" />
+                <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
               </video>
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.95))', pointerEvents: 'none' }} />
               <div style={{ position: 'absolute', top: 20, left: 24, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(0,212,106,0.5)', zIndex: 2 }}>
@@ -412,7 +412,7 @@ export default function Landing() {
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.25)', marginBottom: 20 }}>
                   {panel.num} -- {panel.module}
                 </p>
-                <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(48px, 8vw, 96px)', lineHeight: 0.9, whiteSpace: 'pre-line', marginBottom: 32 }}>
+                <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(28px, 8vw, 96px)', lineHeight: 0.9, whiteSpace: 'pre-line', marginBottom: 32 }}>
                   {panel.headline}
                 </h2>
                 <p style={{ fontFamily: 'Syne', fontSize: 18, color: 'rgba(255,255,255,0.5)', lineHeight: 1.6 }}>

@@ -43,13 +43,6 @@ export default function Eyes() {
     <Layout profile={profile} onSignOut={signOut} title="EYES — DEEPFAKE DETECTION">
       <div style={{ padding: '28px 28px 48px', maxWidth: 1200, margin: '0 auto' }}>
 
-        {/* Hero video */}
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 36 }}>
-          <video autoPlay muted loop playsInline style={{ width: '100%', maxWidth: 460, borderRadius: 28, pointerEvents: 'none' }}>
-            <source src="/assets/video/blob-eyes.mp4" type="video/mp4" />
-          </video>
-        </div>
-
         {/* Module header */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 32, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <div style={{ width: 52, height: 52, borderRadius: 14, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)' }}>
@@ -70,38 +63,37 @@ export default function Eyes() {
           </div>
         </div>
 
-        {/* Two-column layout */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, alignItems: 'start' }}>
+        {/* Full-width stacked layout */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
 
-          {/* Upload panel */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <div style={card}>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Upload File</p>
-              <EyesUploader
-                onAnalyze={handleAnalyze}
-                scanning={scanning}
-                remainingScans={remainingScans}
-                onUpgradeClick={() => setUpgradeOpen(true)}
-              />
-            </div>
-            {error && (
-              <div style={{ padding: '12px 16px', borderRadius: 12, background: 'rgba(255,45,45,0.06)', border: '1px solid rgba(255,45,45,0.18)' }}>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--danger)' }}>{error}</p>
-              </div>
-            )}
+          {/* Upload panel — full width */}
+          <div style={card}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Upload File</p>
+            <EyesUploader
+              onAnalyze={handleAnalyze}
+              scanning={scanning}
+              remainingScans={remainingScans}
+              onUpgradeClick={() => setUpgradeOpen(true)}
+            />
           </div>
 
-          {/* Results panel */}
+          {error && (
+            <div style={{ padding: '12px 16px', borderRadius: 12, background: 'rgba(255,45,45,0.06)', border: '1px solid rgba(255,45,45,0.18)' }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--danger)' }}>{error}</p>
+            </div>
+          )}
+
+          {/* Results panel — full width below */}
           <div style={card}>
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Analysis Results</p>
             {scanning ? (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 0', gap: 16 }}>
-                <div style={{ position: 'relative', width: 56, height: 56 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '48px 0', gap: 24 }}>
+                <div style={{ position: 'relative', width: 56, height: 56, flexShrink: 0 }}>
                   <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.08)' }} />
                   <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid transparent', borderTopColor: 'var(--text-1)', animation: 'spin 0.8s linear infinite' }} />
                   <Eye size={18} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: 'var(--text-3)' }} />
                 </div>
-                <div style={{ textAlign: 'center' }}>
+                <div>
                   <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-2)' }}>Analyzing with D0B3RMAN...</p>
                   <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', marginTop: 4, letterSpacing: '0.12em' }}>SCANNING FOR SYNTHETIC MARKERS</p>
                 </div>
@@ -109,10 +101,12 @@ export default function Eyes() {
             ) : result ? (
               <EyesResult scan={result} />
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 0', gap: 10, textAlign: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '48px 0', gap: 16 }}>
                 <Eye size={28} style={{ color: 'var(--text-3)', opacity: 0.5 }} />
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-3)' }}>Upload a file to begin analysis.</p>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', letterSpacing: '0.1em', opacity: 0.6 }}>IMAGES · VIDEOS · AUDIO</p>
+                <div>
+                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-3)' }}>Upload a file to begin analysis.</p>
+                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', letterSpacing: '0.1em', opacity: 0.6, marginTop: 4 }}>IMAGES · VIDEOS · AUDIO</p>
+                </div>
               </div>
             )}
           </div>

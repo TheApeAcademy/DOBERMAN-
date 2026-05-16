@@ -185,7 +185,7 @@ export default function Dashboard() {
                 autoPlay muted loop playsInline preload="auto"
                 style={{ width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', display: 'block' }}
               >
-                <source src="/assets/video/blob-di.mp4" type="video/mp4" />
+                <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
               </video>
             </div>
 
