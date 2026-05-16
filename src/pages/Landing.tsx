@@ -157,7 +157,7 @@ export default function Landing() {
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to bottom, transparent, #000)' }} />
         </motion.div>
 
-        <style>{`@media(max-width:768px){.hero-portrait{display:none!important}}`}</style>
+        <style>{`@media(max-width:768px){.hero-portrait{width:clamp(180px,48%,260px)!important;opacity:0.5}}`}</style>
 
         <div style={{ position: 'relative', zIndex: 3, padding: 'clamp(100px,15vw,120px) clamp(20px,5vw,48px) 80px', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
 
@@ -171,7 +171,7 @@ export default function Landing() {
             <motion.div
               initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(80px, 15vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
+              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(52px, 13vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
               THE
             </motion.div>
             <motion.div
@@ -183,7 +183,7 @@ export default function Landing() {
             <motion.div
               initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(80px, 15vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
+              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(52px, 13vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
               DOG.
             </motion.div>
           </div>
@@ -268,7 +268,7 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
+              <div style={{ position: 'relative', height: 130, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
                 <video
                   autoPlay muted loop playsInline
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
@@ -281,7 +281,7 @@ export default function Landing() {
                 </div>
               </div>
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>01 -- DEEPFAKE DETECTION</p>
-              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>EYES</h3>
+              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(36px, 6vw, 56px)', letterSpacing: '0.1em', marginBottom: 16 }}>EYES</h3>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
                 Upload any image, video, or audio. D0B3RMAN's detection engine analyzes it
                 against known deepfake signatures and returns a trust score in seconds.
@@ -299,7 +299,7 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
+              <div style={{ position: 'relative', height: 130, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
                 <img
                   src="/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg"
                   alt=""
@@ -311,7 +311,7 @@ export default function Landing() {
                 </div>
               </div>
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>02 -- NETWORK INTELLIGENCE</p>
-              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>NOSE</h3>
+              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(36px, 6vw, 56px)', letterSpacing: '0.1em', marginBottom: 16 }}>NOSE</h3>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
                 Describe your network environment. D0B3RMAN identifies device vulnerabilities,
                 maps real CVEs, and gives you a prioritized action plan.
@@ -329,7 +329,7 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
+              <div style={{ position: 'relative', height: 130, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
                 <video
                   autoPlay muted loop playsInline preload="auto"
                   src="/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4"
@@ -341,7 +341,7 @@ export default function Landing() {
                 </div>
               </div>
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>03 -- AI SECURITY ANALYST</p>
-              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>BRAIN</h3>
+              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(36px, 6vw, 56px)', letterSpacing: '0.1em', marginBottom: 16 }}>BRAIN</h3>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
                 Ask anything. Upload suspicious files. D0B3RMAN explains threats in plain language
                 and gives you a concrete next step. Like having a security analyst on call 24/7.

@@ -113,13 +113,13 @@ export default function BrainPage() {
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
 
           {/* Hero video */}
-          <div style={{ position: 'relative', height: 220, overflow: 'hidden', background: '#060606', flexShrink: 0 }}>
-            <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
-              <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
+          <div style={{ position: 'relative', height: 260, overflow: 'hidden', background: '#060606', flexShrink: 0 }}>
+            <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
+              <source src="/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4" type="video/mp4" />
             </video>
-            <div style={{ position: 'absolute', inset: 0, borderBottom: '1px solid rgba(255,255,255,0.06)' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,0,0,0.6) 0%, transparent 60%)', borderBottom: '1px solid rgba(255,255,255,0.06)' }} />
             <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', zIndex: 2 }}>
-              BRAIN -- AI SECURITY ANALYST
+              DOB3RMAN INTELLIGENCE -- AI SECURITY ANALYST
             </div>
           </div>
 

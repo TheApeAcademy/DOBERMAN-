@@ -115,7 +115,8 @@ export default function Dashboard() {
         </div>
 
         {/* Stats row */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12, marginBottom: 40 }}>
+        <style>{`@media (max-width: 600px) { .stats-grid { grid-template-columns: repeat(2, 1fr) !important; } }`}</style>
+        <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12, marginBottom: 40 }}>
           {[
             { label: 'Scans Today', value: stats.eyesToday + stats.noseToday + stats.newsToday, color: 'var(--chrome-mid)' },
             { label: 'Threats Found', value: stats.threatsDetected, color: 'var(--danger)' },
@@ -155,7 +156,7 @@ export default function Dashboard() {
                 onClick={() => navigate(to)}
                 style={{ padding: 0, borderRadius: 20, textAlign: 'left', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
               >
-                <div style={{ position: 'relative', height: 200, borderRadius: '20px 20px 0 0', overflow: 'hidden', background: '#060606', flexShrink: 0 }}>
+                <div style={{ position: 'relative', height: 100, borderRadius: '20px 20px 0 0', overflow: 'hidden', background: '#060606', flexShrink: 0 }}>
                   {isImage ? (
                     <img src={src} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
                   ) : (

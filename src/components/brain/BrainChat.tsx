@@ -66,14 +66,33 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full space-y-6 py-8">
-            <div className="text-center space-y-2">
-              <div className="w-12 h-12 mx-auto rounded-full bg-green-900/20 border border-green-800/30 flex items-center justify-center">
-                <Brain size={20} className="text-accent-green" />
+          <div className="flex flex-col items-center justify-center h-full space-y-6 py-8" style={{ position: 'relative', overflow: 'hidden' }}>
+            {/* Green glow video — brand signature for DOB3RMAN Intelligence */}
+            <div style={{
+              position: 'absolute', top: 0, right: 0,
+              width: 220, height: 220,
+              borderRadius: '0 0 0 32px',
+              overflow: 'hidden',
+              opacity: 0.75,
+              pointerEvents: 'none',
+            }}>
+              <video autoPlay muted loop playsInline
+                style={{ width: '100%', height: '100%', objectFit: 'cover', mixBlendMode: 'screen' }}>
+                <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
+              </video>
+            </div>
+
+            <div className="text-center" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+              <div style={{ lineHeight: 1 }}>
+                <p style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(28px, 7vw, 44px)', letterSpacing: '0.08em', color: '#F5F5F7' }}>
+                  DOB3RMAN
+                </p>
+                <p style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(28px, 7vw, 44px)', letterSpacing: '0.08em', color: '#30D158' }}>
+                  INTELLIGENCE
+                </p>
               </div>
-              <p className="font-heading font-bold text-text-primary">D0B3RMAN BRAIN</p>
               <p className="text-text-muted font-body text-sm max-w-sm">
-                Your dedicated AI security analyst. Ask me anything about cybersecurity threats, vulnerabilities, and best practices.
+                Your AI-powered security analyst. Ask about threats, CVEs, network defense, or anything cybersecurity.
               </p>
             </div>
 
