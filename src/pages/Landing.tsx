@@ -22,6 +22,38 @@ const stats = [
   '✦',
 ]
 
+const newsItems = [
+  {
+    source: 'REUTERS',
+    time: '2 hours ago',
+    headline: 'Deepfake video of former US president spreads across social platforms ahead of election, millions fooled before takedown',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/400px-Donald_Trump_official_portrait.jpg',
+    category: 'DEEPFAKE ALERT',
+    featured: true,
+  },
+  {
+    source: 'DARK READING',
+    time: '11m ago',
+    headline: 'AI-generated deepfake audio used in $25M corporate wire fraud scheme targeting tech CEO',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Elon_Musk_Royal_Society_%28crop2%29.jpg/400px-Elon_Musk_Royal_Society_%28crop2%29.jpg',
+    category: 'THREAT',
+  },
+  {
+    source: 'BLEEPING COMPUTER',
+    time: '28m ago',
+    headline: 'Massive botnet of 40,000 compromised IoT cameras used in coordinated DDoS campaign',
+    image: '/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg',
+    category: 'THREAT',
+  },
+  {
+    source: 'THE HACKER NEWS',
+    time: '44m ago',
+    headline: 'State-sponsored group deploys rootkit via malicious firmware update targeting critical infrastructure',
+    image: '/assets/video/cdd8c26722152919a8539f357363c238.jpg',
+    category: 'THREAT',
+  },
+]
+
 const reviews = [
   { text: 'I uploaded a video of my CEO that turned out to be completely AI-generated. D0B3RMAN caught it in 3 seconds.', author: 'Marcus T.', role: 'IT Security Lead, London', badge: '98% FAKE', badgeColor: 'var(--danger)', rotate: -1.5 },
   { text: 'My home network had 4 critical vulnerabilities I had no idea about. Patched all of them in one afternoon.', author: 'Priya K.', role: 'Remote Software Engineer', badge: 'RISK: 74', badgeColor: 'var(--warning)', rotate: 1.5 },
@@ -153,11 +185,17 @@ export default function Landing() {
             onError={(e) => { const p = e.currentTarget.parentElement; if (p) p.style.display = 'none' }}
             style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
           />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #000 0%, rgba(0,0,0,0.5) 30%, transparent 65%)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #000 0%, #000 25%, rgba(0,0,0,0.7) 50%, transparent 80%)' }} />
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to bottom, transparent, #000)' }} />
         </motion.div>
 
-        <style>{`@media(max-width:768px){.hero-portrait{display:none!important}}`}</style>
+        <style>{`
+          @media(max-width:768px){
+            .hero-portrait{width:100%!important}
+            .hero-portrait img{opacity:0.35}
+          }
+          @media(max-width:640px){.modules-grid{grid-template-columns:1fr!important}}
+        `}</style>
 
         <div style={{ position: 'relative', zIndex: 3, padding: 'clamp(100px,15vw,120px) clamp(20px,5vw,48px) 80px', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
 
@@ -171,19 +209,19 @@ export default function Landing() {
             <motion.div
               initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(80px, 15vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
+              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(44px, 11vw, 145px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
               THE
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(80px, 15vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 3 }}>
+              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(44px, 11vw, 145px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 3 }}>
               WATCH-
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(80px, 15vw, 180px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
+              style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(44px, 11vw, 145px)', lineHeight: 0.88, color: 'white', position: 'relative', zIndex: 1 }}>
               DOG.
             </motion.div>
           </div>
@@ -256,7 +294,7 @@ export default function Landing() {
             </h2>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
+          <div className="modules-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
 
             {/* EYES */}
             <motion.div
@@ -266,9 +304,9 @@ export default function Landing() {
               transition={{ duration: 0.85, ease: [0.25, 0.1, 0.25, 1] }}
               viewport={{ once: true, margin: '-60px' }}
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
-              style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
+              style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
+              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606', flexShrink: 0 }}>
                 <video
                   autoPlay muted loop playsInline
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
@@ -281,12 +319,19 @@ export default function Landing() {
                 </div>
               </div>
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>01 -- DEEPFAKE DETECTION</p>
-              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.1em', marginBottom: 16 }}>EYES</h3>
+              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 48, letterSpacing: '0.1em', marginBottom: 16, lineHeight: 1 }}>DEEP FAKE<br />INTELLIGENCE</h3>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
                 Upload any image, video, or audio. D0B3RMAN's detection engine analyzes it
                 against known deepfake signatures and returns a trust score in seconds.
               </p>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>Hive AI - XceptionNet - EfficientNet - MesoNet</p>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)', marginBottom: 24 }}>Hive AI · XceptionNet · EfficientNet · MesoNet</p>
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => navigate('/auth')}
+                style={{ padding: '13px 28px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 13, border: 'none', borderRadius: 10, alignSelf: 'flex-start', marginTop: 'auto' }}>
+                Try Deep Fake Detection
+              </motion.button>
             </motion.div>
 
             {/* NOSE */}
@@ -438,21 +483,51 @@ export default function Landing() {
               </motion.button>
             </motion.div>
 
-            <motion.div
-              {...IN_VIEW}
-              className="glass"
-              style={{ flex: '1 1 300px', padding: 40, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 360, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}
-            >
-              <img src="/assets/video/cdd8c26722152919a8539f357363c238.jpg" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.55, zIndex: 0 }} />
-              <div style={{ position: 'relative', zIndex: 1 }}>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--danger)', marginBottom: 16 }}>VERDICT -- LIKELY FALSE</p>
-                <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 18, lineHeight: 1.4, marginBottom: 12 }}>"Breaking: Scientists Confirm AI Will Replace All Jobs By 2025"</p>
-                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  {['Sensationalist framing', 'No primary source', 'Vague attribution'].map((flag) => (
-                    <span key={flag} style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--danger)', background: 'rgba(255,45,45,0.12)', border: '1px solid rgba(255,45,45,0.25)', padding: '4px 10px', borderRadius: 4 }}>{flag}</span>
-                  ))}
+            <motion.div {...IN_VIEW} style={{ flex: '1 1 300px' }}>
+
+              {/* Featured article with person image */}
+              <div className="glass" style={{ borderRadius: 20, overflow: 'hidden', marginBottom: 10 }}>
+                <div style={{ position: 'relative', height: 200, overflow: 'hidden' }}>
+                  <img
+                    src={newsItems[0].image}
+                    alt=""
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+                  />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.1) 30%, rgba(0,0,0,0.92) 100%)' }} />
+                  <div style={{ position: 'absolute', bottom: 16, left: 16, right: 16 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+                      <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: 'var(--danger)', flexShrink: 0 }} />
+                      <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--danger)', letterSpacing: '0.15em' }}>{newsItems[0].source}</span>
+                      <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(255,255,255,0.3)' }}>{newsItems[0].time}</span>
+                    </div>
+                    <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 14, lineHeight: 1.4, color: 'white' }}>{newsItems[0].headline}</p>
+                  </div>
+                  <span style={{ position: 'absolute', top: 12, right: 12, fontFamily: 'JetBrains Mono', fontSize: 9, background: 'rgba(255,45,45,0.18)', color: 'var(--danger)', border: '1px solid rgba(255,45,45,0.35)', padding: '3px 8px', borderRadius: 4, letterSpacing: '0.1em' }}>
+                    {newsItems[0].category}
+                  </span>
                 </div>
               </div>
+
+              {/* Smaller articles with thumbnails */}
+              {newsItems.slice(1).map((item) => (
+                <div key={item.source} className="glass" style={{ borderRadius: 14, padding: '14px 16px', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 14 }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                      <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: 'var(--danger)', flexShrink: 0 }} />
+                      <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.12em' }}>{item.source}</span>
+                      <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'rgba(255,255,255,0.2)' }}>{item.time}</span>
+                    </div>
+                    <p style={{ fontFamily: 'Syne', fontSize: 12, color: 'rgba(255,255,255,0.7)', lineHeight: 1.45, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const }}>{item.headline}</p>
+                  </div>
+                  <div style={{ width: 60, height: 60, borderRadius: 8, overflow: 'hidden', flexShrink: 0 }}>
+                    <img src={item.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} />
+                  </div>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, background: 'rgba(255,45,45,0.12)', color: 'var(--danger)', border: '1px solid rgba(255,45,45,0.25)', padding: '3px 7px', borderRadius: 4, whiteSpace: 'nowrap', flexShrink: 0, letterSpacing: '0.08em' }}>
+                    {item.category}
+                  </span>
+                </div>
+              ))}
+
             </motion.div>
           </div>
         </div>
