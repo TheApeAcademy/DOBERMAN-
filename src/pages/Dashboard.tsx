@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Eye, Wifi, Brain, Newspaper, ArrowRight, Clock } from 'lucide-react'
+import { Eye, Wifi, Brain, Newspaper, ArrowRight, Clock, Database, Globe2 } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
@@ -9,7 +9,7 @@ import { formatRelativeTime, getResultLabel, getRiskColor } from '../lib/utils'
 
 interface ActivityItem {
   id: string
-  type: 'eyes' | 'nose' | 'brain' | 'news'
+  type: 'eyes' | 'nose' | 'brain' | 'news' | 'deepfake' | 'breach' | 'voice'
   label: string
   result?: string
   score?: number
@@ -84,10 +84,12 @@ export default function Dashboard() {
   }
 
   const moduleCards = [
-    { to: '/eyes', icon: Eye, name: 'EYES', sub: 'Deepfake Detection', desc: 'Analyze images, videos, and audio for synthetic media manipulation.', count: stats.eyesToday, limit: 3, src: '/assets/video/blob-eyes.mp4', isImage: false, label: 'EYES -- DEEPFAKE DETECTION' },
-    { to: '/nose', icon: Wifi, name: 'NOSE', sub: 'IoT Intelligence', desc: 'Map your network environment and identify security weaknesses.', count: stats.noseToday, limit: 3, src: '/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg', isImage: true, label: 'NOSE -- IOT INTELLIGENCE' },
-    { to: '/brain', icon: Brain, name: 'BRAIN', sub: 'AI Analyst', desc: 'Chat with your dedicated cybersecurity expert powered by Claude.', count: stats.brainToday, limit: 10, src: '/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4', isImage: false, label: 'BRAIN -- AI ANALYST' },
-    { to: '/news', icon: Newspaper, name: 'NEWS', sub: 'Verify Content', desc: 'Paste any headline or claim. Get a credibility verdict instantly.', count: stats.newsToday, limit: 3, src: '/assets/video/cdd8c26722152919a8539f357363c238.jpg', isImage: true, label: 'NEWS -- VERIFY CONTENT' },
+    { to: '/deepfake', icon: Eye, name: 'DEEPFAKE', sub: 'Image · Video · Voice', desc: 'Analyze images, videos, and voice recordings for synthetic AI manipulation.', count: stats.eyesToday, limit: 3, src: '/assets/video/blob-eyes.mp4', isImage: false, label: 'DEEPFAKE INTELLIGENCE' },
+    { to: '/breach', icon: Database, name: 'BREACH', sub: 'Credential Intelligence', desc: 'Check if your email, phone, or password was exposed in known data breaches.', count: 0, limit: 5, src: '/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg', isImage: true, label: 'BREACH SYSTEM' },
+    { to: '/nose', icon: Wifi, name: 'NOSE', sub: 'IoT Intelligence', desc: 'Map your network environment and identify every security weakness.', count: stats.noseToday, limit: 3, src: '/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg', isImage: true, label: 'NOSE -- IOT INTELLIGENCE' },
+    { to: '/daye', icon: Brain, name: 'DAYE', sub: 'Doberman Intelligence', desc: 'Your personal cyber intelligence assistant. Ask anything or analyze suspicious links.', count: stats.brainToday, limit: 10, src: '/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4', isImage: false, label: 'DAYE -- DOBERMAN INTELLIGENCE' },
+    { to: '/globe', icon: Globe2, name: 'CYBER GLOBE', sub: 'Threat Visualization', desc: 'Interactive global cyber threat map. Select any country for DAYE intelligence briefs.', count: 0, limit: 99, src: '/assets/video/blob-eyes.mp4', isImage: false, label: 'CYBER GLOBE' },
+    { to: '/news', icon: Newspaper, name: 'NEWS', sub: 'Verify Content', desc: 'Paste any headline or claim. DAYE gives an instant credibility verdict.', count: stats.newsToday, limit: 3, src: '/assets/video/cdd8c26722152919a8539f357363c238.jpg', isImage: true, label: 'NEWS -- VERIFY CONTENT' },
   ]
 
   const firstName = profile?.name?.split(' ')[0] || profile?.email?.split('@')[0] || 'Operator'
@@ -105,7 +107,7 @@ export default function Dashboard() {
               {greeting}, {firstName}.
             </h1>
             <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-2)', marginTop: 6 }}>
-              D0B3RMAN is watching. Here's your threat overview.
+              DAYE is watching. Your threat overview is ready.
             </p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.2)', borderRadius: 8 }}>
@@ -218,8 +220,10 @@ export default function Dashboard() {
               </div>
             ) : (
               activity.map((item, i) => {
-                const icons = { eyes: Eye, nose: Wifi, brain: Brain, news: Newspaper }
-                const Icon = icons[item.type]
+                const iconMap = { eyes: Eye, nose: Wifi, brain: Brain, news: Newspaper, deepfake: Eye, breach: Database, voice: Eye } as const
+                type IconKey = keyof typeof iconMap
+                const iconKey = (Object.keys(iconMap).includes(item.type) ? item.type : 'brain') as IconKey
+                const Icon = iconMap[iconKey]
                 return (
                   <motion.div
                     key={item.id}

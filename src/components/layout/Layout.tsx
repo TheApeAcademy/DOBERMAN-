@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { ReactNode } from 'react'
 import { Sidebar } from './Sidebar'
 import { Header } from './Header'
+import { DayeAssistant } from '../daye/DayeAssistant'
 import type { Profile } from '../../lib/supabase'
 
 interface LayoutProps {
@@ -43,6 +44,9 @@ export function Layout({ profile, onSignOut, children, title }: LayoutProps) {
           {children}
         </main>
       </div>
+
+      {/* DAYE Persistent Assistant - always visible on all authenticated pages */}
+      <DayeAssistant userId={profile?.id} />
     </div>
   )
 }
