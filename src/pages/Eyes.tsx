@@ -52,13 +52,13 @@ export default function Eyes() {
           </div>
           <div style={{ flex: 1 }}>
             <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 26, letterSpacing: '0.05em', color: 'var(--text-1)', lineHeight: 1 }}>DEEP FAKE<br />INTELLIGENCE</h1>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.18em', color: 'var(--text-3)', marginTop: 3 }}>01 -- DEEPFAKE DETECTION</p>
+            <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'var(--text-3)', marginTop: 3 }}>01 -- DEEPFAKE DETECTION</p>
           </div>
           <div style={{
             padding: '6px 14px', borderRadius: 8,
             background: remainingScans > 0 ? 'rgba(48,209,88,0.07)' : 'rgba(255,45,45,0.07)',
             border: `1px solid ${remainingScans > 0 ? 'rgba(48,209,88,0.2)' : 'rgba(255,45,45,0.2)'}`,
-            fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em',
+            fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.03em',
             color: remainingScans > 0 ? 'var(--safe)' : 'var(--danger)',
           }}>
             {remainingScans} / 3 SCANS TODAY
@@ -70,7 +70,7 @@ export default function Eyes() {
 
           {/* Upload panel — full width */}
           <div style={card}>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Upload File</p>
+            <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Upload File</p>
             <EyesUploader
               onAnalyze={handleAnalyze}
               scanning={scanning}
@@ -81,13 +81,13 @@ export default function Eyes() {
 
           {error && (
             <div style={{ padding: '12px 16px', borderRadius: 12, background: 'rgba(255,45,45,0.06)', border: '1px solid rgba(255,45,45,0.18)' }}>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--danger)' }}>{error}</p>
+              <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--danger)' }}>{error}</p>
             </div>
           )}
 
           {/* Results panel — full width below */}
           <div style={card}>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Analysis Results</p>
+            <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Analysis Results</p>
             {scanning ? (
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '48px 0', gap: 24 }}>
                 <div style={{ position: 'relative', width: 56, height: 56, flexShrink: 0 }}>
@@ -96,8 +96,8 @@ export default function Eyes() {
                   <Eye size={18} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: 'var(--text-3)' }} />
                 </div>
                 <div>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-2)' }}>Analyzing with D0B3RMAN...</p>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', marginTop: 4, letterSpacing: '0.12em' }}>SCANNING FOR SYNTHETIC MARKERS</p>
+                  <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-2)' }}>Analyzing with D0B3RMAN...</p>
+                  <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)', marginTop: 4, letterSpacing: '0.04em' }}>SCANNING FOR SYNTHETIC MARKERS</p>
                 </div>
               </div>
             ) : result ? (
@@ -106,8 +106,8 @@ export default function Eyes() {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '48px 0', gap: 16 }}>
                 <Eye size={28} style={{ color: 'var(--text-3)', opacity: 0.5 }} />
                 <div>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-3)' }}>Upload a file to begin analysis.</p>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', letterSpacing: '0.1em', opacity: 0.6, marginTop: 4 }}>IMAGES · VIDEOS · AUDIO</p>
+                  <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-3)' }}>Upload a file to begin analysis.</p>
+                  <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)', letterSpacing: '0.03em', opacity: 0.6, marginTop: 4 }}>IMAGES · VIDEOS · AUDIO</p>
                 </div>
               </div>
             )}
@@ -116,7 +116,7 @@ export default function Eyes() {
 
         {/* History */}
         <div style={{ ...card, marginTop: 20 }}>
-          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Scan History</p>
+          <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Scan History</p>
           <EyesScanHistory
             key={historyKey}
             userId={user?.id || ''}

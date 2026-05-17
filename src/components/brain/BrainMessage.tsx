@@ -24,7 +24,7 @@ export function BrainMessage({ message }: BrainMessageProps) {
               padding: '12px 16px',
               margin: '8px 0',
               overflowX: 'auto',
-              fontFamily: 'JetBrains Mono',
+              fontFamily: 'Inter',
               fontSize: 12,
               color: 'var(--safe)',
               lineHeight: 1.6,
@@ -44,7 +44,7 @@ export function BrainMessage({ message }: BrainMessageProps) {
               color: 'var(--safe)',
               padding: '1px 6px',
               borderRadius: 4,
-              fontFamily: 'JetBrains Mono',
+              fontFamily: 'Inter',
               fontSize: 12,
             }}
           >
@@ -85,7 +85,7 @@ export function BrainMessage({ message }: BrainMessageProps) {
             padding: '12px 16px',
           }}>
             <p style={{
-              fontFamily: 'Syne',
+              fontFamily: 'Inter',
               fontSize: 14,
               color: 'var(--text-1)',
               lineHeight: 1.6,
@@ -96,7 +96,7 @@ export function BrainMessage({ message }: BrainMessageProps) {
           </div>
           {message.timestamp && (
             <p style={{
-              fontFamily: 'JetBrains Mono',
+              fontFamily: 'Inter',
               fontSize: 10,
               color: 'rgba(255,255,255,0.2)',
               textAlign: 'right',
@@ -151,7 +151,7 @@ export function BrainMessage({ message }: BrainMessageProps) {
       </div>
       <div style={{ maxWidth: '80%' }}>
         <p style={{
-          fontFamily: 'JetBrains Mono',
+          fontFamily: 'Inter',
           fontSize: 9,
           letterSpacing: '0.15em',
           color: 'rgba(0,212,106,0.5)',
@@ -167,7 +167,7 @@ export function BrainMessage({ message }: BrainMessageProps) {
           padding: '14px 18px',
         }}>
           <p style={{
-            fontFamily: 'Syne',
+            fontFamily: 'Inter',
             fontSize: 14,
             color: 'var(--text-2)',
             lineHeight: 1.7,
@@ -178,7 +178,7 @@ export function BrainMessage({ message }: BrainMessageProps) {
         </div>
         {message.timestamp && (
           <p style={{
-            fontFamily: 'JetBrains Mono',
+            fontFamily: 'Inter',
             fontSize: 10,
             color: 'rgba(255,255,255,0.2)',
             marginTop: 4,

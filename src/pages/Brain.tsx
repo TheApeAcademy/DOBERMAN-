@@ -127,7 +127,7 @@ export default function BrainPage() {
                 <div style={{
                   position: 'absolute',
                   top: 20, left: 24,
-                  fontFamily: 'JetBrains Mono',
+                  fontFamily: 'Inter',
                   fontSize: 10,
                   letterSpacing: '0.2em',
                   color: 'rgba(255,255,255,0.3)',
@@ -148,7 +148,7 @@ export default function BrainPage() {
                 zIndex: 2,
               }}>
                 <p style={{
-                  fontFamily: 'JetBrains Mono',
+                  fontFamily: 'Inter',
                   fontSize: 11,
                   letterSpacing: '0.25em',
                   color: 'rgba(0,212,106,0.6)',
@@ -169,7 +169,7 @@ export default function BrainPage() {
                   <span style={{ color: 'var(--safe)' }}>INTELLIGENCE</span>
                 </h1>
                 <p style={{
-                  fontFamily: 'Syne',
+                  fontFamily: 'Inter',
                   fontSize: 16,
                   color: 'rgba(255,255,255,0.45)',
                   lineHeight: 1.7,
@@ -191,7 +191,7 @@ export default function BrainPage() {
                     padding: '16px 44px',
                     background: 'var(--safe)',
                     color: '#000',
-                    fontFamily: 'Syne',
+                    fontFamily: 'Inter',
                     fontWeight: 800,
                     fontSize: 15,
                     border: 'none',
@@ -206,7 +206,7 @@ export default function BrainPage() {
                 </motion.button>
 
                 <p style={{
-                  fontFamily: 'JetBrains Mono',
+                  fontFamily: 'Inter',
                   fontSize: 11,
                   color: 'rgba(255,255,255,0.18)',
                   marginTop: 20,
@@ -233,12 +233,12 @@ export default function BrainPage() {
                 <div style={{ padding: '16px 16px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <Zap size={14} style={{ color: 'var(--safe)' }} />
-                    <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-3)', textTransform: 'uppercase' }}>Threads</span>
+                    <span style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--text-3)', textTransform: 'uppercase' }}>Threads</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                     <button
                       onClick={() => newConversation()}
-                      style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, padding: '4px 8px', color: 'var(--text-3)', display: 'flex', alignItems: 'center', gap: 4, fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em', cursor: 'pointer' }}
+                      style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, padding: '4px 8px', color: 'var(--text-3)', display: 'flex', alignItems: 'center', gap: 4, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.03em', cursor: 'pointer' }}
                     >
                       <Plus size={11} />
                       NEW
@@ -268,7 +268,7 @@ export default function BrainPage() {
                   <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }} onClick={() => setHistoryOpen(false)} />
                   <div style={{ position: 'relative', zIndex: 51, width: 260, background: 'rgba(0,0,0,0.95)', borderRight: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column' }}>
                     <div style={{ padding: '16px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-3)', textTransform: 'uppercase' }}>Threads</span>
+                      <span style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--text-3)', textTransform: 'uppercase' }}>Threads</span>
                       <button onClick={() => setHistoryOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-3)' }}>
                         <X size={16} />
                       </button>
@@ -292,14 +292,14 @@ export default function BrainPage() {
                   <style>{`@media (min-width: 1024px) { .lg-hide-brain { display: none !important; } }`}</style>
                   <button
                     onClick={() => setHistoryOpen(true)}
-                    style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '5px 10px', display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-3)', fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em' }}
+                    style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '5px 10px', display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-3)', fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.03em' }}
                   >
                     <Zap size={12} style={{ color: 'var(--safe)' }} />
                     THREADS
                   </button>
                   <button
                     onClick={() => setChatOpen(false)}
-                    style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '5px 10px', display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-3)', fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em' }}
+                    style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '5px 10px', display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-3)', fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.03em' }}
                   >
                     <X size={12} />
                     BACK

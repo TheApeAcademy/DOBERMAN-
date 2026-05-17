@@ -22,9 +22,10 @@ export default {
       },
       fontFamily: {
         'display': ['"Bebas Neue"', 'sans-serif'],
-        'heading': ['Syne', 'sans-serif'],
-        'body': ['"JetBrains Mono"', 'monospace'],
-        'label': ['Syne', 'sans-serif'],
+        'heading': ['Inter', 'sans-serif'],
+        'body': ['Inter', 'sans-serif'],
+        'label': ['Inter', 'sans-serif'],
+        'mono': ['"Geist Mono"', 'monospace'],
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',

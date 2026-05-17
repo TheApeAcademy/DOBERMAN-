@@ -45,7 +45,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
           <span style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.2em', color: 'var(--text-1)', display: 'block' }}>
             D0B3RMAN
           </span>
-          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', display: 'block', marginTop: 2 }}>
+          <span style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'var(--text-3)', display: 'block', marginTop: 2 }}>
             CYBER WATCHDOG
           </span>
         </NavLink>
@@ -84,11 +84,11 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                     style={{ color: isActive ? 'var(--text-1)' : 'var(--text-3)', flexShrink: 0 }}
                   />
                   <div style={{ minWidth: 0 }}>
-                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, letterSpacing: '0.05em', color: isActive ? 'var(--text-1)' : 'var(--text-2)', fontWeight: isActive ? 600 : 400 }}>
+                    <p style={{ fontFamily: 'Inter', fontSize: 12, letterSpacing: '0.05em', color: isActive ? 'var(--text-1)' : 'var(--text-2)', fontWeight: isActive ? 600 : 400 }}>
                       {label}
                     </p>
                     {sub && (
-                      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', marginTop: 1 }}>{sub}</p>
+                      <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)', marginTop: 1 }}>{sub}</p>
                     )}
                   </div>
                   {isActive && (
@@ -119,7 +119,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                 justifyContent: 'center',
                 color: 'white',
                 fontSize: 12,
-                fontFamily: 'JetBrains Mono',
+                fontFamily: 'Inter',
                 fontWeight: 600,
                 flexShrink: 0,
                 background: avatarColor,
@@ -128,10 +128,10 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
               {initials}
             </div>
             <div style={{ minWidth: 0, flex: 1 }}>
-              <p style={{ fontFamily: 'Syne', fontSize: 13, fontWeight: 600, color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 13, fontWeight: 600, color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {profile?.name || profile?.email?.split('@')[0] || 'User'}
               </p>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', textTransform: 'capitalize' }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)', textTransform: 'capitalize' }}>
                 {profile?.plan || 'free'}
               </p>
             </div>
@@ -151,7 +151,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
             background: 'none',
             border: 'none',
             color: 'var(--text-3)',
-            fontFamily: 'JetBrains Mono',
+            fontFamily: 'Inter',
             fontSize: 12,
             transition: 'all 0.2s',
           }}

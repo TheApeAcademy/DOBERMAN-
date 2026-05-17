@@ -96,20 +96,20 @@ export default function News() {
 
           {/* Header */}
           <div style={{ marginBottom: 48 }}>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'var(--danger)', marginBottom: 12 }}>
+            <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'var(--danger)', marginBottom: 12 }}>
               [ FAKE NEWS DETECTION ]
             </p>
-            <h1 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(36px, 6vw, 72px)', lineHeight: 0.92, marginBottom: 16 }}>
+            <h1 style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(36px, 6vw, 72px)', lineHeight: 0.92, marginBottom: 16 }}>
               NEWS
             </h1>
-            <p style={{ fontFamily: 'Syne', fontSize: 15, color: 'var(--text-2)', maxWidth: 500 }}>
+            <p style={{ fontFamily: 'Inter', fontSize: 15, color: 'var(--text-2)', maxWidth: 500 }}>
               Paste any headline, claim, or article URL for instant credibility analysis.
             </p>
           </div>
 
           {/* Input card */}
           <div className="glass" style={{ borderRadius: 24, padding: 36, marginBottom: 32, position: 'relative', overflow: 'hidden' }}>
-            <label style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-3)', display: 'block', marginBottom: 12 }}>
+            <label style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.04em', color: 'var(--text-3)', display: 'block', marginBottom: 12 }}>
               HEADLINE, CLAIM, OR URL
             </label>
             <textarea
@@ -124,7 +124,7 @@ export default function News() {
                 borderRadius: 12,
                 padding: '14px 16px',
                 color: 'var(--text-1)',
-                fontFamily: 'Syne',
+                fontFamily: 'Inter',
                 fontSize: 15,
                 resize: 'vertical',
                 outline: 'none',
@@ -135,12 +135,12 @@ export default function News() {
               onBlur={(e) => { e.target.style.borderColor = 'var(--glass-border)' }}
             />
             {error && (
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--danger)', marginBottom: 16 }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--danger)', marginBottom: 16 }}>
                 {error}
               </p>
             )}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--text-3)' }}>
                 3 verifications/day on free tier
               </p>
               <motion.button
@@ -152,7 +152,7 @@ export default function News() {
                   padding: '12px 36px',
                   background: loading ? 'var(--void-4)' : 'white',
                   color: loading ? 'var(--text-3)' : 'black',
-                  fontFamily: 'Syne',
+                  fontFamily: 'Inter',
                   fontWeight: 700,
                   fontSize: 14,
                   border: 'none',
@@ -179,13 +179,13 @@ export default function News() {
                 {/* Score + verdict */}
                 <div style={{ display: 'flex', alignItems: 'flex-end', gap: 24, marginBottom: 32, flexWrap: 'wrap' }}>
                   <div>
-                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 4 }}>
+                    <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.04em', color: 'var(--text-3)', marginBottom: 4 }}>
                       CREDIBILITY SCORE
                     </p>
-                    <span style={{ fontFamily: 'JetBrains Mono', fontWeight: 700, fontSize: 72, color: verdictColor, lineHeight: 1 }}>
+                    <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 72, color: verdictColor, lineHeight: 1 }}>
                       {result.credibility_score}
                     </span>
-                    <span style={{ fontFamily: 'JetBrains Mono', fontSize: 28, color: verdictColor }}>/100</span>
+                    <span style={{ fontFamily: 'Inter', fontSize: 28, color: verdictColor }}>/100</span>
                   </div>
                   <div>
                     <span style={{
@@ -201,14 +201,14 @@ export default function News() {
                     }}>
                       {result.verdict.replace(/_/g, ' ')}
                     </span>
-                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)', marginTop: 8 }}>
+                    <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--text-3)', marginTop: 8 }}>
                       SOURCE QUALITY: <span style={{ color: 'var(--text-2)' }}>{result.source_quality}</span>
                     </p>
                   </div>
                 </div>
 
                 {/* Summary */}
-                <p style={{ fontFamily: 'Syne', fontSize: 16, color: 'var(--text-2)', lineHeight: 1.7, marginBottom: 32, padding: '20px 24px', background: 'rgba(255,255,255,0.03)', borderRadius: 12, borderLeft: `3px solid ${verdictColor}` }}>
+                <p style={{ fontFamily: 'Inter', fontSize: 16, color: 'var(--text-2)', lineHeight: 1.7, marginBottom: 32, padding: '20px 24px', background: 'rgba(255,255,255,0.03)', borderRadius: 12, borderLeft: `3px solid ${verdictColor}` }}>
                   {result.summary}
                 </p>
 
@@ -216,13 +216,13 @@ export default function News() {
                   {/* Red flags */}
                   {result.red_flags.length > 0 && (
                     <div className="glass" style={{ padding: 20, borderRadius: 16 }}>
-                      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--danger)', marginBottom: 14 }}>
+                      <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.04em', color: 'var(--danger)', marginBottom: 14 }}>
                         RED FLAGS ({result.red_flags.length})
                       </p>
                       {result.red_flags.map((flag, i) => (
                         <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 8 }}>
                           <span style={{ color: 'var(--danger)', fontSize: 10, marginTop: 3, flexShrink: 0 }}>●</span>
-                          <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-2)', lineHeight: 1.5 }}>{flag}</p>
+                          <p style={{ fontFamily: 'Inter', fontSize: 13, color: 'var(--text-2)', lineHeight: 1.5 }}>{flag}</p>
                         </div>
                       ))}
                     </div>
@@ -231,13 +231,13 @@ export default function News() {
                   {/* Positive signals */}
                   {result.positive_signals.length > 0 && (
                     <div className="glass" style={{ padding: 20, borderRadius: 16 }}>
-                      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--safe)', marginBottom: 14 }}>
+                      <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.04em', color: 'var(--safe)', marginBottom: 14 }}>
                         POSITIVE SIGNALS ({result.positive_signals.length})
                       </p>
                       {result.positive_signals.map((sig, i) => (
                         <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 8 }}>
                           <span style={{ color: 'var(--safe)', fontSize: 10, marginTop: 3, flexShrink: 0 }}>●</span>
-                          <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-2)', lineHeight: 1.5 }}>{sig}</p>
+                          <p style={{ fontFamily: 'Inter', fontSize: 13, color: 'var(--text-2)', lineHeight: 1.5 }}>{sig}</p>
                         </div>
                       ))}
                     </div>
@@ -246,8 +246,8 @@ export default function News() {
 
                 {/* Recommendation */}
                 <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: '16px 20px', display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.1em', color: 'var(--chrome-dim)', whiteSpace: 'nowrap', marginTop: 2 }}>NEXT STEP</span>
-                  <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-1)', lineHeight: 1.6 }}>{result.recommendation}</p>
+                  <span style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.03em', color: 'var(--chrome-dim)', whiteSpace: 'nowrap', marginTop: 2 }}>NEXT STEP</span>
+                  <p style={{ fontFamily: 'Inter', fontSize: 14, color: 'var(--text-1)', lineHeight: 1.6 }}>{result.recommendation}</p>
                 </div>
               </motion.div>
             )}
@@ -256,20 +256,20 @@ export default function News() {
           {/* History */}
           <div ref={historyRef}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-3)' }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.04em', color: 'var(--text-3)' }}>
                 PAST VERIFICATIONS
               </p>
               {!historyLoaded && (
                 <button
                   onClick={loadHistory}
-                  style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--chrome-dim)', background: 'none', border: '1px solid var(--glass-border)', padding: '6px 14px', borderRadius: 6 }}
+                  style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--chrome-dim)', background: 'none', border: '1px solid var(--glass-border)', padding: '6px 14px', borderRadius: 6 }}
                 >
                   Load History
                 </button>
               )}
             </div>
             {historyLoaded && history.length === 0 && (
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-3)' }}>No verifications yet.</p>
+              <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-3)' }}>No verifications yet.</p>
             )}
             {history.map((item, i) => {
               const color = VERDICT_COLORS[item.verdict] || 'var(--chrome-dim)'
@@ -282,18 +282,18 @@ export default function News() {
                   className="glass"
                   style={{ borderRadius: 14, padding: '16px 20px', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 16 }}
                 >
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 18, fontWeight: 700, color, minWidth: 40 }}>
+                  <span style={{ fontFamily: 'Inter', fontSize: 18, fontWeight: 700, color, minWidth: 40 }}>
                     {item.credibility_score}
                   </span>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-1)', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <p style={{ fontFamily: 'Inter', fontSize: 14, color: 'var(--text-1)', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {item.content.slice(0, 80)}{item.content.length > 80 ? '...' : ''}
                     </p>
-                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>
+                    <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--text-3)' }}>
                       {new Date(item.created_at).toLocaleDateString()}
                     </p>
                   </div>
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em', color, background: `${color}22`, border: `1px solid ${color}44`, padding: '3px 8px', borderRadius: 4, whiteSpace: 'nowrap' }}>
+                  <span style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.03em', color, background: `${color}22`, border: `1px solid ${color}44`, padding: '3px 8px', borderRadius: 4, whiteSpace: 'nowrap' }}>
                     {item.verdict.replace(/_/g, ' ')}
                   </span>
                 </motion.div>

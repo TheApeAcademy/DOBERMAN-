@@ -119,7 +119,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
             <p style={{ fontFamily: 'Bebas Neue', fontSize: 16, letterSpacing: '0.2em', color: 'var(--safe)', lineHeight: 1 }}>
               DOBERMAN INTELLIGENCE
             </p>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.1em', marginTop: 1 }}>
+            <p style={{ fontFamily: 'Inter', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.03em', marginTop: 1 }}>
               THREAT ANALYSIS · SECURITY GUIDANCE · REAL-TIME INTEL
             </p>
           </div>
@@ -139,7 +139,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
               />
             ))}
           </div>
-          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)' }}>
+          <span style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)' }}>
             {dailyRemaining}/10
           </span>
         </div>
@@ -182,7 +182,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
               <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 28, letterSpacing: '0.2em', color: 'var(--text-1)', marginBottom: 8 }}>
                 DOBERMAN INTELLIGENCE
               </h2>
-              <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-3)', maxWidth: 400, lineHeight: 1.6 }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 14, color: 'var(--text-3)', maxWidth: 400, lineHeight: 1.6 }}>
                 Your AI-powered security analyst. Ask about threats, vulnerabilities, network defense, or anything cybersecurity.
               </p>
             </div>
@@ -205,7 +205,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
                     background: 'rgba(255,255,255,0.03)',
                     border: '1px solid rgba(255,255,255,0.08)',
                     borderRadius: 12,
-                    fontFamily: 'Syne',
+                    fontFamily: 'Inter',
                     fontSize: 13,
                     color: 'var(--text-2)',
                     lineHeight: 1.5,
@@ -253,7 +253,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
                 margin: '8px 0',
               }}>
                 <AlertCircle size={14} style={{ color: 'var(--danger)', flexShrink: 0 }} />
-                <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--danger)' }}>{error}</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 13, color: 'var(--danger)' }}>{error}</p>
               </div>
             )}
             <div ref={bottomRef} />
@@ -281,7 +281,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
                 background: 'rgba(255,59,59,0.08)',
                 border: '1px solid rgba(255,59,59,0.3)',
                 borderRadius: 14,
-                fontFamily: 'Syne',
+                fontFamily: 'Inter',
                 fontWeight: 700,
                 fontSize: 14,
                 color: 'var(--danger)',
@@ -317,7 +317,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
                   border: 'none',
                   outline: 'none',
                   resize: 'none',
-                  fontFamily: 'Syne',
+                  fontFamily: 'Inter',
                   fontSize: 15,
                   color: 'var(--text-1)',
                   lineHeight: 1.5,
@@ -355,7 +355,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
               </button>
             </div>
           )}
-          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(255,255,255,0.18)', textAlign: 'center', marginTop: 8, letterSpacing: '0.05em' }}>
+          <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'rgba(255,255,255,0.18)', textAlign: 'center', marginTop: 8, letterSpacing: '0.05em' }}>
             Enter to send · Shift+Enter for new line · Doberman Intelligence v1
           </p>
         </div>
