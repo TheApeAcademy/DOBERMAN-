@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Shield, Zap, LayoutDashboard, History, Settings, LogOut, User, Newspaper } from 'lucide-react'
+import { Shield, Zap, LayoutDashboard, History, Settings, LogOut, User, Newspaper, Lock } from 'lucide-react'
 import type { Profile } from '../../lib/supabase'
 import { getInitials, getAvatarColor } from '../../lib/utils'
 
@@ -16,6 +16,7 @@ const navItems = [
   { to: '/eyes', icon: Shield, label: 'D.F.I.', sub: 'Deep Fake Intelligence' },
   { to: '/brain', icon: Zap, label: 'D0B3RMAN I.', sub: 'AI Intelligence' },
   { to: '/news', icon: Newspaper, label: 'NEWS', sub: 'Verify Content' },
+  { to: '/breach', icon: Lock, label: 'BREACH', sub: 'Email Breach Scan' },
   { to: '/history', icon: History, label: 'History', sub: '' },
   { to: '/settings', icon: Settings, label: 'Settings', sub: '' },
 ]
