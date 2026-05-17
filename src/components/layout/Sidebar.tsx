@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Eye, Shield, Brain, LayoutDashboard, History, Settings, LogOut, User, Newspaper } from 'lucide-react'
+import { Shield, Zap, LayoutDashboard, History, Settings, LogOut, User, Newspaper } from 'lucide-react'
 import type { Profile } from '../../lib/supabase'
 import { getInitials, getAvatarColor } from '../../lib/utils'
 
@@ -13,10 +13,9 @@ interface SidebarProps {
 
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', sub: '' },
-  { to: '/eyes', icon: Eye, label: 'EYES', sub: 'Deepfake Detection' },
-  { to: '/breach', icon: Shield, label: 'BREACH', sub: 'Data Breach Scan' },
-  { to: '/brain', icon: Brain, label: 'BRAIN', sub: 'AI Assistant' },
-  { to: '/news', icon: Newspaper, label: 'NEWS', sub: 'Verify + Feed' },
+  { to: '/eyes', icon: Shield, label: 'D.F.I.', sub: 'Deep Fake Intelligence' },
+  { to: '/brain', icon: Zap, label: 'D0B3RMAN I.', sub: 'AI Intelligence' },
+  { to: '/news', icon: Newspaper, label: 'NEWS', sub: 'Verify Content' },
   { to: '/history', icon: History, label: 'History', sub: '' },
   { to: '/settings', icon: Settings, label: 'Settings', sub: '' },
 ]
@@ -46,7 +45,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
           <span style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.2em', color: 'var(--text-1)', display: 'block' }}>
             D0B3RMAN
           </span>
-          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', display: 'block', marginTop: 2 }}>
+          <span style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'var(--text-3)', display: 'block', marginTop: 2 }}>
             CYBER WATCHDOG
           </span>
         </NavLink>
@@ -55,7 +54,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
       {/* Navigation */}
       <nav style={{ flex: 1, padding: '12px', overflowY: 'auto' }}>
         {navItems.map(({ to, icon: Icon, label, sub }, i) => {
-          const isActive = location.pathname === to || (to === '/news' && location.pathname.startsWith('/news'))
+          const isActive = location.pathname === to
           return (
             <motion.div
               key={to}
@@ -85,11 +84,11 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                     style={{ color: isActive ? 'var(--text-1)' : 'var(--text-3)', flexShrink: 0 }}
                   />
                   <div style={{ minWidth: 0 }}>
-                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, letterSpacing: '0.05em', color: isActive ? 'var(--text-1)' : 'var(--text-2)', fontWeight: isActive ? 600 : 400 }}>
+                    <p style={{ fontFamily: 'Inter', fontSize: 12, letterSpacing: '0.05em', color: isActive ? 'var(--text-1)' : 'var(--text-2)', fontWeight: isActive ? 600 : 400 }}>
                       {label}
                     </p>
                     {sub && (
-                      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', marginTop: 1 }}>{sub}</p>
+                      <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)', marginTop: 1 }}>{sub}</p>
                     )}
                   </div>
                   {isActive && (
@@ -112,19 +111,27 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 10, border: '1px solid transparent', transition: 'all 0.2s' }}>
             <div
               style={{
-                width: 32, height: 32, borderRadius: '50%',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: 'white', fontSize: 12, fontFamily: 'JetBrains Mono', fontWeight: 600,
-                flexShrink: 0, background: avatarColor,
+                width: 32,
+                height: 32,
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontSize: 12,
+                fontFamily: 'Inter',
+                fontWeight: 600,
+                flexShrink: 0,
+                background: avatarColor,
               }}
             >
               {initials}
             </div>
             <div style={{ minWidth: 0, flex: 1 }}>
-              <p style={{ fontFamily: 'Syne', fontSize: 13, fontWeight: 600, color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 13, fontWeight: 600, color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {profile?.name || profile?.email?.split('@')[0] || 'User'}
               </p>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', textTransform: 'capitalize' }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)', textTransform: 'capitalize' }}>
                 {profile?.plan || 'free'}
               </p>
             </div>
@@ -135,10 +142,18 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
         <button
           onClick={onSignOut}
           style={{
-            width: '100%', display: 'flex', alignItems: 'center', gap: 10,
-            padding: '10px 12px', borderRadius: 10,
-            background: 'none', border: 'none', color: 'var(--text-3)',
-            fontFamily: 'JetBrains Mono', fontSize: 12, transition: 'all 0.2s',
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            padding: '10px 12px',
+            borderRadius: 10,
+            background: 'none',
+            border: 'none',
+            color: 'var(--text-3)',
+            fontFamily: 'Inter',
+            fontSize: 12,
+            transition: 'all 0.2s',
           }}
           onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--danger)'; (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,45,45,0.06)' }}
           onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-3)'; (e.currentTarget as HTMLButtonElement).style.background = 'none' }}
