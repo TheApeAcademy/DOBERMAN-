@@ -95,11 +95,12 @@ export default function BrainPage() {
                   style={{
                     width: '100%',
                     height: 'clamp(480px, 65vh, 760px)',
-                    objectFit: 'cover',
+                    objectFit: 'contain',
+                    mixBlendMode: 'screen',
                     display: 'block',
                   }}
                 >
-                  <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
+                  <source src="/assets/video/blob-di.mp4" type="video/mp4" />
                 </video>
                 {/* gradient fade bottom */}
                 <div style={{
