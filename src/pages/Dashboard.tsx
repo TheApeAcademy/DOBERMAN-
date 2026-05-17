@@ -185,7 +185,7 @@ export default function Dashboard() {
                 autoPlay muted loop playsInline preload="auto"
                 style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', display: 'block', pointerEvents: 'none' }}
               >
-                <source src="/assets/video/blob-hero-2.mp4" type="video/mp4" />
+                <source src="/assets/video/blob-di.mp4" type="video/mp4" />
               </video>
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.95))', pointerEvents: 'none' }} />
             </div>

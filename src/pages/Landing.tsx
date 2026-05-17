@@ -321,7 +321,7 @@ export default function Landing() {
                 autoPlay muted loop playsInline preload="auto"
                 style={{ width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', display: 'block' }}
               >
-                <source src="/assets/video/blob-hero-2.mp4" type="video/mp4" />
+                <source src="/assets/video/blob-di.mp4" type="video/mp4" />
               </video>
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.95))', pointerEvents: 'none' }} />
               <div style={{ position: 'absolute', top: 20, left: 24, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(0,212,106,0.5)', zIndex: 2 }}>
