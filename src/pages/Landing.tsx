@@ -159,7 +159,7 @@ export default function Landing() {
         <style>{`
           @media(max-width:768px){
             .hero-portrait{width:100%!important}
-            .hero-portrait img{opacity:0.65}
+            .hero-portrait img{opacity:0.85}
           }
           @media(max-width:640px){
             .dfi-grid{grid-template-columns:1fr!important}

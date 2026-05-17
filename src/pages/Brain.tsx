@@ -87,17 +87,22 @@ export default function BrainPage() {
               <div style={{
                 width: '100%',
                 position: 'relative',
-                background: '#000',
+                height: 'clamp(380px, 60vw, 640px)',
+                overflow: 'hidden',
+                background: '#060606',
                 flexShrink: 0,
               }}>
                 <video
                   autoPlay muted loop playsInline preload="auto"
                   style={{
+                    position: 'absolute',
+                    inset: 0,
                     width: '100%',
-                    height: 'clamp(480px, 65vh, 760px)',
+                    height: '100%',
                     objectFit: 'contain',
                     mixBlendMode: 'screen',
                     display: 'block',
+                    pointerEvents: 'none',
                   }}
                 >
                   <source src="/assets/video/blob-di.mp4" type="video/mp4" />
