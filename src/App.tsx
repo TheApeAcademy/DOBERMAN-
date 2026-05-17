@@ -8,6 +8,7 @@ import Eyes from './pages/Eyes'
 import Nose from './pages/Nose'
 import Brain from './pages/Brain'
 import News from './pages/News'
+import NewsArticle from './pages/NewsArticle'
 import Breach from './pages/Breach'
 import History from './pages/History'
 import Settings from './pages/Settings'
@@ -44,6 +45,7 @@ function AnimatedRoutes() {
       <Route path="/nose" element={<ProtectedRoute><Nose /></ProtectedRoute>} />
       <Route path="/brain" element={<ProtectedRoute><Brain /></ProtectedRoute>} />
       <Route path="/news" element={<ProtectedRoute><News /></ProtectedRoute>} />
+      <Route path="/news/article" element={<ProtectedRoute><NewsArticle /></ProtectedRoute>} />
       <Route path="/breach" element={<ProtectedRoute><Breach /></ProtectedRoute>} />
       <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />

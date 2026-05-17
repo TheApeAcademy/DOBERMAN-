@@ -22,6 +22,7 @@ interface Stats {
   eyesToday: number
   brainToday: number
   newsToday: number
+  breachToday: number
 }
 
 const CYBER_HEADLINES = [
@@ -43,7 +44,7 @@ export default function Dashboard() {
   const [activity, setActivity] = useState<ActivityItem[]>([])
   const [stats, setStats] = useState<Stats>({
     eyesTotal: 0, brainTotal: 0, threatsDetected: 0,
-    eyesToday: 0, brainToday: 0, newsToday: 0,
+    eyesToday: 0, brainToday: 0, newsToday: 0, breachToday: 0,
   })
   const [loading, setLoading] = useState(true)
   const [visibleHeadlines, setVisibleHeadlines] = useState(4)
@@ -81,6 +82,7 @@ export default function Dashboard() {
       eyesToday: todayLogs.filter((l) => l.module === 'eyes').length,
       brainToday: todayLogs.filter((l) => l.module === 'brain').length,
       newsToday: todayLogs.filter((l) => l.module === 'news').length,
+      breachToday: todayLogs.filter((l) => l.module === 'breach').length,
     })
     setLoading(false)
   }
@@ -218,7 +220,7 @@ export default function Dashboard() {
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
             onClick={() => navigate('/news')}
-            style={{ padding: 40, borderRadius: 24, marginBottom: 96, overflow: 'hidden' }}
+            style={{ padding: 40, borderRadius: 24, marginBottom: 32, overflow: 'hidden' }}
           >
             <style>{`@media(max-width:768px){.news-grid{grid-template-columns:1fr!important}}`}</style>
             <div className="news-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }}>
@@ -248,6 +250,45 @@ export default function Dashboard() {
                 <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16 }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.38)', zIndex: 2 }}>
                   NEWS -- VERIFY CONTENT
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* ── BREACH SCAN ───────────────────────────────── */}
+          <motion.div
+            className="glass"
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            onClick={() => navigate('/breach')}
+            style={{ padding: 40, borderRadius: 24, marginBottom: 96, overflow: 'hidden', cursor: 'pointer' }}
+          >
+            <style>{`@media(max-width:768px){.breach-grid{grid-template-columns:1fr!important}}`}</style>
+            <div className="breach-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }}>
+              <div>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.28)', marginBottom: 24 }}>04 -- EMAIL BREACH SCAN</p>
+                <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 5.5vw, 72px)', letterSpacing: '0.05em', lineHeight: 0.9, marginBottom: 28 }}>
+                  BREACH<br />DETECTION
+                </h3>
+                <p style={{ fontFamily: 'Inter', fontSize: 16, color: 'rgba(255,255,255,0.48)', lineHeight: 1.7, marginBottom: 28 }}>
+                  Scan any email address for known data breaches. D0B3RMAN checks against breach databases and returns exposed credentials instantly.
+                </p>
+                <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.18)', marginBottom: 32 }}>
+                  HaveIBeenPwned · Breach Databases · Credential Exposure
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.28)' }}>{stats.breachToday}/3 today</span>
+                  <div style={{ width: 100, height: 2, background: 'rgba(255,255,255,0.08)', borderRadius: 1 }}>
+                    <div style={{ height: '100%', borderRadius: 1, background: 'var(--chrome-mid)', width: `${Math.min((stats.breachToday / 3) * 100, 100)}%`, transition: 'width 0.5s ease' }} />
+                  </div>
+                  <ArrowRight size={16} style={{ color: 'rgba(255,255,255,0.28)', marginLeft: 4 }} />
+                </div>
+              </div>
+              <div style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#060606' }}>
+                <img src="/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16 }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.38)', zIndex: 2 }}>
+                  BREACH -- EMAIL BREACH SCAN
                 </div>
               </div>
             </div>
