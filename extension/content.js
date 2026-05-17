@@ -1,3 +1,5 @@
+const APP_URL = 'https://doberman-kappa.vercel.app'
+
 chrome.runtime.onMessage.addListener((msg) => {
   if (msg.type === 'D0B3RMAN_LOADING') showOverlay(null, true)
   if (msg.type === 'D0B3RMAN_RESULT') showOverlay(msg.data, false, msg.analysisType)
@@ -49,7 +51,7 @@ function showOverlay(data, loading = false, type = null, error = false) {
         <p style="font-size:12px;color:#888;line-height:1.55;margin-bottom:18px;font-family:sans-serif;">
           ${explanation}
         </p>
-        <a href="https://d0b3rman.vercel.app/dashboard" target="_blank"
+        <a href="${APP_URL}/dashboard" target="_blank"
           style="display:block;text-align:center;padding:10px;background:white;color:black;text-decoration:none;border-radius:10px;font-size:12px;font-weight:700;font-family:monospace;">
           VIEW FULL REPORT
         </a>

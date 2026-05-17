@@ -1,17 +1,30 @@
 const SUPABASE_URL = 'https://bemovimlzrzcztrtikpf.supabase.co'
 const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJlbW92aW1senJ6Y3p0cnRpa3BmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgxMjIwNTEsImV4cCI6MjA2MzY5ODA1MX0.Pnl_pNaIaF4bTBL24PN7S0kIHgv2Ht9sEe01Bgs43H0'
+const APP_URL = 'https://doberman-kappa.vercel.app'
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({ id: 'doberman-image', title: 'Analyze image with D0B3RMAN', contexts: ['image'] })
   chrome.contextMenus.create({ id: 'doberman-text', title: 'Verify with D0B3RMAN', contexts: ['selection'] })
+  chrome.contextMenus.create({ id: 'doberman-breach', title: 'Check for Breaches', contexts: ['selection'] })
   chrome.contextMenus.create({ id: 'doberman-link', title: 'Check link with D0B3RMAN', contexts: ['link'] })
 })
 
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   const { token } = await chrome.storage.local.get('token')
 
+  // Breach check: open dashboard with email pre-filled
+  if (info.menuItemId === 'doberman-breach') {
+    const selected = info.selectionText || ''
+    if (selected.includes('@')) {
+      chrome.tabs.create({ url: `${APP_URL}/breach?email=${encodeURIComponent(selected.trim())}` })
+    } else {
+      chrome.tabs.create({ url: `${APP_URL}/breach` })
+    }
+    return
+  }
+
   if (!token) {
-    chrome.tabs.create({ url: 'https://d0b3rman.vercel.app/auth?ref=extension' })
+    chrome.tabs.create({ url: `${APP_URL}/auth?ref=extension` })
     return
   }
 

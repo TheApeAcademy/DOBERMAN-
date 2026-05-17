@@ -8,6 +8,19 @@ const corsHeaders = {
 
 const DAILY_LIMIT = 3
 
+type HFLabel = { label: string; score: number }
+
+async function callHuggingFace(model: string, imageBuffer: ArrayBuffer, apiKey: string): Promise<Response> {
+  return fetch(`https://api-inference.huggingface.co/models/${model}`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/octet-stream',
+    },
+    body: imageBuffer,
+  })
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
@@ -46,60 +59,72 @@ serve(async (req) => {
       )
     }
 
-    // Call Hive Moderation API
-    const hiveApiKey = Deno.env.get('HIVE_API_KEY') ?? ''
-    let hiveResult: Record<string, unknown> = {}
+    // Fetch raw image bytes
+    const imageResponse = await fetch(file_url)
+    if (!imageResponse.ok) {
+      throw new Error('Failed to fetch image for analysis')
+    }
+    const imageBuffer = await imageResponse.arrayBuffer()
+
+    const hfApiKey = Deno.env.get('HF_API_KEY') ?? ''
+    let hfResult: HFLabel[] | null = null
     let confidenceScore = 50
     let result: 'authentic' | 'fake' | 'uncertain' = 'uncertain'
 
     try {
-      const hiveResponse = await fetch('https://api.thehive.ai/api/v2/task/sync', {
-        method: 'POST',
-        headers: {
-          'Authorization': `token ${hiveApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          url: file_url,
-        }),
-      })
+      let hfResponse = await callHuggingFace('Wvolf/ViT_Deepfake_Detection', imageBuffer, hfApiKey)
 
-      if (hiveResponse.ok) {
-        hiveResult = await hiveResponse.json() as Record<string, unknown>
+      // Handle cold start — retry once after 8 seconds
+      if (hfResponse.status === 503) {
+        await new Promise((resolve) => setTimeout(resolve, 8000))
+        hfResponse = await callHuggingFace('Wvolf/ViT_Deepfake_Detection', imageBuffer, hfApiKey)
+      }
 
-        // Parse Hive response for deepfake probability
-        const output = (hiveResult as { status?: { response?: { output?: Array<{ classes?: Array<{ class: string; score: number }> }> } } })?.status?.response?.output
-        if (output && Array.isArray(output) && output.length > 0) {
-          const classes = output[0]?.classes || []
-          const fakeClass = classes.find((c: { class: string; score: number }) =>
-            c.class === 'yes' || c.class === 'fake' || c.class === 'deepfake'
-          )
-          const authenticClass = classes.find((c: { class: string; score: number }) =>
-            c.class === 'no' || c.class === 'real' || c.class === 'authentic'
-          )
+      if (hfResponse.ok) {
+        hfResult = await hfResponse.json() as HFLabel[]
+      } else {
+        // Try fallback model
+        const fallback = await callHuggingFace('prithivMLmods/Deep-Fake-Detector-v2-Model', imageBuffer, hfApiKey)
+        if (fallback.ok) {
+          hfResult = await fallback.json() as HFLabel[]
+        }
+      }
 
-          if (fakeClass) {
-            confidenceScore = Math.round(fakeClass.score * 100)
-            if (confidenceScore >= 70) result = 'fake'
-            else if (confidenceScore >= 40) result = 'uncertain'
-            else {
-              result = 'authentic'
-              confidenceScore = 100 - confidenceScore
-            }
-          } else if (authenticClass) {
-            confidenceScore = Math.round(authenticClass.score * 100)
-            if (confidenceScore >= 70) result = 'authentic'
-            else if (confidenceScore >= 40) result = 'uncertain'
-            else result = 'fake'
+      if (hfResult && Array.isArray(hfResult)) {
+        const fakeEntry = hfResult.find((item) =>
+          item.label.toLowerCase().includes('fake') || item.label.toLowerCase().includes('deepfake')
+        )
+        const realEntry = hfResult.find((item) =>
+          item.label.toLowerCase().includes('real') || item.label.toLowerCase().includes('authentic')
+        )
+
+        if (fakeEntry) {
+          confidenceScore = Math.round(fakeEntry.score * 100)
+          if (confidenceScore >= 70) result = 'fake'
+          else if (confidenceScore >= 40) result = 'uncertain'
+          else {
+            result = 'authentic'
+            confidenceScore = 100 - confidenceScore
+          }
+        } else if (realEntry) {
+          const realScore = Math.round(realEntry.score * 100)
+          if (realScore >= 70) {
+            result = 'authentic'
+            confidenceScore = realScore
+          } else if (realScore >= 40) {
+            result = 'uncertain'
+            confidenceScore = 100 - realScore
+          } else {
+            result = 'fake'
+            confidenceScore = 100 - realScore
           }
         }
       }
-    } catch (hiveError) {
-      console.error('Hive API error:', hiveError)
-      // Continue with fallback analysis using Claude only
+    } catch (hfError) {
+      console.error('HuggingFace API error:', hfError)
     }
 
-    // Call Claude to generate explanation
+    // Generate explanation via Claude
     const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
     let explanation = 'Analysis complete. Review the confidence score for details.'
 
@@ -117,9 +142,8 @@ serve(async (req) => {
           messages: [
             {
               role: 'user',
-              content: `You are a deepfake detection expert. The AI media analysis returned: result="${result}", confidence=${confidenceScore}%.
-File type: ${file_type}.
-Write a clear, 2-3 sentence explanation of what this means for the user. Be direct and specific. Do not use em dashes. Do not use hedging language.`,
+              content: `You are a deepfake detection expert. AI analysis result: result="${result}", confidence=${confidenceScore}%. File type: ${file_type}.
+Write a clear 2-3 sentence explanation for the user. Be direct and specific. Do not use em dashes.`,
             },
           ],
         }),
@@ -133,7 +157,6 @@ Write a clear, 2-3 sentence explanation of what this means for the user. Be dire
       console.error('Claude API error:', claudeError)
     }
 
-    // Save to database
     const { data: scan, error: dbError } = await supabase
       .from('eyes_scans')
       .insert({
@@ -144,14 +167,13 @@ Write a clear, 2-3 sentence explanation of what this means for the user. Be dire
         result,
         confidence_score: confidenceScore,
         explanation,
-        hive_raw: hiveResult,
+        hive_raw: hfResult,
       })
       .select()
       .single()
 
     if (dbError) throw dbError
 
-    // Log usage
     await supabase.from('usage_logs').insert({
       user_id,
       module: 'eyes',
