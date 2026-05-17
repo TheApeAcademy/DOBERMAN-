@@ -56,6 +56,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
       <nav style={{ flex: 1, padding: '12px', overflowY: 'auto' }}>
         {navItems.map(({ to, icon: Icon, label, sub }, i) => {
           const isActive = location.pathname === to
+          const isBreach = to === '/breach'
           return (
             <motion.div
               key={to}
@@ -75,25 +76,40 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                     gap: 12,
                     padding: '10px 12px',
                     borderRadius: 10,
-                    background: isActive ? 'rgba(255,255,255,0.06)' : 'transparent',
-                    border: isActive ? '1px solid var(--glass-border)' : '1px solid transparent',
+                    background: isActive
+                      ? (isBreach ? 'rgba(139,69,19,0.14)' : 'rgba(255,255,255,0.06)')
+                      : 'transparent',
+                    border: isActive
+                      ? (isBreach ? '1px solid rgba(139,69,19,0.35)' : '1px solid var(--glass-border)')
+                      : '1px solid transparent',
                     transition: 'all 0.2s',
                   }}
                 >
                   <Icon
                     size={16}
-                    style={{ color: isActive ? 'var(--text-1)' : 'var(--text-3)', flexShrink: 0 }}
+                    style={{
+                      color: isActive
+                        ? (isBreach ? '#CD853F' : 'var(--text-1)')
+                        : (isBreach ? 'rgba(139,69,19,0.55)' : 'var(--text-3)'),
+                      flexShrink: 0,
+                    }}
                   />
                   <div style={{ minWidth: 0 }}>
-                    <p style={{ fontFamily: 'Inter', fontSize: 12, letterSpacing: '0.05em', color: isActive ? 'var(--text-1)' : 'var(--text-2)', fontWeight: isActive ? 600 : 400 }}>
+                    <p style={{
+                      fontFamily: 'Inter', fontSize: 12, letterSpacing: '0.05em',
+                      color: isActive
+                        ? (isBreach ? '#CD853F' : 'var(--text-1)')
+                        : (isBreach ? 'rgba(205,133,63,0.65)' : 'var(--text-2)'),
+                      fontWeight: isActive ? 600 : 400,
+                    }}>
                       {label}
                     </p>
                     {sub && (
-                      <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)', marginTop: 1 }}>{sub}</p>
+                      <p style={{ fontFamily: 'Inter', fontSize: 10, color: isBreach ? 'rgba(139,69,19,0.5)' : 'var(--text-3)', marginTop: 1 }}>{sub}</p>
                     )}
                   </div>
                   {isActive && (
-                    <div style={{ marginLeft: 'auto', width: 3, height: 16, background: 'var(--text-1)', borderRadius: 2 }} />
+                    <div style={{ marginLeft: 'auto', width: 3, height: 16, background: isBreach ? '#CD853F' : 'var(--text-1)', borderRadius: 2 }} />
                   )}
                 </div>
               </NavLink>

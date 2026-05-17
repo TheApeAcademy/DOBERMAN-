@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Zap, X, Plus, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Layout } from '../components/layout/Layout'
@@ -22,15 +23,26 @@ export default function BrainPage() {
     getDailyCount,
   } = useBrain(user?.id)
 
+  const location = useLocation()
   const [dailyCount, setDailyCount] = useState(0)
   const [upgradeOpen, setUpgradeOpen] = useState(false)
   const [historyOpen, setHistoryOpen] = useState(false)
   const [historyKey, setHistoryKey] = useState(0)
   const [chatOpen, setChatOpen] = useState(false)
+  const [prefill, setPrefill] = useState<string | null>(null)
 
   useEffect(() => {
     if (user) getDailyCount().then(setDailyCount)
   }, [user])
+
+  useEffect(() => {
+    const state = location.state as { prefillMessage?: string } | null
+    if (state?.prefillMessage) {
+      setPrefill(state.prefillMessage)
+      newConversation()
+      setChatOpen(true)
+    }
+  }, [])
 
   // Auto-open chat if there's already an active conversation
   useEffect(() => {
@@ -313,6 +325,7 @@ export default function BrainPage() {
                   error={error}
                   dailyRemaining={dailyRemaining}
                   onUpgradeClick={() => setUpgradeOpen(true)}
+                  prefillMessage={prefill}
                 />
               </div>
             </motion.div>

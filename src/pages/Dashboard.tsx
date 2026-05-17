@@ -257,37 +257,43 @@ export default function Dashboard() {
 
           {/* ── BREACH SCAN ───────────────────────────────── */}
           <motion.div
-            className="glass"
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
             onClick={() => navigate('/breach')}
-            style={{ padding: 40, borderRadius: 24, marginBottom: 96, overflow: 'hidden', cursor: 'pointer' }}
+            style={{
+              padding: 40, borderRadius: 24, marginBottom: 96, overflow: 'hidden', cursor: 'pointer',
+              background: 'rgba(139,69,19,0.07)',
+              border: '1px solid rgba(139,69,19,0.28)',
+              boxShadow: 'inset 0 1px 0 rgba(205,133,63,0.12), 0 32px 64px rgba(0,0,0,0.5)',
+              backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)',
+            }}
           >
             <style>{`@media(max-width:768px){.breach-grid{grid-template-columns:1fr!important}}`}</style>
             <div className="breach-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }}>
               <div>
-                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.28)', marginBottom: 24 }}>04 -- EMAIL BREACH SCAN</p>
-                <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 5.5vw, 72px)', letterSpacing: '0.05em', lineHeight: 0.9, marginBottom: 28 }}>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'rgba(160,82,45,0.8)', marginBottom: 24 }}>04 -- EMAIL BREACH SCAN</p>
+                <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 5.5vw, 72px)', letterSpacing: '0.05em', lineHeight: 0.9, marginBottom: 28, color: '#DEB887' }}>
                   BREACH<br />DETECTION
                 </h3>
-                <p style={{ fontFamily: 'Inter', fontSize: 16, color: 'rgba(255,255,255,0.48)', lineHeight: 1.7, marginBottom: 28 }}>
-                  Scan any email address for known data breaches. D0B3RMAN checks against breach databases and returns exposed credentials instantly.
+                <p style={{ fontFamily: 'Inter', fontSize: 16, color: 'rgba(222,184,135,0.55)', lineHeight: 1.7, marginBottom: 28 }}>
+                  Scan any email address, password, or phone number against known data breach databases. D0B3RMAN checks credentials instantly.
                 </p>
-                <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.18)', marginBottom: 32 }}>
+                <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(160,82,45,0.6)', marginBottom: 32 }}>
                   HaveIBeenPwned · Breach Databases · Credential Exposure
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.28)' }}>{stats.breachToday}/3 today</span>
-                  <div style={{ width: 100, height: 2, background: 'rgba(255,255,255,0.08)', borderRadius: 1 }}>
-                    <div style={{ height: '100%', borderRadius: 1, background: 'var(--chrome-mid)', width: `${Math.min((stats.breachToday / 3) * 100, 100)}%`, transition: 'width 0.5s ease' }} />
+                  <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(160,82,45,0.7)' }}>{stats.breachToday}/3 today</span>
+                  <div style={{ width: 100, height: 2, background: 'rgba(139,69,19,0.2)', borderRadius: 1 }}>
+                    <div style={{ height: '100%', borderRadius: 1, background: '#CD853F', width: `${Math.min((stats.breachToday / 3) * 100, 100)}%`, transition: 'width 0.5s ease' }} />
                   </div>
-                  <ArrowRight size={16} style={{ color: 'rgba(255,255,255,0.28)', marginLeft: 4 }} />
+                  <ArrowRight size={16} style={{ color: 'rgba(205,133,63,0.5)', marginLeft: 4 }} />
                 </div>
               </div>
-              <div style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#060606' }}>
-                <img src="/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
-                <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16 }} />
-                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.38)', zIndex: 2 }}>
+              <div style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#0d0500' }}>
+                <img src="/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', opacity: 0.3 }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(139,69,19,0.45) 0%, transparent 70%)' }} />
+                <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(139,69,19,0.25)', borderRadius: 16 }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(205,133,63,0.5)', zIndex: 2 }}>
                   BREACH -- EMAIL BREACH SCAN
                 </div>
               </div>

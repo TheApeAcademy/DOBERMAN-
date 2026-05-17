@@ -17,9 +17,10 @@ interface BrainChatProps {
   error: string | null
   dailyRemaining: number
   onUpgradeClick: () => void
+  prefillMessage?: string | null
 }
 
-export function BrainChat({ messages, onSend, loading, error, dailyRemaining, onUpgradeClick }: BrainChatProps) {
+export function BrainChat({ messages, onSend, loading, error, dailyRemaining, onUpgradeClick, prefillMessage }: BrainChatProps) {
   const [input, setInput] = useState('')
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
@@ -27,6 +28,13 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, loading])
+
+  useEffect(() => {
+    if (prefillMessage) {
+      setInput(prefillMessage)
+      setTimeout(() => inputRef.current?.focus(), 150)
+    }
+  }, [prefillMessage])
 
   const handleSend = () => {
     if (!input.trim() || loading || dailyRemaining <= 0) return

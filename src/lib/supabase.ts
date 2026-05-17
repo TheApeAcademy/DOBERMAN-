@@ -75,7 +75,26 @@ export type ChatMessage = {
 export type UsageLog = {
   id: string
   user_id: string
-  module: 'eyes' | 'nose' | 'brain'
+  module: 'eyes' | 'nose' | 'brain' | 'breach'
   action: string
   created_at: string
+}
+
+export type BreachScan = {
+  type: 'email' | 'password' | 'phone'
+  breached: boolean
+  severity: 'none' | 'low' | 'medium' | 'critical'
+  message: string
+  recommendations: string[]
+  occurrences?: number
+  breach_count?: number
+  breaches?: Array<{
+    name: string
+    domain: string
+    breach_date?: string
+    data_classes?: string[]
+    description?: string
+    is_verified?: boolean
+  }>
+  sources?: string[]
 }
