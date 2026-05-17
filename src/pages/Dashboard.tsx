@@ -183,9 +183,9 @@ export default function Dashboard() {
             <div style={{ position: 'relative', width: '100%', height: 'clamp(260px, 50vw, 520px)', overflow: 'hidden', background: '#060606' }}>
               <video
                 autoPlay muted loop playsInline preload="auto"
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', pointerEvents: 'none' }}
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', display: 'block', pointerEvents: 'none' }}
               >
-                <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
+                <source src="/assets/video/blob-hero-2.mp4" type="video/mp4" />
               </video>
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.95))', pointerEvents: 'none' }} />
             </div>
@@ -195,7 +195,7 @@ export default function Dashboard() {
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.28)', marginBottom: 28 }}>
                 02 -- AI SECURITY ANALYST
               </p>
-              <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(20px, 7vw, 96px)', lineHeight: 0.92, marginBottom: 28, overflow: 'hidden' }}>
+              <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(14px, 5vw, 67px)', lineHeight: 0.92, marginBottom: 28, overflow: 'hidden' }}>
                 DOB3RMAN<br /><span style={{ color: 'var(--safe)' }}>INTELLIGENCE</span>
               </h2>
               <p style={{ fontFamily: 'Syne', fontSize: 17, color: 'rgba(255,255,255,0.45)', maxWidth: 480, margin: '0 auto 44px', lineHeight: 1.7 }}>
