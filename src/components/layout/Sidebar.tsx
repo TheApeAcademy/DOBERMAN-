@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Eye, Wifi, Brain, LayoutDashboard, History, Settings, LogOut, User, Newspaper } from 'lucide-react'
+import { Eye, Wifi, Brain, LayoutDashboard, History, Settings, LogOut, User, Newspaper, Shield } from 'lucide-react'
 import type { Profile } from '../../lib/supabase'
 import { getInitials, getAvatarColor } from '../../lib/utils'
 
@@ -17,6 +17,7 @@ const navItems = [
   { to: '/nose', icon: Wifi, label: 'NOSE', sub: 'IoT Intelligence' },
   { to: '/brain', icon: Brain, label: 'BRAIN', sub: 'AI Assistant' },
   { to: '/news', icon: Newspaper, label: 'NEWS', sub: 'Verify Content' },
+  { to: '/breach', icon: Shield, label: 'BREACH', sub: 'Email Breach Scan' },
   { to: '/history', icon: History, label: 'History', sub: '' },
   { to: '/settings', icon: Settings, label: 'Settings', sub: '' },
 ]

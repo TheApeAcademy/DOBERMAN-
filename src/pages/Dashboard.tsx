@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Eye, Wifi, Brain, Newspaper, ArrowRight, Clock } from 'lucide-react'
+import { Eye, Wifi, Brain, Newspaper, Shield, ArrowRight, Clock } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
@@ -25,6 +25,7 @@ interface Stats {
   noseToday: number
   brainToday: number
   newsToday: number
+  breachToday: number
 }
 
 export default function Dashboard() {
@@ -33,7 +34,7 @@ export default function Dashboard() {
   const [activity, setActivity] = useState<ActivityItem[]>([])
   const [stats, setStats] = useState<Stats>({
     eyesTotal: 0, noseTotal: 0, brainTotal: 0, threatsDetected: 0,
-    eyesToday: 0, noseToday: 0, brainToday: 0, newsToday: 0,
+    eyesToday: 0, noseToday: 0, brainToday: 0, newsToday: 0, breachToday: 0,
   })
   const [loading, setLoading] = useState(true)
 
@@ -79,6 +80,7 @@ export default function Dashboard() {
       noseToday: todayLogs.filter((l) => l.module === 'nose').length,
       brainToday: todayLogs.filter((l) => l.module === 'brain').length,
       newsToday: todayLogs.filter((l) => l.module === 'news').length,
+      breachToday: todayLogs.filter((l) => l.module === 'breach').length,
     })
     setLoading(false)
   }
@@ -88,6 +90,7 @@ export default function Dashboard() {
     { to: '/nose', icon: Wifi, name: 'NOSE', sub: 'IoT Intelligence', desc: 'Map your network environment and identify security weaknesses.', count: stats.noseToday, limit: 3, src: '/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg', isImage: true, label: 'NOSE -- IOT INTELLIGENCE' },
     { to: '/brain', icon: Brain, name: 'BRAIN', sub: 'AI Analyst', desc: 'Chat with your dedicated cybersecurity expert powered by Claude.', count: stats.brainToday, limit: 10, src: '/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4', isImage: false, label: 'BRAIN -- AI ANALYST' },
     { to: '/news', icon: Newspaper, name: 'NEWS', sub: 'Verify Content', desc: 'Paste any headline or claim. Get a credibility verdict instantly.', count: stats.newsToday, limit: 3, src: '/assets/video/cdd8c26722152919a8539f357363c238.jpg', isImage: true, label: 'NEWS -- VERIFY CONTENT' },
+    { to: '/breach', icon: Shield, name: 'BREACH', sub: 'Email Breach Scan', desc: 'Scan email addresses for known data breaches and exposed credentials.', count: stats.breachToday, limit: 3, src: '/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg', isImage: true, label: 'BREACH -- EMAIL BREACH SCAN' },
   ]
 
   const firstName = profile?.name?.split(' ')[0] || profile?.email?.split('@')[0] || 'Operator'
