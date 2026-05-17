@@ -101,16 +101,16 @@ export default function Dashboard() {
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 40, flexWrap: 'wrap', gap: 16 }}>
           <div>
-            <h1 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(20px, 3.5vw, 36px)', lineHeight: 1 }}>
+            <h1 style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(20px, 3.5vw, 36px)', lineHeight: 1 }}>
               {greeting}, {firstName}.
             </h1>
-            <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-2)', marginTop: 6 }}>
+            <p style={{ fontFamily: 'Inter', fontSize: 14, color: 'var(--text-2)', marginTop: 6 }}>
               D0B3RMAN is watching. Here's your threat overview.
             </p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.2)', borderRadius: 8 }}>
             <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--safe)', animation: 'pulse 2s infinite' }} />
-            <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.1em', color: 'var(--safe)' }}>ALL SYSTEMS ACTIVE</span>
+            <span style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.03em', color: 'var(--safe)' }}>ALL SYSTEMS ACTIVE</span>
           </div>
         </div>
 
@@ -130,8 +130,8 @@ export default function Dashboard() {
               className="glass"
               style={{ padding: '16px 20px', borderRadius: 16 }}
             >
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.08em', color: 'var(--text-3)', marginBottom: 8 }}>{label.toUpperCase()}</p>
-              <p style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(28px, 5vw, 40px)', lineHeight: 1, color: loading ? 'var(--text-3)' : color }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.03em', color: 'var(--text-3)', marginBottom: 8 }}>{label.toUpperCase()}</p>
+              <p style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(28px, 5vw, 40px)', lineHeight: 1, color: loading ? 'var(--text-3)' : color }}>
                 {loading ? '-' : value}
               </p>
             </motion.div>
@@ -140,7 +140,7 @@ export default function Dashboard() {
 
         {/* Module cards */}
         <div style={{ marginBottom: 40 }}>
-          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 20 }}>
+          <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.04em', color: 'var(--text-3)', marginBottom: 20 }}>
             MODULES
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
@@ -164,7 +164,7 @@ export default function Dashboard() {
                     </video>
                   )}
                   <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', borderRadius: '20px 20px 0 0' }} />
-                  <div style={{ position: 'absolute', bottom: 10, left: 14, fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', zIndex: 2 }}>
+                  <div style={{ position: 'absolute', bottom: 10, left: 14, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.4)', zIndex: 2 }}>
                     {label}
                   </div>
                 </div>
@@ -174,10 +174,10 @@ export default function Dashboard() {
                     <ArrowRight size={14} style={{ color: 'var(--text-3)' }} />
                   </div>
                   <p style={{ fontFamily: 'Bebas Neue', fontSize: 32, letterSpacing: '0.1em', marginBottom: 2 }}>{name}</p>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em', color: 'var(--text-3)', marginBottom: 12 }}>{sub.toUpperCase()}</p>
-                  <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-2)', lineHeight: 1.55, marginBottom: 16 }}>{desc}</p>
+                  <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.03em', color: 'var(--text-3)', marginBottom: 12 }}>{sub.toUpperCase()}</p>
+                  <p style={{ fontFamily: 'Inter', fontSize: 13, color: 'var(--text-2)', lineHeight: 1.55, marginBottom: 16 }}>{desc}</p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>{count}/{limit}</span>
+                    <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--text-3)' }}>{count}/{limit}</span>
                     <div style={{ flex: 1, height: 2, background: 'var(--void-4)', borderRadius: 1 }}>
                       <div style={{ height: '100%', borderRadius: 1, background: 'var(--chrome-mid)', width: `${Math.min((count / limit) * 100, 100)}%`, transition: 'width 0.5s ease' }} />
                     </div>
@@ -191,12 +191,12 @@ export default function Dashboard() {
         {/* Activity feed */}
         <div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-3)' }}>
+            <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.04em', color: 'var(--text-3)' }}>
               RECENT ACTIVITY
             </p>
             <button
               onClick={() => navigate('/history')}
-              style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--chrome-dim)', background: 'none', border: 'none' }}
+              style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--chrome-dim)', background: 'none', border: 'none' }}
             >
               View all
             </button>
@@ -214,7 +214,7 @@ export default function Dashboard() {
               ))
             ) : activity.length === 0 ? (
               <div style={{ padding: 40, textAlign: 'center' }}>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-3)' }}>No activity yet. Run your first scan.</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-3)' }}>No activity yet. Run your first scan.</p>
               </div>
             ) : (
               activity.map((item, i) => {
@@ -232,17 +232,17 @@ export default function Dashboard() {
                       <Icon size={14} style={{ color: 'var(--text-3)' }} />
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: 2 }}>{item.label}</p>
+                      <p style={{ fontFamily: 'Inter', fontSize: 14, color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: 2 }}>{item.label}</p>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                         <Clock size={10} style={{ color: 'var(--text-3)' }} />
-                        <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>{formatRelativeTime(item.created_at)}</span>
+                        <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--text-3)' }}>{formatRelativeTime(item.created_at)}</span>
                         {item.result && (
-                          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: getResultLabel(item.result).color, background: `${getResultLabel(item.result).color}22`, padding: '2px 6px', borderRadius: 4 }}>
+                          <span style={{ fontFamily: 'Inter', fontSize: 10, color: getResultLabel(item.result).color, background: `${getResultLabel(item.result).color}22`, padding: '2px 6px', borderRadius: 4 }}>
                             {getResultLabel(item.result).label}
                           </span>
                         )}
                         {item.type === 'nose' && item.score !== undefined && (
-                          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: getRiskColor(item.score), background: `${getRiskColor(item.score)}22`, padding: '2px 6px', borderRadius: 4 }}>
+                          <span style={{ fontFamily: 'Inter', fontSize: 10, color: getRiskColor(item.score), background: `${getRiskColor(item.score)}22`, padding: '2px 6px', borderRadius: 4 }}>
                             Risk: {item.score}
                           </span>
                         )}

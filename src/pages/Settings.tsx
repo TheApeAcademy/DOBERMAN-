@@ -18,7 +18,7 @@ const card: React.CSSProperties = {
 
 const label: React.CSSProperties = {
   display: 'block',
-  fontFamily: 'JetBrains Mono',
+  fontFamily: 'Inter',
   fontSize: 9,
   letterSpacing: '0.2em',
   color: 'var(--text-3)',
@@ -93,7 +93,7 @@ export default function Settings() {
   const sectionHeader = (icon: React.ReactNode, title: string) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, paddingBottom: 14, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
       <div style={{ color: 'var(--text-3)' }}>{icon}</div>
-      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.12em', color: 'var(--text-2)', textTransform: 'uppercase' }}>{title}</p>
+      <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.04em', color: 'var(--text-2)', textTransform: 'uppercase' }}>{title}</p>
     </div>
   )
 
@@ -104,20 +104,20 @@ export default function Settings() {
         {/* Page header */}
         <div style={{ marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>SETTINGS</h1>
-          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-3)', marginTop: 3 }}>MANAGE YOUR D0B3RMAN ACCOUNT</p>
+          <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--text-3)', marginTop: 3 }}>MANAGE YOUR D0B3RMAN ACCOUNT</p>
         </div>
 
         {/* Feedback banners */}
         {saved && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', borderRadius: 12, background: 'rgba(48,209,88,0.07)', border: '1px solid rgba(48,209,88,0.2)', marginBottom: 16 }}>
             <CheckCircle size={14} style={{ color: 'var(--safe)', flexShrink: 0 }} />
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--safe)' }}>Changes saved successfully.</p>
+            <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--safe)' }}>Changes saved successfully.</p>
           </div>
         )}
         {error && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', borderRadius: 12, background: 'rgba(255,45,45,0.06)', border: '1px solid rgba(255,45,45,0.2)', marginBottom: 16 }}>
             <AlertTriangle size={14} style={{ color: 'var(--danger)', flexShrink: 0 }} />
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--danger)' }}>{error}</p>
+            <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--danger)' }}>{error}</p>
           </div>
         )}
 
@@ -160,8 +160,8 @@ export default function Settings() {
             {sectionHeader(<Bell size={14} />, 'Notifications')}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
               <div>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-1)', marginBottom: 4 }}>Email alerts for high-risk scans</p>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', letterSpacing: '0.05em' }}>Get notified when a scan returns a critical threat</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-1)', marginBottom: 4 }}>Email alerts for high-risk scans</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)', letterSpacing: '0.05em' }}>Get notified when a scan returns a critical threat</p>
               </div>
               <button
                 onClick={() => setNotifications(!notifications)}
@@ -188,8 +188,8 @@ export default function Settings() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: 12, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <div>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-1)', marginBottom: 3 }}>Delete scan history</p>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)' }}>Removes all EYES, NOSE, and BRAIN data</p>
+                  <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-1)', marginBottom: 3 }}>Delete scan history</p>
+                  <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)' }}>Removes all EYES, NOSE, and BRAIN data</p>
                 </div>
                 <button onClick={() => setDeleteHistoryOpen(true)} className="btn-danger" style={{ padding: '7px 16px', fontSize: 11 }}>
                   Delete History
@@ -197,8 +197,8 @@ export default function Settings() {
               </div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: 12, background: 'rgba(255,45,45,0.04)', border: '1px solid rgba(255,45,45,0.15)' }}>
                 <div>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-1)', marginBottom: 3 }}>Delete account</p>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)' }}>Permanent — cannot be undone</p>
+                  <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-1)', marginBottom: 3 }}>Delete account</p>
+                  <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)' }}>Permanent — cannot be undone</p>
                 </div>
                 <button onClick={() => setDeleteOpen(true)} className="btn-danger" style={{ padding: '7px 16px', fontSize: 11 }}>
                   Delete Account
@@ -218,14 +218,14 @@ export default function Settings() {
                 { label: 'Detection', value: 'Hive AI Moderation' },
               ].map(({ label: l, value }, i, arr) => (
                 <div key={l} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em', color: 'var(--text-3)', textTransform: 'uppercase' }}>{l}</span>
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-2)' }}>{value}</span>
+                  <span style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.03em', color: 'var(--text-3)', textTransform: 'uppercase' }}>{l}</span>
+                  <span style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-2)' }}>{value}</span>
                 </div>
               ))}
             </div>
             <div style={{ display: 'flex', gap: 20, marginTop: 16 }}>
               {['Privacy Policy', 'Terms of Service', 'Contact'].map((link) => (
-                <span key={link} style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', letterSpacing: '0.05em', textDecoration: 'underline', textUnderlineOffset: 3 }}>{link}</span>
+                <span key={link} style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)', letterSpacing: '0.05em', textDecoration: 'underline', textUnderlineOffset: 3 }}>{link}</span>
               ))}
             </div>
           </div>
@@ -235,7 +235,7 @@ export default function Settings() {
       {/* Delete history modal */}
       <Modal open={deleteHistoryOpen} onClose={() => setDeleteHistoryOpen(false)} title="Delete Scan History">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-2)', lineHeight: 1.6 }}>
+          <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-2)', lineHeight: 1.6 }}>
             This will permanently delete all your EYES scans, NOSE scans, and BRAIN conversations. This cannot be undone.
           </p>
           <div style={{ display: 'flex', gap: 10 }}>
@@ -252,9 +252,9 @@ export default function Settings() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', borderRadius: 10, background: 'rgba(255,45,45,0.06)', border: '1px solid rgba(255,45,45,0.2)' }}>
             <AlertTriangle size={14} style={{ color: 'var(--danger)', flexShrink: 0 }} />
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--danger)' }}>This action is permanent and cannot be undone.</p>
+            <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--danger)' }}>This action is permanent and cannot be undone.</p>
           </div>
-          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-2)', lineHeight: 1.6 }}>
+          <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-2)', lineHeight: 1.6 }}>
             Your account and all associated data will be permanently deleted.
           </p>
           <div style={{ display: 'flex', gap: 10 }}>

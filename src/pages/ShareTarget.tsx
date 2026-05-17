@@ -101,7 +101,7 @@ export default function ShareTarget() {
               >
                 <ChromeBlob size={120} speed={1} distort={0.6}
                   style={{ position: 'relative', margin: '0 auto 24px', opacity: 0.8 }} />
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, letterSpacing: '0.15em', color: 'var(--text-3)' }}>
+                <p style={{ fontFamily: 'Inter', fontSize: 12, letterSpacing: '0.04em', color: 'var(--text-3)' }}>
                   ANALYZING SHARED CONTENT...
                 </p>
               </motion.div>
@@ -109,12 +109,12 @@ export default function ShareTarget() {
 
             {error && !loading && (
               <div>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 24, color: 'var(--danger)', marginBottom: 16 }}>!</p>
-                <p style={{ fontFamily: 'Syne', fontSize: 15, color: 'var(--text-2)', marginBottom: 24 }}>{error}</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 24, color: 'var(--danger)', marginBottom: 16 }}>!</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 15, color: 'var(--text-2)', marginBottom: 24 }}>{error}</p>
                 <motion.button
                   whileHover={{ scale: 1.03 }}
                   onClick={() => navigate('/dashboard')}
-                  style={{ padding: '12px 32px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}
+                  style={{ padding: '12px 32px', background: 'white', color: 'black', fontFamily: 'Inter', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}
                 >
                   Go to Dashboard
                 </motion.button>
@@ -123,23 +123,23 @@ export default function ShareTarget() {
 
             {result && !loading && (
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 8 }}>
+                <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.04em', color: 'var(--text-3)', marginBottom: 8 }}>
                   {result.type === 'eyes' ? 'DEEPFAKE CONFIDENCE' : 'CREDIBILITY SCORE'}
                 </p>
-                <div style={{ fontFamily: 'JetBrains Mono', fontSize: 80, fontWeight: 700, color: scoreColor, lineHeight: 1, marginBottom: 4 }}>
+                <div style={{ fontFamily: 'Inter', fontSize: 80, fontWeight: 700, color: scoreColor, lineHeight: 1, marginBottom: 4 }}>
                   {result.score}
                 </div>
                 <span style={{ fontFamily: 'Bebas Neue', fontSize: 20, letterSpacing: '0.15em', color: scoreColor }}>
                   {result.verdict}
                 </span>
-                <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-2)', lineHeight: 1.65, margin: '20px 0 32px' }}>
+                <p style={{ fontFamily: 'Inter', fontSize: 14, color: 'var(--text-2)', lineHeight: 1.65, margin: '20px 0 32px' }}>
                   {result.explanation}
                 </p>
                 <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     onClick={() => navigate(result.type === 'eyes' ? '/eyes' : '/news')}
-                    style={{ padding: '12px 28px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 13, border: 'none', borderRadius: 10 }}
+                    style={{ padding: '12px 28px', background: 'white', color: 'black', fontFamily: 'Inter', fontWeight: 700, fontSize: 13, border: 'none', borderRadius: 10 }}
                   >
                     View Full Report
                   </motion.button>
@@ -147,13 +147,13 @@ export default function ShareTarget() {
                     whileHover={{ scale: 1.03 }}
                     className="glass"
                     onClick={() => navigate('/dashboard')}
-                    style={{ padding: '12px 28px', color: 'var(--text-2)', fontFamily: 'Syne', fontSize: 13, border: 'none', borderRadius: 10 }}
+                    style={{ padding: '12px 28px', color: 'var(--text-2)', fontFamily: 'Inter', fontSize: 13, border: 'none', borderRadius: 10 }}
                   >
                     Dashboard
                   </motion.button>
                 </div>
                 {savedId && (
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', marginTop: 16 }}>
+                  <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)', marginTop: 16 }}>
                     Saved to history
                   </p>
                 )}

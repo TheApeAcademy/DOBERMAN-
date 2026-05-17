@@ -65,7 +65,7 @@ export default function BrainPage() {
           <div style={{ padding: '16px 16px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <Brain size={14} style={{ color: 'var(--text-3)' }} />
-              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-3)', textTransform: 'uppercase' }}>Conversations</span>
+              <span style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--text-3)', textTransform: 'uppercase' }}>Conversations</span>
             </div>
             <button
               onClick={() => newConversation()}
@@ -92,7 +92,7 @@ export default function BrainPage() {
             <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }} onClick={() => setHistoryOpen(false)} />
             <div style={{ position: 'relative', zIndex: 51, width: 260, background: 'var(--void-1)', borderRight: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column' }}>
               <div style={{ padding: '16px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-3)', textTransform: 'uppercase' }}>Conversations</span>
+                <span style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--text-3)', textTransform: 'uppercase' }}>Conversations</span>
                 <button onClick={() => setHistoryOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-3)' }}>
                   <X size={16} />
                 </button>
@@ -118,7 +118,7 @@ export default function BrainPage() {
               <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
             </video>
             <div style={{ position: 'absolute', inset: 0, borderBottom: '1px solid rgba(255,255,255,0.06)' }} />
-            <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', zIndex: 2 }}>
+            <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.4)', zIndex: 2 }}>
               BRAIN -- AI SECURITY ANALYST
             </div>
           </div>
@@ -128,13 +128,13 @@ export default function BrainPage() {
             <style>{`@media (min-width: 1024px) { .lg-hide-brain { display: none !important; } }`}</style>
             <button
               onClick={() => setHistoryOpen(true)}
-              style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '5px 10px', display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-3)', fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em' }}
+              style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '5px 10px', display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-3)', fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.03em' }}
             >
               <Brain size={12} />
               CONVERSATIONS
             </button>
             {activeConversation && (
-              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--text-3)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {activeConversation.title}
               </span>
             )}

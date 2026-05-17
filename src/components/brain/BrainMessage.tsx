@@ -17,13 +17,13 @@ export function BrainMessage({ message }: BrainMessageProps) {
         const code = part.slice(3, -3).replace(/^\w+\n/, '')
         return (
           <pre key={i} className="bg-bg-primary border border-border-color rounded-lg p-3 my-2 overflow-x-auto">
-            <code className="text-accent-green font-body text-xs">{code}</code>
+            <code className="text-accent-green font-mono text-xs">{code}</code>
           </pre>
         )
       }
       if (part.startsWith('`') && part.endsWith('`')) {
         return (
-          <code key={i} className="bg-bg-primary text-accent-blue px-1.5 py-0.5 rounded text-xs font-body">
+          <code key={i} className="bg-bg-primary text-accent-blue px-1.5 py-0.5 rounded text-xs font-mono">
             {part.slice(1, -1)}
           </code>
         )
