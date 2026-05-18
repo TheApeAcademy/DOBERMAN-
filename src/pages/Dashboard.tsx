@@ -165,7 +165,7 @@ export default function Dashboard() {
               </div>
               <div className="dfi-video" style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#060606' }}>
                 <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
-                  <source src="/assets/video/blob-nose.mp4" type="video/mp4" />
+                  <source src="/assets/video/blob-eyes.mp4" type="video/mp4" />
                 </video>
                 <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16 }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.38)', zIndex: 2 }}>
