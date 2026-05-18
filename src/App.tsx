@@ -10,11 +10,15 @@ import Eyes from './pages/Eyes'
 import Nose from './pages/Nose'
 import Brain from './pages/Brain'
 import News from './pages/News'
+import NewsArticle from './pages/NewsArticle'
 import History from './pages/History'
 import Settings from './pages/Settings'
 import Profile from './pages/Profile'
 import ShareTarget from './pages/ShareTarget'
 import Globe from './pages/Globe'
+import Deepfake from './pages/Deepfake'
+import Daye from './pages/Daye'
+import Breach from './pages/Breach'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
@@ -49,10 +53,14 @@ function AnimatedRoutes() {
         <Route path="/nose" element={<ProtectedRoute><PageWrapper><Nose /></PageWrapper></ProtectedRoute>} />
         <Route path="/brain" element={<ProtectedRoute><PageWrapper><Brain /></PageWrapper></ProtectedRoute>} />
         <Route path="/news" element={<ProtectedRoute><PageWrapper><News /></PageWrapper></ProtectedRoute>} />
+        <Route path="/news/article" element={<ProtectedRoute><PageWrapper><NewsArticle /></PageWrapper></ProtectedRoute>} />
         <Route path="/history" element={<ProtectedRoute><PageWrapper><History /></PageWrapper></ProtectedRoute>} />
         <Route path="/settings" element={<ProtectedRoute><PageWrapper><Settings /></PageWrapper></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><PageWrapper><Profile /></PageWrapper></ProtectedRoute>} />
         <Route path="/globe" element={<ProtectedRoute><PageWrapper><Globe /></PageWrapper></ProtectedRoute>} />
+        <Route path="/deepfake" element={<ProtectedRoute><PageWrapper><Deepfake /></PageWrapper></ProtectedRoute>} />
+        <Route path="/daye" element={<ProtectedRoute><PageWrapper><Daye /></PageWrapper></ProtectedRoute>} />
+        <Route path="/breach" element={<ProtectedRoute><PageWrapper><Breach /></PageWrapper></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </AnimatePresence>

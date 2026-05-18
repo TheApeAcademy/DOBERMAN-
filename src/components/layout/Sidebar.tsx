@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Eye, Wifi, Brain, LayoutDashboard, History, Settings, LogOut, User, Newspaper, Globe2 } from 'lucide-react'
+import { Eye, Wifi, Brain, LayoutDashboard, History, Settings, LogOut, User, Newspaper, Globe2, Shield, Zap, Lock } from 'lucide-react'
 import type { Profile } from '../../lib/supabase'
 import { getInitials, getAvatarColor } from '../../lib/utils'
 
@@ -18,6 +18,9 @@ const navItems = [
   { to: '/brain', icon: Brain, label: 'BRAIN', sub: 'AI Assistant' },
   { to: '/news', icon: Newspaper, label: 'NEWS', sub: 'Verify Content' },
   { to: '/globe', icon: Globe2, label: 'CYBER GLOBE', sub: 'Threat Intelligence' },
+  { to: '/deepfake', icon: Shield, label: 'D.F.I.', sub: 'Deepfake Intelligence' },
+  { to: '/daye', icon: Zap, label: 'DAYE', sub: 'Doberman Intelligence' },
+  { to: '/breach', icon: Lock, label: 'BREACH', sub: 'Breach Detection' },
   { to: '/history', icon: History, label: 'History', sub: '' },
   { to: '/settings', icon: Settings, label: 'Settings', sub: '' },
 ]
@@ -57,12 +60,13 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
       <nav style={{ flex: 1, padding: '12px', overflowY: 'auto' }}>
         {navItems.map(({ to, icon: Icon, label, sub }, i) => {
           const isActive = location.pathname === to
+          const isBreach = to === '/breach'
           return (
             <motion.div
               key={to}
               initial={{ opacity: 0, x: -16 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.05 }}
+              transition={{ delay: i * 0.04 }}
             >
               <NavLink
                 to={to}
@@ -76,25 +80,40 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                     gap: 12,
                     padding: '10px 12px',
                     borderRadius: 10,
-                    background: isActive ? 'rgba(255,255,255,0.06)' : 'transparent',
-                    border: isActive ? '1px solid var(--glass-border)' : '1px solid transparent',
+                    background: isActive
+                      ? (isBreach ? 'rgba(139,69,19,0.14)' : 'rgba(255,255,255,0.06)')
+                      : 'transparent',
+                    border: isActive
+                      ? (isBreach ? '1px solid rgba(139,69,19,0.35)' : '1px solid var(--glass-border)')
+                      : '1px solid transparent',
                     transition: 'all 0.2s',
                   }}
                 >
                   <Icon
                     size={16}
-                    style={{ color: isActive ? 'var(--text-1)' : 'var(--text-3)', flexShrink: 0 }}
+                    style={{
+                      color: isActive
+                        ? (isBreach ? '#CD853F' : 'var(--text-1)')
+                        : (isBreach ? 'rgba(205,133,63,0.55)' : 'var(--text-3)'),
+                      flexShrink: 0,
+                    }}
                   />
                   <div style={{ minWidth: 0 }}>
-                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, letterSpacing: '0.05em', color: isActive ? 'var(--text-1)' : 'var(--text-2)', fontWeight: isActive ? 600 : 400 }}>
+                    <p style={{
+                      fontFamily: 'JetBrains Mono', fontSize: 12, letterSpacing: '0.05em',
+                      color: isActive
+                        ? (isBreach ? '#CD853F' : 'var(--text-1)')
+                        : (isBreach ? 'rgba(205,133,63,0.65)' : 'var(--text-2)'),
+                      fontWeight: isActive ? 600 : 400,
+                    }}>
                       {label}
                     </p>
                     {sub && (
-                      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', marginTop: 1 }}>{sub}</p>
+                      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: isBreach ? 'rgba(139,69,19,0.5)' : 'var(--text-3)', marginTop: 1 }}>{sub}</p>
                     )}
                   </div>
                   {isActive && (
-                    <div style={{ marginLeft: 'auto', width: 3, height: 16, background: 'var(--text-1)', borderRadius: 2 }} />
+                    <div style={{ marginLeft: 'auto', width: 3, height: 16, background: isBreach ? '#CD853F' : 'var(--text-1)', borderRadius: 2 }} />
                   )}
                 </div>
               </NavLink>

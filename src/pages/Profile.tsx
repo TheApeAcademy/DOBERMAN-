@@ -63,7 +63,7 @@ export default function Profile() {
         {/* Page header */}
         <div style={{ marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>PROFILE</h1>
-          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-3)', marginTop: 3 }}>ACCOUNT OVERVIEW</p>
+          <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--text-3)', marginTop: 3 }}>ACCOUNT OVERVIEW</p>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -82,11 +82,11 @@ export default function Profile() {
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                  <h2 style={{ fontFamily: 'Syne', fontSize: 20, fontWeight: 700, color: 'var(--text-1)' }}>{displayName}</h2>
+                  <h2 style={{ fontFamily: 'Inter', fontSize: 20, fontWeight: 700, color: 'var(--text-1)' }}>{displayName}</h2>
                   <span style={{
                     display: 'inline-flex', alignItems: 'center', gap: 4,
                     padding: '3px 10px', borderRadius: 6,
-                    fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em',
+                    fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.03em',
                     background: isPro ? 'rgba(255,176,32,0.1)' : 'rgba(255,255,255,0.05)',
                     border: `1px solid ${isPro ? 'rgba(255,176,32,0.3)' : 'rgba(255,255,255,0.1)'}`,
                     color: isPro ? '#FFB020' : 'var(--text-3)',
@@ -95,10 +95,10 @@ export default function Profile() {
                     {(profile?.plan || 'FREE').toUpperCase()}
                   </span>
                 </div>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)', marginTop: 4 }}>{profile?.email || user?.email}</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--text-3)', marginTop: 4 }}>{profile?.email || user?.email}</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 6 }}>
                   <Calendar size={11} style={{ color: 'var(--text-3)' }} />
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)' }}>
+                  <span style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)' }}>
                     Member since {profile?.created_at ? formatDate(profile.created_at) : 'recently'}
                   </span>
                 </div>
@@ -108,7 +108,7 @@ export default function Profile() {
 
           {/* Activity stats */}
           <div>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 10, textTransform: 'uppercase' }}>Activity Stats</p>
+            <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'var(--text-3)', marginBottom: 10, textTransform: 'uppercase' }}>Activity Stats</p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12 }}>
               {statItems.map(({ icon: Icon, label, value, color }) => (
                 <div key={label} style={{ ...card, padding: '20px 16px', textAlign: 'center' }}>
@@ -116,7 +116,7 @@ export default function Profile() {
                   <p style={{ fontFamily: 'Bebas Neue', fontSize: 36, letterSpacing: '0.05em', color: 'var(--text-1)', lineHeight: 1 }}>
                     {loading ? '—' : value}
                   </p>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--text-3)', marginTop: 6, textTransform: 'uppercase' }}>{label}</p>
+                  <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.04em', color: 'var(--text-3)', marginTop: 6, textTransform: 'uppercase' }}>{label}</p>
                 </div>
               ))}
             </div>
@@ -124,11 +124,11 @@ export default function Profile() {
 
           {/* Plan */}
           <div style={card}>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 16, textTransform: 'uppercase' }}>Current Plan</p>
+            <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'var(--text-3)', marginBottom: 16, textTransform: 'uppercase' }}>Current Plan</p>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 18px', borderRadius: 14, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)', gap: 16 }}>
               <div>
-                <p style={{ fontFamily: 'Syne', fontSize: 14, fontWeight: 600, color: 'var(--text-1)', marginBottom: 4 }}>Free Plan</p>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)' }}>3 EYES · 3 NOSE · 10 BRAIN / day</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 14, fontWeight: 600, color: 'var(--text-1)', marginBottom: 4 }}>Free Plan</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)' }}>3 EYES · 3 NOSE · 10 BRAIN / day</p>
               </div>
               <button className="btn-primary" style={{ padding: '9px 18px', fontSize: 11, flexShrink: 0 }}>
                 Upgrade to Pro
@@ -138,7 +138,7 @@ export default function Profile() {
 
           {/* Actions */}
           <div style={card}>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 16, textTransform: 'uppercase' }}>Account Actions</p>
+            <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'var(--text-3)', marginBottom: 16, textTransform: 'uppercase' }}>Account Actions</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <button
                 onClick={() => navigate('/settings')}

@@ -44,14 +44,10 @@ export default function Nose() {
       <div style={{ padding: '28px 28px 48px', maxWidth: 1200, margin: '0 auto' }}>
 
         {/* Hero video */}
-        <div style={{ position: 'relative', height: 280, borderRadius: 24, overflow: 'hidden', marginBottom: 36, background: '#060606' }}>
-          <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 36 }}>
+          <video autoPlay muted loop playsInline style={{ width: '100%', maxWidth: 460, borderRadius: 28, pointerEvents: 'none' }}>
             <source src="/assets/video/blob-nose.mp4" type="video/mp4" />
           </video>
-          <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', borderRadius: 24 }} />
-          <div style={{ position: 'absolute', bottom: 16, left: 20, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', zIndex: 2 }}>
-            NOSE -- IOT INTELLIGENCE
-          </div>
         </div>
 
         {/* Module header */}
@@ -61,13 +57,13 @@ export default function Nose() {
           </div>
           <div style={{ flex: 1 }}>
             <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>NOSE</h1>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.18em', color: 'var(--text-3)', marginTop: 3 }}>IoT + NETWORK VULNERABILITY INTELLIGENCE</p>
+            <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'var(--text-3)', marginTop: 3 }}>IoT + NETWORK VULNERABILITY INTELLIGENCE</p>
           </div>
           <div style={{
             padding: '6px 14px', borderRadius: 8,
             background: remainingScans > 0 ? 'rgba(48,209,88,0.07)' : 'rgba(255,45,45,0.07)',
             border: `1px solid ${remainingScans > 0 ? 'rgba(48,209,88,0.2)' : 'rgba(255,45,45,0.2)'}`,
-            fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em',
+            fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.03em',
             color: remainingScans > 0 ? 'var(--safe)' : 'var(--danger)',
           }}>
             {remainingScans} / 3 SCANS TODAY
@@ -79,7 +75,7 @@ export default function Nose() {
           {/* Scanner */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <div style={card}>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Network Scanner</p>
+              <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Network Scanner</p>
               <NoseScanner
                 onAnalyze={handleAnalyze}
                 scanning={scanning}
@@ -89,14 +85,14 @@ export default function Nose() {
             </div>
             {error && (
               <div style={{ padding: '12px 16px', borderRadius: 12, background: 'rgba(255,45,45,0.06)', border: '1px solid rgba(255,45,45,0.18)' }}>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--danger)' }}>{error}</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--danger)' }}>{error}</p>
               </div>
             )}
           </div>
 
           {/* Results */}
           <div style={card}>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Threat Analysis</p>
+            <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Threat Analysis</p>
             {scanning ? (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 0', gap: 16 }}>
                 <div style={{ position: 'relative', width: 56, height: 56 }}>
@@ -105,8 +101,8 @@ export default function Nose() {
                   <Wifi size={18} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: 'var(--text-3)' }} />
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-2)' }}>Scanning network...</p>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', marginTop: 4, letterSpacing: '0.12em' }}>IDENTIFYING VULNERABILITIES</p>
+                  <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-2)' }}>Scanning network...</p>
+                  <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)', marginTop: 4, letterSpacing: '0.04em' }}>IDENTIFYING VULNERABILITIES</p>
                 </div>
               </div>
             ) : result ? (
@@ -114,8 +110,8 @@ export default function Nose() {
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 0', gap: 10, textAlign: 'center' }}>
                 <Wifi size={28} style={{ color: 'var(--text-3)', opacity: 0.5 }} />
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-3)' }}>Describe your network to begin.</p>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', letterSpacing: '0.1em', opacity: 0.6 }}>MORE DETAIL = BETTER RESULTS</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-3)' }}>Describe your network to begin.</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)', letterSpacing: '0.03em', opacity: 0.6 }}>MORE DETAIL = BETTER RESULTS</p>
               </div>
             )}
           </div>
@@ -123,7 +119,7 @@ export default function Nose() {
 
         {/* History */}
         <div style={{ ...card, marginTop: 20 }}>
-          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Scan History</p>
+          <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Scan History</p>
           <NoseScanHistory
             key={historyKey}
             userId={user?.id || ''}

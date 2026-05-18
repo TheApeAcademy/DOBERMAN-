@@ -4,30 +4,62 @@
   <meta charset="UTF-8">
   <style>
     * { margin:0; padding:0; box-sizing:border-box; cursor:crosshair !important; }
-    body { width:280px; background:#060606; color:white; font-family:-apple-system,sans-serif; }
+    body { width:300px; background:#060606; color:white; font-family:monospace; }
     .header { padding:18px 18px 14px; border-bottom:1px solid rgba(255,255,255,0.06); }
-    .logo { font-size:18px; letter-spacing:0.2em; font-weight:900; font-family:monospace; }
-    .status { font-size:10px; margin-top:5px; font-family:monospace; letter-spacing:0.1em; }
-    .body { padding:18px; }
-    .hint { font-size:12px; color:#666; line-height:1.55; margin-bottom:18px; font-family:sans-serif; }
-    .cta { display:block; width:100%; padding:11px; background:white; color:black; font-weight:700; font-size:12px; border:none; border-radius:9px; text-align:center; text-decoration:none; font-family:monospace; letter-spacing:0.05em; }
-    .divider { height:1px; background:rgba(255,255,255,0.06); margin:14px 0; }
-    .version { font-size:10px; color:#333; text-align:center; font-family:monospace; }
+    .logo { font-size:18px; letter-spacing:0.25em; font-weight:900; }
+    .tagline { font-size:9px; letter-spacing:0.2em; color:#444; margin-top:4px; }
+    .status { font-size:10px; margin-top:6px; letter-spacing:0.1em; display:flex; align-items:center; gap:6px; }
+    .status-dot { width:6px; height:6px; border-radius:50%; background:#30D158; animation:pulse 2s infinite; flex-shrink:0; }
+    .body { padding:16px 18px; }
+    .stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:16px; }
+    .stat { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:10px; padding:10px 8px; text-align:center; }
+    .stat-val { font-size:22px; font-weight:900; color:white; line-height:1; }
+    .stat-lbl { font-size:8px; letter-spacing:0.15em; color:#444; margin-top:4px; }
+    .cta { display:block; width:100%; padding:12px; background:white; color:black; font-weight:700; font-size:12px; border:none; border-radius:10px; text-align:center; text-decoration:none; letter-spacing:0.05em; margin-bottom:10px; }
+    .divider { height:1px; background:rgba(255,255,255,0.06); margin:12px 0; }
+    .footer { display:flex; justify-content:space-between; align-items:center; }
+    .version { font-size:9px; color:#333; }
+    .auth-hint { font-size:10px; color:#FF2D2D; text-align:center; padding:8px 0; display:none; }
+    @keyframes pulse { 0%, 100% { opacity:1; } 50% { opacity:0.4; } }
   </style>
 </head>
 <body>
   <div class="header">
     <div class="logo">D0B3RMAN</div>
-    <div class="status" id="status" style="color:#30D158;">Active -- Watching</div>
+    <div class="tagline">DOBERMAN // INTELLIGENCE ACTIVE</div>
+    <div class="status" id="status">
+      <div class="status-dot" id="status-dot"></div>
+      <span id="status-text" style="color:#30D158;">Active -- Watching</span>
+    </div>
   </div>
+
   <div class="body">
-    <p class="hint">
-      Right-click any image, link, or selected text on any website to analyze it instantly.
-    </p>
-    <a href="https://d0b3rman.vercel.app/dashboard" target="_blank" class="cta">OPEN DASHBOARD</a>
+    <p class="auth-hint" id="auth-hint">Sign in to view stats</p>
+
+    <div class="stats" id="stats">
+      <div class="stat">
+        <div class="stat-val" id="eyes-count">-</div>
+        <div class="stat-lbl">EYES</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val" id="news-count">-</div>
+        <div class="stat-lbl">NEWS</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val" id="breach-count">-</div>
+        <div class="stat-lbl">BREACH</div>
+      </div>
+    </div>
+
+    <a href="https://doberman-kappa.vercel.app/dashboard" target="_blank" class="cta">OPEN DASHBOARD</a>
+
     <div class="divider"></div>
-    <p class="version">D0B3RMAN v1.0.0</p>
+    <div class="footer">
+      <span class="version">D0B3RMAN v1.0.0</span>
+      <span class="version" id="user-label"></span>
+    </div>
   </div>
+
   <script src="popup.js"></script>
 </body>
 </html>

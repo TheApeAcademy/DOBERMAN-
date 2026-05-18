@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { ReactNode } from 'react'
 import { Sidebar } from './Sidebar'
 import { Header } from './Header'
+import { DayeAssistant } from '../daye/DayeAssistant'
 import type { Profile } from '../../lib/supabase'
 
 interface LayoutProps {
@@ -16,7 +17,6 @@ export function Layout({ profile, onSignOut, children, title }: LayoutProps) {
 
   return (
     <div style={{ display: 'flex', height: '100vh', background: 'var(--void)', overflow: 'hidden', position: 'relative' }}>
-
       {/* Desktop sidebar */}
       <div style={{ flexShrink: 0, zIndex: 10, display: 'none' }} className="lg-sidebar">
         <style>{`@media (min-width: 1024px) { .lg-sidebar { display: flex !important; } }`}</style>
@@ -43,6 +43,7 @@ export function Layout({ profile, onSignOut, children, title }: LayoutProps) {
           {children}
         </main>
       </div>
+      <DayeAssistant userId={profile?.id} />
     </div>
   )
 }

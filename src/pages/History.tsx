@@ -54,7 +54,7 @@ export default function History() {
   const thStyle: React.CSSProperties = {
     padding: '12px 16px',
     textAlign: 'left',
-    fontFamily: 'JetBrains Mono',
+    fontFamily: 'Inter',
     fontSize: 9,
     letterSpacing: '0.2em',
     color: 'var(--text-3)',
@@ -74,7 +74,7 @@ export default function History() {
         {/* Page header */}
         <div style={{ marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>HISTORY</h1>
-          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-3)', marginTop: 3 }}>ALL SCANS + CONVERSATIONS</p>
+          <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--text-3)', marginTop: 3 }}>ALL SCANS + CONVERSATIONS</p>
         </div>
 
         {/* Tabs */}
@@ -89,7 +89,7 @@ export default function History() {
                 background: tab === id ? 'rgba(255,255,255,0.07)' : 'transparent',
                 border: tab === id ? '1px solid rgba(255,255,255,0.12)' : '1px solid transparent',
                 color: tab === id ? 'var(--text-1)' : 'var(--text-3)',
-                fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.1em',
+                fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.03em',
                 transition: 'all 0.2s',
                 boxShadow: tab === id ? 'inset 0 1px 0 rgba(255,255,255,0.08)' : 'none',
               }}
@@ -119,7 +119,7 @@ export default function History() {
             eyesData.length === 0 ? (
               <div style={{ padding: '64px 24px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
                 <Eye size={28} style={{ color: 'var(--text-3)', opacity: 0.4 }} />
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-3)' }}>No EYES scans yet.</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-3)' }}>No EYES scans yet.</p>
               </div>
             ) : (
               <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -139,19 +139,19 @@ export default function History() {
                         onMouseLeave={e => (e.currentTarget as HTMLTableRowElement).style.background = 'transparent'}
                       >
                         <td style={tdStyle}>
-                          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-1)', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{scan.file_name}</p>
+                          <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-1)', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{scan.file_name}</p>
                         </td>
                         <td style={tdStyle}>
-                          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em', color: 'var(--text-3)', textTransform: 'uppercase' }}>{scan.file_type}</span>
+                          <span style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.03em', color: 'var(--text-3)', textTransform: 'uppercase' }}>{scan.file_type}</span>
                         </td>
                         <td style={tdStyle}>
-                          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.05em', padding: '3px 8px', borderRadius: 6, color, background: `${color}15`, border: `1px solid ${color}30` }}>{label}</span>
+                          <span style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', padding: '3px 8px', borderRadius: 6, color, background: `${color}15`, border: `1px solid ${color}30` }}>{label}</span>
                         </td>
                         <td style={tdStyle}>
                           <span style={{ fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.05em', color }}>{Math.round(scan.confidence_score)}%</span>
                         </td>
                         <td style={tdStyle}>
-                          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)' }}>{formatDate(scan.created_at)}</span>
+                          <span style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)' }}>{formatDate(scan.created_at)}</span>
                         </td>
                       </tr>
                     )
@@ -163,7 +163,7 @@ export default function History() {
             noseData.length === 0 ? (
               <div style={{ padding: '64px 24px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
                 <Wifi size={28} style={{ color: 'var(--text-3)', opacity: 0.4 }} />
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-3)' }}>No NOSE scans yet.</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-3)' }}>No NOSE scans yet.</p>
               </div>
             ) : (
               <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -184,7 +184,7 @@ export default function History() {
                         onMouseLeave={e => (e.currentTarget as HTMLTableRowElement).style.background = 'transparent'}
                       >
                         <td style={tdStyle}>
-                          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-1)', maxWidth: 280, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-1)', maxWidth: 280, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                             {truncate(scan.environment_description || '', 55)}
                           </p>
                         </td>
@@ -192,13 +192,13 @@ export default function History() {
                           <span style={{ fontFamily: 'Bebas Neue', fontSize: 24, letterSpacing: '0.05em', color }}>{scan.overall_risk_score}</span>
                         </td>
                         <td style={tdStyle}>
-                          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.05em', padding: '3px 8px', borderRadius: 6, color, background: `${color}15`, border: `1px solid ${color}30` }}>{label}</span>
+                          <span style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', padding: '3px 8px', borderRadius: 6, color, background: `${color}15`, border: `1px solid ${color}30` }}>{label}</span>
                         </td>
                         <td style={tdStyle}>
-                          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-2)' }}>{scan.devices?.length || 0}</span>
+                          <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--text-2)' }}>{scan.devices?.length || 0}</span>
                         </td>
                         <td style={tdStyle}>
-                          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)' }}>{formatDate(scan.created_at)}</span>
+                          <span style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)' }}>{formatDate(scan.created_at)}</span>
                         </td>
                       </tr>
                     )
@@ -210,7 +210,7 @@ export default function History() {
             brainData.length === 0 ? (
               <div style={{ padding: '64px 24px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
                 <Brain size={28} style={{ color: 'var(--text-3)', opacity: 0.4 }} />
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-3)' }}>No conversations yet.</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-3)' }}>No conversations yet.</p>
               </div>
             ) : (
               <div>
@@ -221,10 +221,10 @@ export default function History() {
                     onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.background = 'transparent'}
                   >
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {conv.title || 'Untitled conversation'}
                       </p>
-                      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', marginTop: 3 }}>
+                      <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)', marginTop: 3 }}>
                         {conv.messages?.length || 0} messages · {formatDate(conv.updated_at)}
                       </p>
                     </div>

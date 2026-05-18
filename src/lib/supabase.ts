@@ -75,7 +75,53 @@ export type ChatMessage = {
 export type UsageLog = {
   id: string
   user_id: string
-  module: 'eyes' | 'nose' | 'brain'
+  module: 'eyes' | 'nose' | 'brain' | 'breach' | 'scam_link' | 'voice' | 'news'
   action: string
   created_at: string
+}
+
+export type ScamLinkCheck = {
+  id: string
+  user_id: string
+  url: string
+  domain: string
+  risk_score: number
+  verdict: 'safe' | 'suspicious' | 'dangerous' | 'phishing' | 'malware'
+  threat_type: string
+  indicators: string[]
+  daye_analysis: string
+  created_at: string
+}
+
+export type VoiceScan = {
+  id: string
+  user_id: string
+  file_name: string
+  file_url: string
+  manipulation_probability: number
+  clone_indicators: string[]
+  emotional_manipulation_score: number
+  verdict: 'authentic' | 'likely_authentic' | 'uncertain' | 'likely_ai' | 'certain_ai'
+  daye_analysis: string
+  trust_score: number
+  created_at: string
+}
+
+export type BreachScan = {
+  type: 'email' | 'password' | 'phone'
+  breached: boolean
+  severity: 'none' | 'low' | 'medium' | 'critical'
+  message: string
+  recommendations: string[]
+  occurrences?: number
+  breach_count?: number
+  breaches?: Array<{
+    name: string
+    domain: string
+    breach_date?: string
+    data_classes?: string[]
+    description?: string
+    is_verified?: boolean
+  }>
+  sources?: string[]
 }
