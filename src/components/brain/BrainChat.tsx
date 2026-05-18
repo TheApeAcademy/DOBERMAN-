@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
-import { Send, Zap, AlertCircle, Plus } from 'lucide-react'
+import { ArrowUp, Mic, Paperclip, Zap, AlertCircle } from 'lucide-react'
 import { BrainMessage, TypingIndicator } from './BrainMessage'
 import type { ChatMessage } from '../../lib/supabase'
+
+const SF = `-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif`
 
 const STARTER_PROMPTS = [
   'How do I secure my home network against intrusion?',
@@ -17,32 +19,25 @@ interface BrainChatProps {
   error: string | null
   dailyRemaining: number
   onUpgradeClick: () => void
-  prefillMessage?: string | null
 }
 
-export function BrainChat({ messages, onSend, loading, error, dailyRemaining, onUpgradeClick, prefillMessage }: BrainChatProps) {
+export function BrainChat({ messages, onSend, loading, error, dailyRemaining, onUpgradeClick }: BrainChatProps) {
   const [input, setInput] = useState('')
+  const [isRecording, setIsRecording] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLTextAreaElement>(null)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const recognitionRef = useRef<any>(null)
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, loading])
 
-  useEffect(() => {
-    if (prefillMessage) {
-      setInput(prefillMessage)
-      setTimeout(() => inputRef.current?.focus(), 150)
-    }
-  }, [prefillMessage])
-
   const handleSend = () => {
     if (!input.trim() || loading || dailyRemaining <= 0) return
     onSend(input.trim())
     setInput('')
-    if (inputRef.current) {
-      inputRef.current.style.height = 'auto'
-    }
+    if (textareaRef.current) textareaRef.current.style.height = 'auto'
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -52,321 +47,282 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
     }
   }
 
-  const hasMessages = messages.length > 0
+  const handleMic = () => {
+    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+    if (!SR) return
+    if (isRecording) {
+      recognitionRef.current?.stop()
+      return
+    }
+    const r = new SR()
+    r.continuous = false
+    r.interimResults = false
+    r.lang = 'en-US'
+    recognitionRef.current = r
+    r.onresult = (ev: any) => {
+      const t = ev.results[0][0].transcript
+      setInput(prev => prev ? `${prev} ${t}` : t)
+    }
+    r.onend = () => setIsRecording(false)
+    r.start()
+    setIsRecording(true)
+  }
+
+  const canSend = !!input.trim() && !loading && dailyRemaining > 0
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', position: 'relative', background: '#000' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', fontFamily: SF }}>
 
-      {/* ─── WATERMARK ─────────────────────────────────────────────── */}
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 0,
-          pointerEvents: 'none',
-          zIndex: 0,
-          overflow: 'hidden',
-          userSelect: 'none',
-        }}
-      >
-        {Array.from({ length: 12 }).map((_, row) => (
-          <div key={row} style={{ display: 'flex', gap: 48, flexWrap: 'nowrap', whiteSpace: 'nowrap', transform: row % 2 === 0 ? 'translateX(-24px)' : 'translateX(24px)' }}>
-            {Array.from({ length: 6 }).map((_, col) => (
-              <span
-                key={col}
-                style={{
-                  fontFamily: 'Bebas Neue',
-                  fontSize: 13,
-                  letterSpacing: '0.35em',
-                  color: 'rgba(0,212,106,0.035)',
-                  textTransform: 'uppercase',
-                  lineHeight: 3.2,
-                }}
-              >
-                DOBERMAN INTELLIGENCE
-              </span>
-            ))}
-          </div>
-        ))}
-      </div>
-
-      {/* ─── TOP BAR ───────────────────────────────────────────────── */}
+      {/* Usage indicator */}
       <div style={{
-        position: 'relative',
-        zIndex: 2,
-        padding: '12px 20px',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        padding: '10px 18px',
+        borderBottom: '1px solid rgba(255,255,255,0.05)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        background: 'rgba(0,0,0,0.6)',
-        backdropFilter: 'blur(20px)',
+        flexShrink: 0,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{
-            width: 40,
-            height: 40,
-            borderRadius: 10,
-            background: '#000',
-            border: '1px solid rgba(0,212,106,0.25)',
-            overflow: 'hidden',
-          }}>
-            <video
-              autoPlay muted loop playsInline preload="auto"
-              style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
-            >
-              <source src="/assets/video/blob-di.mp4" type="video/mp4" />
-            </video>
-          </div>
-          <div>
-            <p style={{ fontFamily: 'Bebas Neue', fontSize: 16, letterSpacing: '0.2em', color: 'var(--safe)', lineHeight: 1 }}>
-              DOBERMAN INTELLIGENCE
-            </p>
-            <p style={{ fontFamily: 'Inter', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.03em', marginTop: 1 }}>
-              THREAT ANALYSIS · SECURITY GUIDANCE · REAL-TIME INTEL
-            </p>
-          </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <Zap size={11} style={{ color: '#30D158' }} />
+          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', fontWeight: 500, letterSpacing: '0.01em' }}>
+            Doberman Intelligence
+          </span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ display: 'flex', gap: 2 }}>
-            {[...Array(10)].map((_, i) => (
-              <div
-                key={i}
-                style={{
-                  width: 7,
-                  height: 3,
-                  borderRadius: 2,
-                  background: i < dailyRemaining ? 'var(--safe)' : 'rgba(255,255,255,0.08)',
-                  transition: 'background 0.3s',
-                }}
-              />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+          <div style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
+            {Array.from({ length: 10 }).map((_, i) => (
+              <div key={i} style={{
+                width: 5,
+                height: 5,
+                borderRadius: '50%',
+                background: i < dailyRemaining ? '#30D158' : 'rgba(255,255,255,0.08)',
+                transition: 'background 0.2s',
+              }} />
             ))}
           </div>
-          <span style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)' }}>
+          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.22)', letterSpacing: '-0.01em' }}>
             {dailyRemaining}/10
           </span>
         </div>
       </div>
 
-      {/* ─── MESSAGES ──────────────────────────────────────────────── */}
-      <div style={{
-        flex: 1,
-        overflowY: 'auto',
-        position: 'relative',
-        zIndex: 1,
-        scrollbarWidth: 'thin',
-        scrollbarColor: 'rgba(255,255,255,0.08) transparent',
-      }}>
-        {!hasMessages ? (
-          /* Empty state */
+      {/* Messages */}
+      <div style={{ flex: 1, overflowY: 'auto', padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {messages.length === 0 ? (
           <div style={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            minHeight: '100%',
-            padding: '40px 24px',
-            gap: 32,
+            height: '100%',
+            gap: 22,
+            padding: '20px 0',
           }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{
-                width: 64,
-                height: 64,
-                borderRadius: 20,
-                background: 'rgba(0,212,106,0.08)',
-                border: '1px solid rgba(0,212,106,0.2)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto 20px',
-              }}>
-                <Zap size={28} style={{ color: 'var(--safe)' }} />
-              </div>
-              <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 28, letterSpacing: '0.2em', color: 'var(--text-1)', marginBottom: 8 }}>
-                DOBERMAN INTELLIGENCE
-              </h2>
-              <p style={{ fontFamily: 'Inter', fontSize: 14, color: 'var(--text-3)', maxWidth: 400, lineHeight: 1.6 }}>
-                Your AI-powered security analyst. Ask about threats, vulnerabilities, network defense, or anything cybersecurity.
-              </p>
+            <div style={{
+              width: 58,
+              height: 58,
+              borderRadius: 18,
+              background: 'rgba(48,209,88,0.07)',
+              border: '1px solid rgba(48,209,88,0.15)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <Zap size={24} style={{ color: '#30D158' }} />
             </div>
 
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(2, 1fr)',
-              gap: 10,
-              width: '100%',
-              maxWidth: 560,
+            <span style={{
+              fontSize: 20,
+              fontWeight: 600,
+              color: 'rgba(255,255,255,0.85)',
+              letterSpacing: '-0.03em',
+              textAlign: 'center',
             }}>
-              {STARTER_PROMPTS.map((prompt) => (
+              Doberman Intelligence
+            </span>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, width: '100%', maxWidth: 400 }}>
+              {STARTER_PROMPTS.map((p) => (
                 <button
-                  key={prompt}
-                  onClick={() => onSend(prompt)}
+                  key={p}
+                  onClick={() => { if (dailyRemaining > 0) onSend(p) }}
                   disabled={dailyRemaining <= 0}
                   style={{
-                    padding: '14px 16px',
+                    padding: '12px 13px',
                     textAlign: 'left',
                     background: 'rgba(255,255,255,0.03)',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                    borderRadius: 12,
-                    fontFamily: 'Inter',
-                    fontSize: 13,
-                    color: 'var(--text-2)',
-                    lineHeight: 1.5,
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: 8,
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLButtonElement
-                    el.style.background = 'rgba(0,212,106,0.06)'
-                    el.style.borderColor = 'rgba(0,212,106,0.2)'
-                    el.style.color = 'var(--text-1)'
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLButtonElement
-                    el.style.background = 'rgba(255,255,255,0.03)'
-                    el.style.borderColor = 'rgba(255,255,255,0.08)'
-                    el.style.color = 'var(--text-2)'
+                    border: '1px solid rgba(255,255,255,0.07)',
+                    borderRadius: 14,
+                    fontSize: 12,
+                    fontWeight: 400,
+                    lineHeight: 1.45,
+                    color: 'rgba(255,255,255,0.5)',
+                    fontFamily: SF,
+                    transition: 'background 0.15s, border-color 0.15s',
+                    cursor: dailyRemaining > 0 ? 'pointer' : 'not-allowed',
                   }}
                 >
-                  <Plus size={12} style={{ color: 'var(--text-3)', marginTop: 2, flexShrink: 0 }} />
-                  {prompt}
+                  {p}
                 </button>
               ))}
             </div>
           </div>
         ) : (
-          <div style={{ maxWidth: 760, margin: '0 auto', padding: '24px 20px', display: 'flex', flexDirection: 'column', gap: 4 }}>
-            {messages.map((msg, i) => (
-              <BrainMessage key={i} message={msg} />
-            ))}
+          <>
+            {messages.map((msg, i) => <BrainMessage key={i} message={msg} />)}
             {loading && <TypingIndicator />}
+          </>
+        )}
 
-            {error && (
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 10,
-                padding: '12px 16px',
-                borderRadius: 12,
-                background: 'rgba(255,59,59,0.08)',
-                border: '1px solid rgba(255,59,59,0.2)',
-                margin: '8px 0',
-              }}>
-                <AlertCircle size={14} style={{ color: 'var(--danger)', flexShrink: 0 }} />
-                <p style={{ fontFamily: 'Inter', fontSize: 13, color: 'var(--danger)' }}>{error}</p>
-              </div>
-            )}
-            <div ref={bottomRef} />
+        {error && (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            padding: '10px 14px',
+            borderRadius: 12,
+            background: 'rgba(255,45,45,0.07)',
+            border: '1px solid rgba(255,45,45,0.18)',
+          }}>
+            <AlertCircle size={13} style={{ color: '#FF2D2D', flexShrink: 0 }} />
+            <span style={{ fontSize: 13, color: '#FF2D2D', fontFamily: SF }}>{error}</span>
           </div>
         )}
-        {!hasMessages && <div ref={bottomRef} />}
+
+        <div ref={bottomRef} />
       </div>
 
-      {/* ─── INPUT ─────────────────────────────────────────────────── */}
-      <div style={{
-        position: 'relative',
-        zIndex: 2,
-        padding: '16px 20px 20px',
-        borderTop: '1px solid rgba(255,255,255,0.06)',
-        background: 'rgba(0,0,0,0.7)',
-        backdropFilter: 'blur(20px)',
-      }}>
-        <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          {dailyRemaining <= 0 ? (
+      {/* Input bar */}
+      <div style={{ padding: '10px 12px 22px', borderTop: '1px solid rgba(255,255,255,0.05)', flexShrink: 0 }}>
+        {dailyRemaining <= 0 ? (
+          <button
+            onClick={onUpgradeClick}
+            style={{
+              width: '100%',
+              padding: '14px',
+              borderRadius: 14,
+              background: 'rgba(255,45,45,0.07)',
+              border: '1px solid rgba(255,45,45,0.2)',
+              color: '#FF2D2D',
+              fontSize: 15,
+              fontWeight: 600,
+              fontFamily: SF,
+            }}
+          >
+            Daily limit reached — Upgrade to Pro
+          </button>
+        ) : (
+          <div style={{
+            display: 'flex',
+            alignItems: 'flex-end',
+            gap: 6,
+            background: 'rgba(255,255,255,0.04)',
+            border: '1px solid rgba(255,255,255,0.09)',
+            borderRadius: 24,
+            padding: '7px 7px 7px 14px',
+          }}>
+            {/* Attachment */}
             <button
-              onClick={onUpgradeClick}
+              onClick={() => fileInputRef.current?.click()}
+              title="Attach image, audio or video"
               style={{
-                width: '100%',
-                padding: '14px',
-                background: 'rgba(255,59,59,0.08)',
-                border: '1px solid rgba(255,59,59,0.3)',
-                borderRadius: 14,
-                fontFamily: 'Inter',
-                fontWeight: 700,
-                fontSize: 14,
-                color: 'var(--danger)',
-                cursor: 'pointer',
+                flexShrink: 0,
+                width: 32,
+                height: 32,
+                borderRadius: 10,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'rgba(255,255,255,0.06)',
+                border: 'none',
+                marginBottom: 0,
               }}
             >
-              Daily limit reached — Upgrade to Pro for unlimited queries
+              <Paperclip size={15} style={{ color: 'rgba(255,255,255,0.38)' }} />
             </button>
-          ) : (
-            <div style={{
-              display: 'flex',
-              alignItems: 'flex-end',
-              gap: 10,
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: 16,
-              padding: '10px 12px 10px 16px',
-              transition: 'border-color 0.2s',
-            }}
-              onFocusCapture={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(0,212,106,0.3)' }}
-              onBlurCapture={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.1)' }}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*,audio/*,video/*"
+              style={{ display: 'none' }}
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                if (file) setInput(prev => prev ? `${prev} [${file.name}]` : `[${file.name}]`)
+                e.target.value = ''
+              }}
+            />
+
+            {/* Text area */}
+            <textarea
+              ref={textareaRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Ask Doberman Intelligence"
+              rows={1}
+              disabled={loading}
+              style={{
+                flex: 1,
+                background: 'none',
+                border: 'none',
+                outline: 'none',
+                resize: 'none',
+                fontSize: 15,
+                fontFamily: SF,
+                color: 'rgba(255,255,255,0.88)',
+                lineHeight: 1.5,
+                paddingTop: 5,
+                minHeight: 26,
+                maxHeight: 120,
+              }}
+              onInput={(e) => {
+                const el = e.currentTarget
+                el.style.height = 'auto'
+                el.style.height = Math.min(el.scrollHeight, 120) + 'px'
+              }}
+            />
+
+            {/* Mic */}
+            <button
+              onClick={handleMic}
+              title="Voice note"
+              style={{
+                flexShrink: 0,
+                width: 32,
+                height: 32,
+                borderRadius: 10,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: isRecording ? 'rgba(255,45,45,0.18)' : 'rgba(255,255,255,0.06)',
+                border: isRecording ? '1px solid rgba(255,45,45,0.4)' : 'none',
+                transition: 'all 0.15s',
+              }}
             >
-              <textarea
-                ref={inputRef}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Ask Doberman Intelligence anything..."
-                rows={1}
-                style={{
-                  flex: 1,
-                  background: 'none',
-                  border: 'none',
-                  outline: 'none',
-                  resize: 'none',
-                  fontFamily: 'Inter',
-                  fontSize: 15,
-                  color: 'var(--text-1)',
-                  lineHeight: 1.5,
-                  minHeight: '24px',
-                  maxHeight: '160px',
-                  overflow: 'auto',
-                  padding: 0,
-                  scrollbarWidth: 'none',
-                }}
-                onInput={(e) => {
-                  const el = e.currentTarget
-                  el.style.height = 'auto'
-                  el.style.height = Math.min(el.scrollHeight, 160) + 'px'
-                }}
-                disabled={loading}
-              />
-              <button
-                onClick={handleSend}
-                disabled={!input.trim() || loading}
-                style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 10,
-                  background: input.trim() && !loading ? 'var(--safe)' : 'rgba(255,255,255,0.06)',
-                  border: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: !input.trim() || loading ? 'not-allowed' : 'pointer',
-                  transition: 'all 0.2s',
-                  flexShrink: 0,
-                }}
-              >
-                <Send size={15} style={{ color: input.trim() && !loading ? '#000' : 'rgba(255,255,255,0.2)' }} />
-              </button>
-            </div>
-          )}
-          <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'rgba(255,255,255,0.18)', textAlign: 'center', marginTop: 8, letterSpacing: '0.05em' }}>
-            Enter to send · Shift+Enter for new line · Doberman Intelligence v1
-          </p>
-        </div>
+              <Mic size={15} style={{ color: isRecording ? '#FF2D2D' : 'rgba(255,255,255,0.38)' }} />
+            </button>
+
+            {/* Send */}
+            <button
+              onClick={handleSend}
+              disabled={!canSend}
+              style={{
+                flexShrink: 0,
+                width: 32,
+                height: 32,
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: canSend ? '#30D158' : 'rgba(255,255,255,0.06)',
+                border: 'none',
+                transition: 'background 0.15s',
+              }}
+            >
+              <ArrowUp size={15} style={{ color: canSend ? '#000' : 'rgba(255,255,255,0.22)' }} />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
