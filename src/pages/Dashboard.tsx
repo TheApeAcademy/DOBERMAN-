@@ -25,6 +25,80 @@ interface Stats {
   breachToday: number
 }
 
+function BarChart({ data }: { data: { day: string; count: number }[] }) {
+  const max = Math.max(...data.map((d) => d.count), 1)
+  return (
+    <div>
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 6, height: 80, marginBottom: 8 }}>
+        {data.map((d, i) => (
+          <div key={d.day} style={{ flex: 1, height: '100%', display: 'flex', alignItems: 'flex-end' }}>
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              whileInView={{ height: `${Math.max((d.count / max) * 100, 5)}%`, opacity: 1 }}
+              transition={{ delay: i * 0.07, duration: 0.5, ease: 'easeOut' }}
+              viewport={{ once: true }}
+              style={{ width: '100%', background: d.count > 0 ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.08)', borderRadius: '3px 3px 0 0', minHeight: 3 }}
+            />
+          </div>
+        ))}
+      </div>
+      <div style={{ display: 'flex', gap: 6 }}>
+        {data.map((d) => (
+          <div key={d.day} style={{ flex: 1, textAlign: 'center' }}>
+            <span style={{ fontFamily: 'Inter', fontSize: 9, color: 'rgba(255,255,255,0.22)' }}>{d.day}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function DonutChart({ data }: { data: { label: string; count: number; color: string }[] }) {
+  const total = data.reduce((s, d) => s + d.count, 0) || 1
+  const r = 36
+  const circ = 2 * Math.PI * r
+  let cumulative = 0
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+      <svg width={88} height={88} viewBox="0 0 88 88" style={{ flexShrink: 0 }}>
+        <circle cx={44} cy={44} r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={10} />
+        {data.map((d, i) => {
+          const dash = (d.count / total) * circ
+          const gap = circ - dash
+          const offset = -(cumulative / total) * circ
+          cumulative += d.count
+          if (d.count === 0) return null
+          return (
+            <motion.circle
+              key={d.label}
+              cx={44} cy={44} r={r}
+              fill="none"
+              stroke={d.color}
+              strokeWidth={10}
+              strokeDasharray={`${dash} ${gap}`}
+              strokeDashoffset={circ / 4 + offset}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: i * 0.12, duration: 0.7 }}
+              viewport={{ once: true }}
+            />
+          )
+        })}
+        <text x={44} y={48} textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize={13} fontFamily="Inter" fontWeight={700}>{total}</text>
+      </svg>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, flex: 1 }}>
+        {data.map((d) => (
+          <div key={d.label} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+            <div style={{ width: 7, height: 7, borderRadius: '50%', background: d.color, flexShrink: 0 }} />
+            <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.45)', flex: 1 }}>{d.label}</span>
+            <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>{d.count}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 const CYBER_HEADLINES = [
   { id: 1, source: 'THREATPOST', tag: 'CRITICAL', text: 'New zero-day exploit targets 200M Windows devices via CLFS driver vulnerability', time: '3m ago', color: '#FF2D2D' },
   { id: 2, source: 'DARK READING', tag: 'WARNING', text: 'AI-generated deepfake audio used in $25M corporate wire transfer fraud', time: '11m ago', color: '#FF9500' },
@@ -48,6 +122,8 @@ export default function Dashboard() {
   })
   const [loading, setLoading] = useState(true)
   const [visibleHeadlines, setVisibleHeadlines] = useState(4)
+  const [weekData, setWeekData] = useState<{ day: string; count: number }[]>([])
+  const [moduleBreakdown, setModuleBreakdown] = useState<{ label: string; count: number; color: string }[]>([])
 
   useEffect(() => {
     if (!user) return
@@ -84,6 +160,26 @@ export default function Dashboard() {
       newsToday: todayLogs.filter((l) => l.module === 'news').length,
       breachToday: todayLogs.filter((l) => l.module === 'breach').length,
     })
+
+    const now = new Date()
+    setWeekData(Array.from({ length: 7 }, (_, i) => {
+      const d = new Date(now)
+      d.setDate(d.getDate() - (6 - i))
+      const start = new Date(d); start.setHours(0, 0, 0, 0)
+      const end = new Date(d); end.setHours(23, 59, 59, 999)
+      return {
+        day: d.toLocaleDateString('en-GB', { weekday: 'short' }).slice(0, 3).toUpperCase(),
+        count: logs.filter((l) => { const t = new Date(l.created_at); return t >= start && t <= end }).length,
+      }
+    }))
+
+    setModuleBreakdown([
+      { label: 'D.F.I.', count: logs.filter((l) => l.module === 'eyes').length, color: 'rgba(255,255,255,0.65)' },
+      { label: 'BREACH', count: logs.filter((l) => l.module === 'breach').length, color: '#CD853F' },
+      { label: 'DAYE', count: logs.filter((l) => l.module === 'brain').length, color: '#30D158' },
+      { label: 'NEWS', count: logs.filter((l) => l.module === 'news').length, color: '#FF6B35' },
+    ])
+
     setLoading(false)
   }
 
@@ -137,7 +233,7 @@ export default function Dashboard() {
           {/* ── DEEP FAKE INTELLIGENCE ────────────────────── */}
           <motion.div
             className="glass"
-            initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
+            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.7 }}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
             onClick={() => navigate('/deepfake')}
             style={{ padding: 40, borderRadius: 24, marginBottom: 32, overflow: 'hidden' }}
@@ -177,7 +273,7 @@ export default function Dashboard() {
 
           {/* ── DOB3RMAN INTELLIGENCE ──────────────────────── */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
+            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.7 }}
             onClick={() => navigate('/daye')}
             style={{ borderRadius: 24, marginBottom: 32, overflow: 'hidden', background: '#000', border: '1px solid rgba(255,255,255,0.08)', textAlign: 'center' }}
           >
@@ -217,7 +313,7 @@ export default function Dashboard() {
           {/* ── NEWS VERIFICATION ─────────────────────────── */}
           <motion.div
             className="glass"
-            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }}
+            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.6 }}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
             onClick={() => navigate('/news')}
             style={{ padding: 40, borderRadius: 24, marginBottom: 32, overflow: 'hidden' }}
@@ -257,11 +353,11 @@ export default function Dashboard() {
 
           {/* ── BREACH SCAN ───────────────────────────────── */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}
+            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.6 }}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
             onClick={() => navigate('/breach')}
             style={{
-              padding: 40, borderRadius: 24, marginBottom: 96, overflow: 'hidden', cursor: 'pointer',
+              padding: 40, borderRadius: 24, marginBottom: 48, overflow: 'hidden', cursor: 'pointer',
               background: 'rgba(139,69,19,0.07)',
               border: '1px solid rgba(139,69,19,0.28)',
               boxShadow: 'inset 0 1px 0 rgba(205,133,63,0.12), 0 32px 64px rgba(0,0,0,0.5)',
@@ -296,6 +392,36 @@ export default function Dashboard() {
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(205,133,63,0.5)', zIndex: 2 }}>
                   BREACH -- EMAIL BREACH SCAN
                 </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* ── ACTIVITY CHARTS ───────────────────────────── */}
+          <style>{`@media(max-width:640px){.charts-grid{grid-template-columns:1fr!important}}`}</style>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6 }}
+            style={{ marginBottom: 96 }}
+          >
+            <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.18)', marginBottom: 24 }}>ACTIVITY OVERVIEW</p>
+            <div className="charts-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div className="glass" style={{ padding: '24px 28px', borderRadius: 16 }}>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.22)', marginBottom: 20 }}>7-DAY SCAN ACTIVITY</p>
+                {loading ? (
+                  <div style={{ height: 100, background: 'rgba(255,255,255,0.03)', borderRadius: 8 }} />
+                ) : (
+                  <BarChart data={weekData} />
+                )}
+              </div>
+              <div className="glass" style={{ padding: '24px 28px', borderRadius: 16 }}>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.22)', marginBottom: 20 }}>MODULE BREAKDOWN</p>
+                {loading ? (
+                  <div style={{ height: 100, background: 'rgba(255,255,255,0.03)', borderRadius: 8 }} />
+                ) : (
+                  <DonutChart data={moduleBreakdown} />
+                )}
               </div>
             </div>
           </motion.div>
