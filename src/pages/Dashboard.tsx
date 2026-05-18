@@ -1,93 +1,129 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { Eye, Wifi, Brain, Newspaper, ArrowRight, Clock, Globe2 } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Shield, ArrowRight, Clock, ExternalLink, ChevronRight, Zap } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
-import { formatRelativeTime, getResultLabel, getRiskColor } from '../lib/utils'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { Sphere } from '@react-three/drei'
-import * as THREE from 'three'
+import { formatRelativeTime, getResultLabel } from '../lib/utils'
 
 interface ActivityItem {
   id: string
-  type: 'eyes' | 'nose' | 'brain' | 'news'
+  type: 'eyes' | 'brain' | 'news'
   label: string
   result?: string
-  score?: number
   created_at: string
 }
 
 interface Stats {
   eyesTotal: number
-  noseTotal: number
   brainTotal: number
   threatsDetected: number
   eyesToday: number
-  noseToday: number
   brainToday: number
   newsToday: number
+  breachToday: number
 }
 
-function SpinningGlobe() {
-  const groupRef = useRef<THREE.Group>(null)
-
-  useFrame((state) => {
-    if (!groupRef.current) return
-    groupRef.current.rotation.y = state.clock.elapsedTime * 0.08
-  })
-
+function BarChart({ data }: { data: { day: string; count: number }[] }) {
+  const max = Math.max(...data.map((d) => d.count), 1)
   return (
-    <group ref={groupRef}>
-      {/* Main sphere */}
-      <Sphere args={[2.2, 64, 64]}>
-        <meshStandardMaterial
-          color="#0a1628"
-          roughness={0.8}
-          metalness={0.2}
-        />
-      </Sphere>
-      {/* Atmosphere glow sphere */}
-      <Sphere args={[2.35, 32, 32]}>
-        <meshStandardMaterial
-          color="#0A84FF"
-          transparent
-          opacity={0.06}
-          roughness={1}
-          side={THREE.BackSide}
-        />
-      </Sphere>
-      {/* Latitude rings */}
-      {[-60, -30, 0, 30, 60].map((lat, i) => {
-        const y = 2.2 * Math.sin((lat * Math.PI) / 180)
-        const r = 2.2 * Math.cos((lat * Math.PI) / 180)
-        const points: THREE.Vector3[] = []
-        for (let j = 0; j <= 64; j++) {
-          const angle = (j / 64) * Math.PI * 2
-          points.push(new THREE.Vector3(r * Math.cos(angle), y, r * Math.sin(angle)))
-        }
-        const geometry = new THREE.BufferGeometry().setFromPoints(points)
-        return (
-          <line key={i}>
-            <bufferGeometry attach="geometry" {...(geometry as any)} />
-            <lineBasicMaterial attach="material" color="#0A84FF" transparent opacity={0.12} />
-          </line>
-        )
-      })}
-    </group>
+    <div>
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 6, height: 80, marginBottom: 8 }}>
+        {data.map((d, i) => (
+          <div key={d.day} style={{ flex: 1, height: '100%', display: 'flex', alignItems: 'flex-end' }}>
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              whileInView={{ height: `${Math.max((d.count / max) * 100, 5)}%`, opacity: 1 }}
+              transition={{ delay: i * 0.07, duration: 0.5, ease: 'easeOut' }}
+              viewport={{ once: true }}
+              style={{ width: '100%', background: d.count > 0 ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.08)', borderRadius: '3px 3px 0 0', minHeight: 3 }}
+            />
+          </div>
+        ))}
+      </div>
+      <div style={{ display: 'flex', gap: 6 }}>
+        {data.map((d) => (
+          <div key={d.day} style={{ flex: 1, textAlign: 'center' }}>
+            <span style={{ fontFamily: 'Inter', fontSize: 9, color: 'rgba(255,255,255,0.22)' }}>{d.day}</span>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
+
+function DonutChart({ data }: { data: { label: string; count: number; color: string }[] }) {
+  const total = data.reduce((s, d) => s + d.count, 0) || 1
+  const r = 36
+  const circ = 2 * Math.PI * r
+  let cumulative = 0
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+      <svg width={88} height={88} viewBox="0 0 88 88" style={{ flexShrink: 0 }}>
+        <circle cx={44} cy={44} r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={10} />
+        {data.map((d, i) => {
+          const dash = (d.count / total) * circ
+          const gap = circ - dash
+          const offset = -(cumulative / total) * circ
+          cumulative += d.count
+          if (d.count === 0) return null
+          return (
+            <motion.circle
+              key={d.label}
+              cx={44} cy={44} r={r}
+              fill="none"
+              stroke={d.color}
+              strokeWidth={10}
+              strokeDasharray={`${dash} ${gap}`}
+              strokeDashoffset={circ / 4 + offset}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: i * 0.12, duration: 0.7 }}
+              viewport={{ once: true }}
+            />
+          )
+        })}
+        <text x={44} y={48} textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize={13} fontFamily="Inter" fontWeight={700}>{total}</text>
+      </svg>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, flex: 1 }}>
+        {data.map((d) => (
+          <div key={d.label} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+            <div style={{ width: 7, height: 7, borderRadius: '50%', background: d.color, flexShrink: 0 }} />
+            <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.45)', flex: 1 }}>{d.label}</span>
+            <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>{d.count}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+const CYBER_HEADLINES = [
+  { id: 1, source: 'THREATPOST', tag: 'CRITICAL', text: 'New zero-day exploit targets 200M Windows devices via CLFS driver vulnerability', time: '3m ago', color: '#FF2D2D' },
+  { id: 2, source: 'DARK READING', tag: 'WARNING', text: 'AI-generated deepfake audio used in $25M corporate wire transfer fraud', time: '11m ago', color: '#FF9500' },
+  { id: 3, source: 'BLEEPING COMPUTER', tag: 'ALERT', text: 'Massive botnet of 40,000 compromised IoT cameras targeting financial sector', time: '28m ago', color: '#FF6B35' },
+  { id: 4, source: 'THE HACKER NEWS', tag: 'CRITICAL', text: 'State-sponsored group deploys rootkit via malicious firmware updates to routers', time: '44m ago', color: '#FF2D2D' },
+  { id: 5, source: 'WIRED', tag: 'WARNING', text: 'Phishing campaign impersonating GitHub 2FA notices hitting 2M+ developers', time: '1h ago', color: '#FF9500' },
+  { id: 6, source: 'CISA.GOV', tag: 'INFO', text: 'CISA adds four newly exploited vulnerabilities to Known Exploited Catalog', time: '2h ago', color: '#666' },
+  { id: 7, source: 'KREBS ON SECURITY', tag: 'ALERT', text: 'Ransomware group LockBit 4.0 claims breach of three critical infrastructure operators', time: '3h ago', color: '#FF6B35' },
+  { id: 8, source: 'ARS TECHNICA', tag: 'WARNING', text: 'Supply chain attack found in popular npm package with 8M weekly downloads', time: '4h ago', color: '#FF9500' },
+  { id: 9, source: 'GOOGLE SECURITY', tag: 'INFO', text: 'Google patches 47 Android vulnerabilities including actively exploited privilege escalation', time: '5h ago', color: '#666' },
+  { id: 10, source: 'RECORDED FUTURE', tag: 'ALERT', text: 'Nation-state actor uses synthetic media in disinformation operation targeting elections', time: '6h ago', color: '#FF6B35' },
+]
 
 export default function Dashboard() {
   const { user, profile, signOut } = useAuth()
   const navigate = useNavigate()
   const [activity, setActivity] = useState<ActivityItem[]>([])
   const [stats, setStats] = useState<Stats>({
-    eyesTotal: 0, noseTotal: 0, brainTotal: 0, threatsDetected: 0,
-    eyesToday: 0, noseToday: 0, brainToday: 0, newsToday: 0,
+    eyesTotal: 0, brainTotal: 0, threatsDetected: 0,
+    eyesToday: 0, brainToday: 0, newsToday: 0, breachToday: 0,
   })
   const [loading, setLoading] = useState(true)
+  const [visibleHeadlines, setVisibleHeadlines] = useState(4)
+  const [weekData, setWeekData] = useState<{ day: string; count: number }[]>([])
+  const [moduleBreakdown, setModuleBreakdown] = useState<{ label: string; count: number; color: string }[]>([])
 
   useEffect(() => {
     if (!user) return
@@ -99,527 +135,517 @@ export default function Dashboard() {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
-    const [eyesRes, noseRes, brainRes, logsRes] = await Promise.all([
+    const [eyesRes, brainRes, logsRes] = await Promise.all([
       supabase.from('eyes_scans').select('id, result, confidence_score, file_name, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(5),
-      supabase.from('nose_scans').select('id, overall_risk_score, environment_description, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(5),
       supabase.from('brain_conversations').select('id, title, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(5),
       supabase.from('usage_logs').select('module, created_at').eq('user_id', user.id),
     ])
 
     const eyes = eyesRes.data || []
-    const nose = noseRes.data || []
     const brain = brainRes.data || []
     const logs = logsRes.data || []
-
     const todayLogs = logs.filter((l) => new Date(l.created_at) >= today)
 
-    const allActivity: ActivityItem[] = [
-      ...eyes.map((e) => ({ id: e.id, type: 'eyes' as const, label: e.file_name || 'Unnamed file', result: e.result, score: e.confidence_score, created_at: e.created_at })),
-      ...nose.map((n) => ({ id: n.id, type: 'nose' as const, label: (n.environment_description || '').slice(0, 50), score: n.overall_risk_score, created_at: n.created_at })),
+    setActivity([
+      ...eyes.map((e) => ({ id: e.id, type: 'eyes' as const, label: e.file_name || 'Unnamed file', result: e.result, created_at: e.created_at })),
       ...brain.map((b) => ({ id: b.id, type: 'brain' as const, label: b.title || 'Conversation', created_at: b.created_at })),
-    ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 6)
+    ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 6))
 
-    const threatsDetected = eyes.filter((e) => e.result === 'fake').length + nose.filter((n) => n.overall_risk_score >= 70).length
-
-    setActivity(allActivity)
     setStats({
       eyesTotal: eyes.length,
-      noseTotal: nose.length,
       brainTotal: brain.length,
-      threatsDetected,
+      threatsDetected: eyes.filter((e) => e.result === 'fake').length,
       eyesToday: todayLogs.filter((l) => l.module === 'eyes').length,
-      noseToday: todayLogs.filter((l) => l.module === 'nose').length,
       brainToday: todayLogs.filter((l) => l.module === 'brain').length,
       newsToday: todayLogs.filter((l) => l.module === 'news').length,
+      breachToday: todayLogs.filter((l) => l.module === 'breach').length,
     })
+
+    const now = new Date()
+    setWeekData(Array.from({ length: 7 }, (_, i) => {
+      const d = new Date(now)
+      d.setDate(d.getDate() - (6 - i))
+      const start = new Date(d); start.setHours(0, 0, 0, 0)
+      const end = new Date(d); end.setHours(23, 59, 59, 999)
+      return {
+        day: d.toLocaleDateString('en-GB', { weekday: 'short' }).slice(0, 3).toUpperCase(),
+        count: logs.filter((l) => { const t = new Date(l.created_at); return t >= start && t <= end }).length,
+      }
+    }))
+
+    setModuleBreakdown([
+      { label: 'D.F.I.', count: logs.filter((l) => l.module === 'eyes').length, color: 'rgba(255,255,255,0.65)' },
+      { label: 'BREACH', count: logs.filter((l) => l.module === 'breach').length, color: '#CD853F' },
+      { label: 'DAYE', count: logs.filter((l) => l.module === 'brain').length, color: '#30D158' },
+      { label: 'NEWS', count: logs.filter((l) => l.module === 'news').length, color: '#FF6B35' },
+    ])
+
     setLoading(false)
   }
-
-  const moduleCards = [
-    { to: '/eyes', icon: Eye, name: 'EYES', sub: 'Deepfake Detection', desc: 'Analyze images, videos, and audio for synthetic media manipulation.', count: stats.eyesToday, limit: 3 },
-    { to: '/nose', icon: Wifi, name: 'NOSE', sub: 'IoT Intelligence', desc: 'Map your network environment and identify security weaknesses.', count: stats.noseToday, limit: 3 },
-    { to: '/brain', icon: Brain, name: 'BRAIN', sub: 'AI Analyst', desc: 'Chat with your dedicated cybersecurity expert powered by Claude.', count: stats.brainToday, limit: 10 },
-    { to: '/news', icon: Newspaper, name: 'NEWS', sub: 'Verify Content', desc: 'Paste any headline or claim. Get a credibility verdict instantly.', count: stats.newsToday, limit: 3 },
-  ]
 
   const firstName = profile?.name?.split(' ')[0] || profile?.email?.split('@')[0] || 'Operator'
   const h = new Date().getHours()
   const greeting = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening'
 
-  const statPills = [
-    { label: 'Scans Today', value: stats.eyesToday + stats.noseToday + stats.newsToday },
-    { label: 'Threats Found', value: stats.threatsDetected },
-    { label: 'AI Messages', value: stats.brainToday },
-    { label: 'Total Scans', value: stats.eyesTotal + stats.noseTotal },
-  ]
-
   return (
     <Layout profile={profile} onSignOut={signOut} title="Dashboard">
-      <div style={{ overflowX: 'hidden' }}>
+      <div style={{ background: '#000', minHeight: '100vh' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '56px clamp(16px, 4vw, 48px) 96px' }}>
 
-        {/* ── GLOBE HERO ── */}
-        <div style={{
-          position: 'relative',
-          height: 'max(55vh, 380px)',
-          overflow: 'hidden',
-          background: 'radial-gradient(ellipse at center top, #001133 0%, #000000 60%)',
-        }}>
-
-          {/* Three.js Canvas */}
-          <div style={{ position: 'absolute', inset: 0 }}>
-            <Canvas
-              camera={{ position: [0, 0, 5.5], fov: 45 }}
-              gl={{ antialias: true, alpha: true }}
-              dpr={[1, 1.5]}
-            >
-              <ambientLight intensity={0.3} />
-              <pointLight position={[5, 5, 5]} intensity={2} color="#4DA6FF" />
-              <pointLight position={[-5, -5, -5]} intensity={0.5} color="#001433" />
-              <SpinningGlobe />
-            </Canvas>
-          </div>
-
-          {/* Bottom gradient fade */}
-          <div style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: '50%',
-            background: 'linear-gradient(to bottom, transparent 0%, #000000 100%)',
-            pointerEvents: 'none',
-            zIndex: 5,
-          }} />
-
-          {/* Blue glow orb */}
-          <div style={{
-            position: 'absolute',
-            bottom: '-60px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '500px',
-            height: '200px',
-            background: 'radial-gradient(ellipse at center, rgba(10,132,255,0.18) 0%, transparent 70%)',
-            pointerEvents: 'none',
-            zIndex: 4,
-          }} />
-
-          {/* Text overlay */}
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 10,
-            pointerEvents: 'none',
-            textAlign: 'center',
-            padding: '24px',
-          }}>
-            <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                fontFamily: 'Syne, system-ui, -apple-system, sans-serif',
-                fontWeight: 700,
-                fontSize: 'clamp(28px, 5vw, 52px)',
-                color: '#FFFFFF',
-                lineHeight: 1.1,
-                letterSpacing: '-0.02em',
-              }}
-            >
+          {/* ── HEADER ────────────────────────────────────── */}
+          <div style={{ marginBottom: 72 }}>
+            <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.18)', marginBottom: 20 }}>
+              DASHBOARD -- {new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase()}
+            </p>
+            <h1 style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(36px, 5vw, 60px)', lineHeight: 1, marginBottom: 14 }}>
               {greeting}, {firstName}.
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                fontFamily: 'Syne, system-ui, sans-serif',
-                fontSize: 16,
-                color: 'rgba(255,255,255,0.5)',
-                marginTop: 8,
-                letterSpacing: '0.01em',
-              }}
-            >
-              D0B3RMAN is watching. Threat status: nominal.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-                marginTop: 20,
-                padding: '8px 20px',
-                background: 'rgba(10,132,255,0.2)',
-                border: '1px solid rgba(10,132,255,0.4)',
-                borderRadius: '100px',
-              }}
-            >
-              <div style={{
-                width: 8,
-                height: 8,
-                borderRadius: '50%',
-                background: '#0A84FF',
-                animation: 'pulse 2s infinite',
-                flexShrink: 0,
-              }} />
-              <span style={{
-                fontFamily: 'JetBrains Mono, monospace',
-                fontSize: 11,
-                letterSpacing: '0.1em',
-                color: '#0A84FF',
-              }}>
-                ALL SYSTEMS ACTIVE
-              </span>
-            </motion.div>
+            </h1>
+            <p style={{ fontFamily: 'Inter', fontSize: 17, color: 'rgba(255,255,255,0.38)', marginBottom: 32 }}>
+              D0B3RMAN is watching. Here's your threat overview.
+            </p>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.2)', borderRadius: 8 }}>
+              <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--safe)', animation: 'pulse 2s infinite' }} />
+              <span style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.03em', color: 'var(--safe)' }}>ALL SYSTEMS ACTIVE</span>
+            </div>
           </div>
 
-          {/* Floating stats pills */}
-          <div style={{
-            position: 'absolute',
-            bottom: 20,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            display: 'flex',
-            gap: 8,
-            zIndex: 10,
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            padding: '0 16px',
-          }}>
-            {statPills.map(({ label, value }, i) => (
-              <motion.div
-                key={label}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 + i * 0.07, ease: [0.16, 1, 0.3, 1] }}
-                style={{
-                  background: 'rgba(0,0,0,0.6)',
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(10,132,255,0.2)',
-                  borderRadius: '100px',
-                  padding: '8px 16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 8,
-                }}
-              >
-                <span style={{
-                  fontFamily: 'JetBrains Mono, monospace',
-                  fontWeight: 700,
-                  fontSize: 15,
-                  color: '#0A84FF',
-                  minWidth: 16,
-                  textAlign: 'center',
-                }}>
+          {/* ── STATS ─────────────────────────────────────── */}
+          <style>{`@media(max-width:600px){.stats-grid{grid-template-columns:repeat(2,1fr)!important}.stats-grid .glass{padding:20px!important}.stats-num{font-size:clamp(32px,8vw,52px)!important}}`}</style>
+          <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 96 }}>
+            {[
+              { label: 'Scans Today', value: stats.eyesToday + stats.newsToday, color: 'var(--chrome-mid)' },
+              { label: 'Threats Found', value: stats.threatsDetected, color: 'var(--danger)' },
+              { label: 'AI Queries', value: stats.brainToday, color: 'var(--safe)' },
+              { label: 'Total Scans', value: stats.eyesTotal, color: 'var(--warning)' },
+            ].map(({ label, value, color }, i) => (
+              <motion.div key={label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} className="glass" style={{ padding: '28px 32px', borderRadius: 16 }}>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.22)', marginBottom: 12 }}>{label.toUpperCase()}</p>
+                <p className="stats-num" style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 52, lineHeight: 1, color: loading ? 'rgba(255,255,255,0.08)' : color }}>
                   {loading ? '—' : value}
-                </span>
-                <span style={{
-                  fontFamily: 'JetBrains Mono, monospace',
-                  fontSize: 10,
-                  letterSpacing: '0.08em',
-                  color: 'var(--text-3)',
-                  whiteSpace: 'nowrap',
-                }}>
-                  {label.toUpperCase()}
-                </span>
+                </p>
               </motion.div>
             ))}
           </div>
+
+          {/* ── MODULES LABEL ─────────────────────────────── */}
+          <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.18)', marginBottom: 36 }}>MODULES</p>
+
+          {/* ── DEEP FAKE INTELLIGENCE ────────────────────── */}
+          <motion.div
+            className="glass"
+            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.7 }}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            onClick={() => navigate('/deepfake')}
+            style={{ padding: 40, borderRadius: 24, marginBottom: 32, overflow: 'hidden' }}
+          >
+            <style>{`@media(max-width:768px){.dfi-grid{grid-template-columns:1fr!important}.dfi-video{order:-1!important;height:140px!important}}`}</style>
+            <div className="dfi-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }}>
+              <div>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.28)', marginBottom: 24 }}>01 -- DEEPFAKE DETECTION</p>
+                <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 5.5vw, 72px)', letterSpacing: '0.05em', lineHeight: 0.9, marginBottom: 28 }}>
+                  DEEP FAKE<br />INTELLIGENCE
+                </h2>
+                <p style={{ fontFamily: 'Inter', fontSize: 16, color: 'rgba(255,255,255,0.48)', lineHeight: 1.7, marginBottom: 28 }}>
+                  Upload any image, video, or audio. D0B3RMAN's detection engine analyzes it against known deepfake signatures and returns a trust score in seconds.
+                </p>
+                <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.18)', marginBottom: 32 }}>
+                  Hive AI · XceptionNet · EfficientNet · MesoNet
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.28)' }}>{stats.eyesToday}/3 today</span>
+                  <div style={{ width: 100, height: 2, background: 'rgba(255,255,255,0.08)', borderRadius: 1 }}>
+                    <div style={{ height: '100%', borderRadius: 1, background: 'var(--chrome-mid)', width: `${Math.min((stats.eyesToday / 3) * 100, 100)}%`, transition: 'width 0.5s ease' }} />
+                  </div>
+                  <ArrowRight size={16} style={{ color: 'rgba(255,255,255,0.28)', marginLeft: 4 }} />
+                </div>
+              </div>
+              <div className="dfi-video" style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#060606' }}>
+                <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
+                  <source src="/assets/video/blob-nose.mp4" type="video/mp4" />
+                </video>
+                <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16 }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.38)', zIndex: 2 }}>
+                  DEEPFAKE INTELLIGENCE
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* ── DAYE ──────────────────────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.7 }}
+            onClick={() => navigate('/daye')}
+            style={{ borderRadius: 24, marginBottom: 32, overflow: 'hidden', background: '#000', textAlign: 'center', cursor: 'pointer' }}
+          >
+            {/* DAYE logo — full-width, large */}
+            <div style={{ position: 'relative', width: '100%', height: 'clamp(260px, 50vw, 520px)', overflow: 'hidden', background: '#060606' }}>
+              <video
+                autoPlay muted loop playsInline preload="auto"
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', display: 'block', pointerEvents: 'none' }}
+              >
+                <source src="/assets/video/blob-di.mp4" type="video/mp4" />
+              </video>
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.95))', pointerEvents: 'none' }} />
+            </div>
+
+            {/* Text below */}
+            <div style={{ padding: '32px clamp(20px,5vw,48px) 56px', overflow: 'hidden' }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.28)', marginBottom: 28 }}>
+                02 -- AI SECURITY ANALYST
+              </p>
+              <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(64px, 10vw, 120px)', letterSpacing: '0.08em', lineHeight: 0.88, marginBottom: 28, overflow: 'hidden', color: 'var(--safe)' }}>
+                DAYE
+              </h2>
+              <p style={{ fontFamily: 'Inter', fontSize: 17, color: 'rgba(255,255,255,0.45)', maxWidth: 480, margin: '0 auto 44px', lineHeight: 1.7 }}>
+                Ask anything. DAYE responds in plain language and gives you a concrete next step. Like having a security analyst on call 24/7.
+              </p>
+              <motion.div
+                whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(48,209,88,0.3)' }}
+                whileTap={{ scale: 0.97 }}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 40px', background: 'var(--safe)', color: '#000', fontFamily: 'Inter', fontWeight: 700, fontSize: 15, borderRadius: 12 }}
+              >
+                Chat with DAYE
+                <ArrowRight size={16} />
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* ── NEWS VERIFICATION ─────────────────────────── */}
+          <motion.div
+            className="glass"
+            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.6 }}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            onClick={() => navigate('/news')}
+            style={{ padding: 40, borderRadius: 24, marginBottom: 32, overflow: 'hidden' }}
+          >
+            <style>{`@media(max-width:768px){.news-grid{grid-template-columns:1fr!important}}`}</style>
+            <div className="news-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }}>
+              <div>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.28)', marginBottom: 24 }}>03 -- VERIFY CONTENT</p>
+                <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 5.5vw, 72px)', letterSpacing: '0.05em', lineHeight: 0.9, marginBottom: 28 }}>
+                  NEWS<br />VERIFICATION
+                </h3>
+                <p style={{ fontFamily: 'Inter', fontSize: 16, color: 'rgba(255,255,255,0.48)', lineHeight: 1.7, marginBottom: 28 }}>
+                  Paste any headline, claim, or article URL. D0B3RMAN cross-references it, checks source quality, and gives you a credibility verdict in seconds.
+                </p>
+                <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.18)', marginBottom: 32 }}>
+                  Cross-reference · Source Quality · Fact Check
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.28)' }}>{stats.newsToday}/3 today</span>
+                  <div style={{ width: 100, height: 2, background: 'rgba(255,255,255,0.08)', borderRadius: 1 }}>
+                    <div style={{ height: '100%', borderRadius: 1, background: 'var(--chrome-mid)', width: `${Math.min((stats.newsToday / 3) * 100, 100)}%`, transition: 'width 0.5s ease' }} />
+                  </div>
+                  <ArrowRight size={16} style={{ color: 'rgba(255,255,255,0.28)', marginLeft: 4 }} />
+                </div>
+              </div>
+              <div style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#060606' }}>
+                <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
+                  <source src="/assets/video/blob-news.mp4" type="video/mp4" />
+                </video>
+                <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16 }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.38)', zIndex: 2 }}>
+                  NEWS -- VERIFY CONTENT
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* ── BREACH SCAN ───────────────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.6 }}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            onClick={() => navigate('/breach')}
+            style={{
+              padding: 40, borderRadius: 24, marginBottom: 48, overflow: 'hidden', cursor: 'pointer',
+              background: 'rgba(139,69,19,0.07)',
+              border: '1px solid rgba(139,69,19,0.28)',
+              boxShadow: 'inset 0 1px 0 rgba(205,133,63,0.12), 0 32px 64px rgba(0,0,0,0.5)',
+              backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)',
+            }}
+          >
+            <style>{`@media(max-width:768px){.breach-grid{grid-template-columns:1fr!important}}`}</style>
+            <div className="breach-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }}>
+              <div>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'rgba(160,82,45,0.8)', marginBottom: 24 }}>04 -- EMAIL BREACH SCAN</p>
+                <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 5.5vw, 72px)', letterSpacing: '0.05em', lineHeight: 0.9, marginBottom: 28, color: '#DEB887' }}>
+                  BREACH<br />DETECTION
+                </h3>
+                <p style={{ fontFamily: 'Inter', fontSize: 16, color: 'rgba(222,184,135,0.55)', lineHeight: 1.7, marginBottom: 28 }}>
+                  Scan any email address, password, or phone number against known data breach databases. D0B3RMAN checks credentials instantly.
+                </p>
+                <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(160,82,45,0.6)', marginBottom: 32 }}>
+                  HaveIBeenPwned · Breach Databases · Credential Exposure
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(160,82,45,0.7)' }}>{stats.breachToday}/3 today</span>
+                  <div style={{ width: 100, height: 2, background: 'rgba(139,69,19,0.2)', borderRadius: 1 }}>
+                    <div style={{ height: '100%', borderRadius: 1, background: '#CD853F', width: `${Math.min((stats.breachToday / 3) * 100, 100)}%`, transition: 'width 0.5s ease' }} />
+                  </div>
+                  <ArrowRight size={16} style={{ color: 'rgba(205,133,63,0.5)', marginLeft: 4 }} />
+                </div>
+              </div>
+              <div style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#0d0500' }}>
+                <img src="/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', opacity: 0.3 }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(139,69,19,0.45) 0%, transparent 70%)' }} />
+                <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(139,69,19,0.25)', borderRadius: 16 }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(205,133,63,0.5)', zIndex: 2 }}>
+                  BREACH -- EMAIL BREACH SCAN
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* ── CYBER GLOBE ───────────────────────────────── */}
+          <motion.div
+            className="glass"
+            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.6 }}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            onClick={() => navigate('/globe')}
+            style={{
+              padding: 40, borderRadius: 24, marginBottom: 48, overflow: 'hidden', cursor: 'pointer',
+              background: 'rgba(0,20,40,0.5)',
+              border: '1px solid rgba(0,100,200,0.2)',
+              boxShadow: 'inset 0 1px 0 rgba(0,150,255,0.08)',
+            }}
+          >
+            <style>{`@media(max-width:768px){.globe-grid{grid-template-columns:1fr!important}}`}</style>
+            <div className="globe-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }}>
+              <div>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'rgba(0,150,255,0.6)', marginBottom: 24 }}>05 -- GLOBAL CYBER INTELLIGENCE</p>
+                <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 5.5vw, 72px)', letterSpacing: '0.05em', lineHeight: 0.9, marginBottom: 28 }}>
+                  CYBER<br />GLOBE
+                </h3>
+                <p style={{ fontFamily: 'Inter', fontSize: 16, color: 'rgba(255,255,255,0.48)', lineHeight: 1.7, marginBottom: 28 }}>
+                  Explore real-time cyber threat levels across every nation. DAYE's intelligence brief on any country — interactive, live, and global.
+                </p>
+                <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(0,150,255,0.4)', marginBottom: 32 }}>
+                  All Countries · Risk Scores · DAYE Briefs · Live Threats
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <ArrowRight size={16} style={{ color: 'rgba(0,150,255,0.5)', marginLeft: 4 }} />
+                </div>
+              </div>
+              <div style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#000810' }}>
+                <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', opacity: 0.7 }}>
+                  <source src="/assets/video/world.mp4" type="video/mp4" />
+                </video>
+                <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(0,80,160,0.2) 0%, transparent 70%)', border: '1px solid rgba(0,100,200,0.15)', borderRadius: 16 }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(0,150,255,0.5)', zIndex: 2 }}>
+                  CYBER GLOBE -- GLOBAL THREAT MAP
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* ── ACTIVITY CHARTS ───────────────────────────── */}
+          <style>{`@media(max-width:640px){.charts-grid{grid-template-columns:1fr!important}}`}</style>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6 }}
+            style={{ marginBottom: 96 }}
+          >
+            <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.18)', marginBottom: 24 }}>ACTIVITY OVERVIEW</p>
+            <div className="charts-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div className="glass" style={{ padding: '24px 28px', borderRadius: 16 }}>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.22)', marginBottom: 20 }}>7-DAY SCAN ACTIVITY</p>
+                {loading ? (
+                  <div style={{ height: 100, background: 'rgba(255,255,255,0.03)', borderRadius: 8 }} />
+                ) : (
+                  <BarChart data={weekData} />
+                )}
+              </div>
+              <div className="glass" style={{ padding: '24px 28px', borderRadius: 16 }}>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.22)', marginBottom: 20 }}>MODULE BREAKDOWN</p>
+                {loading ? (
+                  <div style={{ height: 100, background: 'rgba(255,255,255,0.03)', borderRadius: 8 }} />
+                ) : (
+                  <DonutChart data={moduleBreakdown} />
+                )}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* ── LIVE INTELLIGENCE FEED — Full-screen Samsung News style ── */}
         </div>
 
-        {/* ── CONTENT SECTION ── */}
-        <div style={{ padding: '0 24px 48px', maxWidth: 1200, margin: '0 auto' }}>
+        {/* Full-width / full-screen news section — outside the maxWidth container */}
+        <div style={{ minHeight: '100vh', background: '#000', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', flexDirection: 'column', padding: '40px clamp(16px, 4vw, 48px)' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', flex: 1, display: 'flex', flexDirection: 'column' }}>
 
-          {/* Section label */}
-          <p style={{
-            fontFamily: 'JetBrains Mono, monospace',
-            fontSize: 11,
-            letterSpacing: '0.15em',
-            color: 'var(--text-3)',
-            marginTop: 40,
-            marginBottom: 16,
-          }}>
-            INTELLIGENCE MODULES
-          </p>
-
-          {/* Module cards — horizontal rectangular grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: 12,
-            marginBottom: 40,
-          }}>
-            {moduleCards.map(({ to, icon: Icon, name, sub, desc, count, limit }, i) => (
-              <motion.button
-                key={to}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, delay: 0.08 + i * 0.07, ease: [0.16, 1, 0.3, 1] }}
-                onClick={() => navigate(to)}
-                whileHover={{ scale: 1.01 }}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 16,
-                  padding: '18px 20px',
-                  borderRadius: 22,
-                  background: 'rgba(10,132,255,0.04)',
-                  border: '1px solid rgba(10,132,255,0.12)',
-                  boxShadow: 'inset 0 1px 0 rgba(10,132,255,0.08)',
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  minHeight: 88,
-                  transition: 'background 0.2s, border-color 0.2s',
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(10,132,255,0.08)'
-                  ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(10,132,255,0.25)'
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(10,132,255,0.04)'
-                  ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(10,132,255,0.12)'
-                }}
-              >
-                {/* Icon squircle */}
-                <div style={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: 14,
-                  background: 'rgba(10,132,255,0.10)',
-                  border: '1px solid rgba(10,132,255,0.20)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}>
-                  <Icon size={20} color="#0A84FF" />
-                </div>
-
-                {/* Middle text */}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{
-                    fontFamily: 'Syne, sans-serif',
-                    fontWeight: 700,
-                    fontSize: 16,
-                    color: 'var(--text-1)',
-                    marginBottom: 2,
-                    lineHeight: 1.2,
-                  }}>
-                    {name}
-                  </p>
-                  <p style={{
-                    fontFamily: 'JetBrains Mono, monospace',
-                    fontSize: 10,
-                    color: '#0A84FF',
-                    letterSpacing: '0.1em',
-                    marginBottom: 4,
-                  }}>
-                    {sub.toUpperCase()}
-                  </p>
-                  <p style={{
-                    fontFamily: 'Syne, sans-serif',
-                    fontSize: 13,
-                    color: 'var(--text-2)',
-                    lineHeight: 1.4,
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                  }}>
-                    {desc}
-                  </p>
-                </div>
-
-                {/* Right: usage + arrow */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-end',
-                  gap: 6,
-                  flexShrink: 0,
-                  minWidth: 52,
-                }}>
-                  <span style={{
-                    fontFamily: 'JetBrains Mono, monospace',
-                    fontSize: 11,
-                    color: 'var(--text-3)',
-                  }}>
-                    {count}/{limit}
-                  </span>
-                  <div style={{ width: 48, height: 2, background: 'rgba(255,255,255,0.06)', borderRadius: 1 }}>
-                    <div style={{
-                      height: '100%',
-                      borderRadius: 1,
-                      background: '#0A84FF',
-                      width: `${Math.min((count / limit) * 100, 100)}%`,
-                      transition: 'width 0.5s ease',
-                    }} />
-                  </div>
-                  <ArrowRight size={14} color="rgba(10,132,255,0.5)" />
-                </div>
-              </motion.button>
-            ))}
-          </div>
-
-          {/* Section label */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-            <p style={{
-              fontFamily: 'JetBrains Mono, monospace',
-              fontSize: 11,
-              letterSpacing: '0.15em',
-              color: 'var(--text-3)',
-            }}>
-              RECENT ACTIVITY
-            </p>
-            <button
-              onClick={() => navigate('/history')}
-              style={{
-                fontFamily: 'JetBrains Mono, monospace',
-                fontSize: 11,
-                color: '#0A84FF',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                letterSpacing: '0.05em',
-              }}
-            >
-              View all
-            </button>
-          </div>
-
-          {/* Activity list */}
-          <div style={{
-            borderRadius: 22,
-            background: 'rgba(255,255,255,0.02)',
-            border: '1px solid rgba(255,255,255,0.06)',
-            overflow: 'hidden',
-          }}>
-            {loading ? (
-              [...Array(3)].map((_, i) => (
-                <div
-                  key={i}
-                  style={{
-                    padding: '16px 20px',
-                    borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none',
-                    display: 'flex',
-                    gap: 14,
-                    alignItems: 'center',
-                  }}
-                >
-                  <div style={{ width: 32, height: 32, borderRadius: 10, background: 'rgba(255,255,255,0.04)' }} />
-                  <div style={{ flex: 1 }}>
-                    <div style={{ height: 12, background: 'rgba(255,255,255,0.04)', borderRadius: 4, marginBottom: 6, width: '55%' }} />
-                    <div style={{ height: 10, background: 'rgba(255,255,255,0.03)', borderRadius: 4, width: '28%' }} />
-                  </div>
-                </div>
-              ))
-            ) : activity.length === 0 ? (
-              <div style={{ padding: 48, textAlign: 'center' }}>
-                <Globe2 size={24} style={{ color: 'var(--text-3)', margin: '0 auto 12px' }} />
-                <p style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, color: 'var(--text-3)' }}>
-                  No activity yet. Run your first scan.
-                </p>
+            {/* Samsung News-style header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--danger)', animation: 'pulse 1.5s infinite' }} />
+                <span style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.3)' }}>LIVE</span>
               </div>
-            ) : (
-              activity.map((item, i) => {
-                const icons = { eyes: Eye, nose: Wifi, brain: Brain, news: Newspaper }
-                const Icon = icons[item.type]
-                return (
+              <button onClick={() => navigate('/news')} style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.3)', background: 'none', border: 'none' }}>
+                <ExternalLink size={11} />
+                Verify
+              </button>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+              <h2 style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 36px)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                Top Stories <ChevronRight size={24} style={{ color: 'rgba(255,255,255,0.5)' }} />
+              </h2>
+              <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>
+                {new Date().toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }).toUpperCase()}
+              </span>
+            </div>
+
+            {/* Hero story card */}
+            <div
+              style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', height: 'clamp(220px, 38vh, 340px)', marginBottom: 4, flexShrink: 0, cursor: 'pointer' }}
+              onClick={() => navigate('/news')}
+            >
+              <img src="/assets/video/cdd8c26722152919a8539f357363c238.jpg" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.92) 100%)' }} />
+              <div style={{ position: 'absolute', inset: 0, padding: '24px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', zIndex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+                  <div style={{ width: 20, height: 20, borderRadius: 4, background: 'rgba(255,45,45,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 10, color: '#fff' }}>T</span>
+                  </div>
+                  <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.9)' }}>THREATPOST</span>
+                  <span style={{ fontFamily: 'Inter', fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>2 hours ago</span>
+                </div>
+                <h3 style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 'clamp(17px, 2.5vw, 22px)', lineHeight: 1.3, color: '#fff', maxWidth: 680 }}>
+                  Critical zero-day exploit targets Windows devices via CLFS driver vulnerability — patch required immediately
+                </h3>
+              </div>
+            </div>
+
+            {/* Story list */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+              <AnimatePresence mode="popLayout">
+                {CYBER_HEADLINES.slice(0, visibleHeadlines).map((item, i) => (
                   <motion.div
                     key={item.id}
-                    initial={{ opacity: 0, x: -12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
-                    style={{
-                      padding: '14px 20px',
-                      borderBottom: i < activity.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 14,
-                    }}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ delay: i * 0.04 }}
+                    onClick={() => navigate('/news')}
+                    style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px 0', borderBottom: '1px solid rgba(255,255,255,0.06)', cursor: 'pointer' }}
                   >
-                    {/* Icon squircle */}
-                    <div style={{
-                      width: 32,
-                      height: 32,
-                      borderRadius: 10,
-                      background: 'rgba(10,132,255,0.06)',
-                      border: '1px solid rgba(10,132,255,0.12)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
-                    }}>
-                      <Icon size={14} color="rgba(10,132,255,0.7)" />
-                    </div>
-
-                    {/* Content */}
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <p style={{
-                        fontFamily: 'Syne, sans-serif',
-                        fontSize: 14,
-                        color: 'var(--text-1)',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        marginBottom: 4,
-                        lineHeight: 1.3,
-                      }}>
-                        {item.label}
-                      </p>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                        <Clock size={10} color="var(--text-3)" />
-                        <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--text-3)' }}>
-                          {formatRelativeTime(item.created_at)}
-                        </span>
-                        {item.result && (
-                          <span style={{
-                            fontFamily: 'JetBrains Mono, monospace',
-                            fontSize: 10,
-                            color: getResultLabel(item.result).color,
-                            background: `${getResultLabel(item.result).color}22`,
-                            padding: '2px 8px',
-                            borderRadius: 6,
-                          }}>
-                            {getResultLabel(item.result).label}
-                          </span>
-                        )}
-                        {item.type === 'nose' && item.score !== undefined && (
-                          <span style={{
-                            fontFamily: 'JetBrains Mono, monospace',
-                            fontSize: 10,
-                            color: getRiskColor(item.score),
-                            background: `${getRiskColor(item.score)}22`,
-                            padding: '2px 8px',
-                            borderRadius: 6,
-                          }}>
-                            Risk: {item.score}
-                          </span>
-                        )}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                        <div style={{ width: 18, height: 18, borderRadius: 4, background: item.color + '22', border: `1px solid ${item.color}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          <span style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 9, color: item.color }}>{item.source[0]}</span>
+                        </div>
+                        <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.01em' }}>{item.source}</span>
                       </div>
+                      <p style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 'clamp(14px, 1.8vw, 16px)', color: '#fff', lineHeight: 1.35, marginBottom: 6, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                        {item.text}
+                      </p>
+                      <span style={{ fontFamily: 'Inter', fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>{item.time}</span>
+                    </div>
+                    <div style={{ width: 88, height: 68, borderRadius: 10, flexShrink: 0, overflow: 'hidden', background: `linear-gradient(135deg, ${item.color}25, rgba(10,10,10,0.9))`, border: `1px solid ${item.color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ fontFamily: 'Bebas Neue', fontSize: 11, letterSpacing: '0.15em', color: item.color, opacity: 0.7 }}>{item.tag}</span>
                     </div>
                   </motion.div>
-                )
-              })
-            )}
+                ))}
+              </AnimatePresence>
+
+              {visibleHeadlines < CYBER_HEADLINES.length ? (
+                <button
+                  onClick={() => setVisibleHeadlines(CYBER_HEADLINES.length)}
+                  style={{ width: '100%', padding: '18px', background: 'none', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontFamily: 'Inter', fontWeight: 600, fontSize: 14, color: 'rgba(255,255,255,0.35)', marginTop: 4 }}
+                >
+                  <ChevronRight size={14} style={{ transform: 'rotate(90deg)' }} />
+                  {CYBER_HEADLINES.length - visibleHeadlines} more stories
+                </button>
+              ) : (
+                <button
+                  onClick={() => navigate('/news')}
+                  style={{ width: '100%', padding: '18px', background: 'none', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontFamily: 'Inter', fontWeight: 700, fontSize: 14, color: 'var(--danger)', marginTop: 4 }}
+                >
+                  <ExternalLink size={14} />
+                  Verify any headline
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Back inside the padded container for remaining sections */}
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '80px clamp(16px, 4vw, 48px) 96px' }}>
+
+          {/* ── DOBERMAN PORTRAIT ──────────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.97 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.0, ease: [0.25, 0.1, 0.25, 1] }}
+            viewport={{ once: true, margin: '-60px' }}
+            style={{ borderRadius: 24, overflow: 'hidden', marginBottom: 80, position: 'relative', height: 520 }}
+          >
+            <img
+              src="/assets/video/b78ad4f230a4015d24a420fce2a7d53b.jpg"
+              alt="D0B3RMAN"
+              onError={(e) => { const p = e.currentTarget.parentElement; if (p) p.style.display = 'none' }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+            />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, #000 100%)' }} />
+            <div style={{ position: 'absolute', bottom: 44, left: 44 }}>
+              <p style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(40px, 6vw, 72px)', letterSpacing: '0.3em', color: 'rgba(255,255,255,0.92)', lineHeight: 1 }}>D0B3RMAN</p>
+              <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.28)', marginTop: 10 }}>THE WATCHDOG IS WATCHING</p>
+            </div>
+          </motion.div>
+
+          {/* ── RECENT ACTIVITY ────────────────────────────── */}
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.18)' }}>RECENT ACTIVITY</p>
+              <button onClick={() => navigate('/history')} style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--chrome-dim)', background: 'none', border: 'none' }}>View all</button>
+            </div>
+            <div className="glass" style={{ borderRadius: 20, overflow: 'hidden' }}>
+              {loading ? (
+                [...Array(3)].map((_, i) => (
+                  <div key={i} style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.04)', display: 'flex', gap: 12, alignItems: 'center' }}>
+                    <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(255,255,255,0.03)' }} />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ height: 12, background: 'rgba(255,255,255,0.03)', borderRadius: 4, marginBottom: 6, width: '60%' }} />
+                      <div style={{ height: 10, background: 'rgba(255,255,255,0.03)', borderRadius: 4, width: '30%' }} />
+                    </div>
+                  </div>
+                ))
+              ) : activity.length === 0 ? (
+                <div style={{ padding: 48, textAlign: 'center' }}>
+                  <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'rgba(255,255,255,0.2)' }}>No activity yet. Run your first scan.</p>
+                </div>
+              ) : (
+                activity.map((item, i) => {
+                  const typeLabel: Record<string, string> = { eyes: 'D.F.I.', brain: 'D0B3RMAN I.', news: 'NEWS' }
+                  const IconComp = item.type === 'brain' ? Zap : item.type === 'news' ? ExternalLink : Shield
+                  return (
+                    <motion.div key={item.id} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}
+                      style={{ padding: '14px 20px', borderBottom: i < activity.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none', display: 'flex', alignItems: 'center', gap: 14 }}>
+                      <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <IconComp size={14} style={{ color: 'rgba(255,255,255,0.3)' }} />
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <p style={{ fontFamily: 'Inter', fontSize: 14, color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: 2 }}>{item.label}</p>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <Clock size={10} style={{ color: 'rgba(255,255,255,0.2)' }} />
+                          <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>{formatRelativeTime(item.created_at)}</span>
+                          <span style={{ fontFamily: 'Inter', fontSize: 9, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.03em' }}>{typeLabel[item.type]}</span>
+                          {item.result && (
+                            <span style={{ fontFamily: 'Inter', fontSize: 10, color: getResultLabel(item.result).color, background: `${getResultLabel(item.result).color}22`, padding: '2px 6px', borderRadius: 4 }}>
+                              {getResultLabel(item.result).label}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )
+                })
+              )}
+            </div>
           </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(10,132,255,0.4); }
-          50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(10,132,255,0); }
-        }
-      `}</style>
+      <style>{`@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }`}</style>
     </Layout>
   )
 }
