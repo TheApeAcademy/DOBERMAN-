@@ -7,6 +7,9 @@ import Dashboard from './pages/Dashboard'
 import Eyes from './pages/Eyes'
 import Nose from './pages/Nose'
 import Brain from './pages/Brain'
+import Deepfake from './pages/Deepfake'
+import Daye from './pages/Daye'
+import Globe from './pages/Globe'
 import News from './pages/News'
 import NewsArticle from './pages/NewsArticle'
 import Breach from './pages/Breach'
@@ -41,6 +44,9 @@ function AnimatedRoutes() {
       <Route path="/auth" element={<Auth />} />
       <Route path="/share-target" element={<ProtectedRoute><ShareTarget /></ProtectedRoute>} />
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      <Route path="/deepfake" element={<ProtectedRoute><Deepfake /></ProtectedRoute>} />
+      <Route path="/daye" element={<ProtectedRoute><Daye /></ProtectedRoute>} />
+      <Route path="/globe" element={<ProtectedRoute><Globe /></ProtectedRoute>} />
       <Route path="/eyes" element={<ProtectedRoute><Eyes /></ProtectedRoute>} />
       <Route path="/nose" element={<ProtectedRoute><Nose /></ProtectedRoute>} />
       <Route path="/brain" element={<ProtectedRoute><Brain /></ProtectedRoute>} />

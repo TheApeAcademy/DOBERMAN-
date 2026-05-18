@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Shield, Zap, LayoutDashboard, History, Settings, LogOut, User, Newspaper, Lock } from 'lucide-react'
+import { Shield, Zap, LayoutDashboard, History, Settings, LogOut, User, Newspaper, Lock, Globe2 } from 'lucide-react'
 import type { Profile } from '../../lib/supabase'
 import { getInitials, getAvatarColor } from '../../lib/utils'
 
@@ -13,10 +13,11 @@ interface SidebarProps {
 
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', sub: '' },
-  { to: '/eyes', icon: Shield, label: 'D.F.I.', sub: 'Deep Fake Intelligence' },
-  { to: '/brain', icon: Zap, label: 'D0B3RMAN I.', sub: 'AI Intelligence' },
+  { to: '/deepfake', icon: Shield, label: 'D.F.I.', sub: 'Deepfake Intelligence' },
+  { to: '/daye', icon: Zap, label: 'DAYE', sub: 'Doberman Intelligence' },
+  { to: '/breach', icon: Lock, label: 'BREACH', sub: 'Breach Detection' },
+  { to: '/globe', icon: Globe2, label: 'CYBER GLOBE', sub: 'Threat Map' },
   { to: '/news', icon: Newspaper, label: 'NEWS', sub: 'Verify Content' },
-  { to: '/breach', icon: Lock, label: 'BREACH', sub: 'Email Breach Scan' },
   { to: '/history', icon: History, label: 'History', sub: '' },
   { to: '/settings', icon: Settings, label: 'Settings', sub: '' },
 ]
@@ -55,7 +56,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
       {/* Navigation */}
       <nav style={{ flex: 1, padding: '12px', overflowY: 'auto' }}>
         {navItems.map(({ to, icon: Icon, label, sub }, i) => {
-          const isActive = location.pathname === to
+          const isActive = location.pathname === to || (to === '/deepfake' && location.pathname === '/eyes') || (to === '/daye' && location.pathname === '/brain')
           const isBreach = to === '/breach'
           return (
             <motion.div

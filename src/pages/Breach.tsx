@@ -6,6 +6,7 @@ import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { useBreach } from '../hooks/useBreach'
 import { UpgradeModal } from '../components/ui/Modal'
+import { dayeNotify } from '../components/daye/DayeAssistant'
 
 const B = {
   dark: '#0d0500',
@@ -75,6 +76,12 @@ export default function Breach() {
     setHistory(h)
   }
 
+  useEffect(() => {
+    if (result) {
+      dayeNotify({ context_type: 'breach_result', data: result })
+    }
+  }, [result])
+
   const handleAskBrain = () => {
     if (!result) return
     const ctx = result.type === 'password'
@@ -82,7 +89,7 @@ export default function Breach() {
       : result.type === 'email'
       ? `I ran a breach check on an email and found it in ${(result.breach_count as number | undefined) ?? 0} breaches. Severity: ${result.severity}. Help me understand the risk and next steps.`
       : `I checked a phone number for breaches: ${result.message} Severity: ${result.severity}. What should I do?`
-    navigate('/brain', { state: { prefillMessage: ctx } })
+    navigate('/daye', { state: { prefillMessage: ctx } })
   }
 
   const tab = TABS.find((t) => t.type === activeTab)!

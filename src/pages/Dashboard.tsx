@@ -139,7 +139,7 @@ export default function Dashboard() {
             className="glass"
             initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
-            onClick={() => navigate('/eyes')}
+            onClick={() => navigate('/deepfake')}
             style={{ padding: 40, borderRadius: 24, marginBottom: 32, overflow: 'hidden' }}
           >
             <style>{`@media(max-width:768px){.dfi-grid{grid-template-columns:1fr!important}.dfi-video{order:-1!important;height:140px!important}}`}</style>
@@ -178,7 +178,7 @@ export default function Dashboard() {
           {/* ── DOB3RMAN INTELLIGENCE ──────────────────────── */}
           <motion.div
             initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
-            onClick={() => navigate('/brain')}
+            onClick={() => navigate('/daye')}
             style={{ borderRadius: 24, marginBottom: 32, overflow: 'hidden', background: '#000', border: '1px solid rgba(255,255,255,0.08)', textAlign: 'center' }}
           >
             {/* Green logo — full-width, large */}
