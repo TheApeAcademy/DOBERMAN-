@@ -324,27 +324,27 @@ export default function Landing() {
                 <source src="/assets/video/blob-di.mp4" type="video/mp4" />
               </video>
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.95))', pointerEvents: 'none' }} />
-              <div style={{ position: 'absolute', top: 20, left: 24, fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'rgba(0,212,106,0.5)', zIndex: 2 }}>
-                D0B3RMAN INTELLIGENCE -- AI SECURITY ANALYST
+              <div style={{ position: 'absolute', top: 20, left: 24, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.12em', color: 'rgba(48,209,88,0.5)', zIndex: 2 }}>
+                DAYE -- AI SECURITY ANALYST
               </div>
             </div>
 
             {/* Content below the video */}
             <div style={{ padding: 'clamp(32px,5vw,56px)', textAlign: 'center' }}>
-              <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.06em', color: 'rgba(0,212,106,0.6)', marginBottom: 16 }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.12em', color: 'rgba(48,209,88,0.6)', marginBottom: 16 }}>
                 02 -- AI SECURITY ANALYST
               </p>
-              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(40px, 8vw, 100px)', letterSpacing: '0.1em', lineHeight: 0.92, marginBottom: 20 }}>
-                D0B3RMAN<br /><span style={{ color: 'var(--safe)' }}>INTELLIGENCE</span>
+              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(60px, 10vw, 120px)', letterSpacing: '0.1em', lineHeight: 0.9, marginBottom: 20, color: 'var(--safe)' }}>
+                DAYE
               </h3>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16, lineHeight: 1.7, marginBottom: 36, maxWidth: 560, margin: '0 auto 36px' }}>
-                Ask anything. D0B3RMAN explains threats in plain language and gives you a concrete next step. Like having a security analyst on call 24/7.
+                Ask anything. DAYE explains threats in plain language and gives you a concrete next step. Like having a security analyst on call 24/7.
               </p>
-              <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.2)', marginBottom: 32 }}>
-                Claude Sonnet · Context-aware · Real-time Threat Intel
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(255,255,255,0.2)', marginBottom: 32 }}>
+                VOICE · FILE ANALYSIS · REAL-TIME INTEL · GLOBE BRIEFS
               </p>
               <motion.button
-                whileHover={{ scale: 1.04, boxShadow: '0 0 50px rgba(0,212,106,0.2)' }}
+                whileHover={{ scale: 1.04, boxShadow: '0 0 50px rgba(48,209,88,0.2)' }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => navigate('/auth')}
                 style={{
@@ -354,20 +354,143 @@ export default function Landing() {
                   padding: '16px 44px',
                   background: 'var(--safe)',
                   color: '#000',
-                  fontFamily: 'Inter',
-                  fontWeight: 800,
-                  fontSize: 15,
+                  fontFamily: 'Bebas Neue',
+                  fontSize: 18,
                   border: 'none',
                   borderRadius: 14,
                   cursor: 'pointer',
-                  letterSpacing: '0.03em',
+                  letterSpacing: '0.08em',
                 }}
               >
-                Get Access to D0B3RMAN Intelligence
+                Chat with DAYE
               </motion.button>
             </div>
           </motion.div>
 
+        </div>
+      </section>
+
+      {/* ─── DAYE CINEMATIC SECTION ─────────────────────── */}
+      <section style={{ position: 'relative', overflow: 'hidden', background: '#000', padding: 'clamp(80px,12vw,140px) clamp(20px,5vw,60px)' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 60, alignItems: 'center' }}>
+          {/* Left — typography */}
+          <motion.div {...IN_VIEW}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(48,209,88,0.5)', marginBottom: 16 }}>MEET YOUR ANALYST</p>
+            <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(80px, 14vw, 160px)', letterSpacing: '0.05em', color: 'var(--safe)', lineHeight: 0.85, marginBottom: 24 }}>DAYE</h2>
+            <p style={{ fontFamily: 'Syne', fontWeight: 400, fontSize: 'clamp(16px, 2vw, 20px)', color: 'rgba(255,255,255,0.55)', lineHeight: 1.65, marginBottom: 36, maxWidth: 460 }}>
+              A cybersecurity intelligence analyst powered by AI. Understands context, speaks plainly, acts fast. Available every second of every day.
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 40 }}>
+              {['Voice Intelligence', 'File Analysis', 'Chat', 'Globe Briefs', 'Real-time Intel'].map((pill) => (
+                <span key={pill} style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em', color: 'var(--safe)', background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.2)', padding: '6px 14px', borderRadius: 20 }}>{pill}</span>
+              ))}
+            </div>
+            <motion.button
+              whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(48,209,88,0.18)' }}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => navigate('/auth')}
+              style={{ padding: '14px 36px', background: 'var(--safe)', color: '#000', fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.08em', border: 'none', borderRadius: 12, cursor: 'pointer' }}
+            >
+              Chat with DAYE
+            </motion.button>
+          </motion.div>
+
+          {/* Right — mini popup mockup */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.9, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+            viewport={{ once: true, margin: '-60px' }}
+            style={{ display: 'flex', justifyContent: 'center' }}
+          >
+            <div style={{ width: 320, background: 'rgba(12,12,16,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, overflow: 'hidden', boxShadow: '0 40px 80px rgba(0,0,0,0.6)' }}>
+              {/* Popup header */}
+              <div style={{ padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--safe)', boxShadow: '0 0 8px rgba(48,209,88,0.6)' }} />
+                  <span style={{ fontFamily: 'Bebas Neue', fontSize: 14, letterSpacing: '0.12em', color: '#F5F5F7' }}>DAYE</span>
+                </div>
+                <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--safe)', letterSpacing: '0.08em' }}>ONLINE</span>
+              </div>
+              {/* Chat bubbles */}
+              <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {[
+                  { role: 'daye', text: 'I detected a phishing pattern in that link. High confidence — 94% match to known BEC infrastructure.' },
+                  { role: 'user', text: 'Should I report it?' },
+                  { role: 'daye', text: 'Yes. Forward to your IT team and report to phishing@irs.gov. Block the sender immediately.' },
+                ].map((msg, i) => (
+                  <div key={i} style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start' }}>
+                    <div style={{ maxWidth: '80%', padding: '8px 12px', borderRadius: msg.role === 'user' ? '12px 12px 4px 12px' : '12px 12px 12px 4px', background: msg.role === 'user' ? 'rgba(255,255,255,0.1)' : 'rgba(48,209,88,0.1)', border: msg.role === 'user' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(48,209,88,0.2)' }}>
+                      <p style={{ fontFamily: 'Syne', fontSize: 12, color: msg.role === 'daye' ? '#F5F5F7' : 'rgba(255,255,255,0.8)', lineHeight: 1.5 }}>{msg.text}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {/* Input bar mockup */}
+              <div style={{ padding: '10px 14px 14px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '8px 12px' }}>
+                  <span style={{ fontFamily: 'Syne', fontSize: 12, color: 'rgba(255,255,255,0.25)', flex: 1 }}>Ask DAYE anything...</span>
+                  <div style={{ width: 26, height: 26, borderRadius: '50%', background: 'var(--safe)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <span style={{ fontSize: 10 }}>↑</span>
+                  </div>
+                </div>
+              </div>
+              {/* Footer */}
+              <div style={{ padding: '8px 16px 10px', textAlign: 'center' }}>
+                <span style={{ fontFamily: 'JetBrains Mono', fontSize: 8, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.12em' }}>DAYE · INTELLIGENCE ACTIVE</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ─── CYBER GLOBE SECTION ─────────────────────────── */}
+      <section style={{ position: 'relative', overflow: 'hidden', background: 'rgba(0,4,12,1)', padding: 'clamp(80px,12vw,140px) clamp(20px,5vw,60px)' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 60, alignItems: 'center' }}>
+          {/* Left — video globe */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
+            viewport={{ once: true, margin: '-60px' }}
+            style={{ position: 'relative', height: 340, borderRadius: 20, overflow: 'hidden', background: '#000810' }}
+          >
+            <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }}>
+              <source src="/assets/video/world.mp4" type="video/mp4" />
+            </video>
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,20,60,0.3) 0%, transparent 60%)' }} />
+            <div style={{ position: 'absolute', top: 16, left: 18 }}>
+              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.18em', color: 'rgba(100,160,255,0.6)' }}>LIVE THREAT MAP</span>
+            </div>
+            {/* Stats overlay */}
+            <div style={{ position: 'absolute', bottom: 16, left: 16, right: 16, display: 'flex', gap: 10 }}>
+              {[{ n: '8', label: 'CRITICAL ZONES' }, { n: '30+', label: 'HIGH RISK' }, { n: '80+', label: 'COUNTRIES' }].map(({ n, label }) => (
+                <div key={label} style={{ flex: 1, padding: '8px 10px', background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(12px)', borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
+                  <p style={{ fontFamily: 'Bebas Neue', fontSize: 20, color: '#F5F5F7', lineHeight: 1 }}>{n}</p>
+                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 8, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em' }}>{label}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right — text */}
+          <motion.div {...IN_VIEW} style={{ textAlign: 'right' }}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(100,160,255,0.5)', marginBottom: 16 }}>GLOBAL CYBER INTELLIGENCE</p>
+            <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 80px)', lineHeight: 0.92, marginBottom: 24 }}>
+              The world's<br />cyber threats.
+            </h2>
+            <p style={{ fontFamily: 'Syne', fontWeight: 400, fontSize: 'clamp(15px, 1.8vw, 18px)', color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, marginBottom: 36 }}>
+              Every country. Real threats. DAYE's analysis. See where attacks originate, track risk scores, and get live intelligence briefs for any nation on Earth.
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(100,160,255,0.15)' }}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => navigate('/auth')}
+              style={{ padding: '14px 36px', background: 'rgba(100,160,255,0.12)', color: '#6AA0FF', fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.08em', border: '1px solid rgba(100,160,255,0.25)', borderRadius: 12, cursor: 'pointer' }}
+            >
+              Open Cyber Globe
+            </motion.button>
+          </motion.div>
         </div>
       </section>
 

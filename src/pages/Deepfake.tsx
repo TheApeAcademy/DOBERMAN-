@@ -313,10 +313,12 @@ export default function DeepfakePage() {
 
         {/* IMAGE / VIDEO TAB */}
         {activeTab === 'media' && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, alignItems: 'start' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <div style={card}>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Upload Media File</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+            {/* Upload — full-width horizontal rectangle */}
+            <div style={{ ...card, display: 'flex', gap: 24, alignItems: 'stretch' }}>
+              <div style={{ flex: 1 }}>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 14, textTransform: 'uppercase' }}>Upload Media File</p>
                 <UploadZone
                   onFile={handleMediaAnalyze}
                   accept="image/*,video/*"
@@ -326,22 +328,23 @@ export default function DeepfakePage() {
                   remainingScans={eyesRemaining}
                   onUpgradeClick={() => setUpgradeOpen(true)}
                 />
-                <div style={{ marginTop: 14, padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: 10 }}>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.1em', marginBottom: 4 }}>DAYE DETECTS</p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                    {['Face Swaps', 'GANs', 'Diffusion Synthesis', 'Neural Rendering', 'Facial Puppeting'].map((tag) => (
-                      <span key={tag} style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', background: 'rgba(255,255,255,0.04)', padding: '3px 8px', borderRadius: 5, border: '1px solid rgba(255,255,255,0.07)' }}>{tag}</span>
-                    ))}
-                  </div>
-                </div>
               </div>
-              {eyesError && (
-                <div style={{ padding: '12px 16px', borderRadius: 12, background: 'rgba(255,45,45,0.06)', border: '1px solid rgba(255,45,45,0.18)' }}>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--danger)' }}>{eyesError}</p>
-                </div>
-              )}
+              <div style={{ width: 1, background: 'rgba(255,255,255,0.06)', flexShrink: 0 }} />
+              <div style={{ minWidth: 180, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 10 }}>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.1em', marginBottom: 4 }}>DAYE DETECTS</p>
+                {['Face Swaps', 'GANs', 'Diffusion Synthesis', 'Neural Rendering', 'Facial Puppeting'].map((tag) => (
+                  <span key={tag} style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', background: 'rgba(255,255,255,0.04)', padding: '4px 10px', borderRadius: 5, border: '1px solid rgba(255,255,255,0.07)', display: 'block' }}>{tag}</span>
+                ))}
+              </div>
             </div>
 
+            {eyesError && (
+              <div style={{ padding: '12px 16px', borderRadius: 12, background: 'rgba(255,45,45,0.06)', border: '1px solid rgba(255,45,45,0.18)' }}>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--danger)' }}>{eyesError}</p>
+              </div>
+            )}
+
+            {/* Results — full-width below */}
             <div style={card}>
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Analysis Results</p>
               {eyesScanning ? (
@@ -357,7 +360,29 @@ export default function DeepfakePage() {
                   </div>
                 </div>
               ) : eyesResult ? (
-                <EyesResult scan={eyesResult} />
+                <>
+                  <EyesResult scan={eyesResult} />
+                  <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 12 }}>CONFIDENCE ANALYSIS</p>
+                    <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+                      <span style={{ fontFamily: 'Bebas Neue', fontSize: 40, color: eyesResult.result === 'fake' ? 'var(--danger)' : 'var(--safe)', lineHeight: 1, flexShrink: 0 }}>
+                        {eyesResult.confidence_score}%
+                      </span>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 3, overflow: 'hidden', marginBottom: 6 }}>
+                          <div style={{
+                            height: '100%', borderRadius: 3,
+                            background: eyesResult.result === 'fake' ? 'var(--danger)' : 'var(--safe)',
+                            width: `${eyesResult.confidence_score}%`,
+                            transition: 'width 0.9s cubic-bezier(0.4,0,0.2,1)',
+                            boxShadow: `0 0 10px ${eyesResult.result === 'fake' ? 'rgba(255,45,45,0.4)' : 'rgba(48,209,88,0.4)'}`,
+                          }} />
+                        </div>
+                        <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.1em' }}>MODEL CONFIDENCE · {eyesResult.result === 'fake' ? 'SYNTHETIC MARKERS DETECTED' : 'AUTHENTIC SIGNAL'}</p>
+                      </div>
+                    </div>
+                  </div>
+                </>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 0', gap: 10, textAlign: 'center' }}>
                   <Eye size={28} style={{ color: 'var(--text-3)', opacity: 0.5 }} />
@@ -367,7 +392,7 @@ export default function DeepfakePage() {
               )}
             </div>
 
-            <div style={{ ...card, gridColumn: '1 / -1' }}>
+            <div style={card}>
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Scan History</p>
               <EyesScanHistory
                 key={historyKey}
@@ -381,9 +406,9 @@ export default function DeepfakePage() {
 
         {/* VOICE INTELLIGENCE TAB */}
         {activeTab === 'voice' && (
-          <div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {/* Voice intro */}
-            <div style={{ padding: '16px 20px', background: 'rgba(255,149,0,0.05)', border: '1px solid rgba(255,149,0,0.15)', borderRadius: 14, marginBottom: 24 }}>
+            <div style={{ padding: '14px 18px', background: 'rgba(255,149,0,0.05)', border: '1px solid rgba(255,149,0,0.15)', borderRadius: 14 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
                 <Mic size={14} style={{ color: 'var(--warning)' }} />
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--warning)', letterSpacing: '0.12em' }}>VOICE INTELLIGENCE MODULE</p>
@@ -393,37 +418,38 @@ export default function DeepfakePage() {
               </p>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, alignItems: 'start' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <div style={card}>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Upload Voice File</p>
-                  <UploadZone
-                    onFile={handleVoiceAnalyze}
-                    accept="audio/*"
-                    label="Drop voice or audio file to analyze"
-                    sublabel="MP3 · WAV · M4A · OGG · AAC"
-                    loading={voiceScanning}
-                    remainingScans={voiceRemaining}
-                    onUpgradeClick={() => setUpgradeOpen(true)}
-                  />
-                  <div style={{ marginTop: 14, padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: 10 }}>
-                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.1em', marginBottom: 4 }}>DAYE DETECTS</p>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                      {['AI Voice Cloning', 'Emotional Manipulation', 'Synthetic Speech', 'Scam Audio Patterns', 'Voice Deepfakes'].map((tag) => (
-                        <span key={tag} style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', background: 'rgba(255,255,255,0.04)', padding: '3px 8px', borderRadius: 5, border: '1px solid rgba(255,255,255,0.07)' }}>{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                {voiceError && (
-                  <div style={{ padding: '12px 16px', borderRadius: 12, background: 'rgba(255,45,45,0.06)', border: '1px solid rgba(255,45,45,0.18)' }}>
-                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--danger)' }}>{voiceError}</p>
-                  </div>
-                )}
+            {/* Upload — full-width horizontal rectangle */}
+            <div style={{ ...card, display: 'flex', gap: 24, alignItems: 'stretch' }}>
+              <div style={{ flex: 1 }}>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 14, textTransform: 'uppercase' }}>Upload Voice File</p>
+                <UploadZone
+                  onFile={handleVoiceAnalyze}
+                  accept="audio/*"
+                  label="Drop voice or audio file to analyze"
+                  sublabel="MP3 · WAV · M4A · OGG · AAC"
+                  loading={voiceScanning}
+                  remainingScans={voiceRemaining}
+                  onUpgradeClick={() => setUpgradeOpen(true)}
+                />
               </div>
+              <div style={{ width: 1, background: 'rgba(255,255,255,0.06)', flexShrink: 0 }} />
+              <div style={{ minWidth: 180, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 10 }}>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.1em', marginBottom: 4 }}>DAYE DETECTS</p>
+                {['AI Voice Cloning', 'Emotional Manipulation', 'Synthetic Speech', 'Scam Audio Patterns', 'Voice Deepfakes'].map((tag) => (
+                  <span key={tag} style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', background: 'rgba(255,255,255,0.04)', padding: '4px 10px', borderRadius: 5, border: '1px solid rgba(255,255,255,0.07)', display: 'block' }}>{tag}</span>
+                ))}
+              </div>
+            </div>
 
-              <div style={card}>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Voice Intelligence Results</p>
+            {voiceError && (
+              <div style={{ padding: '12px 16px', borderRadius: 12, background: 'rgba(255,45,45,0.06)', border: '1px solid rgba(255,45,45,0.18)' }}>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--danger)' }}>{voiceError}</p>
+              </div>
+            )}
+
+            {/* Results — full-width below */}
+            <div style={card}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Voice Intelligence Results</p>
                 {voiceScanning ? (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 0', gap: 16 }}>
                     <div style={{ position: 'relative', width: 56, height: 56 }}>
@@ -447,9 +473,9 @@ export default function DeepfakePage() {
                 )}
               </div>
 
-              {/* Voice history */}
-              {voiceHistory.length > 0 && (
-                <div style={{ ...card, gridColumn: '1 / -1' }}>
+            {/* Voice history */}
+            {voiceHistory.length > 0 && (
+              <div style={card}>
                   <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Voice Scan History</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
                     {voiceHistory.map((scan, i) => {
@@ -477,12 +503,29 @@ export default function DeepfakePage() {
                       )
                     })}
                   </div>
+                  {voiceHistory.length >= 2 && (
+                    <div style={{ marginTop: 18, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 12 }}>MANIPULATION TREND</p>
+                      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 6, height: 52 }}>
+                        {voiceHistory.slice(0, 6).reverse().map((scan) => {
+                          const h = Math.max(4, (scan.manipulation_probability / 100) * 44)
+                          const color = scan.manipulation_probability >= 60 ? 'var(--danger)' : scan.manipulation_probability >= 30 ? 'var(--warning)' : 'var(--safe)'
+                          return (
+                            <div key={scan.id} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 8, color: 'var(--text-3)' }}>{scan.manipulation_probability}%</span>
+                              <div style={{ width: '100%', height: h, background: color, borderRadius: 3, opacity: 0.75, boxShadow: `0 0 6px ${color}40` }} />
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+            )}
           </div>
         )}
       </div>
+
 
       <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
       <style>{`

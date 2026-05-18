@@ -134,7 +134,7 @@ export default function DayePage() {
   const verdictColor = scamResult ? (VERDICT_COLORS[scamResult.verdict] || '#ABABAB') : '#ABABAB'
 
   return (
-    <Layout profile={profile} onSignOut={signOut} title="DAYE — DOBERMAN INTELLIGENCE">
+    <Layout profile={profile} onSignOut={signOut} title="DAYE">
       <div style={{ display: 'flex', height: 'calc(100vh - 56px)' }}>
 
         {/* Desktop conversations sidebar (chat tab only) */}
@@ -197,7 +197,7 @@ export default function DayePage() {
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.8))', borderBottom: '1px solid rgba(255,255,255,0.06)' }} />
             <div style={{ position: 'absolute', bottom: 16, left: 20, zIndex: 2 }}>
               <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 38, letterSpacing: '0.12em', color: '#F5F5F7', lineHeight: 1 }}>DAYE</h1>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)' }}>DOBERMAN INTELLIGENCE</p>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)' }}>AI CYBERSECURITY ANALYST</p>
             </div>
           </div>
 
