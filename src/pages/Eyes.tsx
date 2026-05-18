@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Eye } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { Layout } from '../components/layout/Layout'
 import { EyesUploader } from '../components/eyes/EyesUploader'
 import { EyesResult } from '../components/eyes/EyesResult'
@@ -9,14 +10,26 @@ import { useAuth } from '../hooks/useAuth'
 import { useEyes } from '../hooks/useEyes'
 import type { EyesScan } from '../lib/supabase'
 
+const DETECTS = [
+  'Face Swaps', 'GANs', 'Diffusion Synthesis', 'Neural Rendering',
+  'Facial Puppeting', 'Voice Cloning', 'Lip Sync', 'Identity Morphing',
+]
+
 const card: React.CSSProperties = {
   background: 'rgba(255,255,255,0.03)',
   border: '1px solid rgba(255,255,255,0.08)',
-  borderRadius: 20,
+  borderRadius: 24,
   padding: 24,
-  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07)',
-  backdropFilter: 'blur(28px)',
-  WebkitBackdropFilter: 'blur(28px)',
+  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06)',
+}
+
+const sectionLabel: React.CSSProperties = {
+  fontFamily: 'JetBrains Mono, monospace',
+  fontSize: 10,
+  letterSpacing: '0.18em',
+  color: 'var(--text-3)',
+  marginBottom: 16,
+  textTransform: 'uppercase' as const,
 }
 
 export default function Eyes() {
@@ -40,91 +53,144 @@ export default function Eyes() {
   const remainingScans = Math.max(0, 3 - dailyCount)
 
   return (
-    <Layout profile={profile} onSignOut={signOut} title="EYES — DEEPFAKE DETECTION">
-      <div style={{ padding: '28px 28px 48px', maxWidth: 1200, margin: '0 auto' }}>
+    <Layout profile={profile} onSignOut={signOut} title="Deepfake Intelligence">
+      <div style={{ padding: 'clamp(20px, 4vw, 32px)', maxWidth: 1100, margin: '0 auto', paddingBottom: 60 }}>
 
-        {/* Hero video */}
-        <div style={{ position: 'relative', height: 280, borderRadius: 24, overflow: 'hidden', marginBottom: 36, background: '#060606' }}>
-          <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
-            <source src="/assets/video/blob-eyes.mp4" type="video/mp4" />
+        {/* Hero video — radio wave logo */}
+        <div style={{ position: 'relative', height: 220, borderRadius: 28, overflow: 'hidden', background: '#000814', marginBottom: 28 }}>
+          <video
+            autoPlay muted loop playsInline
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}
+          >
+            <source src="/assets/video/3d-broadcast.mp4" type="video/mp4" />
           </video>
-          <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', borderRadius: 24 }} />
-          <div style={{ position: 'absolute', bottom: 16, left: 20, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', zIndex: 2 }}>
-            EYES -- DEEPFAKE DETECTION
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(10,132,255,0.12) 0%, transparent 60%)' }} />
+          <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.07)', borderRadius: 28 }} />
+          <div style={{ position: 'absolute', bottom: 14, left: 20, fontFamily: 'JetBrains Mono, monospace', fontSize: 9, letterSpacing: '0.22em', color: 'rgba(255,255,255,0.3)' }}>
+            DEEPFAKE INTELLIGENCE
+          </div>
+          {/* Scan badge */}
+          <div style={{
+            position: 'absolute', top: 14, right: 14,
+            padding: '6px 14px',
+            borderRadius: 100,
+            background: remainingScans > 0 ? 'rgba(48,209,88,0.12)' : 'rgba(255,45,45,0.12)',
+            border: `1px solid ${remainingScans > 0 ? 'rgba(48,209,88,0.3)' : 'rgba(255,45,45,0.3)'}`,
+            fontFamily: 'JetBrains Mono, monospace',
+            fontSize: 10,
+            color: remainingScans > 0 ? 'var(--safe)' : 'var(--danger)',
+            letterSpacing: '0.08em',
+          }}>
+            {remainingScans} / 3 TODAY
           </div>
         </div>
 
         {/* Module header */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 32, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <div style={{ width: 52, height: 52, borderRadius: 14, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)' }}>
-            <Eye size={22} style={{ color: 'var(--text-1)' }} />
-          </div>
-          <div style={{ flex: 1 }}>
-            <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>EYES</h1>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.18em', color: 'var(--text-3)', marginTop: 3 }}>DEEPFAKE + SYNTHETIC MEDIA DETECTION</p>
-          </div>
-          <div style={{
-            padding: '6px 14px', borderRadius: 8,
-            background: remainingScans > 0 ? 'rgba(48,209,88,0.07)' : 'rgba(255,45,45,0.07)',
-            border: `1px solid ${remainingScans > 0 ? 'rgba(48,209,88,0.2)' : 'rgba(255,45,45,0.2)'}`,
-            fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em',
-            color: remainingScans > 0 ? 'var(--safe)' : 'var(--danger)',
-          }}>
-            {remainingScans} / 3 SCANS TODAY
+        <div style={{ marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div style={{
+              width: 44, height: 44, borderRadius: 14,
+              background: 'rgba(10,132,255,0.1)', border: '1px solid rgba(10,132,255,0.2)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+            }}>
+              <Eye size={20} color="#0A84FF" />
+            </div>
+            <div>
+              <h1 style={{
+                fontFamily: 'Syne, system-ui, -apple-system, sans-serif',
+                fontWeight: 700, fontSize: 22, color: 'var(--text-1)', lineHeight: 1.1,
+              }}>
+                Deepfake Intelligence
+              </h1>
+              <p style={{ fontFamily: 'Syne, sans-serif', fontSize: 13, color: 'var(--text-2)', marginTop: 2 }}>
+                AI-powered detection of synthetic media
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Two-column layout */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, alignItems: 'start' }}>
+        {/* Main two-panel layout */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16, alignItems: 'start', marginBottom: 16 }}>
 
           {/* Upload panel */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <div style={card}>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Upload File</p>
+              <p style={sectionLabel}>Upload Media</p>
               <EyesUploader
                 onAnalyze={handleAnalyze}
                 scanning={scanning}
                 remainingScans={remainingScans}
                 onUpgradeClick={() => setUpgradeOpen(true)}
               />
+              <p style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'var(--text-3)', marginTop: 14, letterSpacing: '0.06em' }}>
+                Supported: Images, Videos, Audio · Max 50MB
+              </p>
             </div>
+
             {error && (
-              <div style={{ padding: '12px 16px', borderRadius: 12, background: 'rgba(255,45,45,0.06)', border: '1px solid rgba(255,45,45,0.18)' }}>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--danger)' }}>{error}</p>
+              <div style={{ padding: '12px 16px', borderRadius: 14, background: 'rgba(255,45,45,0.06)', border: '1px solid rgba(255,45,45,0.18)' }}>
+                <p style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--danger)' }}>{error}</p>
               </div>
             )}
           </div>
 
           {/* Results panel */}
           <div style={card}>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Analysis Results</p>
+            <p style={sectionLabel}>Analysis Results</p>
             {scanning ? (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 0', gap: 16 }}>
-                <div style={{ position: 'relative', width: 56, height: 56 }}>
-                  <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.08)' }} />
-                  <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid transparent', borderTopColor: 'var(--text-1)', animation: 'spin 0.8s linear infinite' }} />
-                  <Eye size={18} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: 'var(--text-3)' }} />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 0', gap: 16 }}>
+                <div style={{ position: 'relative', width: 52, height: 52 }}>
+                  <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '1px solid rgba(10,132,255,0.12)' }} />
+                  <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid transparent', borderTopColor: '#0A84FF', animation: 'spin 0.9s linear infinite' }} />
+                  <Eye size={18} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#0A84FF' }} />
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-2)' }}>Analyzing with D0B3RMAN...</p>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', marginTop: 4, letterSpacing: '0.12em' }}>SCANNING FOR SYNTHETIC MARKERS</p>
+                  <p style={{ fontFamily: 'Syne, sans-serif', fontSize: 14, color: 'var(--text-2)' }}>Analyzing media…</p>
+                  <p style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'var(--text-3)', marginTop: 4, letterSpacing: '0.1em' }}>SCANNING FOR SYNTHETIC MARKERS</p>
                 </div>
               </div>
             ) : result ? (
               <EyesResult scan={result} />
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 0', gap: 10, textAlign: 'center' }}>
-                <Eye size={28} style={{ color: 'var(--text-3)', opacity: 0.5 }} />
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-3)' }}>Upload a file to begin analysis.</p>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', letterSpacing: '0.1em', opacity: 0.6 }}>IMAGES · VIDEOS · AUDIO</p>
+              <div style={{ display: 'flex', flexDirection: 'column', padding: '24px 0 12px', gap: 20 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, textAlign: 'center', paddingBottom: 20, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(10,132,255,0.08)', border: '1px solid rgba(10,132,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Eye size={18} color="rgba(10,132,255,0.6)" />
+                  </div>
+                  <p style={{ fontFamily: 'Syne, sans-serif', fontSize: 14, color: 'var(--text-2)' }}>Upload a file to begin</p>
+                </div>
+
+                <div>
+                  <p style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '0.14em', color: 'var(--text-3)', marginBottom: 10 }}>DAYE DETECTS</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                    {DETECTS.map((d) => (
+                      <motion.span
+                        key={d}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        style={{
+                          padding: '7px 14px',
+                          borderRadius: 100,
+                          background: 'rgba(10,132,255,0.08)',
+                          border: '1px solid rgba(10,132,255,0.18)',
+                          fontFamily: 'Syne, system-ui, sans-serif',
+                          fontSize: 12,
+                          color: 'rgba(10,132,255,0.9)',
+                        }}
+                      >
+                        {d}
+                      </motion.span>
+                    ))}
+                  </div>
+                </div>
               </div>
             )}
           </div>
         </div>
 
         {/* History */}
-        <div style={{ ...card, marginTop: 20 }}>
-          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Scan History</p>
+        <div style={card}>
+          <p style={sectionLabel}>Scan History</p>
           <EyesScanHistory
             key={historyKey}
             userId={user?.id || ''}
@@ -135,6 +201,7 @@ export default function Eyes() {
       </div>
 
       <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </Layout>
   )
 }

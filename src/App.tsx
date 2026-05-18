@@ -14,6 +14,7 @@ import History from './pages/History'
 import Settings from './pages/Settings'
 import Profile from './pages/Profile'
 import ShareTarget from './pages/ShareTarget'
+import Globe from './pages/Globe'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
@@ -51,6 +52,7 @@ function AnimatedRoutes() {
         <Route path="/history" element={<ProtectedRoute><PageWrapper><History /></PageWrapper></ProtectedRoute>} />
         <Route path="/settings" element={<ProtectedRoute><PageWrapper><Settings /></PageWrapper></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><PageWrapper><Profile /></PageWrapper></ProtectedRoute>} />
+        <Route path="/globe" element={<ProtectedRoute><PageWrapper><Globe /></PageWrapper></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </AnimatePresence>
