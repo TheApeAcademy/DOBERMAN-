@@ -231,20 +231,20 @@ export default function Dashboard() {
           {/* ── MODULES LABEL ─────────────────────────────── */}
           <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.18)', marginBottom: 36 }}>MODULES</p>
 
-          {/* ── DEEP FAKE INTELLIGENCE ────────────────────── */}
+          {/* ── EYES — DEEPFAKE DETECTION ─────────────────── */}
           <motion.div
             className="glass"
             initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.7 }}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
-            onClick={() => navigate('/deepfake')}
-            style={{ padding: 40, borderRadius: 24, marginBottom: 32, overflow: 'hidden' }}
+            onClick={() => navigate('/eyes')}
+            style={{ padding: 40, borderRadius: 24, marginBottom: 32, overflow: 'hidden', cursor: 'pointer' }}
           >
             <style>{`@media(max-width:768px){.dfi-grid{grid-template-columns:1fr!important}.dfi-video{order:-1!important;height:140px!important}}`}</style>
             <div className="dfi-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }}>
               <div>
                 <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.28)', marginBottom: 24 }}>01 -- DEEPFAKE DETECTION</p>
                 <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 5.5vw, 72px)', letterSpacing: '0.05em', lineHeight: 0.9, marginBottom: 28 }}>
-                  DEEP FAKE<br />INTELLIGENCE
+                  EYES
                 </h2>
                 <p style={{ fontFamily: 'Inter', fontSize: 16, color: 'rgba(255,255,255,0.48)', lineHeight: 1.7, marginBottom: 28 }}>
                   Upload any image, video, or audio. D0B3RMAN's detection engine analyzes it against known deepfake signatures and returns a trust score in seconds.
@@ -262,11 +262,11 @@ export default function Dashboard() {
               </div>
               <div className="dfi-video" style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#060606' }}>
                 <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
-                  <source src="/assets/video/blob-nose.mp4" type="video/mp4" />
+                  <source src="/assets/video/blob-eyes.mp4" type="video/mp4" />
                 </video>
                 <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16 }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.38)', zIndex: 2 }}>
-                  DEEPFAKE INTELLIGENCE
+                  EYES -- DEEPFAKE DETECTION
                 </div>
               </div>
             </div>
@@ -341,19 +341,19 @@ export default function Dashboard() {
             <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(0,100,200,0.18)', borderRadius: 24, pointerEvents: 'none' }} />
           </motion.div>
 
-          {/* ── DAYE ──────────────────────────────────────── */}
+          {/* ── BRAIN — AI ANALYST ────────────────────────── */}
           <motion.div
             initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.7 }}
-            onClick={() => navigate('/daye')}
+            onClick={() => navigate('/brain')}
             style={{ borderRadius: 24, marginBottom: 32, overflow: 'hidden', background: '#000', textAlign: 'center', cursor: 'pointer' }}
           >
-            {/* DAYE logo — full-width, large */}
+            {/* Hero visual */}
             <div style={{ position: 'relative', width: '100%', height: 'clamp(260px, 50vw, 520px)', overflow: 'hidden', background: '#060606' }}>
               <video
                 autoPlay muted loop playsInline preload="auto"
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', display: 'block', pointerEvents: 'none' }}
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', pointerEvents: 'none' }}
               >
-                <source src="/assets/video/blob-di.mp4" type="video/mp4" />
+                <source src="/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4" type="video/mp4" />
               </video>
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.95))', pointerEvents: 'none' }} />
             </div>
@@ -364,17 +364,17 @@ export default function Dashboard() {
                 02 -- AI SECURITY ANALYST
               </p>
               <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(64px, 10vw, 120px)', letterSpacing: '0.08em', lineHeight: 0.88, marginBottom: 28, overflow: 'hidden', color: 'var(--safe)' }}>
-                DAYE
+                BRAIN
               </h2>
               <p style={{ fontFamily: 'Inter', fontSize: 17, color: 'rgba(255,255,255,0.45)', maxWidth: 480, margin: '0 auto 44px', lineHeight: 1.7 }}>
-                Ask anything. DAYE responds in plain language and gives you a concrete next step. Like having a security analyst on call 24/7.
+                Ask anything. BRAIN responds in plain language and gives you a concrete next step. Like having a security analyst on call 24/7.
               </p>
               <motion.div
                 whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(48,209,88,0.3)' }}
                 whileTap={{ scale: 0.97 }}
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 40px', background: 'var(--safe)', color: '#000', fontFamily: 'Inter', fontWeight: 700, fontSize: 15, borderRadius: 12 }}
               >
-                Chat with DAYE
+                Chat with BRAIN
                 <ArrowRight size={16} />
               </motion.div>
             </div>

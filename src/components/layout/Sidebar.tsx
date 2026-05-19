@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Eye, Wifi, Brain, LayoutDashboard, History, Settings, LogOut, User, Lock } from 'lucide-react'
+import { Eye, Brain, LayoutDashboard, History, Settings, LogOut, User, Newspaper, Globe2, Lock } from 'lucide-react'
 import type { Profile } from '../../lib/supabase'
 import { getInitials, getAvatarColor } from '../../lib/utils'
 
@@ -15,9 +15,10 @@ const SF = '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", 
 
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', sub: '' },
-  { to: '/deepfake', icon: Eye, label: 'EYES', sub: 'Deepfake Detection' },
-  { to: '/nose', icon: Wifi, label: 'NOSE', sub: 'IoT Intelligence' },
-  { to: '/daye', icon: Brain, label: 'BRAIN', sub: 'AI Assistant' },
+  { to: '/eyes', icon: Eye, label: 'EYES', sub: 'Deepfake Detection' },
+  { to: '/brain', icon: Brain, label: 'BRAIN', sub: 'AI Assistant' },
+  { to: '/news', icon: Newspaper, label: 'NEWS', sub: 'Verify Content' },
+  { to: '/globe', icon: Globe2, label: 'CYBER GLOBE', sub: 'Threat Intelligence' },
   { to: '/breach', icon: Lock, label: 'BREACH', sub: 'Breach Detection' },
   { to: '/history', icon: History, label: 'History', sub: '' },
   { to: '/settings', icon: Settings, label: 'Settings', sub: '' },
@@ -59,6 +60,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
         {navItems.map(({ to, icon: Icon, label, sub }, i) => {
           const isActive = location.pathname === to
           const isBreach = to === '/breach'
+          const isGlobe = to === '/globe'
           return (
             <motion.div
               key={to}
@@ -79,10 +81,10 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                     padding: '10px 12px',
                     borderRadius: 10,
                     background: isActive
-                      ? (isBreach ? 'rgba(139,69,19,0.14)' : 'rgba(255,255,255,0.06)')
+                      ? (isBreach ? 'rgba(139,69,19,0.14)' : isGlobe ? 'rgba(0,100,200,0.12)' : 'rgba(255,255,255,0.06)')
                       : 'transparent',
                     border: isActive
-                      ? (isBreach ? '1px solid rgba(139,69,19,0.35)' : '1px solid var(--glass-border)')
+                      ? (isBreach ? '1px solid rgba(139,69,19,0.35)' : isGlobe ? '1px solid rgba(0,100,200,0.3)' : '1px solid var(--glass-border)')
                       : '1px solid transparent',
                     transition: 'all 0.2s',
                   }}
@@ -91,8 +93,8 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                     size={16}
                     style={{
                       color: isActive
-                        ? (isBreach ? '#CD853F' : 'var(--text-1)')
-                        : (isBreach ? 'rgba(205,133,63,0.55)' : 'var(--text-3)'),
+                        ? (isBreach ? '#CD853F' : isGlobe ? '#0A84FF' : 'var(--text-1)')
+                        : (isBreach ? 'rgba(205,133,63,0.55)' : isGlobe ? 'rgba(0,150,255,0.5)' : 'var(--text-3)'),
                       flexShrink: 0,
                     }}
                   />
@@ -102,20 +104,26 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                       fontSize: 13,
                       letterSpacing: '-0.01em',
                       color: isActive
-                        ? (isBreach ? '#CD853F' : 'var(--text-1)')
-                        : (isBreach ? 'rgba(205,133,63,0.65)' : 'var(--text-2)'),
+                        ? (isBreach ? '#CD853F' : isGlobe ? '#0A84FF' : 'var(--text-1)')
+                        : (isBreach ? 'rgba(205,133,63,0.65)' : isGlobe ? 'rgba(0,150,255,0.65)' : 'var(--text-2)'),
                       fontWeight: isActive ? 600 : 400,
                     }}>
                       {label}
                     </p>
                     {sub && (
-                      <p style={{ fontFamily: SF, fontSize: 11, color: isBreach ? 'rgba(139,69,19,0.5)' : 'var(--text-3)', marginTop: 1, fontWeight: 400 }}>
+                      <p style={{
+                        fontFamily: SF,
+                        fontSize: 11,
+                        color: isBreach ? 'rgba(139,69,19,0.5)' : isGlobe ? 'rgba(0,100,200,0.5)' : 'var(--text-3)',
+                        marginTop: 1,
+                        fontWeight: 400,
+                      }}>
                         {sub}
                       </p>
                     )}
                   </div>
                   {isActive && (
-                    <div style={{ marginLeft: 'auto', width: 3, height: 16, background: isBreach ? '#CD853F' : 'var(--text-1)', borderRadius: 2 }} />
+                    <div style={{ marginLeft: 'auto', width: 3, height: 16, background: isBreach ? '#CD853F' : isGlobe ? '#0A84FF' : 'var(--text-1)', borderRadius: 2 }} />
                   )}
                 </div>
               </NavLink>
