@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 import { AnimatePresence } from 'framer-motion'
 import { useAuth } from './hooks/useAuth'
 import { PageWrapper } from './components/ui/PageWrapper'
-import { GlobalChrome3D } from './components/3d/ChromeScene'
 import Landing from './pages/Landing'
 import Auth from './pages/Auth'
 import Dashboard from './pages/Dashboard'
@@ -73,7 +72,6 @@ export default function App() {
       <style>{`
         @keyframes spin { to { transform: rotate(360deg); } }
       `}</style>
-      <GlobalChrome3D />
       <div style={{ position: 'relative', zIndex: 1 }}>
         <AnimatedRoutes />
       </div>
