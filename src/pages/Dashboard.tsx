@@ -244,7 +244,7 @@ export default function Dashboard() {
               <div>
                 <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.28)', marginBottom: 24 }}>01 -- DEEPFAKE DETECTION</p>
                 <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 5.5vw, 72px)', letterSpacing: '0.05em', lineHeight: 0.9, marginBottom: 28 }}>
-                  EYES
+                  DEEP FAKE<br />INTELLIGENCE
                 </h2>
                 <p style={{ fontFamily: 'Inter', fontSize: 16, color: 'rgba(255,255,255,0.48)', lineHeight: 1.7, marginBottom: 28 }}>
                   Upload any image, video, or audio. D0B3RMAN's detection engine analyzes it against known deepfake signatures and returns a trust score in seconds.
@@ -364,17 +364,17 @@ export default function Dashboard() {
                 02 -- AI SECURITY ANALYST
               </p>
               <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(64px, 10vw, 120px)', letterSpacing: '0.08em', lineHeight: 0.88, marginBottom: 28, overflow: 'hidden', color: 'var(--safe)' }}>
-                BRAIN
+                DAYE
               </h2>
               <p style={{ fontFamily: 'Inter', fontSize: 17, color: 'rgba(255,255,255,0.45)', maxWidth: 480, margin: '0 auto 44px', lineHeight: 1.7 }}>
-                Ask anything. BRAIN responds in plain language and gives you a concrete next step. Like having a security analyst on call 24/7.
+                Ask anything. DAYE responds in plain language and gives you a concrete next step. Like having a security analyst on call 24/7.
               </p>
               <motion.div
                 whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(48,209,88,0.3)' }}
                 whileTap={{ scale: 0.97 }}
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 40px', background: 'var(--safe)', color: '#000', fontFamily: 'Inter', fontWeight: 700, fontSize: 15, borderRadius: 12 }}
               >
-                Chat with BRAIN
+                Chat with DAYE
                 <ArrowRight size={16} />
               </motion.div>
             </div>

@@ -15,8 +15,8 @@ const SF = '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", 
 
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', sub: '' },
-  { to: '/eyes', icon: Eye, label: 'EYES', sub: 'Deepfake Detection' },
-  { to: '/brain', icon: Brain, label: 'BRAIN', sub: 'AI Assistant' },
+  { to: '/eyes', icon: Eye, label: 'Deepfake Intelligence', sub: 'D.F.I.' },
+  { to: '/brain', icon: Brain, label: 'DAYE', sub: 'AI Analyst' },
   { to: '/news', icon: Newspaper, label: 'NEWS', sub: 'Verify Content' },
   { to: '/globe', icon: Globe2, label: 'CYBER GLOBE', sub: 'Threat Intelligence' },
   { to: '/breach', icon: Lock, label: 'BREACH', sub: 'Breach Detection' },
