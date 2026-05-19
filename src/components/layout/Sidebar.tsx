@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Eye, Wifi, Brain, LayoutDashboard, History, Settings, LogOut, User, Newspaper, Globe2, Shield, Zap, Lock } from 'lucide-react'
+import { Eye, Wifi, Brain, LayoutDashboard, History, Settings, LogOut, User, Lock } from 'lucide-react'
 import type { Profile } from '../../lib/supabase'
 import { getInitials, getAvatarColor } from '../../lib/utils'
 
@@ -11,15 +11,13 @@ interface SidebarProps {
   onClose?: () => void
 }
 
+const SF = '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif'
+
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', sub: '' },
-  { to: '/eyes', icon: Eye, label: 'EYES', sub: 'Deepfake Detection' },
+  { to: '/deepfake', icon: Eye, label: 'EYES', sub: 'Deepfake Detection' },
   { to: '/nose', icon: Wifi, label: 'NOSE', sub: 'IoT Intelligence' },
-  { to: '/brain', icon: Brain, label: 'BRAIN', sub: 'AI Assistant' },
-  { to: '/news', icon: Newspaper, label: 'NEWS', sub: 'Verify Content' },
-  { to: '/globe', icon: Globe2, label: 'CYBER GLOBE', sub: 'Threat Intelligence' },
-  { to: '/deepfake', icon: Shield, label: 'D.F.I.', sub: 'Deepfake Intelligence' },
-  { to: '/daye', icon: Zap, label: 'DAYE', sub: 'Doberman Intelligence' },
+  { to: '/daye', icon: Brain, label: 'BRAIN', sub: 'AI Assistant' },
   { to: '/breach', icon: Lock, label: 'BREACH', sub: 'Breach Detection' },
   { to: '/history', icon: History, label: 'History', sub: '' },
   { to: '/settings', icon: Settings, label: 'Settings', sub: '' },
@@ -50,7 +48,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
           <span style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.2em', color: 'var(--text-1)', display: 'block' }}>
             D0B3RMAN
           </span>
-          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', display: 'block', marginTop: 2 }}>
+          <span style={{ fontFamily: SF, fontSize: 10, letterSpacing: '0.12em', color: 'var(--text-3)', display: 'block', marginTop: 3, fontWeight: 500 }}>
             CYBER WATCHDOG
           </span>
         </NavLink>
@@ -100,7 +98,9 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                   />
                   <div style={{ minWidth: 0 }}>
                     <p style={{
-                      fontFamily: 'JetBrains Mono', fontSize: 12, letterSpacing: '0.05em',
+                      fontFamily: SF,
+                      fontSize: 13,
+                      letterSpacing: '-0.01em',
                       color: isActive
                         ? (isBreach ? '#CD853F' : 'var(--text-1)')
                         : (isBreach ? 'rgba(205,133,63,0.65)' : 'var(--text-2)'),
@@ -109,7 +109,9 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                       {label}
                     </p>
                     {sub && (
-                      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: isBreach ? 'rgba(139,69,19,0.5)' : 'var(--text-3)', marginTop: 1 }}>{sub}</p>
+                      <p style={{ fontFamily: SF, fontSize: 11, color: isBreach ? 'rgba(139,69,19,0.5)' : 'var(--text-3)', marginTop: 1, fontWeight: 400 }}>
+                        {sub}
+                      </p>
                     )}
                   </div>
                   {isActive && (
@@ -140,7 +142,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                 justifyContent: 'center',
                 color: 'white',
                 fontSize: 12,
-                fontFamily: 'JetBrains Mono',
+                fontFamily: SF,
                 fontWeight: 600,
                 flexShrink: 0,
                 background: avatarColor,
@@ -149,10 +151,10 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
               {initials}
             </div>
             <div style={{ minWidth: 0, flex: 1 }}>
-              <p style={{ fontFamily: 'Syne', fontSize: 13, fontWeight: 600, color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <p style={{ fontFamily: SF, fontSize: 13, fontWeight: 600, letterSpacing: '-0.01em', color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {profile?.name || profile?.email?.split('@')[0] || 'User'}
               </p>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', textTransform: 'capitalize' }}>
+              <p style={{ fontFamily: SF, fontSize: 11, color: 'var(--text-3)', textTransform: 'capitalize', fontWeight: 400 }}>
                 {profile?.plan || 'free'}
               </p>
             </div>
@@ -172,8 +174,9 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
             background: 'none',
             border: 'none',
             color: 'var(--text-3)',
-            fontFamily: 'JetBrains Mono',
-            fontSize: 12,
+            fontFamily: SF,
+            fontSize: 13,
+            fontWeight: 400,
             transition: 'all 0.2s',
           }}
           onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--danger)'; (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,45,45,0.06)' }}

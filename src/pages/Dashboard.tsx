@@ -6,6 +6,7 @@ import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
 import { formatRelativeTime, getResultLabel } from '../lib/utils'
+import { GlobeEmbed } from '../components/3d/GlobeEmbed'
 
 interface ActivityItem {
   id: string
@@ -271,6 +272,75 @@ export default function Dashboard() {
             </div>
           </motion.div>
 
+          {/* ── CYBER GLOBE — 3D Globe with text overlay ─── */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.7 }}
+            onClick={() => navigate('/globe')}
+            style={{
+              position: 'relative',
+              borderRadius: 24,
+              marginBottom: 32,
+              overflow: 'hidden',
+              cursor: 'pointer',
+              height: 'clamp(380px, 55vw, 520px)',
+              background: '#000508',
+              border: '1px solid rgba(0,100,200,0.18)',
+              boxShadow: '0 32px 80px rgba(0,0,0,0.6)',
+            }}
+          >
+            {/* 3D Globe — auto-rotating, no pointer events so clicks reach parent */}
+            <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+              <GlobeEmbed height={900} />
+            </div>
+
+            {/* Left gradient for text readability */}
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,5,20,0.88) 0%, rgba(0,5,20,0.55) 45%, transparent 75%)', pointerEvents: 'none' }} />
+            {/* Bottom fade */}
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 80, background: 'linear-gradient(to bottom, transparent, rgba(0,5,20,0.7))', pointerEvents: 'none' }} />
+
+            {/* Text overlay — bold, front and centre */}
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              padding: 'clamp(28px, 5vw, 56px)',
+              zIndex: 10,
+              maxWidth: '55%',
+              pointerEvents: 'none',
+            }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.08em', color: 'rgba(0,150,255,0.75)', marginBottom: 18, textTransform: 'uppercase' }}>
+                Global Cyber Intelligence
+              </p>
+              <h3 style={{
+                fontFamily: 'Bebas Neue',
+                fontSize: 'clamp(60px, 8vw, 108px)',
+                letterSpacing: '0.06em',
+                lineHeight: 0.88,
+                marginBottom: 22,
+                color: '#fff',
+                textShadow: '0 0 40px rgba(0,150,255,0.3)',
+              }}>
+                CYBER<br />GLOBE
+              </h3>
+              <p style={{ fontFamily: 'Inter', fontSize: 'clamp(13px, 1.5vw, 16px)', color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, marginBottom: 20, maxWidth: 360 }}>
+                Explore real-time cyber threat levels across every nation. DAYE's intelligence brief on any country — interactive, live, and global.
+              </p>
+              <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(0,150,255,0.55)', letterSpacing: '0.04em' }}>
+                All Countries · Risk Scores · DAYE Briefs · Live Threats
+              </p>
+            </div>
+
+            {/* Border overlay */}
+            <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(0,100,200,0.18)', borderRadius: 24, pointerEvents: 'none' }} />
+          </motion.div>
+
           {/* ── DAYE ──────────────────────────────────────── */}
           <motion.div
             initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.7 }}
@@ -391,48 +461,6 @@ export default function Dashboard() {
                 <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(139,69,19,0.25)', borderRadius: 16 }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(205,133,63,0.5)', zIndex: 2 }}>
                   BREACH -- EMAIL BREACH SCAN
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* ── CYBER GLOBE ───────────────────────────────── */}
-          <motion.div
-            className="glass"
-            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.6 }}
-            whileHover={{ y: -4, transition: { duration: 0.2 } }}
-            onClick={() => navigate('/globe')}
-            style={{
-              padding: 40, borderRadius: 24, marginBottom: 48, overflow: 'hidden', cursor: 'pointer',
-              background: 'rgba(0,20,40,0.5)',
-              border: '1px solid rgba(0,100,200,0.2)',
-              boxShadow: 'inset 0 1px 0 rgba(0,150,255,0.08)',
-            }}
-          >
-            <style>{`@media(max-width:768px){.globe-grid{grid-template-columns:1fr!important}}`}</style>
-            <div className="globe-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }}>
-              <div>
-                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'rgba(0,150,255,0.6)', marginBottom: 24 }}>05 -- GLOBAL CYBER INTELLIGENCE</p>
-                <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 5.5vw, 72px)', letterSpacing: '0.05em', lineHeight: 0.9, marginBottom: 28 }}>
-                  CYBER<br />GLOBE
-                </h3>
-                <p style={{ fontFamily: 'Inter', fontSize: 16, color: 'rgba(255,255,255,0.48)', lineHeight: 1.7, marginBottom: 28 }}>
-                  Explore real-time cyber threat levels across every nation. DAYE's intelligence brief on any country — interactive, live, and global.
-                </p>
-                <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(0,150,255,0.4)', marginBottom: 32 }}>
-                  All Countries · Risk Scores · DAYE Briefs · Live Threats
-                </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <ArrowRight size={16} style={{ color: 'rgba(0,150,255,0.5)', marginLeft: 4 }} />
-                </div>
-              </div>
-              <div style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#000810' }}>
-                <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', opacity: 0.7 }}>
-                  <source src="/assets/video/world.mp4" type="video/mp4" />
-                </video>
-                <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(0,80,160,0.2) 0%, transparent 70%)', border: '1px solid rgba(0,100,200,0.15)', borderRadius: 16 }} />
-                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(0,150,255,0.5)', zIndex: 2 }}>
-                  CYBER GLOBE -- GLOBAL THREAT MAP
                 </div>
               </div>
             </div>

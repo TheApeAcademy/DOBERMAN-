@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useShockwave } from '../hooks/useShockwave'
 import { AnimatedCounter } from '../components/ui/AnimatedCounter'
 import { VideoBlob } from '../components/ui/VideoBlob'
+import { GlobeEmbed } from '../components/3d/GlobeEmbed'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -520,6 +521,70 @@ export default function Landing() {
           ))}
         </div>
       </div>
+
+      {/* ─── CYBER GLOBE SECTION ─────────────────────────── */}
+      <section style={{ position: 'relative', overflow: 'hidden', background: '#000508' }}>
+        <div style={{ position: 'relative', height: 'clamp(440px, 65vw, 680px)', overflow: 'hidden' }}>
+          {/* 3D Globe */}
+          <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+            <GlobeEmbed height={900} />
+          </div>
+
+          {/* Left gradient */}
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,5,20,0.92) 0%, rgba(0,5,20,0.6) 40%, transparent 70%)', pointerEvents: 'none' }} />
+          {/* Top + bottom fades */}
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 80, background: 'linear-gradient(to bottom, #000, transparent)', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 80, background: 'linear-gradient(to top, #000508, transparent)', pointerEvents: 'none' }} />
+
+          {/* Text */}
+          <div style={{
+            position: 'absolute',
+            top: 0, left: 0, bottom: 0,
+            display: 'flex', flexDirection: 'column', justifyContent: 'center',
+            padding: 'clamp(32px, 6vw, 80px)',
+            maxWidth: '55%',
+            zIndex: 10,
+            pointerEvents: 'none',
+          }}>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }} transition={{ duration: 0.6 }}
+              style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.18em', color: 'rgba(0,150,255,0.75)', marginBottom: 20, textTransform: 'uppercase' }}
+            >
+              [ Global Cyber Intelligence ]
+            </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.1 }}
+              style={{
+                fontFamily: 'Bebas Neue',
+                fontSize: 'clamp(64px, 10vw, 140px)',
+                letterSpacing: '0.06em',
+                lineHeight: 0.88,
+                marginBottom: 28,
+                color: '#fff',
+                textShadow: '0 0 60px rgba(0,150,255,0.25)',
+              }}
+            >
+              CYBER<br />GLOBE
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.2 }}
+              style={{ fontFamily: 'Syne', fontSize: 'clamp(14px, 1.6vw, 18px)', color: 'rgba(255,255,255,0.55)', lineHeight: 1.65, marginBottom: 24, maxWidth: 400 }}
+            >
+              Explore real-time cyber threat levels across every nation. DAYE's intelligence brief on any country — interactive, live, and global.
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
+              viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3 }}
+              style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(0,150,255,0.5)', letterSpacing: '0.04em' }}
+            >
+              All Countries · Risk Scores · DAYE Briefs · Live Threats
+            </motion.p>
+          </div>
+        </div>
+      </section>
 
       {/* ─── HORIZONTAL PINNED SCROLL ────────────────────── */}
       <div ref={hContainerRef} className="h-container" style={{ overflow: 'hidden' }}>
