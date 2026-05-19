@@ -262,17 +262,17 @@ export default function Dashboard() {
               </div>
               <div className="dfi-video" style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#060606' }}>
                 <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
-                  <source src="/assets/video/blob-eyes.mp4" type="video/mp4" />
+                  <source src="/assets/video/blob-nose.mp4" type="video/mp4" />
                 </video>
                 <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16 }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.38)', zIndex: 2 }}>
-                  EYES -- DEEPFAKE DETECTION
+                  DEEPFAKE INTELLIGENCE
                 </div>
               </div>
             </div>
           </motion.div>
 
-          {/* ── CYBER GLOBE — 3D Globe with text overlay ─── */}
+          {/* ── CYBER GLOBE — free-standing 3D globe, text on top ── */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -281,27 +281,24 @@ export default function Dashboard() {
             onClick={() => navigate('/globe')}
             style={{
               position: 'relative',
-              borderRadius: 24,
+              marginLeft: 'calc(-1 * clamp(16px, 4vw, 48px))',
+              marginRight: 'calc(-1 * clamp(16px, 4vw, 48px))',
               marginBottom: 32,
               overflow: 'hidden',
               cursor: 'pointer',
-              height: 'clamp(380px, 55vw, 520px)',
+              height: 'clamp(400px, 55vw, 560px)',
               background: '#000508',
-              border: '1px solid rgba(0,100,200,0.18)',
-              boxShadow: '0 32px 80px rgba(0,0,0,0.6)',
             }}
           >
-            {/* 3D Globe — auto-rotating, no pointer events so clicks reach parent */}
+            {/* 3D Globe — fills the section, pointer-events none so clicks reach parent */}
             <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
               <GlobeEmbed height={900} />
             </div>
 
             {/* Left gradient for text readability */}
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,5,20,0.88) 0%, rgba(0,5,20,0.55) 45%, transparent 75%)', pointerEvents: 'none' }} />
-            {/* Bottom fade */}
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 80, background: 'linear-gradient(to bottom, transparent, rgba(0,5,20,0.7))', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,5,20,0.9) 0%, rgba(0,5,20,0.5) 45%, transparent 72%)', pointerEvents: 'none' }} />
 
-            {/* Text overlay — bold, front and centre */}
+            {/* Text overlay */}
             <div style={{
               position: 'absolute',
               top: 0,
@@ -310,35 +307,32 @@ export default function Dashboard() {
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
-              padding: 'clamp(28px, 5vw, 56px)',
+              padding: 'clamp(28px, 5vw, 72px)',
               zIndex: 10,
-              maxWidth: '55%',
+              maxWidth: '52%',
               pointerEvents: 'none',
             }}>
-              <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.08em', color: 'rgba(0,150,255,0.75)', marginBottom: 18, textTransform: 'uppercase' }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.1em', color: 'rgba(0,150,255,0.8)', marginBottom: 16, textTransform: 'uppercase' }}>
                 Global Cyber Intelligence
               </p>
               <h3 style={{
                 fontFamily: 'Bebas Neue',
-                fontSize: 'clamp(60px, 8vw, 108px)',
+                fontSize: 'clamp(72px, 9vw, 120px)',
                 letterSpacing: '0.06em',
                 lineHeight: 0.88,
-                marginBottom: 22,
+                marginBottom: 24,
                 color: '#fff',
-                textShadow: '0 0 40px rgba(0,150,255,0.3)',
+                textShadow: '0 0 60px rgba(0,150,255,0.25)',
               }}>
                 CYBER<br />GLOBE
               </h3>
-              <p style={{ fontFamily: 'Inter', fontSize: 'clamp(13px, 1.5vw, 16px)', color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, marginBottom: 20, maxWidth: 360 }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 'clamp(13px, 1.5vw, 16px)', color: 'rgba(255,255,255,0.58)', lineHeight: 1.65, marginBottom: 20, maxWidth: 360 }}>
                 Explore real-time cyber threat levels across every nation. DAYE's intelligence brief on any country — interactive, live, and global.
               </p>
-              <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(0,150,255,0.55)', letterSpacing: '0.04em' }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(0,150,255,0.5)', letterSpacing: '0.04em' }}>
                 All Countries · Risk Scores · DAYE Briefs · Live Threats
               </p>
             </div>
-
-            {/* Border overlay */}
-            <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(0,100,200,0.18)', borderRadius: 24, pointerEvents: 'none' }} />
           </motion.div>
 
           {/* ── BRAIN — AI ANALYST ────────────────────────── */}
@@ -347,13 +341,13 @@ export default function Dashboard() {
             onClick={() => navigate('/brain')}
             style={{ borderRadius: 24, marginBottom: 32, overflow: 'hidden', background: '#000', textAlign: 'center', cursor: 'pointer' }}
           >
-            {/* Hero visual */}
+            {/* DAYE hero visual */}
             <div style={{ position: 'relative', width: '100%', height: 'clamp(260px, 50vw, 520px)', overflow: 'hidden', background: '#060606' }}>
               <video
                 autoPlay muted loop playsInline preload="auto"
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', pointerEvents: 'none' }}
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', display: 'block', pointerEvents: 'none' }}
               >
-                <source src="/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4" type="video/mp4" />
+                <source src="/assets/video/blob-di.mp4" type="video/mp4" />
               </video>
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.95))', pointerEvents: 'none' }} />
             </div>

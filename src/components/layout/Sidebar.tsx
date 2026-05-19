@@ -11,14 +11,16 @@ interface SidebarProps {
   onClose?: () => void
 }
 
-const SF = '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif'
+// Apple SF Pro system font stack — renders as SF Pro on Apple, system-ui elsewhere
+const SF = '-apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif'
+const IOS_BLUE = '#0A84FF'
 
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', sub: '' },
   { to: '/eyes', icon: Eye, label: 'Deepfake Intelligence', sub: 'D.F.I.' },
   { to: '/brain', icon: Brain, label: 'DAYE', sub: 'AI Analyst' },
   { to: '/news', icon: Newspaper, label: 'NEWS', sub: 'Verify Content' },
-  { to: '/globe', icon: Globe2, label: 'CYBER GLOBE', sub: 'Threat Intelligence' },
+  { to: '/globe', icon: Globe2, label: 'Cyber Globe', sub: 'Threat Intelligence' },
   { to: '/breach', icon: Lock, label: 'BREACH', sub: 'Breach Detection' },
   { to: '/history', icon: History, label: 'History', sub: '' },
   { to: '/settings', icon: Settings, label: 'Settings', sub: '' },
@@ -31,81 +33,79 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
 
   return (
     <aside
-      className="glass"
       style={{
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
         width: mobile ? 288 : 256,
-        borderRight: '1px solid var(--glass-border)',
+        background: 'rgba(18,18,22,0.92)',
+        backdropFilter: 'blur(40px)',
+        WebkitBackdropFilter: 'blur(40px)',
+        borderRight: '1px solid rgba(255,255,255,0.08)',
         borderRadius: 0,
         position: 'relative',
         overflow: 'hidden',
       }}
     >
       {/* Logo */}
-      <div style={{ padding: '24px 24px 20px', borderBottom: '1px solid var(--glass-border)' }}>
+      <div style={{ padding: '28px 20px 18px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
         <NavLink to="/dashboard" onClick={onClose} style={{ textDecoration: 'none' }}>
-          <span style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.2em', color: 'var(--text-1)', display: 'block' }}>
+          <span style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.18em', color: '#fff', display: 'block' }}>
             D0B3RMAN
           </span>
-          <span style={{ fontFamily: SF, fontSize: 10, letterSpacing: '0.12em', color: 'var(--text-3)', display: 'block', marginTop: 3, fontWeight: 500 }}>
-            CYBER WATCHDOG
+          <span style={{ fontFamily: SF, fontSize: 11, letterSpacing: '0.01em', color: 'rgba(255,255,255,0.35)', display: 'block', marginTop: 3, fontWeight: 400 }}>
+            Cyber Watchdog
           </span>
         </NavLink>
       </div>
 
       {/* Navigation */}
-      <nav style={{ flex: 1, padding: '12px', overflowY: 'auto' }}>
+      <nav style={{ flex: 1, padding: '10px 8px', overflowY: 'auto' }}>
         {navItems.map(({ to, icon: Icon, label, sub }, i) => {
           const isActive = location.pathname === to
           const isBreach = to === '/breach'
-          const isGlobe = to === '/globe'
+
+          const activeColor = isBreach ? '#CD853F' : IOS_BLUE
+          const activeBg = isBreach ? 'rgba(139,69,19,0.18)' : 'rgba(10,132,255,0.14)'
+
           return (
             <motion.div
               key={to}
-              initial={{ opacity: 0, x: -16 }}
+              initial={{ opacity: 0, x: -12 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.04 }}
+              transition={{ delay: i * 0.035 }}
             >
               <NavLink
                 to={to}
                 onClick={onClose}
-                style={{ textDecoration: 'none', display: 'block', marginBottom: 2 }}
+                style={{ textDecoration: 'none', display: 'block', marginBottom: 1 }}
               >
                 <div
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 12,
-                    padding: '10px 12px',
+                    gap: 11,
+                    padding: '9px 12px',
                     borderRadius: 10,
-                    background: isActive
-                      ? (isBreach ? 'rgba(139,69,19,0.14)' : isGlobe ? 'rgba(0,100,200,0.12)' : 'rgba(255,255,255,0.06)')
-                      : 'transparent',
-                    border: isActive
-                      ? (isBreach ? '1px solid rgba(139,69,19,0.35)' : isGlobe ? '1px solid rgba(0,100,200,0.3)' : '1px solid var(--glass-border)')
-                      : '1px solid transparent',
-                    transition: 'all 0.2s',
+                    background: isActive ? activeBg : 'transparent',
+                    transition: 'background 0.15s ease',
                   }}
                 >
                   <Icon
-                    size={16}
+                    size={17}
                     style={{
-                      color: isActive
-                        ? (isBreach ? '#CD853F' : isGlobe ? '#0A84FF' : 'var(--text-1)')
-                        : (isBreach ? 'rgba(205,133,63,0.55)' : isGlobe ? 'rgba(0,150,255,0.5)' : 'var(--text-3)'),
+                      color: isActive ? activeColor : 'rgba(255,255,255,0.4)',
                       flexShrink: 0,
+                      strokeWidth: isActive ? 2 : 1.75,
                     }}
                   />
-                  <div style={{ minWidth: 0 }}>
+                  <div style={{ minWidth: 0, flex: 1 }}>
                     <p style={{
                       fontFamily: SF,
-                      fontSize: 13,
+                      fontSize: 14,
                       letterSpacing: '-0.01em',
-                      color: isActive
-                        ? (isBreach ? '#CD853F' : isGlobe ? '#0A84FF' : 'var(--text-1)')
-                        : (isBreach ? 'rgba(205,133,63,0.65)' : isGlobe ? 'rgba(0,150,255,0.65)' : 'var(--text-2)'),
+                      lineHeight: 1.2,
+                      color: isActive ? activeColor : 'rgba(255,255,255,0.82)',
                       fontWeight: isActive ? 600 : 400,
                     }}>
                       {label}
@@ -114,16 +114,18 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                       <p style={{
                         fontFamily: SF,
                         fontSize: 11,
-                        color: isBreach ? 'rgba(139,69,19,0.5)' : isGlobe ? 'rgba(0,100,200,0.5)' : 'var(--text-3)',
+                        letterSpacing: '0em',
+                        color: isActive ? `${activeColor}99` : 'rgba(255,255,255,0.28)',
                         marginTop: 1,
                         fontWeight: 400,
+                        lineHeight: 1.2,
                       }}>
                         {sub}
                       </p>
                     )}
                   </div>
                   {isActive && (
-                    <div style={{ marginLeft: 'auto', width: 3, height: 16, background: isBreach ? '#CD853F' : isGlobe ? '#0A84FF' : 'var(--text-1)', borderRadius: 2 }} />
+                    <div style={{ width: 3, height: 18, background: activeColor, borderRadius: 2, flexShrink: 0 }} />
                   )}
                 </div>
               </NavLink>
@@ -132,24 +134,34 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
         })}
       </nav>
 
+      {/* Divider */}
+      <div style={{ height: 1, background: 'rgba(255,255,255,0.07)', margin: '0 8px' }} />
+
       {/* User profile */}
-      <div style={{ padding: '12px', borderTop: '1px solid var(--glass-border)' }}>
+      <div style={{ padding: '10px 8px 16px' }}>
         <NavLink
           to="/profile"
           onClick={onClose}
-          style={{ textDecoration: 'none', display: 'block', marginBottom: 4 }}
+          style={{ textDecoration: 'none', display: 'block', marginBottom: 2 }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 10, border: '1px solid transparent', transition: 'all 0.2s' }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            padding: '9px 12px',
+            borderRadius: 10,
+            transition: 'background 0.15s ease',
+          }}>
             <div
               style={{
-                width: 32,
-                height: 32,
+                width: 34,
+                height: 34,
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: 'white',
-                fontSize: 12,
+                fontSize: 13,
                 fontFamily: SF,
                 fontWeight: 600,
                 flexShrink: 0,
@@ -159,14 +171,32 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
               {initials}
             </div>
             <div style={{ minWidth: 0, flex: 1 }}>
-              <p style={{ fontFamily: SF, fontSize: 13, fontWeight: 600, letterSpacing: '-0.01em', color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <p style={{
+                fontFamily: SF,
+                fontSize: 14,
+                fontWeight: 500,
+                letterSpacing: '-0.01em',
+                color: 'rgba(255,255,255,0.88)',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                lineHeight: 1.2,
+              }}>
                 {profile?.name || profile?.email?.split('@')[0] || 'User'}
               </p>
-              <p style={{ fontFamily: SF, fontSize: 11, color: 'var(--text-3)', textTransform: 'capitalize', fontWeight: 400 }}>
+              <p style={{
+                fontFamily: SF,
+                fontSize: 11,
+                color: 'rgba(255,255,255,0.3)',
+                textTransform: 'capitalize',
+                fontWeight: 400,
+                marginTop: 2,
+                lineHeight: 1.2,
+              }}>
                 {profile?.plan || 'free'}
               </p>
             </div>
-            <User size={13} style={{ color: 'var(--text-3)', flexShrink: 0 }} />
+            <User size={13} style={{ color: 'rgba(255,255,255,0.25)', flexShrink: 0 }} />
           </div>
         </NavLink>
 
@@ -176,21 +206,30 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
             width: '100%',
             display: 'flex',
             alignItems: 'center',
-            gap: 10,
-            padding: '10px 12px',
+            gap: 11,
+            padding: '9px 12px',
             borderRadius: 10,
             background: 'none',
             border: 'none',
-            color: 'var(--text-3)',
+            color: 'rgba(255,255,255,0.38)',
             fontFamily: SF,
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 400,
-            transition: 'all 0.2s',
+            letterSpacing: '-0.01em',
+            transition: 'all 0.15s ease',
           }}
-          onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--danger)'; (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,45,45,0.06)' }}
-          onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-3)'; (e.currentTarget as HTMLButtonElement).style.background = 'none' }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget as HTMLButtonElement
+            el.style.color = '#FF453A'
+            el.style.background = 'rgba(255,69,58,0.1)'
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget as HTMLButtonElement
+            el.style.color = 'rgba(255,255,255,0.38)'
+            el.style.background = 'none'
+          }}
         >
-          <LogOut size={14} />
+          <LogOut size={16} style={{ strokeWidth: 1.75 }} />
           <span>Sign Out</span>
         </button>
       </div>
