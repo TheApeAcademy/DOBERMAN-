@@ -46,6 +46,125 @@ const IN_VIEW = {
   viewport: { once: true, margin: '-60px' },
 }
 
+// ─── Globe SVG component ──────────────────────────────────────────────────────
+function GlobeSVG() {
+  const latitudes = [-60, -40, -20, 0, 20, 40, 60]
+  const longitudes = [0, 30, 60, 90, 120, 150]
+  const R = 180
+
+  const threatDots = [
+    { cx: 210, cy: 160, dur: '2.1s' },
+    { cx: 290, cy: 130, dur: '3.2s' },
+    { cx: 150, cy: 240, dur: '1.8s' },
+    { cx: 320, cy: 220, dur: '2.6s' },
+    { cx: 175, cy: 180, dur: '3.8s' },
+    { cx: 260, cy: 260, dur: '2.3s' },
+    { cx: 230, cy: 300, dur: '1.5s' },
+  ]
+
+  return (
+    <div style={{ position: 'relative', width: 'clamp(280px, 45vw, 480px)', aspectRatio: '1' }}>
+      {/* Outer atmospheric glow */}
+      <div style={{
+        position: 'absolute', inset: -32,
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(48,209,88,0.06) 30%, transparent 70%)',
+        pointerEvents: 'none',
+        animation: 'globePulse 4s ease-in-out infinite',
+      }} />
+
+      <svg viewBox="0 0 480 480" style={{ width: '100%', height: '100%' }}>
+        <defs>
+          <clipPath id="gc">
+            <circle cx="240" cy="240" r={R} />
+          </clipPath>
+          <radialGradient id="globeGrad" cx="38%" cy="35%" r="60%">
+            <stop offset="0%" stopColor="#0d3320" stopOpacity="0.9" />
+            <stop offset="55%" stopColor="#04110a" stopOpacity="0.97" />
+            <stop offset="100%" stopColor="#010604" stopOpacity="1" />
+          </radialGradient>
+          <radialGradient id="globeShine" cx="30%" cy="25%" r="50%">
+            <stop offset="0%" stopColor="rgba(48,209,88,0.1)" />
+            <stop offset="100%" stopColor="transparent" />
+          </radialGradient>
+        </defs>
+
+        {/* Globe base */}
+        <circle cx="240" cy="240" r={R} fill="url(#globeGrad)" />
+        <circle cx="240" cy="240" r={R} fill="url(#globeShine)" />
+
+        {/* Grid lines */}
+        <g clipPath="url(#gc)" opacity="0.22" stroke="#30D158" strokeWidth="0.7" fill="none">
+          {/* Latitude lines */}
+          {latitudes.map((lat, i) => {
+            const y = 240 + (lat / 90) * R
+            const rx = Math.cos((lat * Math.PI) / 180) * R
+            const ry = rx * 0.14
+            return <ellipse key={`lat-${i}`} cx="240" cy={y} rx={rx} ry={ry} />
+          })}
+          {/* Longitude lines */}
+          {longitudes.map((lon, i) => {
+            const squeeze = Math.abs(Math.sin((lon * Math.PI) / 180))
+            const rx = squeeze * R * 0.18 + R * 0.04
+            return <ellipse key={`lon-${i}`} cx="240" cy="240" rx={rx} ry={R} transform={`rotate(${lon}, 240, 240)`} />
+          })}
+        </g>
+
+        {/* Threat dots */}
+        {threatDots.map((d, i) => (
+          <circle key={i} cx={d.cx} cy={d.cy} r="3.5" fill="#30D158" clipPath="url(#gc)">
+            <animate attributeName="opacity" values="0.9;0.15;0.9" dur={d.dur} repeatCount="indefinite" />
+            <animate attributeName="r" values="3.5;5;3.5" dur={d.dur} repeatCount="indefinite" />
+          </circle>
+        ))}
+
+        {/* Ping rings on a couple dots */}
+        {[{ cx: 210, cy: 160 }, { cx: 290, cy: 130 }].map((d, i) => (
+          <circle key={`ring-${i}`} cx={d.cx} cy={d.cy} r="3" fill="none" stroke="#30D158" strokeWidth="1" clipPath="url(#gc)" opacity="0">
+            <animate attributeName="r" values="3;18;3" dur="3s" begin={`${i * 1.2}s`} repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.6;0;0.6" dur="3s" begin={`${i * 1.2}s`} repeatCount="indefinite" />
+          </circle>
+        ))}
+
+        {/* Globe rim */}
+        <circle cx="240" cy="240" r={R} fill="none" stroke="rgba(48,209,88,0.25)" strokeWidth="1" />
+
+        {/* Highlight arc */}
+        <path d={`M ${240 - R * 0.5} ${240 - R * 0.82} A ${R} ${R} 0 0 1 ${240 + R * 0.35} ${240 - R * 0.9}`}
+          fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+
+      <style>{`
+        @keyframes globePulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.04); opacity: 0.7; } }
+      `}</style>
+    </div>
+  )
+}
+
+function GlobeBackdrop() {
+  return (
+    <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <svg viewBox="0 0 800 500" style={{ width: '100%', height: '100%', opacity: 0.08 }} preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="bgGlobe" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#30D158" />
+            <stop offset="100%" stopColor="transparent" />
+          </radialGradient>
+        </defs>
+        <ellipse cx="400" cy="250" rx="340" ry="220" fill="none" stroke="#30D158" strokeWidth="0.5" />
+        {[-80,-60,-40,-20,0,20,40,60,80].map((lat,i)=>{
+          const y = 250 + (lat/90)*220
+          const rx = Math.cos(lat*Math.PI/180)*340
+          return <ellipse key={i} cx="400" cy={y} rx={rx} ry={rx*0.1} fill="none" stroke="#30D158" strokeWidth="0.4"/>
+        })}
+        {[0,20,40,60,80,100,120,140,160].map((lon,i)=>(
+          <ellipse key={i} cx="400" cy="250" rx={Math.abs(Math.sin(lon*Math.PI/180))*340*0.15+10} ry="220" fill="none" stroke="#30D158" strokeWidth="0.4" transform={`rotate(${lon},400,250)`}/>
+        ))}
+      </svg>
+    </div>
+  )
+}
+
 export default function Landing() {
   const navigate = useNavigate()
   const shockwave = useShockwave()
@@ -379,6 +498,105 @@ export default function Landing() {
           ))}
         </div>
       </div>
+
+      {/* ─── CYBER GLOBE (unified) ───────────────────────── */}
+      <section id="globe" style={{ position: 'relative', overflow: 'hidden', background: '#000' }}>
+
+        {/* Top intro band */}
+        <div style={{ padding: 'clamp(80px,12vw,140px) clamp(20px,5vw,48px) 0', maxWidth: 1200, margin: '0 auto' }}>
+          <motion.p {...IN_VIEW} style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.22)', marginBottom: 24, textTransform: 'uppercase' }}>
+            [ Global Cyber Intelligence ]
+          </motion.p>
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'clamp(40px,8vw,100px)', alignItems: 'flex-start' }}>
+
+            {/* Left: text */}
+            <div style={{ flex: '1 1 320px', paddingBottom: 'clamp(40px,8vw,80px)' }}>
+              <motion.h2
+                className="gsap-heading"
+                initial={{ opacity: 0, y: 80 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
+                viewport={{ once: true, margin: '-60px' }}
+                style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(56px, 10vw, 128px)', lineHeight: 0.86, marginBottom: 36 }}
+              >
+                CYBER<br />
+                <span style={{ WebkitTextStroke: '1px rgba(255,255,255,0.35)', WebkitTextFillColor: 'transparent' }}>GLOBE.</span>
+              </motion.h2>
+
+              <motion.p
+                {...IN_VIEW}
+                style={{ fontFamily: 'Syne', fontWeight: 400, fontSize: 'clamp(14px,1.8vw,17px)', color: 'rgba(255,255,255,0.45)', lineHeight: 1.72, maxWidth: 420, marginBottom: 36 }}
+              >
+                Explore real-time cyber threat levels across every nation.
+                DAYE's intelligence brief on any country —
+                interactive, live, and global.
+              </motion.p>
+
+              <motion.div
+                {...IN_VIEW}
+                style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 48 }}
+              >
+                {['All Countries', 'Risk Scores', 'DAYE Briefs', 'Live Threats'].map((tag) => (
+                  <span key={tag} style={{
+                    fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.12em',
+                    color: 'rgba(255,255,255,0.3)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    background: 'rgba(255,255,255,0.03)',
+                    padding: '7px 14px', borderRadius: 8,
+                  }}>
+                    {tag}
+                  </span>
+                ))}
+              </motion.div>
+
+              <motion.div {...IN_VIEW} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                {[
+                  { num: '195', label: 'Countries Monitored', color: 'var(--safe)' },
+                  { num: '24/7', label: 'Live Intelligence Feed', color: 'var(--chrome-mid)' },
+                  { num: '0ms', label: 'Threat Propagation Lag', color: 'var(--warning)' },
+                ].map(({ num, label, color }) => (
+                  <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+                    <span style={{ fontFamily: 'Bebas Neue', fontSize: 32, letterSpacing: '0.06em', color, lineHeight: 1, minWidth: 72 }}>{num}</span>
+                    <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.07)' }} />
+                    <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase' }}>{label}</span>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* Right: globe visual */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.88 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.1, ease: [0.25, 0.1, 0.25, 1] }}
+              viewport={{ once: true, margin: '-60px' }}
+              style={{ flex: '1 1 320px', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingBottom: 'clamp(40px,8vw,80px)' }}
+            >
+              <GlobeSVG />
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Full-width globe backdrop strip */}
+        <div style={{ position: 'relative', height: 'clamp(280px,40vw,520px)', overflow: 'hidden' }}>
+          <GlobeBackdrop />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, #000 0%, transparent 25%, transparent 75%, #000 100%)', zIndex: 2, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #000 0%, transparent 30%, transparent 70%, #000 100%)', zIndex: 2, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 3 }}>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(60px,14vw,160px)', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.04)', pointerEvents: 'none', userSelect: 'none', textAlign: 'center' }}
+            >
+              INTELLIGENCE
+            </motion.p>
+          </div>
+        </div>
+
+      </section>
 
       {/* ─── HORIZONTAL PINNED SCROLL ────────────────────── */}
       <div ref={hContainerRef} className="h-container" style={{ overflow: 'hidden' }}>

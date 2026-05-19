@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { ReactNode } from 'react'
 import { Sidebar } from './Sidebar'
 import { Header } from './Header'
+import { DayeFloat } from '../ui/DayeFloat'
 import type { Profile } from '../../lib/supabase'
 
 interface LayoutProps {
@@ -43,6 +44,8 @@ export function Layout({ profile, onSignOut, children, title }: LayoutProps) {
           {children}
         </main>
       </div>
+
+      <DayeFloat />
     </div>
   )
 }
