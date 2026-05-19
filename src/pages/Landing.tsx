@@ -445,56 +445,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ─── CYBER GLOBE SECTION ─────────────────────────── */}
-      <section style={{ position: 'relative', overflow: 'hidden', background: 'rgba(0,4,12,1)', padding: 'clamp(80px,12vw,140px) clamp(20px,5vw,60px)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 60, alignItems: 'center' }}>
-          {/* Left — video globe */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-            viewport={{ once: true, margin: '-60px' }}
-            style={{ position: 'relative', height: 340, borderRadius: 20, overflow: 'hidden', background: '#000810' }}
-          >
-            <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }}>
-              <source src="/assets/video/world.mp4" type="video/mp4" />
-            </video>
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,20,60,0.3) 0%, transparent 60%)' }} />
-            <div style={{ position: 'absolute', top: 16, left: 18 }}>
-              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.18em', color: 'rgba(100,160,255,0.6)' }}>LIVE THREAT MAP</span>
-            </div>
-            {/* Stats overlay */}
-            <div style={{ position: 'absolute', bottom: 16, left: 16, right: 16, display: 'flex', gap: 10 }}>
-              {[{ n: '8', label: 'CRITICAL ZONES' }, { n: '30+', label: 'HIGH RISK' }, { n: '80+', label: 'COUNTRIES' }].map(({ n, label }) => (
-                <div key={label} style={{ flex: 1, padding: '8px 10px', background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(12px)', borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
-                  <p style={{ fontFamily: 'Bebas Neue', fontSize: 20, color: '#F5F5F7', lineHeight: 1 }}>{n}</p>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 8, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em' }}>{label}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Right — text */}
-          <motion.div {...IN_VIEW} style={{ textAlign: 'right' }}>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(100,160,255,0.5)', marginBottom: 16 }}>GLOBAL CYBER INTELLIGENCE</p>
-            <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 80px)', lineHeight: 0.92, marginBottom: 24 }}>
-              The world's<br />cyber threats.
-            </h2>
-            <p style={{ fontFamily: 'Syne', fontWeight: 400, fontSize: 'clamp(15px, 1.8vw, 18px)', color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, marginBottom: 36 }}>
-              Every country. Real threats. DAYE's analysis. See where attacks originate, track risk scores, and get live intelligence briefs for any nation on Earth.
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(100,160,255,0.15)' }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => navigate('/auth')}
-              style={{ padding: '14px 36px', background: 'rgba(100,160,255,0.12)', color: '#6AA0FF', fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.08em', border: '1px solid rgba(100,160,255,0.25)', borderRadius: 12, cursor: 'pointer' }}
-            >
-              Open Cyber Globe
-            </motion.button>
-          </motion.div>
-        </div>
-      </section>
-
       {/* ─── STATS ROW ───────────────────────────────────── */}
       <div style={{ padding: '80px clamp(20px,4vw,48px)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'rgba(6,6,6,0.98)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 40, textAlign: 'center' }}>
@@ -522,66 +472,53 @@ export default function Landing() {
         </div>
       </div>
 
-      {/* ─── CYBER GLOBE SECTION ─────────────────────────── */}
+      {/* ─── CYBER GLOBE — unified ───────────────────────── */}
       <section style={{ position: 'relative', overflow: 'hidden', background: '#000508' }}>
-        <div style={{ position: 'relative', height: 'clamp(440px, 65vw, 680px)', overflow: 'hidden' }}>
-          {/* 3D Globe */}
+
+        {/* Full 3D globe as immersive backdrop */}
+        <div style={{ position: 'relative', height: 'clamp(480px, 70vw, 720px)', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
             <GlobeEmbed height={900} />
           </div>
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,5,20,0.94) 0%, rgba(0,5,20,0.65) 42%, transparent 72%)', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 100, background: 'linear-gradient(to bottom, #000508, transparent)', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 100, background: 'linear-gradient(to top, #000508, transparent)', pointerEvents: 'none' }} />
 
-          {/* Left gradient */}
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,5,20,0.92) 0%, rgba(0,5,20,0.6) 40%, transparent 70%)', pointerEvents: 'none' }} />
-          {/* Top + bottom fades */}
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 80, background: 'linear-gradient(to bottom, #000, transparent)', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 80, background: 'linear-gradient(to top, #000508, transparent)', pointerEvents: 'none' }} />
-
-          {/* Text */}
-          <div style={{
-            position: 'absolute',
-            top: 0, left: 0, bottom: 0,
-            display: 'flex', flexDirection: 'column', justifyContent: 'center',
-            padding: 'clamp(32px, 6vw, 80px)',
-            maxWidth: '55%',
-            zIndex: 10,
-            pointerEvents: 'none',
-          }}>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ duration: 0.6 }}
-              style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.18em', color: 'rgba(0,150,255,0.75)', marginBottom: 20, textTransform: 'uppercase' }}
-            >
+          {/* Overlaid intro text */}
+          <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 'clamp(28px,6vw,80px)', maxWidth: '56%', zIndex: 10 }}>
+            <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
+              style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.22em', color: 'rgba(100,160,255,0.75)', marginBottom: 20, textTransform: 'uppercase' }}>
               [ Global Cyber Intelligence ]
             </motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.1 }}
-              style={{
-                fontFamily: 'Bebas Neue',
-                fontSize: 'clamp(64px, 10vw, 140px)',
-                letterSpacing: '0.06em',
-                lineHeight: 0.88,
-                marginBottom: 28,
-                color: '#fff',
-                textShadow: '0 0 60px rgba(0,150,255,0.25)',
-              }}
-            >
+            <motion.h2 initial={{ opacity: 0, y: 48 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.9, delay: 0.1, ease: [0.25,0.1,0.25,1] }}
+              style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(72px, 11vw, 150px)', letterSpacing: '0.06em', lineHeight: 0.86, marginBottom: 28, color: '#fff', textShadow: '0 0 80px rgba(0,150,255,0.2)' }}>
               CYBER<br />GLOBE
             </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.2 }}
-              style={{ fontFamily: 'Syne', fontSize: 'clamp(14px, 1.6vw, 18px)', color: 'rgba(255,255,255,0.55)', lineHeight: 1.65, marginBottom: 24, maxWidth: 400 }}
-            >
+            <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.2 }}
+              style={{ fontFamily: 'Syne', fontSize: 'clamp(14px, 1.6vw, 17px)', color: 'rgba(255,255,255,0.52)', lineHeight: 1.68, marginBottom: 28, maxWidth: 380 }}>
               Explore real-time cyber threat levels across every nation. DAYE's intelligence brief on any country — interactive, live, and global.
             </motion.p>
-            <motion.p
-              initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
-              viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3 }}
-              style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(0,150,255,0.5)', letterSpacing: '0.04em' }}
-            >
+            <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
+              style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(100,160,255,0.5)', letterSpacing: '0.04em', marginBottom: 36 }}>
               All Countries · Risk Scores · DAYE Briefs · Live Threats
             </motion.p>
+            <motion.button whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(100,160,255,0.2)' }} whileTap={{ scale: 0.97 }}
+              onClick={() => navigate('/auth')}
+              style={{ alignSelf: 'flex-start', padding: '14px 36px', background: 'rgba(100,160,255,0.1)', color: '#6AA0FF', fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.08em', border: '1px solid rgba(100,160,255,0.25)', borderRadius: 12, cursor: 'pointer' }}>
+              Open Cyber Globe
+            </motion.button>
+          </div>
+        </div>
+
+        {/* Stats strip below the globe */}
+        <div style={{ padding: 'clamp(24px,5vw,48px) clamp(20px,5vw,60px)', borderTop: '1px solid rgba(255,255,255,0.05)', background: 'rgba(0,4,12,0.98)' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'center', justifyContent: 'space-between' }}>
+            {[{ n: '195', label: 'Countries' }, { n: '8', label: 'Critical Zones' }, { n: '24/7', label: 'Live Feed' }, { n: '<1s', label: 'Intelligence Lag' }].map(({ n, label }) => (
+              <div key={label} style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+                <span style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(24px,3.5vw,36px)', letterSpacing: '0.05em', color: '#fff', lineHeight: 1 }}>{n}</span>
+                <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(255,255,255,0.28)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>

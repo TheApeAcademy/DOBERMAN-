@@ -9,11 +9,14 @@ interface HeaderProps {
   title?: string
 }
 
-export function Header({ profile, onMenuClick, title }: HeaderProps) {
+const SF = '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif'
+
+export function Header({ profile, onMenuClick }: HeaderProps) {
   const initials = getInitials(profile?.name || null, profile?.email || null)
   const avatarColor = getAvatarColor(profile?.email || profile?.name || 'U')
   const now = new Date()
-  const dateStr = now.toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })
+  const day = now.toLocaleDateString('en-GB', { weekday: 'short' })
+  const date = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
 
   return (
     <header
@@ -38,22 +41,23 @@ export function Header({ profile, onMenuClick, title }: HeaderProps) {
         <Menu size={20} />
       </button>
 
-      <div style={{ flex: 1 }}>
-        {title && (
-          <h1 style={{ fontFamily: 'Inter', fontSize: 12, letterSpacing: '0.04em', color: 'var(--text-3)', textTransform: 'uppercase' }}>
-            {title}
-          </h1>
-        )}
-      </div>
+      <div style={{ flex: 1 }} />
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-        <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--text-3)' }}>{dateStr}</span>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 5 }}>
+          <span style={{ fontFamily: SF, fontSize: 13, fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-2)' }}>
+            {day}
+          </span>
+          <span style={{ fontFamily: SF, fontSize: 13, fontWeight: 400, letterSpacing: '-0.01em', color: 'var(--text-3)' }}>
+            {date}
+          </span>
+        </div>
 
         <NavLink to="/profile" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 11, fontFamily: 'Inter', fontWeight: 600, background: avatarColor }}>
+          <div style={{ width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 11, fontFamily: SF, fontWeight: 600, background: avatarColor }}>
             {initials}
           </div>
-          <span style={{ fontFamily: 'Inter', fontSize: 13, fontWeight: 600, color: 'var(--text-2)' }}>
+          <span style={{ fontFamily: SF, fontSize: 13, fontWeight: 600, letterSpacing: '-0.01em', color: 'var(--text-2)' }}>
             {profile?.name?.split(' ')[0] || profile?.email?.split('@')[0] || 'User'}
           </span>
         </NavLink>

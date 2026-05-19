@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useDragControls } from 'framer-motion'
 import { ChevronDown, Send, Mic, MicOff, Paperclip } from 'lucide-react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
@@ -41,6 +41,8 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
   const [sending, setSending] = useState(false)
   const [conversation, setConversation] = useState<ChatBubble[]>([])
   const [isRecording, setIsRecording] = useState(false)
+  const [isDragging, setIsDragging] = useState(false)
+  const dragControls = useDragControls()
   const recognitionRef = useRef<{ stop(): void } | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -135,7 +137,16 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
   }
 
   return (
-    <div style={{ position: 'fixed', bottom: 24, right: 24, zIndex: 9999, pointerEvents: 'auto' }}>
+    <motion.div
+      drag
+      dragControls={dragControls}
+      dragMomentum={false}
+      dragElastic={0}
+      onDragStart={() => setIsDragging(true)}
+      onDragEnd={() => setTimeout(() => setIsDragging(false), 50)}
+      whileDrag={{ cursor: 'grabbing' }}
+      style={{ position: 'fixed', bottom: 24, right: 24, zIndex: 9999, pointerEvents: 'auto', cursor: isDragging ? 'grabbing' : 'default', touchAction: 'none' }}
+    >
       <AnimatePresence>
         {open && (
           <motion.div
@@ -335,6 +346,6 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
         @keyframes daye-dot { 0%, 80%, 100% { transform: scale(0.5); opacity: 0.35; } 40% { transform: scale(1); opacity: 1; } }
         @keyframes daye-ring { 0% { transform: scale(1); opacity: 0.55; } 100% { transform: scale(1.9); opacity: 0; } }
       `}</style>
-    </div>
+    </motion.div>
   )
 }

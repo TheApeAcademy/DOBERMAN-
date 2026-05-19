@@ -415,46 +415,89 @@ export default function Dashboard() {
             </div>
           </motion.div>
 
-          {/* ── BREACH SCAN ───────────────────────────────── */}
+          {/* ── BREACH SCAN (redesigned) ──────────────────── */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.6 }}
-            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.7 }}
             onClick={() => navigate('/breach')}
             style={{
-              padding: 40, borderRadius: 24, marginBottom: 48, overflow: 'hidden', cursor: 'pointer',
-              background: 'rgba(139,69,19,0.07)',
-              border: '1px solid rgba(139,69,19,0.28)',
-              boxShadow: 'inset 0 1px 0 rgba(205,133,63,0.12), 0 32px 64px rgba(0,0,0,0.5)',
-              backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)',
+              position: 'relative', borderRadius: 28, marginBottom: 48, overflow: 'hidden', cursor: 'pointer',
+              background: 'linear-gradient(135deg, rgba(8,8,8,0.97) 0%, rgba(14,14,14,0.7) 100%)',
+              border: '1px solid rgba(255,255,255,0.07)',
+              padding: 'clamp(32px, 5vw, 56px)',
             }}
           >
+            {/* Grid texture */}
+            <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none', backgroundImage: 'linear-gradient(rgba(255,255,255,0.016) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.016) 1px,transparent 1px)', backgroundSize: '44px 44px' }} />
+            {/* Glow corner */}
+            <div style={{ position: 'absolute', top: -60, right: -60, width: 260, height: 260, borderRadius: '50%', background: 'radial-gradient(circle,rgba(255,45,45,0.06) 0%,transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+
             <style>{`@media(max-width:768px){.breach-grid{grid-template-columns:1fr!important}}`}</style>
-            <div className="breach-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }}>
+            <div className="breach-grid" style={{ position: 'relative', zIndex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'flex-start' }}>
+
+              {/* Left: typographic hero */}
               <div>
-                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'rgba(160,82,45,0.8)', marginBottom: 24 }}>04 -- EMAIL BREACH SCAN</p>
-                <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 5.5vw, 72px)', letterSpacing: '0.05em', lineHeight: 0.9, marginBottom: 28, color: '#DEB887' }}>
-                  BREACH<br />DETECTION
-                </h3>
-                <p style={{ fontFamily: 'Inter', fontSize: 16, color: 'rgba(222,184,135,0.55)', lineHeight: 1.7, marginBottom: 28 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 24 }}>
+                  <Zap size={11} style={{ color: 'rgba(255,45,45,0.6)' }} />
+                  <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase' }}>04 — CREDENTIAL INTELLIGENCE</p>
+                </div>
+                <div style={{ marginBottom: 28 }}>
+                  <p style={{ fontFamily: 'Syne', fontWeight: 300, fontSize: 'clamp(10px,1.6vw,12px)', letterSpacing: '0.35em', color: 'rgba(255,255,255,0.14)', textTransform: 'uppercase', marginBottom: 2 }}>DATA</p>
+                  <h3 style={{
+                    fontFamily: 'Bebas Neue',
+                    fontSize: 'clamp(64px, 10vw, 108px)',
+                    letterSpacing: '0.04em', lineHeight: 0.82, marginBottom: 4,
+                    background: 'linear-gradient(135deg, #fff 40%, rgba(255,255,255,0.32) 100%)',
+                    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                  }}>
+                    BREACH
+                  </h3>
+                  <p style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(13px,2vw,18px)', color: 'rgba(255,255,255,0.09)', letterSpacing: '-0.02em', lineHeight: 1 }}>
+                    DETECTION ENGINE
+                  </p>
+                </div>
+                <p style={{ fontFamily: 'Syne', fontWeight: 400, fontSize: 15, color: 'rgba(255,255,255,0.42)', lineHeight: 1.72, maxWidth: 360, marginBottom: 28 }}>
                   Scan any email address, password, or phone number against known data breach databases. D0B3RMAN checks credentials instantly.
                 </p>
-                <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(160,82,45,0.6)', marginBottom: 32 }}>
-                  HaveIBeenPwned · Breach Databases · Credential Exposure
-                </p>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 36 }}>
+                  {['HaveIBeenPwned', 'Breach Databases', 'Credential Exposure'].map((t) => (
+                    <span key={t} style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.25)', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', padding: '5px 12px', borderRadius: 6, textTransform: 'uppercase' }}>{t}</span>
+                  ))}
+                </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(160,82,45,0.7)' }}>{stats.breachToday}/3 today</span>
-                  <div style={{ width: 100, height: 2, background: 'rgba(139,69,19,0.2)', borderRadius: 1 }}>
-                    <div style={{ height: '100%', borderRadius: 1, background: '#CD853F', width: `${Math.min((stats.breachToday / 3) * 100, 100)}%`, transition: 'width 0.5s ease' }} />
+                  <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>{stats.breachToday}/3 today</span>
+                  <div style={{ width: 80, height: 2, background: 'rgba(255,255,255,0.07)', borderRadius: 1 }}>
+                    <motion.div initial={{ width: 0 }} whileInView={{ width: `${Math.min((stats.breachToday / 3) * 100, 100)}%` }} transition={{ duration: 1 }} viewport={{ once: true }} style={{ height: '100%', borderRadius: 1, background: 'rgba(255,45,45,0.6)' }} />
                   </div>
-                  <ArrowRight size={16} style={{ color: 'rgba(205,133,63,0.5)', marginLeft: 4 }} />
+                  <ArrowRight size={14} style={{ color: 'rgba(255,255,255,0.2)' }} />
                 </div>
               </div>
-              <div style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#0d0500' }}>
-                <img src="/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', opacity: 0.3 }} />
-                <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(139,69,19,0.45) 0%, transparent 70%)' }} />
-                <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(139,69,19,0.25)', borderRadius: 16 }} />
-                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(205,133,63,0.5)', zIndex: 2 }}>
-                  BREACH -- EMAIL BREACH SCAN
+
+              {/* Right: stat cards */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', paddingBottom: 16, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                  <span style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.18em', color: 'var(--text-3)' }}>DAILY QUOTA</span>
+                  <span style={{ fontFamily: 'Bebas Neue', fontSize: 34, letterSpacing: '0.04em', color: 'var(--chrome-mid)', lineHeight: 1 }}>
+                    {stats.breachToday}<span style={{ fontSize: 16, color: 'var(--text-3)' }}>/3</span>
+                  </span>
+                </div>
+                {/* Credential input mockup */}
+                <div style={{ padding: '14px 18px', borderRadius: 14, background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', flexShrink: 0 }} />
+                  <span style={{ fontFamily: 'Inter', fontSize: 12, color: 'rgba(255,255,255,0.18)', flex: 1 }}>email@example.com</span>
+                  <ArrowRight size={12} style={{ color: 'var(--text-3)' }} />
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.04)' }} />
+                  <span style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.15)' }}>ZERO DATA RETAINED</span>
+                  <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.04)' }} />
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                  {[{ val: '14B+', label: 'RECORDS', color: 'var(--danger)' }, { val: '500+', label: 'SOURCES', color: 'var(--warning)' }, { val: '<1s', label: 'SCAN TIME', color: 'var(--safe)' }, { val: '100%', label: 'ENCRYPTED', color: 'var(--chrome-mid)' }].map(({ val, label, color }) => (
+                    <div key={label} style={{ padding: '14px 12px', borderRadius: 12, textAlign: 'center', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
+                      <p style={{ fontFamily: 'Bebas Neue', fontSize: 26, letterSpacing: '0.04em', color, lineHeight: 1 }}>{val}</p>
+                      <p style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.12em', color: 'var(--text-3)', marginTop: 4 }}>{label}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
