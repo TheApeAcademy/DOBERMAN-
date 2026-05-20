@@ -7,7 +7,7 @@ import gsap from 'gsap'
 import { Search, X, Shield, Newspaper, Brain, AlertTriangle, TrendingUp, ChevronRight, Clock, ExternalLink, Radio } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
-import { useCyberNews, SOURCE_COLORS, CATEGORY_LABELS, timeAgo } from '../hooks/useCyberNews'
+import { useCyberNews, SOURCE_COLORS, timeAgo } from '../hooks/useCyberNews'
 
 // ─── Country Data ────────────────────────────────────────────────────────────
 
@@ -2318,7 +2318,7 @@ export default function Globe() {
 
               {/* Category pills */}
               <div style={{ padding: '9px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', display: 'flex', gap: 5, overflowX: 'auto', flexShrink: 0, scrollbarWidth: 'none' }}>
-                {['all', ...Array.from(new Set(articles.map((a) => a.category)))].map((cat) => (
+                {['all', ...Array.from(new Set(articles.map((a) => a.source_name)))].map((cat) => (
                   <button key={cat} onClick={() => setLiveFilterCat(cat)}
                     style={{
                       padding: '3px 8px', borderRadius: 5,
@@ -2327,7 +2327,7 @@ export default function Globe() {
                       color: liveFilterCat === cat ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.25)',
                       fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.07em', whiteSpace: 'nowrap', cursor: 'pointer', transition: 'all 0.15s',
                     }}>
-                    {cat === 'all' ? 'ALL' : (CATEGORY_LABELS[cat] || cat.toUpperCase())}
+                    {cat === 'all' ? 'ALL' : cat.toUpperCase()}
                   </button>
                 ))}
               </div>
@@ -2342,12 +2342,12 @@ export default function Globe() {
                         <div style={{ height: 11, background: 'rgba(255,255,255,0.04)', borderRadius: 3, width: '70%' }} />
                       </div>
                     ))
-                  : (liveFilterCat === 'all' ? articles : articles.filter(a => a.category === liveFilterCat)).map((article, i) => {
-                      const srcColor = SOURCE_COLORS[article.source] || 'rgba(255,255,255,0.4)'
+                  : (liveFilterCat === 'all' ? articles : articles.filter(a => a.source_name === liveFilterCat)).map((article, i) => {
+                      const srcColor = SOURCE_COLORS[article.source_name] || 'rgba(255,255,255,0.4)'
                       return (
                         <motion.a
-                          key={article.id}
-                          href={article.link}
+                          key={article.article_url}
+                          href={article.article_url}
                           target="_blank"
                           rel="noopener noreferrer"
                           initial={{ opacity: 0, x: -12 }}
@@ -2359,9 +2359,9 @@ export default function Globe() {
                         >
                           <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 5 }}>
                             <span style={{ width: 5, height: 5, borderRadius: '50%', background: srcColor, flexShrink: 0, boxShadow: `0 0 4px ${srcColor}` }} />
-                            <span style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.08em', color: srcColor, flex: 1 }}>{article.source.toUpperCase()}</span>
+                            <span style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.08em', color: srcColor, flex: 1 }}>{article.source_name.toUpperCase()}</span>
                             <span style={{ fontFamily: 'Inter', fontSize: 8, color: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', gap: 3 }}>
-                              <Clock size={7} />{timeAgo(article.pubDate)}
+                              <Clock size={7} />{timeAgo(article.published_at)}
                             </span>
                           </div>
                           <p style={{ fontFamily: 'Inter', fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.75)', lineHeight: 1.45, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>

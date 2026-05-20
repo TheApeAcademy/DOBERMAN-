@@ -4,7 +4,7 @@ import { ExternalLink, RefreshCw, X, Clock, AlertTriangle } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
-import { useCyberNews, type CyberArticle, SOURCE_COLORS, CATEGORY_LABELS, FALLBACK_GRADIENTS, timeAgo } from '../hooks/useCyberNews'
+import { useCyberNews, type CyberArticle, SOURCE_COLORS, SOURCE_GRADIENTS, timeAgo } from '../hooks/useCyberNews'
 
 /* ── FeedArticle compat export (used by NewsArticle.tsx) ────────── */
 export interface FeedArticle {
@@ -17,7 +17,14 @@ export interface FeedArticle {
 }
 
 export function toFeedArticle(a: CyberArticle): FeedArticle {
-  return { title: a.title, description: a.description, url: a.link, source: a.source, published_at: a.pubDate, image: a.image ?? undefined }
+  return {
+    title: a.title,
+    description: a.description,
+    url: a.article_url,
+    source: a.source_name,
+    published_at: a.published_at,
+    image: a.image_url ?? undefined,
+  }
 }
 
 /* ── Verify types ──────────────────────────────────────────────── */
@@ -47,9 +54,8 @@ const VERDICT_COLORS: Record<string, string> = {
 
 /* ── NewsCard ──────────────────────────────────────────────────── */
 function NewsCard({ article, onClick }: { article: CyberArticle; onClick: () => void }) {
-  const srcColor = SOURCE_COLORS[article.source] || 'var(--chrome-mid)'
-  const fallback = FALLBACK_GRADIENTS[article.category] || 'linear-gradient(135deg,#0a0a0a,#1a1a1a)'
-  const catLabel = CATEGORY_LABELS[article.category] || article.category.toUpperCase()
+  const srcColor = SOURCE_COLORS[article.source_name] || 'var(--chrome-mid)'
+  const fallback = SOURCE_GRADIENTS[article.source_name] || 'linear-gradient(135deg,#0a0a0a,#1a1a1a)'
 
   return (
     <motion.button
@@ -57,22 +63,13 @@ function NewsCard({ article, onClick }: { article: CyberArticle; onClick: () => 
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
       className="glass"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        borderRadius: 16,
-        overflow: 'hidden',
-        textAlign: 'left',
-        padding: 0,
-        width: '100%',
-        transition: 'all 0.2s',
-      }}
+      style={{ display: 'flex', flexDirection: 'column', borderRadius: 16, overflow: 'hidden', textAlign: 'left', padding: 0, width: '100%', transition: 'all 0.2s' }}
     >
       {/* Image */}
-      <div style={{ position: 'relative', height: 172, background: article.image ? '#060606' : fallback, flexShrink: 0 }}>
-        {article.image && (
+      <div style={{ position: 'relative', height: 172, background: article.image_url ? '#060606' : fallback, flexShrink: 0 }}>
+        {article.image_url && (
           <img
-            src={article.image}
+            src={article.image_url}
             alt=""
             style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
             onError={(e) => {
@@ -82,18 +79,20 @@ function NewsCard({ article, onClick }: { article: CyberArticle; onClick: () => 
             }}
           />
         )}
-        {!article.image && (
+        {!article.image_url && (
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <span style={{ fontFamily: 'Bebas Neue', fontSize: 36, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.04)' }}>D0B3RMAN</span>
           </div>
         )}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.75))' }} />
         <div style={{ position: 'absolute', bottom: 10, left: 12, right: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 8, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.5)', background: 'rgba(0,0,0,0.55)', padding: '3px 7px', borderRadius: 4 }}>
-            {catLabel}
-          </span>
-          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'rgba(255,255,255,0.35)', display: 'flex', alignItems: 'center', gap: 4 }}>
-            <Clock size={8} /> {timeAgo(article.pubDate)}
+          {article.category && (
+            <span style={{ fontFamily: 'JetBrains Mono', fontSize: 8, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.5)', background: 'rgba(0,0,0,0.55)', padding: '3px 7px', borderRadius: 4 }}>
+              {article.category.toUpperCase().slice(0, 20)}
+            </span>
+          )}
+          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'rgba(255,255,255,0.35)', display: 'flex', alignItems: 'center', gap: 4, marginLeft: 'auto' }}>
+            <Clock size={8} /> {timeAgo(article.published_at)}
           </span>
         </div>
       </div>
@@ -103,33 +102,13 @@ function NewsCard({ article, onClick }: { article: CyberArticle; onClick: () => 
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
           <span style={{ width: 6, height: 6, borderRadius: '50%', background: srcColor, flexShrink: 0 }} />
           <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em', color: srcColor }}>
-            {article.source.toUpperCase()}
+            {article.source_name.toUpperCase()}
           </span>
         </div>
-        <p style={{
-          fontFamily: 'Syne',
-          fontWeight: 700,
-          fontSize: 13,
-          color: 'var(--text-1)',
-          lineHeight: 1.45,
-          marginBottom: 6,
-          display: '-webkit-box',
-          WebkitLineClamp: 2,
-          WebkitBoxOrient: 'vertical',
-          overflow: 'hidden',
-        }}>
+        <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 13, color: 'var(--text-1)', lineHeight: 1.45, marginBottom: 6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
           {article.title}
         </p>
-        <p style={{
-          fontFamily: 'Syne',
-          fontSize: 12,
-          color: 'var(--text-3)',
-          lineHeight: 1.5,
-          display: '-webkit-box',
-          WebkitLineClamp: 2,
-          WebkitBoxOrient: 'vertical',
-          overflow: 'hidden',
-        }}>
+        <p style={{ fontFamily: 'Syne', fontSize: 12, color: 'var(--text-3)', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
           {article.description}
         </p>
       </div>
@@ -139,8 +118,8 @@ function NewsCard({ article, onClick }: { article: CyberArticle; onClick: () => 
 
 /* ── ArticleModal ──────────────────────────────────────────────── */
 function ArticleModal({ article, onClose }: { article: CyberArticle; onClose: () => void }) {
-  const srcColor = SOURCE_COLORS[article.source] || 'var(--chrome-mid)'
-  const fallback = FALLBACK_GRADIENTS[article.category] || 'linear-gradient(135deg,#0a0a0a,#1a1a1a)'
+  const srcColor = SOURCE_COLORS[article.source_name] || 'var(--chrome-mid)'
+  const fallback = SOURCE_GRADIENTS[article.source_name] || 'linear-gradient(135deg,#0a0a0a,#1a1a1a)'
 
   return (
     <motion.div
@@ -159,44 +138,35 @@ function ArticleModal({ article, onClose }: { article: CyberArticle; onClose: ()
         style={{ maxWidth: 620, width: '100%', borderRadius: 24, overflow: 'hidden', maxHeight: '88vh', overflowY: 'auto' }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Image */}
-        <div style={{ position: 'relative', height: 240, background: article.image ? '#060606' : fallback }}>
-          {article.image && (
-            <img
-              src={article.image}
-              alt=""
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-            />
+        <div style={{ position: 'relative', height: 240, background: article.image_url ? '#060606' : fallback }}>
+          {article.image_url && (
+            <img src={article.image_url} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
           )}
-          {!article.image && (
+          {!article.image_url && (
             <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.04)' }}>D0B3RMAN</span>
             </div>
           )}
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.65))' }} />
-          <button
-            onClick={onClose}
-            style={{ position: 'absolute', top: 14, right: 14, width: 32, height: 32, borderRadius: '50%', background: 'rgba(0,0,0,0.65)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
-          >
+          <button onClick={onClose}
+            style={{ position: 'absolute', top: 14, right: 14, width: 32, height: 32, borderRadius: '50%', background: 'rgba(0,0,0,0.65)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
             <X size={14} />
           </button>
         </div>
-
-        {/* Body */}
         <div style={{ padding: '24px 28px 28px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>
             <span style={{ width: 7, height: 7, borderRadius: '50%', background: srcColor, flexShrink: 0 }} />
-            <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.12em', color: srcColor }}>
-              {article.source.toUpperCase()}
-            </span>
+            <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.12em', color: srcColor }}>{article.source_name.toUpperCase()}</span>
             <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)' }}>·</span>
             <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)' }}>
-              {new Date(article.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+              {new Date(article.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
             </span>
-            <span style={{ fontFamily: 'JetBrains Mono', fontSize: 8, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.35)', background: 'rgba(255,255,255,0.06)', padding: '2px 8px', borderRadius: 4, marginLeft: 'auto' }}>
-              {CATEGORY_LABELS[article.category] || article.category.toUpperCase()}
-            </span>
+            {article.category && (
+              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 8, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.35)', background: 'rgba(255,255,255,0.06)', padding: '2px 8px', borderRadius: 4, marginLeft: 'auto' }}>
+                {article.category.toUpperCase().slice(0, 24)}
+              </span>
+            )}
           </div>
           <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 22, lineHeight: 1.3, color: 'var(--text-1)', marginBottom: 16 }}>
             {article.title}
@@ -206,7 +176,7 @@ function ArticleModal({ article, onClose }: { article: CyberArticle; onClose: ()
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <motion.a
-              href={article.link}
+              href={article.article_url}
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.03, boxShadow: '0 0 24px rgba(255,255,255,0.12)' }}
@@ -216,10 +186,8 @@ function ArticleModal({ article, onClose }: { article: CyberArticle; onClose: ()
               <ExternalLink size={14} />
               READ FULL ARTICLE
             </motion.a>
-            <button
-              onClick={onClose}
-              style={{ padding: '12px 20px', background: 'transparent', border: '1px solid var(--glass-border)', color: 'var(--text-3)', fontFamily: 'Syne', fontSize: 13, borderRadius: 10, cursor: 'pointer', transition: 'all 0.2s' }}
-            >
+            <button onClick={onClose}
+              style={{ padding: '12px 20px', background: 'transparent', border: '1px solid var(--glass-border)', color: 'var(--text-3)', fontFamily: 'Syne', fontSize: 13, borderRadius: 10, cursor: 'pointer' }}>
               Close
             </button>
           </div>
@@ -229,7 +197,7 @@ function ArticleModal({ article, onClose }: { article: CyberArticle; onClose: ()
   )
 }
 
-/* ── Loading skeletons ─────────────────────────────────────────── */
+/* ── Skeleton ──────────────────────────────────────────────────── */
 function SkeletonCard() {
   return (
     <div className="glass" style={{ borderRadius: 16, overflow: 'hidden' }}>
@@ -249,7 +217,7 @@ export default function News() {
   const { articles, loading, error, setArticles } = useCyberNews()
   const [activeTab, setActiveTab] = useState<'feed' | 'verify'>('feed')
   const [selectedArticle, setSelectedArticle] = useState<CyberArticle | null>(null)
-  const [filterCat, setFilterCat] = useState('all')
+  const [filterSource, setFilterSource] = useState('all')
   const [refreshing, setRefreshing] = useState(false)
 
   /* verify state */
@@ -260,15 +228,15 @@ export default function News() {
   const [history, setHistory] = useState<NewsCheck[]>([])
   const [historyLoaded, setHistoryLoaded] = useState(false)
 
-  const categories = ['all', ...Array.from(new Set(articles.map((a) => a.category)))]
-  const filtered = filterCat === 'all' ? articles : articles.filter((a) => a.category === filterCat)
+  const sources = ['all', ...Array.from(new Set(articles.map((a) => a.source_name)))]
+  const filtered = filterSource === 'all' ? articles : articles.filter((a) => a.source_name === filterSource)
 
   const verdictColor = result ? VERDICT_COLORS[result.verdict] || 'var(--chrome-mid)' : 'var(--chrome-mid)'
 
   const handleRefresh = useCallback(async () => {
     setRefreshing(true)
     try {
-      const { data } = await supabase.functions.invoke('cyber-news')
+      const { data } = await supabase.functions.invoke('news-feed')
       if (data?.articles) setArticles(data.articles)
     } finally {
       setRefreshing(false)
@@ -309,48 +277,27 @@ export default function News() {
 
   return (
     <Layout profile={profile} onSignOut={signOut} title="News">
-      <div style={{ minHeight: '100%', background: 'var(--void)', position: 'relative' }}>
+      <div style={{ minHeight: '100%', background: 'var(--void)' }}>
 
         {/* Hero */}
         <div style={{ position: 'relative', height: 220, overflow: 'hidden', background: '#060606' }}>
-          <img
-            src="/assets/video/cdd8c26722152919a8539f357363c238.jpg"
-            alt=""
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5 }}
-          />
+          <img src="/assets/video/cdd8c26722152919a8539f357363c238.jpg" alt=""
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5 }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, var(--void) 100%)' }} />
           <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '0 clamp(16px, 4vw, 40px) 24px' }}>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--danger)', marginBottom: 6 }}>
-              [ CYBER INTELLIGENCE ]
-            </p>
-            <h1 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 72px)', lineHeight: 0.9, letterSpacing: '-0.01em' }}>
-              NEWS
-            </h1>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--danger)', marginBottom: 6 }}>[ CYBER INTELLIGENCE ]</p>
+            <h1 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 72px)', lineHeight: 0.9 }}>NEWS</h1>
           </div>
         </div>
 
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 clamp(16px, 4vw, 40px) 60px' }}>
 
-          {/* Tab switcher */}
+          {/* Tab bar + controls */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, margin: '28px 0 32px', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', gap: 4, background: 'rgba(255,255,255,0.04)', padding: 4, borderRadius: 10, border: '1px solid var(--glass-border)' }}>
               {(['feed', 'verify'] as const).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  style={{
-                    padding: '8px 22px',
-                    borderRadius: 7,
-                    background: activeTab === tab ? 'rgba(255,255,255,0.1)' : 'transparent',
-                    border: activeTab === tab ? '1px solid rgba(255,255,255,0.12)' : '1px solid transparent',
-                    color: activeTab === tab ? 'var(--text-1)' : 'var(--text-3)',
-                    fontFamily: 'JetBrains Mono',
-                    fontSize: 11,
-                    letterSpacing: '0.1em',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                  }}
-                >
+                <button key={tab} onClick={() => setActiveTab(tab)}
+                  style={{ padding: '8px 22px', borderRadius: 7, background: activeTab === tab ? 'rgba(255,255,255,0.1)' : 'transparent', border: `1px solid ${activeTab === tab ? 'rgba(255,255,255,0.12)' : 'transparent'}`, color: activeTab === tab ? 'var(--text-1)' : 'var(--text-3)', fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.1em', cursor: 'pointer', transition: 'all 0.2s' }}>
                   {tab === 'feed' ? 'LIVE FEED' : 'VERIFY'}
                 </button>
               ))}
@@ -358,50 +305,28 @@ export default function News() {
 
             {activeTab === 'feed' && (
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                {/* Live indicator */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 12px', background: 'rgba(255,45,45,0.08)', border: '1px solid rgba(255,45,45,0.2)', borderRadius: 7 }}>
                   <div style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--danger)', animation: 'pulse 1.5s infinite' }} />
                   <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--danger)' }}>LIVE</span>
                 </div>
-                {/* Category filter */}
+                {/* Source filters */}
                 <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-                  {categories.map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setFilterCat(cat)}
-                      style={{
-                        padding: '5px 11px',
-                        borderRadius: 6,
-                        border: `1px solid ${filterCat === cat ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.06)'}`,
-                        background: filterCat === cat ? 'rgba(255,255,255,0.07)' : 'transparent',
-                        color: filterCat === cat ? 'var(--text-1)' : 'var(--text-3)',
-                        fontFamily: 'JetBrains Mono',
-                        fontSize: 9,
-                        letterSpacing: '0.08em',
-                        cursor: 'pointer',
-                        transition: 'all 0.15s',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {cat === 'all' ? 'ALL' : (CATEGORY_LABELS[cat] || cat.toUpperCase())}
+                  {sources.map((src) => (
+                    <button key={src} onClick={() => setFilterSource(src)}
+                      style={{ padding: '5px 11px', borderRadius: 6, border: `1px solid ${filterSource === src ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.06)'}`, background: filterSource === src ? 'rgba(255,255,255,0.07)' : 'transparent', color: filterSource === src ? 'var(--text-1)' : 'var(--text-3)', fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.06em', cursor: 'pointer', transition: 'all 0.15s', whiteSpace: 'nowrap' }}>
+                      {src === 'all' ? 'ALL' : src.toUpperCase().replace('THE ', '')}
                     </button>
                   ))}
                 </div>
-                {/* Refresh */}
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={handleRefresh}
-                  disabled={refreshing}
-                  style={{ width: 32, height: 32, borderRadius: 7, background: 'rgba(255,255,255,0.04)', border: '1px solid var(--glass-border)', color: 'var(--text-3)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s' }}
-                >
+                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleRefresh} disabled={refreshing}
+                  style={{ width: 32, height: 32, borderRadius: 7, background: 'rgba(255,255,255,0.04)', border: '1px solid var(--glass-border)', color: 'var(--text-3)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
                   <RefreshCw size={13} style={{ animation: refreshing ? 'spin 0.8s linear infinite' : 'none' }} />
                 </motion.button>
               </div>
             )}
           </div>
 
-          {/* ── LIVE FEED TAB ── */}
+          {/* ── LIVE FEED ── */}
           <AnimatePresence mode="wait">
             {activeTab === 'feed' && (
               <motion.div key="feed" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.3 }}>
@@ -409,9 +334,7 @@ export default function News() {
                   <div className="glass" style={{ borderRadius: 16, padding: '32px 28px', display: 'flex', alignItems: 'center', gap: 14 }}>
                     <AlertTriangle size={18} style={{ color: 'var(--danger)', flexShrink: 0 }} />
                     <div>
-                      <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 15, color: 'var(--text-1)', marginBottom: 4 }}>
-                        Feed unavailable
-                      </p>
+                      <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 15, color: 'var(--text-1)', marginBottom: 4 }}>Feed unavailable</p>
                       <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-3)' }}>{error}</p>
                     </div>
                     <button onClick={handleRefresh} style={{ marginLeft: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.06)', border: '1px solid var(--glass-border)', borderRadius: 8, color: 'var(--text-2)', fontFamily: 'JetBrains Mono', fontSize: 11, cursor: 'pointer' }}>
@@ -423,12 +346,7 @@ export default function News() {
                     {loading
                       ? [...Array(9)].map((_, i) => <SkeletonCard key={i} />)
                       : filtered.map((article, i) => (
-                          <motion.div
-                            key={article.id}
-                            initial={{ opacity: 0, y: 16 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: i * 0.04, duration: 0.35 }}
-                          >
+                          <motion.div key={article.article_url} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.35 }}>
                             <NewsCard article={article} onClick={() => setSelectedArticle(article)} />
                           </motion.div>
                         ))}
@@ -436,68 +354,30 @@ export default function News() {
                 )}
                 {!loading && filtered.length === 0 && !error && (
                   <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-3)', textAlign: 'center', padding: '60px 0' }}>
-                    No articles for this filter.
+                    No articles for this source.
                   </p>
                 )}
               </motion.div>
             )}
 
-            {/* ── VERIFY TAB ── */}
+            {/* ── VERIFY ── */}
             {activeTab === 'verify' && (
               <motion.div key="verify" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.3 }} style={{ maxWidth: 800 }}>
-
                 <div className="glass" style={{ borderRadius: 24, padding: 36, marginBottom: 28 }}>
                   <label style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-3)', display: 'block', marginBottom: 12 }}>
                     HEADLINE, CLAIM, OR URL
                   </label>
-                  <textarea
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    placeholder="Paste any news headline, claim, or article URL..."
-                    rows={4}
-                    style={{
-                      width: '100%',
-                      background: 'rgba(255,255,255,0.03)',
-                      border: '1px solid var(--glass-border)',
-                      borderRadius: 12,
-                      padding: '14px 16px',
-                      color: 'var(--text-1)',
-                      fontFamily: 'Syne',
-                      fontSize: 15,
-                      resize: 'vertical',
-                      outline: 'none',
-                      marginBottom: 20,
-                      lineHeight: 1.6,
-                      boxSizing: 'border-box',
-                    }}
+                  <textarea value={content} onChange={(e) => setContent(e.target.value)}
+                    placeholder="Paste any news headline, claim, or article URL..." rows={4}
+                    style={{ width: '100%', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--glass-border)', borderRadius: 12, padding: '14px 16px', color: 'var(--text-1)', fontFamily: 'Syne', fontSize: 15, resize: 'vertical', outline: 'none', marginBottom: 20, lineHeight: 1.6, boxSizing: 'border-box' }}
                     onFocus={(e) => { e.target.style.borderColor = 'var(--glass-border-bright)' }}
                     onBlur={(e) => { e.target.style.borderColor = 'var(--glass-border)' }}
                   />
-                  {verifyError && (
-                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--danger)', marginBottom: 16 }}>{verifyError}</p>
-                  )}
+                  {verifyError && <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--danger)', marginBottom: 16 }}>{verifyError}</p>}
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>
-                      3 verifications/day on free tier
-                    </p>
-                    <motion.button
-                      whileHover={{ scale: 1.03, boxShadow: '0 0 30px rgba(255,255,255,0.1)' }}
-                      whileTap={{ scale: 0.97 }}
-                      onClick={handleVerify}
-                      disabled={verifying || !content.trim()}
-                      style={{
-                        padding: '12px 36px',
-                        background: verifying ? 'var(--void-4)' : 'white',
-                        color: verifying ? 'var(--text-3)' : 'black',
-                        fontFamily: 'Syne',
-                        fontWeight: 700,
-                        fontSize: 14,
-                        border: 'none',
-                        borderRadius: 10,
-                        cursor: verifying ? 'not-allowed' : 'pointer',
-                        transition: 'all 0.2s',
-                      }}
-                    >
+                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>3 verifications/day on free tier</p>
+                    <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} onClick={handleVerify} disabled={verifying || !content.trim()}
+                      style={{ padding: '12px 36px', background: verifying ? 'var(--void-4)' : 'white', color: verifying ? 'var(--text-3)' : 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10, cursor: verifying ? 'not-allowed' : 'pointer', transition: 'all 0.2s' }}>
                       {verifying ? 'ANALYZING...' : 'VERIFY NOW'}
                     </motion.button>
                   </div>
@@ -505,20 +385,12 @@ export default function News() {
 
                 <AnimatePresence>
                   {result && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.5 }}
-                      className="glass"
-                      style={{ borderRadius: 24, padding: 36, marginBottom: 28 }}
-                    >
+                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.5 }}
+                      className="glass" style={{ borderRadius: 24, padding: 36, marginBottom: 28 }}>
                       <div style={{ display: 'flex', alignItems: 'flex-end', gap: 24, marginBottom: 32, flexWrap: 'wrap' }}>
                         <div>
                           <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 4 }}>CREDIBILITY SCORE</p>
-                          <span style={{ fontFamily: 'JetBrains Mono', fontWeight: 700, fontSize: 72, color: verdictColor, lineHeight: 1 }}>
-                            {result.credibility_score}
-                          </span>
+                          <span style={{ fontFamily: 'JetBrains Mono', fontWeight: 700, fontSize: 72, color: verdictColor, lineHeight: 1 }}>{result.credibility_score}</span>
                           <span style={{ fontFamily: 'JetBrains Mono', fontSize: 28, color: verdictColor }}>/100</span>
                         </div>
                         <div>
@@ -574,9 +446,7 @@ export default function News() {
                     </button>
                   )}
                 </div>
-                {historyLoaded && history.length === 0 && (
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-3)' }}>No verifications yet.</p>
-                )}
+                {historyLoaded && history.length === 0 && <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-3)' }}>No verifications yet.</p>}
                 {history.map((item, i) => {
                   const col = VERDICT_COLORS[item.verdict] || 'var(--chrome-dim)'
                   return (
@@ -601,11 +471,8 @@ export default function News() {
         </div>
       </div>
 
-      {/* Article modal */}
       <AnimatePresence>
-        {selectedArticle && (
-          <ArticleModal article={selectedArticle} onClose={() => setSelectedArticle(null)} />
-        )}
+        {selectedArticle && <ArticleModal article={selectedArticle} onClose={() => setSelectedArticle(null)} />}
       </AnimatePresence>
 
       <style>{`

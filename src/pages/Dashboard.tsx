@@ -899,9 +899,9 @@ export default function Dashboard() {
                   </div>
                 ))
               : newsArticles.slice(0, 4).map((article, i) => {
-                  const srcColor = SOURCE_COLORS[article.source] || 'rgba(255,255,255,0.4)'
+                  const srcColor = SOURCE_COLORS[article.source_name] || 'rgba(255,255,255,0.4)'
                   return (
-                    <motion.button key={article.id}
+                    <motion.button key={article.article_url}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.07 }}
@@ -911,9 +911,9 @@ export default function Dashboard() {
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 8 }}>
                         <span style={{ width: 5, height: 5, borderRadius: '50%', background: srcColor, flexShrink: 0 }} />
-                        <span style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.08em', color: srcColor, flex: 1 }}>{article.source.toUpperCase()}</span>
+                        <span style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.08em', color: srcColor, flex: 1 }}>{article.source_name.toUpperCase()}</span>
                         <span style={{ fontFamily: 'Inter', fontSize: 8, color: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', gap: 3 }}>
-                          <Clock size={7} />{timeAgo(article.pubDate)}
+                          <Clock size={7} />{timeAgo(article.published_at)}
                         </span>
                       </div>
                       <p style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 12, color: 'rgba(255,255,255,0.8)', lineHeight: 1.45, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
