@@ -53,10 +53,10 @@ serve(async (req) => {
     let result: 'authentic' | 'fake' | 'uncertain' = 'uncertain'
 
     try {
-      const hiveResponse = await fetch('https://api.thehive.ai/api/v2/task/sync', {
+      const hiveResponse = await fetch('https://api.thehive.ai/api/v2/task/ai-generated-and-deepfake-content-detection', {
         method: 'POST',
         headers: {
-          'Authorization': `token ${hiveApiKey}`,
+          'Authorization': `Bearer ${hiveApiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -67,34 +67,36 @@ serve(async (req) => {
       if (hiveResponse.ok) {
         hiveResult = await hiveResponse.json() as Record<string, unknown>
 
-        // Parse Hive response — status is an array: status[0].response.output
+        // status is an array: status[0].response.output (one entry per frame)
         type HiveClass = { class: string; score: number }
         type HiveOutput = { classes?: HiveClass[] }
         type HiveStatus = { response?: { output?: HiveOutput[] } }
         const statusArr = (hiveResult as { status?: HiveStatus[] })?.status
         const output = Array.isArray(statusArr) ? statusArr[0]?.response?.output : undefined
-        if (output && Array.isArray(output) && output.length > 0) {
-          const classes = output[0]?.classes || []
-          const fakeClass = classes.find((c: HiveClass) =>
-            c.class === 'yes' || c.class === 'fake' || c.class === 'deepfake' || c.class === 'ai_generated'
-          )
-          const authenticClass = classes.find((c: HiveClass) =>
-            c.class === 'no' || c.class === 'real' || c.class === 'authentic' || c.class === 'not_ai_generated'
-          )
 
-          if (fakeClass) {
-            confidenceScore = Math.round(fakeClass.score * 100)
+        if (output && Array.isArray(output) && output.length > 0) {
+          // Aggregate ai_generated score across all frames (videos have multiple)
+          let totalAiScore = 0
+          let frameCount = 0
+          for (const frame of output) {
+            const classes = frame?.classes || []
+            const aiClass = classes.find((c: HiveClass) =>
+              c.class === 'ai_generated' || c.class === 'ai_generated_visual'
+            )
+            if (aiClass !== undefined) {
+              totalAiScore += aiClass.score
+              frameCount++
+            }
+          }
+          if (frameCount > 0) {
+            const avgAiScore = totalAiScore / frameCount
+            confidenceScore = Math.round(avgAiScore * 100)
             if (confidenceScore >= 70) result = 'fake'
             else if (confidenceScore >= 40) result = 'uncertain'
             else {
               result = 'authentic'
               confidenceScore = 100 - confidenceScore
             }
-          } else if (authenticClass) {
-            confidenceScore = Math.round(authenticClass.score * 100)
-            if (confidenceScore >= 70) result = 'authentic'
-            else if (confidenceScore >= 40) result = 'uncertain'
-            else result = 'fake'
           }
         }
       }
