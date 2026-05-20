@@ -52,9 +52,7 @@ serve(async (req) => {
     type HiveStatus = { response?: { output?: HiveOutput[] } }
 
     const isAudio = file_type === 'audio'
-    const hiveApiKey = isAudio
-      ? Deno.env.get('HIVE_AUDIO_API_KEY') ?? ''
-      : Deno.env.get('HIVE_API_KEY') ?? ''
+    const hiveApiKey = Deno.env.get('HIVE_API_KEY') ?? ''
     const hiveEndpoint = isAudio
       ? 'https://api.thehive.ai/api/v2/task/ai-generated-audio-detection'
       : 'https://api.thehive.ai/api/v2/task/ai-generated-and-deepfake-content-detection'
