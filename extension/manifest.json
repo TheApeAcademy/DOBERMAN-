@@ -3,6 +3,12 @@
   "name": "D0B3RMAN",
   "version": "1.0.0",
   "description": "Detect deepfakes and verify content instantly. Right-click any image, video, or text.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "doberman@theapeacademy.com",
+      "strict_min_version": "109.0"
+    }
+  },
   "permissions": ["activeTab", "contextMenus", "storage"],
   "host_permissions": ["<all_urls>"],
   "background": { "service_worker": "background.js" },
