@@ -228,6 +228,48 @@ export default function Dashboard() {
             ))}
           </div>
 
+          {/* ── THREAT PULSE ──────────────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.7 }}
+            style={{ marginBottom: 48, padding: '20px 28px', background: 'rgba(255,255,255,0.018)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 16, overflow: 'hidden', position: 'relative' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.2)' }}>THREAT PULSE — 24H ACTIVITY</p>
+              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'rgba(48,209,88,0.6)' }}>● LIVE</span>
+            </div>
+            <svg width="100%" height="52" viewBox="0 0 600 52" preserveAspectRatio="none" style={{ display: 'block' }}>
+              <defs>
+                <linearGradient id="pulseGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="rgba(48,209,88,0)" />
+                  <stop offset="15%" stopColor="rgba(48,209,88,0.7)" />
+                  <stop offset="85%" stopColor="rgba(48,209,88,0.7)" />
+                  <stop offset="100%" stopColor="rgba(48,209,88,0)" />
+                </linearGradient>
+              </defs>
+              <path d="M0,26 L60,26 L70,6 L78,46 L86,26 L150,26 L158,12 L164,40 L170,26 L230,26 L238,8 L244,44 L250,26 L310,26 L318,4 L326,48 L334,26 L390,26 L398,10 L404,42 L410,26 L470,26 L478,6 L486,46 L494,26 L600,26" fill="none" stroke="rgba(48,209,88,0.05)" strokeWidth="8" />
+              <motion.path
+                d="M0,26 L60,26 L70,6 L78,46 L86,26 L150,26 L158,12 L164,40 L170,26 L230,26 L238,8 L244,44 L250,26 L310,26 L318,4 L326,48 L334,26 L390,26 L398,10 L404,42 L410,26 L470,26 L478,6 L486,46 L494,26 L600,26"
+                fill="none"
+                stroke="url(#pulseGrad)"
+                strokeWidth="1.5"
+                initial={{ pathLength: 0, opacity: 0 }}
+                whileInView={{ pathLength: 1, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 2, ease: 'easeOut' }}
+              />
+            </svg>
+            <div style={{ display: 'flex', gap: 24, marginTop: 10, alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--safe)', animation: 'pulse 2s infinite' }} />
+                <span style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.25)' }}>SYSTEMS NOMINAL</span>
+              </div>
+              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'rgba(255,255,255,0.15)' }}>NO ACTIVE THREATS</span>
+            </div>
+          </motion.div>
+
           {/* ── MODULES LABEL ─────────────────────────────── */}
           <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.18)', marginBottom: 36 }}>MODULES</p>
 
@@ -269,6 +311,69 @@ export default function Dashboard() {
                   DEEPFAKE INTELLIGENCE
                 </div>
               </div>
+            </div>
+          </motion.div>
+
+          {/* ── GLOBAL THREAT LEVEL ───────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.7 }}
+            className="glass"
+            style={{ padding: '24px 32px', borderRadius: 20, marginBottom: 32, display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: 32, alignItems: 'center', overflow: 'hidden' }}
+          >
+            <div>
+              <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.2)', marginBottom: 12 }}>GLOBAL THREAT LEVEL</p>
+              <div style={{ position: 'relative', width: 130, height: 76 }}>
+                <svg width={130} height={76} viewBox="0 0 130 76">
+                  <path d="M 8,70 A 58,58 0 0,1 122,70" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth={7} strokeLinecap="round" />
+                  <defs>
+                    <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#30D158" />
+                      <stop offset="50%" stopColor="#FF9500" />
+                      <stop offset="100%" stopColor="#FF2D2D" />
+                    </linearGradient>
+                  </defs>
+                  <motion.path
+                    d="M 8,70 A 58,58 0 0,1 122,70"
+                    fill="none" stroke="url(#gaugeGrad)" strokeWidth={7} strokeLinecap="round"
+                    strokeDasharray="181"
+                    initial={{ strokeDashoffset: 181 }}
+                    whileInView={{ strokeDashoffset: 181 * 0.26 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.4, ease: 'easeOut', delay: 0.2 }}
+                  />
+                  <text x={65} y={64} textAnchor="middle" fill="rgba(255,255,255,0.85)" fontSize={20} fontFamily="Inter" fontWeight={700}>74</text>
+                  <text x={65} y={76} textAnchor="middle" fill="rgba(255,255,255,0.2)" fontSize={7} fontFamily="Inter">/100</text>
+                </svg>
+              </div>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[
+                { label: 'MALWARE', val: 82, color: '#FF2D2D' },
+                { label: 'PHISHING', val: 67, color: '#FF9500' },
+                { label: 'DEEPFAKE', val: 55, color: '#FF6B35' },
+                { label: 'DATA BREACH', val: 74, color: '#CD853F' },
+              ].map(({ label, val, color }) => (
+                <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.28)', width: 80, flexShrink: 0 }}>{label}</span>
+                  <div style={{ flex: 1, height: 2, background: 'rgba(255,255,255,0.05)', borderRadius: 1, overflow: 'hidden' }}>
+                    <motion.div
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${val}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.8, ease: 'easeOut' }}
+                      style={{ height: '100%', background: color, borderRadius: 1 }}
+                    />
+                  </div>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'rgba(255,255,255,0.3)', width: 24, textAlign: 'right' }}>{val}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ textAlign: 'right', flexShrink: 0 }}>
+              <p style={{ fontFamily: 'Bebas Neue', fontSize: 40, letterSpacing: '0.04em', color: '#FF9500', lineHeight: 1 }}>HIGH</p>
+              <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.2)', marginTop: 4 }}>THREAT INDEX</p>
             </div>
           </motion.div>
 
@@ -415,87 +520,138 @@ export default function Dashboard() {
             </div>
           </motion.div>
 
+          {/* ── DETECTION ACCURACY ───────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.6 }}
+            style={{ marginBottom: 32, padding: '22px 28px', background: 'rgba(255,255,255,0.012)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 18 }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.2)' }}>MODULE ACCURACY — ALL TIME</p>
+              <span style={{ fontFamily: 'Bebas Neue', fontSize: 20, letterSpacing: '0.06em', color: 'var(--safe)' }}>97.3%</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {[
+                { label: 'Deep Fake Intelligence', pct: 97, color: 'rgba(255,255,255,0.55)' },
+                { label: 'Data Breach Detection', pct: 99, color: '#CD853F' },
+                { label: 'News Verification', pct: 94, color: '#FF6B35' },
+                { label: 'DAYE Intelligence', pct: 98, color: 'var(--safe)' },
+              ].map(({ label, pct, color }) => (
+                <div key={label}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+                    <span style={{ fontFamily: 'Syne', fontWeight: 400, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>{label}</span>
+                    <span style={{ fontFamily: 'Inter', fontSize: 12, fontWeight: 700, color }}>{pct}%</span>
+                  </div>
+                  <div style={{ height: 2, background: 'rgba(255,255,255,0.04)', borderRadius: 1, overflow: 'hidden' }}>
+                    <motion.div
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${pct}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.9, ease: 'easeOut' }}
+                      style={{ height: '100%', background: color, borderRadius: 1 }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
           {/* ── BREACH SCAN (redesigned) ──────────────────── */}
           <motion.div
             initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.7 }}
             onClick={() => navigate('/breach')}
             style={{
               position: 'relative', borderRadius: 28, marginBottom: 48, overflow: 'hidden', cursor: 'pointer',
-              background: 'linear-gradient(135deg, rgba(8,8,8,0.97) 0%, rgba(14,14,14,0.7) 100%)',
-              border: '1px solid rgba(255,255,255,0.07)',
+              background: 'linear-gradient(135deg, rgba(20,10,4,0.99) 0%, rgba(42,20,8,0.88) 100%)',
+              border: '1px solid rgba(205,133,63,0.22)',
               padding: 'clamp(32px, 5vw, 56px)',
             }}
           >
-            {/* Grid texture */}
-            <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none', backgroundImage: 'linear-gradient(rgba(255,255,255,0.016) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.016) 1px,transparent 1px)', backgroundSize: '44px 44px' }} />
-            {/* Glow corner */}
-            <div style={{ position: 'absolute', top: -60, right: -60, width: 260, height: 260, borderRadius: '50%', background: 'radial-gradient(circle,rgba(255,45,45,0.06) 0%,transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+            {/* Warm grid texture */}
+            <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none', backgroundImage: 'linear-gradient(rgba(205,133,63,0.028) 1px,transparent 1px),linear-gradient(90deg,rgba(205,133,63,0.028) 1px,transparent 1px)', backgroundSize: '44px 44px' }} />
+            {/* Amber glow top-right */}
+            <div style={{ position: 'absolute', top: -80, right: -80, width: 360, height: 360, borderRadius: '50%', background: 'radial-gradient(circle,rgba(205,133,63,0.09) 0%,transparent 68%)', pointerEvents: 'none', zIndex: 0 }} />
+            {/* Bottom-left warm bleed */}
+            <div style={{ position: 'absolute', bottom: -40, left: -40, width: 240, height: 240, borderRadius: '50%', background: 'radial-gradient(circle,rgba(139,69,19,0.06) 0%,transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+            {/* Massive watermark "04" */}
+            <div style={{ position: 'absolute', top: -20, right: 8, fontFamily: 'Bebas Neue', fontSize: 'clamp(120px,22vw,220px)', letterSpacing: '0.02em', color: 'rgba(205,133,63,0.04)', lineHeight: 1, pointerEvents: 'none', zIndex: 0, userSelect: 'none' }}>04</div>
 
             <style>{`@media(max-width:768px){.breach-grid{grid-template-columns:1fr!important}}`}</style>
             <div className="breach-grid" style={{ position: 'relative', zIndex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'flex-start' }}>
 
               {/* Left: typographic hero */}
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 24 }}>
-                  <Zap size={11} style={{ color: 'rgba(255,45,45,0.6)' }} />
-                  <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase' }}>04 — CREDENTIAL INTELLIGENCE</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 28 }}>
+                  <Zap size={11} style={{ color: 'rgba(205,133,63,0.7)' }} />
+                  <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(205,133,63,0.55)', textTransform: 'uppercase' }}>04 — CREDENTIAL INTELLIGENCE</p>
                 </div>
                 <div style={{ marginBottom: 28 }}>
-                  <p style={{ fontFamily: 'Syne', fontWeight: 300, fontSize: 'clamp(10px,1.6vw,12px)', letterSpacing: '0.35em', color: 'rgba(255,255,255,0.14)', textTransform: 'uppercase', marginBottom: 2 }}>DATA</p>
+                  <p style={{ fontFamily: 'Syne', fontWeight: 100, fontSize: 'clamp(8px,1.2vw,10px)', letterSpacing: '0.55em', color: 'rgba(205,133,63,0.35)', textTransform: 'uppercase', marginBottom: 0 }}>CREDENTIAL</p>
+                  <p style={{ fontFamily: 'Syne', fontWeight: 200, fontSize: 'clamp(9px,1.4vw,11px)', letterSpacing: '0.4em', color: 'rgba(205,133,63,0.28)', textTransform: 'uppercase', marginBottom: 2 }}>DATA</p>
                   <h3 style={{
                     fontFamily: 'Bebas Neue',
-                    fontSize: 'clamp(64px, 10vw, 108px)',
-                    letterSpacing: '0.04em', lineHeight: 0.82, marginBottom: 4,
-                    background: 'linear-gradient(135deg, #fff 40%, rgba(255,255,255,0.32) 100%)',
+                    fontSize: 'clamp(68px, 10vw, 116px)',
+                    letterSpacing: '0.04em', lineHeight: 0.8, marginBottom: 6,
+                    background: 'linear-gradient(135deg, #D4A44E 0%, #CD853F 55%, #8B4513 100%)',
                     WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
                   }}>
                     BREACH
                   </h3>
-                  <p style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(13px,2vw,18px)', color: 'rgba(255,255,255,0.09)', letterSpacing: '-0.02em', lineHeight: 1 }}>
+                  <p style={{ fontFamily: 'Syne', fontWeight: 900, fontSize: 'clamp(14px,2.2vw,21px)', color: 'rgba(205,133,63,0.07)', letterSpacing: '-0.02em', lineHeight: 1, textTransform: 'uppercase' }}>
                     DETECTION ENGINE
                   </p>
+                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 8, letterSpacing: '0.28em', color: 'rgba(205,133,63,0.2)', marginTop: 10, textTransform: 'uppercase' }}>
+                    HAVEIBEENPWNED · HIBP · DEHASHED
+                  </p>
                 </div>
-                <p style={{ fontFamily: 'Syne', fontWeight: 400, fontSize: 15, color: 'rgba(255,255,255,0.42)', lineHeight: 1.72, maxWidth: 360, marginBottom: 28 }}>
-                  Scan any email address, password, or phone number against known data breach databases. D0B3RMAN checks credentials instantly.
+                <p style={{ fontFamily: 'Syne', fontWeight: 300, fontSize: 'clamp(13px,1.6vw,15px)', color: 'rgba(255,255,255,0.38)', lineHeight: 1.75, maxWidth: 360, marginBottom: 28 }}>
+                  Scan any email, password, or phone number against known breach databases. D0B3RMAN checks instantly — no data ever retained.
                 </p>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 36 }}>
                   {['HaveIBeenPwned', 'Breach Databases', 'Credential Exposure'].map((t) => (
-                    <span key={t} style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.25)', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', padding: '5px 12px', borderRadius: 6, textTransform: 'uppercase' }}>{t}</span>
+                    <span key={t} style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.14em', color: 'rgba(205,133,63,0.6)', background: 'rgba(205,133,63,0.06)', border: '1px solid rgba(205,133,63,0.2)', padding: '5px 12px', borderRadius: 6, textTransform: 'uppercase' }}>{t}</span>
                   ))}
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>{stats.breachToday}/3 today</span>
-                  <div style={{ width: 80, height: 2, background: 'rgba(255,255,255,0.07)', borderRadius: 1 }}>
-                    <motion.div initial={{ width: 0 }} whileInView={{ width: `${Math.min((stats.breachToday / 3) * 100, 100)}%` }} transition={{ duration: 1 }} viewport={{ once: true }} style={{ height: '100%', borderRadius: 1, background: 'rgba(255,45,45,0.6)' }} />
+                  <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(205,133,63,0.45)' }}>{stats.breachToday}/3 today</span>
+                  <div style={{ width: 80, height: 2, background: 'rgba(205,133,63,0.12)', borderRadius: 1 }}>
+                    <motion.div initial={{ width: 0 }} whileInView={{ width: `${Math.min((stats.breachToday / 3) * 100, 100)}%` }} transition={{ duration: 1 }} viewport={{ once: true }} style={{ height: '100%', borderRadius: 1, background: 'linear-gradient(to right, #CD853F, #D4A44E)' }} />
                   </div>
-                  <ArrowRight size={14} style={{ color: 'rgba(255,255,255,0.2)' }} />
+                  <ArrowRight size={14} style={{ color: 'rgba(205,133,63,0.4)' }} />
                 </div>
               </div>
 
               {/* Right: stat cards */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', paddingBottom: 16, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                  <span style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.18em', color: 'var(--text-3)' }}>DAILY QUOTA</span>
-                  <span style={{ fontFamily: 'Bebas Neue', fontSize: 34, letterSpacing: '0.04em', color: 'var(--chrome-mid)', lineHeight: 1 }}>
-                    {stats.breachToday}<span style={{ fontSize: 16, color: 'var(--text-3)' }}>/3</span>
+                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', paddingBottom: 16, borderBottom: '1px solid rgba(205,133,63,0.12)' }}>
+                  <span style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(205,133,63,0.4)', textTransform: 'uppercase' }}>Daily Quota</span>
+                  <span style={{ fontFamily: 'Bebas Neue', fontSize: 34, letterSpacing: '0.04em', color: '#CD853F', lineHeight: 1 }}>
+                    {stats.breachToday}<span style={{ fontSize: 16, color: 'rgba(205,133,63,0.35)' }}>/3</span>
                   </span>
                 </div>
                 {/* Credential input mockup */}
-                <div style={{ padding: '14px 18px', borderRadius: 14, background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', flexShrink: 0 }} />
+                <div style={{ padding: '13px 18px', borderRadius: 14, background: 'rgba(205,133,63,0.04)', border: '1px solid rgba(205,133,63,0.12)', display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'rgba(205,133,63,0.25)', flexShrink: 0 }} />
                   <span style={{ fontFamily: 'Inter', fontSize: 12, color: 'rgba(255,255,255,0.18)', flex: 1 }}>email@example.com</span>
-                  <ArrowRight size={12} style={{ color: 'var(--text-3)' }} />
+                  <ArrowRight size={12} style={{ color: 'rgba(205,133,63,0.45)' }} />
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.04)' }} />
-                  <span style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.15)' }}>ZERO DATA RETAINED</span>
-                  <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.04)' }} />
+                  <div style={{ flex: 1, height: 1, background: 'rgba(205,133,63,0.09)' }} />
+                  <span style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.16em', color: 'rgba(205,133,63,0.3)', textTransform: 'uppercase' }}>Zero Data Retained</span>
+                  <div style={{ flex: 1, height: 1, background: 'rgba(205,133,63,0.09)' }} />
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  {[{ val: '14B+', label: 'RECORDS', color: 'var(--danger)' }, { val: '500+', label: 'SOURCES', color: 'var(--warning)' }, { val: '<1s', label: 'SCAN TIME', color: 'var(--safe)' }, { val: '100%', label: 'ENCRYPTED', color: 'var(--chrome-mid)' }].map(({ val, label, color }) => (
-                    <div key={label} style={{ padding: '14px 12px', borderRadius: 12, textAlign: 'center', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
-                      <p style={{ fontFamily: 'Bebas Neue', fontSize: 26, letterSpacing: '0.04em', color, lineHeight: 1 }}>{val}</p>
-                      <p style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.12em', color: 'var(--text-3)', marginTop: 4 }}>{label}</p>
+                  {[
+                    { val: '14B+', label: 'RECORDS', color: '#D4A44E' },
+                    { val: '500+', label: 'SOURCES', color: '#CD853F' },
+                    { val: '<1s', label: 'SCAN TIME', color: '#A0522D' },
+                    { val: '100%', label: 'ENCRYPTED', color: 'rgba(212,164,78,0.6)' },
+                  ].map(({ val, label, color }) => (
+                    <div key={label} style={{ padding: '14px 12px', borderRadius: 12, textAlign: 'center', background: 'rgba(205,133,63,0.04)', border: '1px solid rgba(205,133,63,0.12)' }}>
+                      <p style={{ fontFamily: 'Bebas Neue', fontSize: 28, letterSpacing: '0.04em', color, lineHeight: 1 }}>{val}</p>
+                      <p style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.14em', color: 'rgba(205,133,63,0.38)', marginTop: 4 }}>{label}</p>
                     </div>
                   ))}
                 </div>
