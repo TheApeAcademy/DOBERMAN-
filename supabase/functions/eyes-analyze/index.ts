@@ -61,6 +61,8 @@ serve(async (req) => {
     let confidenceScore = 50
     let result: 'authentic' | 'fake' | 'uncertain' = 'uncertain'
 
+    console.log('eyes-analyze: file_type=', file_type, 'endpoint=', hiveEndpoint, 'key_set=', !!hiveApiKey)
+
     try {
       const hiveResponse = await fetch(hiveEndpoint, {
         method: 'POST',
@@ -71,8 +73,11 @@ serve(async (req) => {
         body: JSON.stringify({ url: file_url }),
       })
 
+      console.log('eyes-analyze: hive status=', hiveResponse.status)
+
       if (hiveResponse.ok) {
         hiveResult = await hiveResponse.json() as Record<string, unknown>
+        console.log('eyes-analyze: hive raw=', JSON.stringify(hiveResult).slice(0, 500))
 
         const statusArr = (hiveResult as { status?: HiveStatus[] })?.status
         const output = Array.isArray(statusArr) ? statusArr[0]?.response?.output : undefined
@@ -107,8 +112,12 @@ serve(async (req) => {
           }
         }
       }
+      } else {
+        const errBody = await hiveResponse.text()
+        console.error('eyes-analyze: hive error body=', errBody)
+      }
     } catch (hiveError) {
-      console.error('Hive API error:', hiveError)
+      console.error('eyes-analyze: hive fetch exception=', hiveError)
     }
 
     // Call Claude to generate explanation
