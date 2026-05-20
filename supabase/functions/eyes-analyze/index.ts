@@ -46,51 +46,60 @@ serve(async (req) => {
       )
     }
 
-    // Call Hive Moderation API
-    const hiveApiKey = Deno.env.get('HIVE_API_KEY') ?? ''
+    // Route to the correct Hive endpoint by file type
+    type HiveClass = { class: string; score: number }
+    type HiveOutput = { classes?: HiveClass[] }
+    type HiveStatus = { response?: { output?: HiveOutput[] } }
+
+    const isAudio = file_type === 'audio'
+    const hiveApiKey = isAudio
+      ? Deno.env.get('HIVE_AUDIO_API_KEY') ?? ''
+      : Deno.env.get('HIVE_API_KEY') ?? ''
+    const hiveEndpoint = isAudio
+      ? 'https://api.thehive.ai/api/v2/task/ai-generated-audio-detection'
+      : 'https://api.thehive.ai/api/v2/task/ai-generated-and-deepfake-content-detection'
+
     let hiveResult: Record<string, unknown> = {}
     let confidenceScore = 50
     let result: 'authentic' | 'fake' | 'uncertain' = 'uncertain'
 
     try {
-      const hiveResponse = await fetch('https://api.thehive.ai/api/v2/task/ai-generated-and-deepfake-content-detection', {
+      const hiveResponse = await fetch(hiveEndpoint, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${hiveApiKey}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          url: file_url,
-        }),
+        body: JSON.stringify({ url: file_url }),
       })
 
       if (hiveResponse.ok) {
         hiveResult = await hiveResponse.json() as Record<string, unknown>
 
-        // status is an array: status[0].response.output (one entry per frame)
-        type HiveClass = { class: string; score: number }
-        type HiveOutput = { classes?: HiveClass[] }
-        type HiveStatus = { response?: { output?: HiveOutput[] } }
         const statusArr = (hiveResult as { status?: HiveStatus[] })?.status
         const output = Array.isArray(statusArr) ? statusArr[0]?.response?.output : undefined
 
         if (output && Array.isArray(output) && output.length > 0) {
-          // Aggregate ai_generated score across all frames (videos have multiple)
-          let totalAiScore = 0
+          // Aggregate fake score across all frames (videos return one per frame)
+          let totalFakeScore = 0
           let frameCount = 0
           for (const frame of output) {
             const classes = frame?.classes || []
-            const aiClass = classes.find((c: HiveClass) =>
-              c.class === 'ai_generated' || c.class === 'ai_generated_visual'
+            // Audio: ai_generated_audio | Image/Video: ai_generated, ai_generated_visual, yes_deepfake
+            const fakeClass = classes.find((c: HiveClass) =>
+              c.class === 'ai_generated_audio' ||
+              c.class === 'ai_generated' ||
+              c.class === 'ai_generated_visual' ||
+              c.class === 'yes_deepfake'
             )
-            if (aiClass !== undefined) {
-              totalAiScore += aiClass.score
+            if (fakeClass !== undefined) {
+              totalFakeScore += fakeClass.score
               frameCount++
             }
           }
           if (frameCount > 0) {
-            const avgAiScore = totalAiScore / frameCount
-            confidenceScore = Math.round(avgAiScore * 100)
+            const avgFakeScore = totalFakeScore / frameCount
+            confidenceScore = Math.round(avgFakeScore * 100)
             if (confidenceScore >= 70) result = 'fake'
             else if (confidenceScore >= 40) result = 'uncertain'
             else {
@@ -102,7 +111,6 @@ serve(async (req) => {
       }
     } catch (hiveError) {
       console.error('Hive API error:', hiveError)
-      // Continue with fallback analysis using Claude only
     }
 
     // Call Claude to generate explanation
