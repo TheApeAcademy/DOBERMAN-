@@ -67,15 +67,19 @@ serve(async (req) => {
       if (hiveResponse.ok) {
         hiveResult = await hiveResponse.json() as Record<string, unknown>
 
-        // Parse Hive response for deepfake probability
-        const output = (hiveResult as { status?: { response?: { output?: Array<{ classes?: Array<{ class: string; score: number }> }> } } })?.status?.response?.output
+        // Parse Hive response — status is an array: status[0].response.output
+        type HiveClass = { class: string; score: number }
+        type HiveOutput = { classes?: HiveClass[] }
+        type HiveStatus = { response?: { output?: HiveOutput[] } }
+        const statusArr = (hiveResult as { status?: HiveStatus[] })?.status
+        const output = Array.isArray(statusArr) ? statusArr[0]?.response?.output : undefined
         if (output && Array.isArray(output) && output.length > 0) {
           const classes = output[0]?.classes || []
-          const fakeClass = classes.find((c: { class: string; score: number }) =>
-            c.class === 'yes' || c.class === 'fake' || c.class === 'deepfake'
+          const fakeClass = classes.find((c: HiveClass) =>
+            c.class === 'yes' || c.class === 'fake' || c.class === 'deepfake' || c.class === 'ai_generated'
           )
-          const authenticClass = classes.find((c: { class: string; score: number }) =>
-            c.class === 'no' || c.class === 'real' || c.class === 'authentic'
+          const authenticClass = classes.find((c: HiveClass) =>
+            c.class === 'no' || c.class === 'real' || c.class === 'authentic' || c.class === 'not_ai_generated'
           )
 
           if (fakeClass) {
