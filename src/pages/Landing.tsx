@@ -6,7 +6,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useShockwave } from '../hooks/useShockwave'
 import { AnimatedCounter } from '../components/ui/AnimatedCounter'
 import { VideoBlob } from '../components/ui/VideoBlob'
-import { GlobeEmbed } from '../components/3d/GlobeEmbed'
 
 gsap.registerPlugin(ScrollTrigger)
 
