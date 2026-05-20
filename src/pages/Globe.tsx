@@ -4,9 +4,10 @@ import { OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 import { motion, AnimatePresence } from 'framer-motion'
 import gsap from 'gsap'
-import { Search, X, Shield, Newspaper, Brain, AlertTriangle, TrendingUp, ChevronRight } from 'lucide-react'
+import { Search, X, Shield, Newspaper, Brain, AlertTriangle, TrendingUp, ChevronRight, Clock, ExternalLink, Radio } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
+import { useCyberNews, SOURCE_COLORS, CATEGORY_LABELS, timeAgo } from '../hooks/useCyberNews'
 
 // ─── Country Data ────────────────────────────────────────────────────────────
 
@@ -2060,9 +2061,12 @@ function SearchBar({ onSelect }: SearchBarProps) {
 
 export default function Globe() {
   const { profile, signOut } = useAuth()
+  const { articles, loading: newsLoading } = useCyberNews()
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null)
   const [showHint, setShowHint] = useState(true)
   const [hasInteracted, setHasInteracted] = useState(false)
+  const [showLiveFeed, setShowLiveFeed] = useState(false)
+  const [liveFilterCat, setLiveFilterCat] = useState('all')
   const rotationRef = useRef({ y: 0, paused: false, resumeTimer: 0 })
   const orbitRef = useRef<any>(null)
 
@@ -2237,7 +2241,150 @@ export default function Globe() {
             <CountryPanel country={selectedCountry} onClose={handleClosePanel} />
           )}
         </AnimatePresence>
+
+        {/* ── Live Intel Toggle ── */}
+        <motion.button
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 1 }}
+          onClick={() => setShowLiveFeed((v) => !v)}
+          style={{
+            position: 'absolute',
+            bottom: 24,
+            left: showLiveFeed ? 356 : 16,
+            zIndex: 30,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 7,
+            padding: '8px 14px',
+            background: showLiveFeed ? 'rgba(255,45,45,0.18)' : 'rgba(0,0,0,0.7)',
+            border: `1px solid ${showLiveFeed ? 'rgba(255,45,45,0.4)' : 'rgba(255,255,255,0.1)'}`,
+            borderRadius: 10,
+            backdropFilter: 'blur(16px)',
+            cursor: 'pointer',
+            transition: 'left 0.35s cubic-bezier(0.4,0,0.2,1), background 0.2s, border-color 0.2s',
+          }}
+        >
+          <Radio size={13} style={{ color: showLiveFeed ? '#FF2D2D' : 'rgba(255,255,255,0.6)' }} />
+          <span style={{ fontFamily: 'Inter', fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', color: showLiveFeed ? '#FF2D2D' : 'rgba(255,255,255,0.6)' }}>
+            LIVE INTEL
+          </span>
+          {!showLiveFeed && (
+            <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#FF2D2D', animation: 'pulseDot 1.5s infinite', marginLeft: 2 }} />
+          )}
+        </motion.button>
+
+        {/* ── Live Intel Panel ── */}
+        <AnimatePresence>
+          {showLiveFeed && (
+            <motion.div
+              initial={{ x: -380, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -380, opacity: 0 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              style={{
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                bottom: 0,
+                width: 340,
+                zIndex: 25,
+                display: 'flex',
+                flexDirection: 'column',
+                background: 'rgba(2,5,10,0.92)',
+                backdropFilter: 'blur(28px)',
+                borderRight: '1px solid rgba(255,255,255,0.06)',
+              }}
+            >
+              {/* Panel header */}
+              <div style={{ padding: '20px 18px 14px', borderBottom: '1px solid rgba(255,255,255,0.05)', flexShrink: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#FF2D2D', animation: 'pulseDot 1.5s infinite' }} />
+                    <span style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.16em', color: '#FF2D2D', textTransform: 'uppercase' }}>Live</span>
+                  </div>
+                  <button onClick={() => setShowLiveFeed(false)}
+                    style={{ width: 24, height: 24, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                    <X size={11} />
+                  </button>
+                </div>
+                <p style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 16, color: 'rgba(255,255,255,0.85)', letterSpacing: '0.02em' }}>
+                  Live Threat Intel
+                </p>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'rgba(255,255,255,0.2)', marginTop: 2 }}>
+                  {articles.length} articles from 5 sources
+                </p>
+              </div>
+
+              {/* Category pills */}
+              <div style={{ padding: '9px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', display: 'flex', gap: 5, overflowX: 'auto', flexShrink: 0, scrollbarWidth: 'none' }}>
+                {['all', ...Array.from(new Set(articles.map((a) => a.category)))].map((cat) => (
+                  <button key={cat} onClick={() => setLiveFilterCat(cat)}
+                    style={{
+                      padding: '3px 8px', borderRadius: 5,
+                      border: `1px solid ${liveFilterCat === cat ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.05)'}`,
+                      background: liveFilterCat === cat ? 'rgba(255,255,255,0.07)' : 'transparent',
+                      color: liveFilterCat === cat ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.25)',
+                      fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.07em', whiteSpace: 'nowrap', cursor: 'pointer', transition: 'all 0.15s',
+                    }}>
+                    {cat === 'all' ? 'ALL' : (CATEGORY_LABELS[cat] || cat.toUpperCase())}
+                  </button>
+                ))}
+              </div>
+
+              {/* Articles */}
+              <div style={{ flex: 1, overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.06) transparent' }}>
+                {newsLoading
+                  ? [...Array(8)].map((_, i) => (
+                      <div key={i} style={{ padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.03)', opacity: Math.max(0.2, 1 - i * 0.1) }}>
+                        <div style={{ height: 7, background: 'rgba(255,255,255,0.05)', borderRadius: 3, width: '45%', marginBottom: 8 }} />
+                        <div style={{ height: 11, background: 'rgba(255,255,255,0.06)', borderRadius: 3, marginBottom: 4 }} />
+                        <div style={{ height: 11, background: 'rgba(255,255,255,0.04)', borderRadius: 3, width: '70%' }} />
+                      </div>
+                    ))
+                  : (liveFilterCat === 'all' ? articles : articles.filter(a => a.category === liveFilterCat)).map((article, i) => {
+                      const srcColor = SOURCE_COLORS[article.source] || 'rgba(255,255,255,0.4)'
+                      return (
+                        <motion.a
+                          key={article.id}
+                          href={article.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          initial={{ opacity: 0, x: -12 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: i * 0.025 }}
+                          style={{ display: 'block', padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.03)', textDecoration: 'none', transition: 'background 0.15s' }}
+                          onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
+                          onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 5 }}>
+                            <span style={{ width: 5, height: 5, borderRadius: '50%', background: srcColor, flexShrink: 0, boxShadow: `0 0 4px ${srcColor}` }} />
+                            <span style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.08em', color: srcColor, flex: 1 }}>{article.source.toUpperCase()}</span>
+                            <span style={{ fontFamily: 'Inter', fontSize: 8, color: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', gap: 3 }}>
+                              <Clock size={7} />{timeAgo(article.pubDate)}
+                            </span>
+                          </div>
+                          <p style={{ fontFamily: 'Inter', fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.75)', lineHeight: 1.45, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                            {article.title}
+                          </p>
+                        </motion.a>
+                      )
+                    })}
+              </div>
+
+              {/* Footer */}
+              <div style={{ padding: '10px 16px', borderTop: '1px solid rgba(255,255,255,0.04)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontFamily: 'Inter', fontSize: 8, color: 'rgba(255,255,255,0.18)', letterSpacing: '0.06em' }}>
+                  THN · BC · KREBS · DARK READING · CISA
+                </span>
+                <ExternalLink size={10} style={{ color: 'rgba(255,255,255,0.15)' }} />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
       </div>
+      <style>{`@keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }`}</style>
     </Layout>
   )
 }

@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Shield, ArrowRight, Clock, ExternalLink, ChevronRight, Zap } from 'lucide-react'
+import { Shield, ArrowRight, Clock, ExternalLink, ChevronRight, Zap, Globe } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
 import { formatRelativeTime, getResultLabel } from '../lib/utils'
 import { GlobeEmbed } from '../components/3d/GlobeEmbed'
+import { useCyberNews, SOURCE_COLORS, timeAgo } from '../hooks/useCyberNews'
 
 interface ActivityItem {
   id: string
@@ -123,6 +124,7 @@ export default function Dashboard() {
   })
   const [loading, setLoading] = useState(true)
   const [visibleHeadlines, setVisibleHeadlines] = useState(4)
+  const { articles: newsArticles, loading: newsLoading } = useCyberNews()
   const [weekData, setWeekData] = useState<{ day: string; count: number }[]>([])
   const [moduleBreakdown, setModuleBreakdown] = useState<{ label: string; count: number; color: string }[]>([])
 
@@ -866,6 +868,63 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+        {/* ── Live Intel News ── */}
+        <div style={{ marginTop: 40 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18, flexWrap: 'wrap', gap: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase' }}>Live Intel</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '2px 8px', background: 'rgba(255,45,45,0.08)', border: '1px solid rgba(255,45,45,0.18)', borderRadius: 5 }}>
+                <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#FF2D2D', animation: 'pulse 1.5s infinite' }} />
+                <span style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.12em', color: '#FF2D2D', textTransform: 'uppercase' }}>Live</span>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 12 }}>
+              <button onClick={() => navigate('/globe')}
+                style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.3)', background: 'none', border: 'none', cursor: 'pointer' }}>
+                <Globe size={11} /> Threat Globe
+              </button>
+              <button onClick={() => navigate('/news')}
+                style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.3)', background: 'none', border: 'none', cursor: 'pointer' }}>
+                View all →
+              </button>
+            </div>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: 10 }}>
+            {newsLoading
+              ? [...Array(4)].map((_, i) => (
+                  <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: '14px 16px' }}>
+                    <div style={{ height: 7, background: 'rgba(255,255,255,0.05)', borderRadius: 3, width: '40%', marginBottom: 10 }} />
+                    <div style={{ height: 12, background: 'rgba(255,255,255,0.07)', borderRadius: 3, marginBottom: 5 }} />
+                    <div style={{ height: 12, background: 'rgba(255,255,255,0.04)', borderRadius: 3, width: '70%' }} />
+                  </div>
+                ))
+              : newsArticles.slice(0, 4).map((article, i) => {
+                  const srcColor = SOURCE_COLORS[article.source] || 'rgba(255,255,255,0.4)'
+                  return (
+                    <motion.button key={article.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.07 }}
+                      whileHover={{ y: -3, borderColor: 'rgba(255,255,255,0.12)' }}
+                      onClick={() => navigate('/news')}
+                      style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: '14px 16px', textAlign: 'left', cursor: 'pointer', transition: 'all 0.2s', display: 'block', width: '100%' }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 8 }}>
+                        <span style={{ width: 5, height: 5, borderRadius: '50%', background: srcColor, flexShrink: 0 }} />
+                        <span style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.08em', color: srcColor, flex: 1 }}>{article.source.toUpperCase()}</span>
+                        <span style={{ fontFamily: 'Inter', fontSize: 8, color: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', gap: 3 }}>
+                          <Clock size={7} />{timeAgo(article.pubDate)}
+                        </span>
+                      </div>
+                      <p style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 12, color: 'rgba(255,255,255,0.8)', lineHeight: 1.45, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                        {article.title}
+                      </p>
+                    </motion.button>
+                  )
+                })}
+          </div>
+        </div>
+
       <style>{`@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }`}</style>
     </Layout>
   )
