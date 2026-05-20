@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Eye, Wifi, Brain, LayoutDashboard, History, Settings, LogOut, User, Newspaper } from 'lucide-react'
 import type { Profile } from '../../lib/supabase'
 import { getInitials, getAvatarColor } from '../../lib/utils'
