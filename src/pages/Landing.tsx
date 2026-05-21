@@ -386,7 +386,7 @@ export default function Landing() {
             <motion.div {...IN_VIEW} style={{ flex: '1 1 300px' }}>
               {[
                 { n: '01', title: 'Biometric mesh analysis', desc: 'We map 468 facial landmarks using MediaPipe. Any AI-generated face leaves geometric inconsistencies invisible to the human eye.' },
-                { n: '02', title: '3D model reconstruction', desc: 'Real faces have natural depth variance. Deepfakes fail the 3D scan — normals, shadows, and reflection vectors don't align.' },
+                { n: '02', title: '3D model reconstruction', desc: "Real faces have natural depth variance. Deepfakes fail the 3D scan — normals, shadows, and reflection vectors don't align." },
                 { n: '03', title: 'Identity signature matching', desc: 'We cross-reference against known deepfake architecture signatures: GAN artifacts, frequency domain anomalies, compression tells.' },
               ].map(({ n, title, desc }) => (
                 <div key={n} style={{ display: 'flex', gap: 20, marginBottom: 36 }}>
