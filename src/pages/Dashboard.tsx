@@ -294,7 +294,7 @@ export default function Dashboard() {
               </div>
               <div className="dfi-video" style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#060606' }}>
                 <img
-                  src="/assets/video/b78ad4f230a4015d24a420fce2a7d53b.jpg"
+                  src="/assets/video/0a068fc3612b18fb193aa68da61d7bb3.jpg"
                   alt=""
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', pointerEvents: 'none' }}
                 />
@@ -438,14 +438,17 @@ export default function Dashboard() {
             onClick={() => navigate('/brain')}
             style={{ borderRadius: 24, marginBottom: 32, overflow: 'hidden', background: '#000', textAlign: 'center', cursor: 'pointer' }}
           >
-            {/* DAYE hero visual */}
-            <div style={{ position: 'relative', width: '100%', height: 'clamp(260px, 50vw, 520px)', overflow: 'hidden', background: '#060606' }}>
-              <video
-                autoPlay muted loop playsInline preload="auto"
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', display: 'block', pointerEvents: 'none' }}
-              >
-                <source src="/assets/video/blob-di.mp4" type="video/mp4" />
-              </video>
+            {/* DAYE hero visual — tech grid, no video */}
+            <div style={{ position: 'relative', width: '100%', height: 'clamp(260px, 50vw, 520px)', overflow: 'hidden', background: '#000' }}>
+              {/* Dot grid */}
+              <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle, rgba(48,209,88,0.07) 1px, transparent 1px)', backgroundSize: '28px 28px', pointerEvents: 'none' }} />
+              {/* Perspective floor grid */}
+              <div style={{ position: 'absolute', bottom: 0, left: '-10%', right: '-10%', height: '55%', backgroundImage: 'linear-gradient(rgba(48,209,88,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(48,209,88,0.06) 1px,transparent 1px)', backgroundSize: '44px 44px', transform: 'perspective(500px) rotateX(-52deg)', transformOrigin: 'bottom center', maskImage: 'linear-gradient(to top,transparent 5%,rgba(0,0,0,0.45) 55%,transparent 100%)', WebkitMaskImage: 'linear-gradient(to top,transparent 5%,rgba(0,0,0,0.45) 55%,transparent 100%)', pointerEvents: 'none' }} />
+              {/* Green ambient glow */}
+              <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(48,209,88,0.06) 0%, transparent 70%)', pointerEvents: 'none' }} />
+              {/* Corner label */}
+              <div style={{ position: 'absolute', top: 20, left: 24, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.12em', color: 'rgba(48,209,88,0.5)', zIndex: 2 }}>DAYE -- AI SECURITY ANALYST</div>
+              {/* Fade to black at bottom */}
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.95))', pointerEvents: 'none' }} />
             </div>
 

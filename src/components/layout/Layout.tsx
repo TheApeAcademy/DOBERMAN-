@@ -53,9 +53,9 @@ export function Layout({ profile, onSignOut, children, title }: LayoutProps) {
       )}
 
       {/* Main content — always beside sidebar, never under it */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden', zIndex: 1, minHeight: 0 }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflowX: 'hidden', zIndex: 1, minHeight: 0 }}>
         <Header profile={profile} onMenuClick={handleMenuClick} title={title} />
-        <main style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
+        <main style={{ flex: 1, overflowY: 'scroll', minHeight: 0, WebkitOverflowScrolling: 'touch' } as React.CSSProperties}>
           {children}
         </main>
       </div>

@@ -59,69 +59,91 @@ serve(async (req) => {
       )
     }
 
-    // Fetch raw image bytes
-    const imageResponse = await fetch(file_url)
-    if (!imageResponse.ok) {
-      throw new Error('Failed to fetch image for analysis')
-    }
-    const imageBuffer = await imageResponse.arrayBuffer()
-
-    const hfApiKey = Deno.env.get('HF_API_KEY') ?? ''
-    let hfResult: HFLabel[] | null = null
     let confidenceScore = 50
     let result: 'authentic' | 'fake' | 'uncertain' = 'uncertain'
+    let analysisSucceeded = false
 
-    try {
-      let hfResponse = await callHuggingFace('Wvolf/ViT_Deepfake_Detection', imageBuffer, hfApiKey)
+    // ── HIVE AI (primary — key stored as HIVE_API_KEY) ────────────
+    const hiveApiKey = Deno.env.get('HIVE_API_KEY') ?? ''
+    if (hiveApiKey) {
+      try {
+        const hiveResponse = await fetch('https://api.thehive.ai/api/v2/task/sync', {
+          method: 'POST',
+          headers: {
+            'Authorization': `token ${hiveApiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ url: file_url }),
+        })
 
-      // Handle cold start — retry once after 8 seconds
-      if (hfResponse.status === 503) {
-        await new Promise((resolve) => setTimeout(resolve, 8000))
-        hfResponse = await callHuggingFace('Wvolf/ViT_Deepfake_Detection', imageBuffer, hfApiKey)
-      }
-
-      if (hfResponse.ok) {
-        hfResult = await hfResponse.json() as HFLabel[]
-      } else {
-        // Try fallback model
-        const fallback = await callHuggingFace('prithivMLmods/Deep-Fake-Detector-v2-Model', imageBuffer, hfApiKey)
-        if (fallback.ok) {
-          hfResult = await fallback.json() as HFLabel[]
-        }
-      }
-
-      if (hfResult && Array.isArray(hfResult)) {
-        const fakeEntry = hfResult.find((item) =>
-          item.label.toLowerCase().includes('fake') || item.label.toLowerCase().includes('deepfake')
-        )
-        const realEntry = hfResult.find((item) =>
-          item.label.toLowerCase().includes('real') || item.label.toLowerCase().includes('authentic')
-        )
-
-        if (fakeEntry) {
-          confidenceScore = Math.round(fakeEntry.score * 100)
-          if (confidenceScore >= 70) result = 'fake'
-          else if (confidenceScore >= 40) result = 'uncertain'
-          else {
-            result = 'authentic'
-            confidenceScore = 100 - confidenceScore
-          }
-        } else if (realEntry) {
-          const realScore = Math.round(realEntry.score * 100)
-          if (realScore >= 70) {
-            result = 'authentic'
-            confidenceScore = realScore
-          } else if (realScore >= 40) {
-            result = 'uncertain'
-            confidenceScore = 100 - realScore
-          } else {
-            result = 'fake'
-            confidenceScore = 100 - realScore
+        if (hiveResponse.ok) {
+          type HiveOutput = { status?: { response?: { output?: Array<{ classes?: Array<{ class: string; score: number }> }> } } }
+          const hiveData = await hiveResponse.json() as HiveOutput
+          const output = hiveData?.status?.response?.output
+          if (output && Array.isArray(output) && output.length > 0) {
+            const classes = output[0]?.classes || []
+            const fakeClass = classes.find((c) => c.class === 'yes' || c.class === 'fake' || c.class === 'deepfake')
+            const realClass = classes.find((c) => c.class === 'no' || c.class === 'real' || c.class === 'authentic')
+            if (fakeClass) {
+              confidenceScore = Math.round(fakeClass.score * 100)
+              if (confidenceScore >= 70) result = 'fake'
+              else if (confidenceScore >= 40) result = 'uncertain'
+              else { result = 'authentic'; confidenceScore = 100 - confidenceScore }
+              analysisSucceeded = true
+            } else if (realClass) {
+              const realScore = Math.round(realClass.score * 100)
+              if (realScore >= 70) { result = 'authentic'; confidenceScore = realScore }
+              else if (realScore >= 40) { result = 'uncertain'; confidenceScore = 100 - realScore }
+              else { result = 'fake'; confidenceScore = 100 - realScore }
+              analysisSucceeded = true
+            }
           }
         }
+      } catch (hiveError) {
+        console.error('Hive API error:', hiveError)
       }
-    } catch (hfError) {
-      console.error('HuggingFace API error:', hfError)
+    }
+
+    // ── HUGGINGFACE (fallback — key stored as HF_API_KEY) ──────────
+    if (!analysisSucceeded) {
+      const hfApiKey = Deno.env.get('HF_API_KEY') ?? ''
+      if (hfApiKey) {
+        try {
+          const imageResponse = await fetch(file_url)
+          if (imageResponse.ok) {
+            const imageBuffer = await imageResponse.arrayBuffer()
+            let hfResponse = await callHuggingFace('Wvolf/ViT_Deepfake_Detection', imageBuffer, hfApiKey)
+            if (hfResponse.status === 503) {
+              await new Promise((resolve) => setTimeout(resolve, 8000))
+              hfResponse = await callHuggingFace('Wvolf/ViT_Deepfake_Detection', imageBuffer, hfApiKey)
+            }
+            let hfResult: HFLabel[] | null = null
+            if (hfResponse.ok) {
+              hfResult = await hfResponse.json() as HFLabel[]
+            } else {
+              const fallback = await callHuggingFace('prithivMLmods/Deep-Fake-Detector-v2-Model', imageBuffer, hfApiKey)
+              if (fallback.ok) hfResult = await fallback.json() as HFLabel[]
+            }
+            if (hfResult && Array.isArray(hfResult)) {
+              const fakeEntry = hfResult.find((item) => item.label.toLowerCase().includes('fake') || item.label.toLowerCase().includes('deepfake'))
+              const realEntry = hfResult.find((item) => item.label.toLowerCase().includes('real') || item.label.toLowerCase().includes('authentic'))
+              if (fakeEntry) {
+                confidenceScore = Math.round(fakeEntry.score * 100)
+                if (confidenceScore >= 70) result = 'fake'
+                else if (confidenceScore >= 40) result = 'uncertain'
+                else { result = 'authentic'; confidenceScore = 100 - confidenceScore }
+              } else if (realEntry) {
+                const realScore = Math.round(realEntry.score * 100)
+                if (realScore >= 70) { result = 'authentic'; confidenceScore = realScore }
+                else if (realScore >= 40) { result = 'uncertain'; confidenceScore = 100 - realScore }
+                else { result = 'fake'; confidenceScore = 100 - realScore }
+              }
+            }
+          }
+        } catch (hfError) {
+          console.error('HuggingFace API error:', hfError)
+        }
+      }
     }
 
     // Generate explanation via Claude
