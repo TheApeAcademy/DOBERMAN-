@@ -293,12 +293,11 @@ export default function Landing() {
                 </motion.button>
               </div>
               <div className="dfi-video" style={{ position: 'relative', height: 320, borderRadius: 16, overflow: 'hidden', background: '#060606' }}>
-                <video
-                  autoPlay muted loop playsInline
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-                >
-                  <source src="/assets/video/blob-nose.mp4" type="video/mp4" />
-                </video>
+                <img
+                  src="/assets/video/0a068fc3612b18fb193aa68da61d7bb3.jpg"
+                  alt="Deepfake detection mesh overlay"
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.4)', zIndex: 2 }}>
                   DEEP FAKE INTELLIGENCE -- DEEPFAKE DETECTION
@@ -370,8 +369,95 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ─── DEEP FAKE INTELLIGENCE — full storytelling ─── */}
+      <section style={{ padding: 'clamp(60px,10vw,120px) clamp(20px,4vw,48px)', background: '#000' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 'clamp(48px,8vw,80px)' }}>
+            <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.25)', marginBottom: 16 }}>
+              [ HOW WE SEE THROUGH THE FAKE ]
+            </p>
+            <h2 className="gsap-heading" style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(36px, 6vw, 80px)', lineHeight: 0.92 }}>
+              The science behind<br />every verdict.
+            </h2>
+          </div>
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'clamp(32px,5vw,60px)', alignItems: 'flex-start' }}>
+            {/* Left — steps + models + CTA */}
+            <motion.div {...IN_VIEW} style={{ flex: '1 1 300px' }}>
+              {[
+                { n: '01', title: 'Biometric mesh analysis', desc: 'We map 468 facial landmarks using MediaPipe. Any AI-generated face leaves geometric inconsistencies invisible to the human eye.' },
+                { n: '02', title: '3D model reconstruction', desc: 'Real faces have natural depth variance. Deepfakes fail the 3D scan — normals, shadows, and reflection vectors don't align.' },
+                { n: '03', title: 'Identity signature matching', desc: 'We cross-reference against known deepfake architecture signatures: GAN artifacts, frequency domain anomalies, compression tells.' },
+              ].map(({ n, title, desc }) => (
+                <div key={n} style={{ display: 'flex', gap: 20, marginBottom: 36 }}>
+                  <span style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 13, color: 'rgba(255,255,255,0.15)', flexShrink: 0, paddingTop: 3 }}>{n}</span>
+                  <div>
+                    <p style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 16, color: '#fff', marginBottom: 8 }}>{title}</p>
+                    <p style={{ fontFamily: 'Inter', fontSize: 14, color: 'rgba(255,255,255,0.45)', lineHeight: 1.65 }}>{desc}</p>
+                  </div>
+                </div>
+              ))}
+
+              <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.2)', marginBottom: 24 }}>
+                POWERED BY: HIVE AI · XCEPTIONNET · EFFICIENTNET · MESONET
+              </p>
+
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 36 }}>
+                {[{ label: '99.7%', sub: 'ACCURACY' }, { label: '<3s', sub: 'ANALYSIS' }, { label: '50+', sub: 'AI MODELS' }, { label: '1M+', sub: 'MEDIA SCANNED' }].map(({ label, sub }) => (
+                  <div key={sub} style={{ padding: '10px 16px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10 }}>
+                    <p style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 16, color: '#fff', lineHeight: 1 }}>{label}</p>
+                    <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.3)', marginTop: 3 }}>{sub}</p>
+                  </div>
+                ))}
+              </div>
+
+              <motion.button
+                whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
+                onClick={() => navigate('/auth')}
+                style={{ padding: '14px 36px', background: 'white', color: 'black', fontFamily: 'Inter', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}
+              >
+                Try Deep Fake Detection
+              </motion.button>
+            </motion.div>
+
+            {/* Right — image grid */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.9, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+              viewport={{ once: true, margin: '-60px' }}
+              style={{ flex: '1 1 300px', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows: 'auto auto', gap: 8 }}
+            >
+              {/* Featured full-width */}
+              <div style={{ gridColumn: '1 / -1', position: 'relative', borderRadius: 16, overflow: 'hidden', height: 'clamp(180px,22vw,260px)' }}>
+                <img src="/assets/video/a6d0630ce28473947929efbcdbc53445.jpg" alt="Authentic vs Fake detection" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                <div style={{ position: 'absolute', top: 12, right: 12, background: 'rgba(255,45,45,0.9)', padding: '4px 10px', borderRadius: 6 }}>
+                  <span style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 10, color: '#fff', letterSpacing: '0.04em' }}>97% FAKE</span>
+                </div>
+                <div style={{ position: 'absolute', bottom: 12, left: 12 }}>
+                  <span style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)' }}>AUTHENTIC vs FAKE</span>
+                </div>
+              </div>
+
+              {/* 3 small images */}
+              {[
+                { src: '/assets/video/59e3fe10b1baae0eb4fd232ffd49d868.jpg', label: 'MESH DETECTION' },
+                { src: '/assets/video/10ca8356801affed229c007c8bddf93c.jpg', label: '3D MODEL SCAN' },
+                { src: '/assets/video/d56c1633639c7480b16bfeac3e525dc6.jpg', label: 'IDENTITY MASKED' },
+              ].map(({ src, label }) => (
+                <div key={label} style={{ position: 'relative', borderRadius: 12, overflow: 'hidden', height: 'clamp(80px,10vw,110px)' }}>
+                  <img src={src} alt={label} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  <div style={{ position: 'absolute', bottom: 6, left: 6 }}>
+                    <span style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.5)' }}>{label}</span>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* ─── DAYE CINEMATIC SECTION ─────────────────────── */}
-      <section style={{ position: 'relative', overflow: 'hidden', background: '#000', padding: 'clamp(80px,12vw,140px) clamp(20px,5vw,60px)' }}>
+      <section style={{ position: 'relative', overflow: 'hidden', background: '#000', padding: 'clamp(48px,7vw,80px) clamp(20px,5vw,60px)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 60, alignItems: 'center' }}>
           {/* Left — typography */}
           <motion.div {...IN_VIEW}>
@@ -544,14 +630,6 @@ export default function Landing() {
             </div>
           ))}
         </div>
-      </div>
-
-      {/* ─── BLOB DIVIDER ────────────────────────────────── */}
-      <div style={{ position: 'relative', height: 240, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000' }}>
-        <VideoBlob src="/assets/video/blob-divider.mp4" cover opacity={0.4} style={{ zIndex: 0 }} />
-        <span style={{ position: 'relative', zIndex: 1, fontFamily: 'Bebas Neue', fontSize: 'clamp(60px, 12vw, 140px)', letterSpacing: '0.25em', color: 'rgba(255,255,255,0.03)', pointerEvents: 'none', userSelect: 'none' }}>
-          D0B3RMAN
-        </span>
       </div>
 
       {/* ─── NEWS SECTION ────────────────────────────────── */}
@@ -745,14 +823,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ─── BLOB DIVIDER 2 ──────────────────────────────── */}
-      <div style={{ position: 'relative', height: 240, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000' }}>
-        <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.35} style={{ zIndex: 0 }} />
-        <span style={{ position: 'relative', zIndex: 1, fontFamily: 'Bebas Neue', fontSize: 'clamp(60px, 12vw, 140px)', letterSpacing: '0.25em', color: 'rgba(255,255,255,0.03)', userSelect: 'none' }}>
-          SECURITY
-        </span>
-      </div>
-
       {/* ─── REVIEWS ─────────────────────────────────────── */}
       <section id="reviews" style={{ padding: 'clamp(60px,8vw,100px) 0 clamp(60px,8vw,100px) clamp(20px,4vw,48px)', overflow: 'hidden', background: '#000' }}>
         <motion.div {...IN_VIEW} style={{ maxWidth: 1200, marginBottom: 56 }}>
@@ -761,7 +831,7 @@ export default function Landing() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.0, ease: [0.25, 0.1, 0.25, 1] }}
             viewport={{ once: true }}
-            style={{ margin: '0 auto 40px', borderRadius: 20, overflow: 'hidden', width: '100%', maxWidth: 1120, height: 720, position: 'relative' }}
+            style={{ margin: '0 auto 40px', borderRadius: 20, overflow: 'hidden', width: '100%', maxWidth: 1120, height: 'clamp(240px,35vw,420px)', position: 'relative' }}
           >
             <img
               src="/assets/video/b78ad4f230a4015d24a420fce2a7d53b.jpg"
