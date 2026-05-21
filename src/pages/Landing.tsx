@@ -268,7 +268,7 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
+              <div style={{ position: 'relative', height: 'clamp(180px, 22vw, 260px)', borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
                 <img
                   src="/assets/video/deepfake-1.jpg"
                   alt=""
@@ -299,7 +299,7 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
+              <div style={{ position: 'relative', height: 'clamp(180px, 22vw, 260px)', borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
                 <img
                   src="/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg"
                   alt=""
@@ -329,7 +329,7 @@ export default function Landing() {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               style={{ padding: 36, borderRadius: 24, position: 'relative', overflow: 'hidden' }}
             >
-              <div style={{ position: 'relative', height: 260, borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
+              <div style={{ position: 'relative', height: 'clamp(180px, 22vw, 260px)', borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
                 <video
                   autoPlay muted loop playsInline preload="auto"
                   src="/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4"
@@ -505,7 +505,7 @@ export default function Landing() {
       </section>
 
       {/* ─── STATS ROW ───────────────────────────────────── */}
-      <div style={{ padding: '80px clamp(20px,4vw,48px)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'rgba(6,6,6,0.98)' }}>
+      <div style={{ padding: 'clamp(48px,8vw,80px) clamp(20px,4vw,48px)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'rgba(6,6,6,0.98)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 40, textAlign: 'center' }}>
           {[
             { target: 400, suffix: '%', label: 'Rise in deepfake attacks' },
@@ -809,7 +809,7 @@ export default function Landing() {
       </section>
 
       {/* ─── FINAL CTA ───────────────────────────────────── */}
-      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: '#000' }}>
+      <section style={{ padding: 'clamp(80px,15vw,160px) 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: '#000' }}>
         <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.5} style={{ zIndex: 0 }} />
         <div style={{ position: 'relative', zIndex: 1, padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 720 }}>
           <div style={{ position: 'relative', height: 320, width: '60%', maxWidth: 360, margin: '0 auto', marginBottom: -20, overflow: 'hidden', clipPath: 'inset(0)', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
