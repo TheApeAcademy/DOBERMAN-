@@ -101,18 +101,6 @@ function DonutChart({ data }: { data: { label: string; count: number; color: str
   )
 }
 
-const CYBER_HEADLINES = [
-  { id: 1, source: 'THREATPOST', tag: 'CRITICAL', text: 'New zero-day exploit targets 200M Windows devices via CLFS driver vulnerability', time: '3m ago', color: '#FF2D2D' },
-  { id: 2, source: 'DARK READING', tag: 'WARNING', text: 'AI-generated deepfake audio used in $25M corporate wire transfer fraud', time: '11m ago', color: '#FF9500' },
-  { id: 3, source: 'BLEEPING COMPUTER', tag: 'ALERT', text: 'Massive botnet of 40,000 compromised IoT cameras targeting financial sector', time: '28m ago', color: '#FF6B35' },
-  { id: 4, source: 'THE HACKER NEWS', tag: 'CRITICAL', text: 'State-sponsored group deploys rootkit via malicious firmware updates to routers', time: '44m ago', color: '#FF2D2D' },
-  { id: 5, source: 'WIRED', tag: 'WARNING', text: 'Phishing campaign impersonating GitHub 2FA notices hitting 2M+ developers', time: '1h ago', color: '#FF9500' },
-  { id: 6, source: 'CISA.GOV', tag: 'INFO', text: 'CISA adds four newly exploited vulnerabilities to Known Exploited Catalog', time: '2h ago', color: '#666' },
-  { id: 7, source: 'KREBS ON SECURITY', tag: 'ALERT', text: 'Ransomware group LockBit 4.0 claims breach of three critical infrastructure operators', time: '3h ago', color: '#FF6B35' },
-  { id: 8, source: 'ARS TECHNICA', tag: 'WARNING', text: 'Supply chain attack found in popular npm package with 8M weekly downloads', time: '4h ago', color: '#FF9500' },
-  { id: 9, source: 'GOOGLE SECURITY', tag: 'INFO', text: 'Google patches 47 Android vulnerabilities including actively exploited privilege escalation', time: '5h ago', color: '#666' },
-  { id: 10, source: 'RECORDED FUTURE', tag: 'ALERT', text: 'Nation-state actor uses synthetic media in disinformation operation targeting elections', time: '6h ago', color: '#FF6B35' },
-]
 
 export default function Dashboard() {
   const { user, profile, signOut } = useAuth()
