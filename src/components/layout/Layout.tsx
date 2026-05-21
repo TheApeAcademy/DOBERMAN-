@@ -13,13 +13,28 @@ interface LayoutProps {
 
 export function Layout({ profile, onSignOut, children, title }: LayoutProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [desktopOpen, setDesktopOpen] = useState(true)
+
+  const handleMenuClick = () => {
+    if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
+      setDesktopOpen(prev => !prev)
+    } else {
+      setMobileOpen(prev => !prev)
+    }
+  }
 
   return (
     <div style={{ display: 'flex', height: '100vh', background: 'var(--void)', overflow: 'hidden', position: 'relative' }}>
 
-      {/* Desktop sidebar */}
-      <div style={{ flexShrink: 0, zIndex: 10, display: 'none' }} className="lg-sidebar">
-        <style>{`@media (min-width: 1024px) { .lg-sidebar { display: flex !important; } }`}</style>
+      {/* Desktop sidebar — toggled via hamburger */}
+      <div
+        className={`lg-sidebar${desktopOpen ? '' : ' lg-sidebar-hidden'}`}
+        style={{ flexShrink: 0, zIndex: 10, display: 'none' }}
+      >
+        <style>{`
+          @media (min-width: 1024px) { .lg-sidebar { display: flex !important; } }
+          @media (min-width: 1024px) { .lg-sidebar-hidden { display: none !important; } }
+        `}</style>
         <Sidebar profile={profile} onSignOut={onSignOut} />
       </div>
 
@@ -36,10 +51,10 @@ export function Layout({ profile, onSignOut, children, title }: LayoutProps) {
         </div>
       )}
 
-      {/* Main content */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden', zIndex: 1 }}>
-        <Header profile={profile} onMenuClick={() => setMobileOpen(true)} title={title} />
-        <main style={{ flex: 1, overflowY: 'auto' }}>
+      {/* Main content — always beside sidebar, never under it */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, zIndex: 1 }}>
+        <Header profile={profile} onMenuClick={handleMenuClick} title={title} />
+        <main style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
           {children}
         </main>
       </div>

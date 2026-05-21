@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Eye, Wifi, Brain, Newspaper, ArrowRight, Clock } from 'lucide-react'
+import { Eye, Wifi, Brain, Newspaper, ArrowRight, Clock, RefreshCw, ExternalLink } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
@@ -27,6 +27,15 @@ interface Stats {
   newsToday: number
 }
 
+interface NewsArticle {
+  title: string
+  pubDate: string
+  link: string
+  thumbnail: string
+  description: string
+  author: string
+}
+
 export default function Dashboard() {
   const { user, profile, signOut } = useAuth()
   const navigate = useNavigate()
@@ -36,10 +45,13 @@ export default function Dashboard() {
     eyesToday: 0, noseToday: 0, brainToday: 0, newsToday: 0,
   })
   const [loading, setLoading] = useState(true)
+  const [news, setNews] = useState<NewsArticle[]>([])
+  const [newsLoading, setNewsLoading] = useState(false)
 
   useEffect(() => {
     if (!user) return
     fetchDashboardData()
+    fetchNews()
   }, [user])
 
   const fetchDashboardData = async () => {
@@ -83,8 +95,21 @@ export default function Dashboard() {
     setLoading(false)
   }
 
+  const fetchNews = useCallback(async () => {
+    setNewsLoading(true)
+    try {
+      const rss = encodeURIComponent('https://feeds.feedburner.com/TheHackersNews')
+      const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rss}&count=6`)
+      const data = await res.json()
+      if (data.status === 'ok') setNews(data.items)
+    } catch {
+      // silently fail — news is non-critical
+    }
+    setNewsLoading(false)
+  }, [])
+
   const moduleCards = [
-    { to: '/eyes', icon: Eye, name: 'EYES', sub: 'Deepfake Detection', desc: 'Analyze images, videos, and audio for synthetic media manipulation.', count: stats.eyesToday, limit: 3, src: '/assets/video/blob-eyes.mp4', isImage: false, label: 'EYES -- DEEPFAKE DETECTION' },
+    { to: '/eyes', icon: Eye, name: 'EYES', sub: 'Deepfake Detection', desc: 'Analyze images, videos, and audio for synthetic media manipulation.', count: stats.eyesToday, limit: 3, src: '/assets/video/b78ad4f230a4015d24a420fce2a7d53b.jpg', isImage: true, label: 'EYES -- DEEPFAKE DETECTION' },
     { to: '/nose', icon: Wifi, name: 'NOSE', sub: 'IoT Intelligence', desc: 'Map your network environment and identify security weaknesses.', count: stats.noseToday, limit: 3, src: '/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg', isImage: true, label: 'NOSE -- IOT INTELLIGENCE' },
     { to: '/brain', icon: Brain, name: 'BRAIN', sub: 'AI Analyst', desc: 'Chat with your dedicated cybersecurity expert powered by Claude.', count: stats.brainToday, limit: 10, src: '/assets/video/Brain_Parts_360_visualization-_Kritrimvault.mp4', isImage: false, label: 'BRAIN -- AI ANALYST' },
     { to: '/news', icon: Newspaper, name: 'NEWS', sub: 'Verify Content', desc: 'Paste any headline or claim. Get a credibility verdict instantly.', count: stats.newsToday, limit: 3, src: '/assets/video/cdd8c26722152919a8539f357363c238.jpg', isImage: true, label: 'NEWS -- VERIFY CONTENT' },
@@ -96,7 +121,30 @@ export default function Dashboard() {
 
   return (
     <Layout profile={profile} onSignOut={signOut} title="Dashboard">
-      <div style={{ padding: 'clamp(16px, 4vw, 32px)', maxWidth: 1200, margin: '0 auto', overflowX: 'hidden' }}>
+      {/* Tech grid depth background */}
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px)`,
+          backgroundSize: '30px 30px',
+        }} />
+        <div style={{
+          position: 'absolute',
+          bottom: 0,
+          left: '-10%',
+          right: '-10%',
+          height: '55%',
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)`,
+          backgroundSize: '60px 60px',
+          transform: 'perspective(800px) rotateX(-55deg)',
+          transformOrigin: 'bottom center',
+          maskImage: 'linear-gradient(to top, transparent 5%, rgba(0,0,0,0.3) 60%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to top, transparent 5%, rgba(0,0,0,0.3) 60%, transparent 100%)',
+        }} />
+      </div>
+
+      <div style={{ padding: 'clamp(16px, 4vw, 32px)', maxWidth: 1200, margin: '0 auto', overflowX: 'hidden', position: 'relative', zIndex: 1 }}>
 
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 40, flexWrap: 'wrap', gap: 16 }}>
@@ -188,6 +236,87 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* Top Stories — real cybersecurity news */}
+        <div style={{ marginBottom: 40 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.15em', color: 'var(--text-3)' }}>
+              TOP STORIES
+            </p>
+            <button
+              onClick={fetchNews}
+              disabled={newsLoading}
+              style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--chrome-dim)', background: 'none', border: '1px solid var(--glass-border)', padding: '6px 12px', borderRadius: 6, display: 'flex', alignItems: 'center', gap: 6 }}
+            >
+              <RefreshCw size={11} style={{ animation: newsLoading ? 'spin 1s linear infinite' : 'none' }} />
+              Refresh
+            </button>
+          </div>
+
+          {newsLoading && news.length === 0 ? (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="glass" style={{ borderRadius: 16, overflow: 'hidden' }}>
+                  <div style={{ height: 140, background: 'var(--void-3)' }} />
+                  <div style={{ padding: '14px 18px' }}>
+                    <div style={{ height: 10, background: 'var(--void-3)', borderRadius: 4, marginBottom: 8, width: '40%' }} />
+                    <div style={{ height: 14, background: 'var(--void-3)', borderRadius: 4, marginBottom: 6, width: '90%' }} />
+                    <div style={{ height: 14, background: 'var(--void-3)', borderRadius: 4, width: '70%' }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : news.length === 0 ? (
+            <div className="glass" style={{ borderRadius: 16, padding: 32, textAlign: 'center' }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-3)' }}>Could not load stories. Check your connection.</p>
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+              {news.map((article, i) => (
+                <motion.a
+                  key={i}
+                  href={article.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.06 }}
+                  className="glass"
+                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                  style={{ borderRadius: 16, overflow: 'hidden', display: 'flex', flexDirection: 'column', textDecoration: 'none' }}
+                >
+                  <div style={{ height: 140, background: '#060606', overflow: 'hidden', flexShrink: 0, position: 'relative' }}>
+                    {article.thumbnail ? (
+                      <img
+                        src={article.thumbnail}
+                        alt=""
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+                      />
+                    ) : (
+                      <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(255,45,45,0.12), rgba(255,149,0,0.06))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <Newspaper size={28} style={{ color: 'var(--text-3)' }} />
+                      </div>
+                    )}
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.5), transparent)' }} />
+                  </div>
+                  <div style={{ padding: '14px 18px 18px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em', color: 'var(--text-3)', marginBottom: 8 }}>
+                      {new Date(article.pubDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                    </p>
+                    <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 13, color: 'var(--text-1)', lineHeight: 1.45, marginBottom: 8, flex: 1 }}>
+                      {article.title}
+                    </p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: 'var(--chrome-dim)' }}>
+                      <ExternalLink size={10} />
+                      <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.05em' }}>Read more</span>
+                    </div>
+                  </div>
+                </motion.a>
+              ))}
+            </div>
+          )}
+        </div>
+
         {/* Activity feed */}
         <div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
@@ -255,7 +384,10 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <style>{`@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }`}</style>
+        <style>{`
+          @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+          @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        `}</style>
       </div>
     </Layout>
   )

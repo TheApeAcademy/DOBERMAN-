@@ -29,12 +29,11 @@ export function Header({ profile, onMenuClick, title }: HeaderProps) {
         flexShrink: 0,
       }}
     >
+      {/* Menu icon — visible on all screen sizes to toggle sidebar */}
       <button
         onClick={onMenuClick}
         style={{ background: 'none', border: 'none', color: 'var(--text-3)', padding: 4 }}
-        className="lg-hide"
       >
-        <style>{`@media (min-width: 1024px) { .lg-hide { display: none !important; } }`}</style>
         <Menu size={20} />
       </button>
 
