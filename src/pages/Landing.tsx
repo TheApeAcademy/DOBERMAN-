@@ -458,6 +458,18 @@ export default function Landing() {
 
       {/* ─── DAYE CINEMATIC SECTION ─────────────────────── */}
       <section style={{ position: 'relative', overflow: 'hidden', background: '#000', padding: 'clamp(48px,7vw,80px) clamp(20px,5vw,60px)' }}>
+        {/* Tech depth grid */}
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle, rgba(48,209,88,0.04) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+          <div style={{ position: 'absolute', bottom: 0, left: '-10%', right: '-10%', height: '50%',
+            backgroundImage: 'linear-gradient(rgba(48,209,88,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(48,209,88,0.03) 1px,transparent 1px)',
+            backgroundSize: '50px 50px',
+            transform: 'perspective(600px) rotateX(-50deg)',
+            transformOrigin: 'bottom center',
+            maskImage: 'linear-gradient(to top,transparent 8%,rgba(0,0,0,0.3) 60%,transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to top,transparent 8%,rgba(0,0,0,0.3) 60%,transparent 100%)',
+          }} />
+        </div>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 60, alignItems: 'center' }}>
           {/* Left — typography */}
           <motion.div {...IN_VIEW}>
@@ -527,6 +539,87 @@ export default function Landing() {
               </div>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ─── DATA BREACH INTELLIGENCE ────────────────────── */}
+      <section style={{ position: 'relative', overflow: 'hidden', padding: 'clamp(60px,10vw,100px) clamp(20px,4vw,48px)', background: '#000', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        {/* Danger perspective grid */}
+        <div style={{ position: 'absolute', bottom: 0, left: '-10%', right: '-10%', height: '55%', pointerEvents: 'none',
+          backgroundImage: 'linear-gradient(rgba(205,133,63,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(205,133,63,0.04) 1px,transparent 1px)',
+          backgroundSize: '50px 50px',
+          transform: 'perspective(600px) rotateX(-50deg)',
+          transformOrigin: 'bottom center',
+          maskImage: 'linear-gradient(to top,transparent 10%,rgba(0,0,0,0.35) 70%,transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to top,transparent 10%,rgba(0,0,0,0.35) 70%,transparent 100%)',
+          zIndex: 0,
+        }} />
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle, rgba(205,133,63,0.03) 1px, transparent 1px)', backgroundSize: '30px 30px', pointerEvents: 'none' }} />
+
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 60, alignItems: 'center' }}>
+
+            <motion.div {...IN_VIEW} style={{ flex: '1 1 300px' }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(205,133,63,0.7)', marginBottom: 20 }}>
+                [ DATA BREACH INTELLIGENCE ]
+              </p>
+              <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, marginBottom: 20, background: 'linear-gradient(135deg,#D4A44E,#CD853F,#8B4513)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                Your data<br />is already<br />out there.
+              </h2>
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16, maxWidth: 500, lineHeight: 1.65, marginBottom: 36 }}>
+                Check any email against 14+ billion leaked credentials. D0B3RMAN searches across hundreds of known data breaches — banks, social networks, healthcare, gaming — and tells you exactly where your data was exposed and what to do next.
+              </p>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 36 }}>
+                {['14B+ leaked records', '600+ breach sources', 'Instant verdict'].map((feat) => (
+                  <span key={feat} style={{ padding: '8px 14px', background: 'rgba(205,133,63,0.06)', border: '1px solid rgba(205,133,63,0.2)', borderRadius: 8, fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(205,133,63,0.7)' }}>
+                    {feat}
+                  </span>
+                ))}
+              </div>
+              <motion.button
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => navigate('/auth')}
+                style={{ padding: '14px 36px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}>
+                Check Your Email
+              </motion.button>
+            </motion.div>
+
+            <motion.div
+              {...IN_VIEW}
+              className="glass"
+              style={{ flex: '1 1 300px', padding: 32, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 380, background: 'rgba(20,10,4,0.92)', border: '1px solid rgba(205,133,63,0.18)' }}
+            >
+              <div style={{ marginBottom: 20 }}>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(205,133,63,0.7)', marginBottom: 8 }}>BREACH REPORT</p>
+                <p style={{ fontFamily: 'Bebas Neue', fontSize: 32, letterSpacing: '0.04em', background: 'linear-gradient(135deg,#D4A44E,#CD853F)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', lineHeight: 1 }}>
+                  7 breaches found
+                </p>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.22)', marginTop: 6 }}>for ██████@email.com</p>
+              </div>
+              {[
+                { name: 'LinkedIn', year: '2021', records: '700M records', types: 'Email · Phone · Salary data' },
+                { name: 'Adobe', year: '2013', records: '153M records', types: 'Email · Password hash' },
+                { name: 'Canva', year: '2019', records: '137M records', types: 'Email · Username · Location' },
+                { name: 'Dropbox', year: '2012', records: '68M records', types: 'Email · Hashed password' },
+              ].map((breach) => (
+                <div key={breach.name} style={{ padding: '10px 14px', background: 'rgba(205,133,63,0.05)', border: '1px solid rgba(205,133,63,0.14)', borderRadius: 10, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#CD853F', flexShrink: 0 }} />
+                  <div style={{ flex: 1 }}>
+                    <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 13, color: 'var(--text-1)', lineHeight: 1.3 }}>
+                      {breach.name} <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', fontWeight: 400 }}>{breach.year}</span>
+                    </p>
+                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', marginTop: 2 }}>{breach.types}</p>
+                  </div>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(205,133,63,0.6)', whiteSpace: 'nowrap' }}>{breach.records}</span>
+                </div>
+              ))}
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', marginTop: 12, textAlign: 'center', letterSpacing: '0.08em' }}>
+                + 3 more breaches — sign in to view all
+              </p>
+            </motion.div>
+
+          </div>
         </div>
       </section>
 

@@ -305,9 +305,11 @@ export default function Dashboard() {
                 </div>
               </div>
               <div className="dfi-video" style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#060606' }}>
-                <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
-                  <source src="/assets/video/blob-nose.mp4" type="video/mp4" />
-                </video>
+                <img
+                  src="/assets/video/b78ad4f230a4015d24a420fce2a7d53b.jpg"
+                  alt=""
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', pointerEvents: 'none' }}
+                />
                 <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16 }} />
                 <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.38)', zIndex: 2 }}>
                   DEEPFAKE INTELLIGENCE
@@ -718,66 +720,100 @@ export default function Dashboard() {
               </span>
             </div>
 
-            {/* Hero story card */}
-            <div
-              style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', height: 'clamp(220px, 38vh, 340px)', marginBottom: 4, flexShrink: 0, cursor: 'pointer' }}
-              onClick={() => navigate('/news')}
-            >
-              <img src="/assets/video/cdd8c26722152919a8539f357363c238.jpg" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.92) 100%)' }} />
-              <div style={{ position: 'absolute', inset: 0, padding: '24px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', zIndex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-                  <div style={{ width: 20, height: 20, borderRadius: 4, background: 'rgba(255,45,45,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 10, color: '#fff' }}>T</span>
+            {/* Hero story card — real news */}
+            {newsLoading ? (
+              <div style={{ borderRadius: 16, overflow: 'hidden', height: 'clamp(220px, 38vh, 340px)', marginBottom: 4, flexShrink: 0, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }} />
+            ) : newsArticles.length > 0 ? (
+              <a
+                href={newsArticles[0].article_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', height: 'clamp(220px, 38vh, 340px)', marginBottom: 4, flexShrink: 0, display: 'block', textDecoration: 'none' }}
+              >
+                {newsArticles[0].image_url ? (
+                  <img src={newsArticles[0].image_url} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
+                ) : (
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,45,45,0.15), rgba(10,10,10,1))' }} />
+                )}
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.92) 100%)' }} />
+                <div style={{ position: 'absolute', inset: 0, padding: '24px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', zIndex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+                    <div style={{ width: 20, height: 20, borderRadius: 4, background: (SOURCE_COLORS[newsArticles[0].source_name] || '#666') + '33', border: `1px solid ${SOURCE_COLORS[newsArticles[0].source_name] || '#666'}66`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 10, color: SOURCE_COLORS[newsArticles[0].source_name] || '#aaa' }}>{newsArticles[0].source_name[0]}</span>
+                    </div>
+                    <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.9)', textTransform: 'uppercase' }}>{newsArticles[0].source_name}</span>
+                    <span style={{ fontFamily: 'Inter', fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>{timeAgo(newsArticles[0].published_at)}</span>
                   </div>
-                  <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.9)' }}>THREATPOST</span>
-                  <span style={{ fontFamily: 'Inter', fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>2 hours ago</span>
+                  <h3 style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 'clamp(17px, 2.5vw, 22px)', lineHeight: 1.3, color: '#fff', maxWidth: 680 }}>
+                    {newsArticles[0].title}
+                  </h3>
                 </div>
-                <h3 style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 'clamp(17px, 2.5vw, 22px)', lineHeight: 1.3, color: '#fff', maxWidth: 680 }}>
-                  Critical zero-day exploit targets Windows devices via CLFS driver vulnerability — patch required immediately
-                </h3>
-              </div>
-            </div>
+              </a>
+            ) : null}
 
-            {/* Story list */}
+            {/* Story list — real news */}
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <AnimatePresence mode="popLayout">
-                {CYBER_HEADLINES.slice(0, visibleHeadlines).map((item, i) => (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: i * 0.04 }}
-                    onClick={() => navigate('/news')}
-                    style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px 0', borderBottom: '1px solid rgba(255,255,255,0.06)', cursor: 'pointer' }}
-                  >
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                        <div style={{ width: 18, height: 18, borderRadius: 4, background: item.color + '22', border: `1px solid ${item.color}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                          <span style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 9, color: item.color }}>{item.source[0]}</span>
+              {newsLoading ? (
+                [...Array(4)].map((_, i) => (
+                  <div key={i} style={{ display: 'flex', gap: 16, padding: '16px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ height: 9, background: 'rgba(255,255,255,0.05)', borderRadius: 3, width: '30%', marginBottom: 8 }} />
+                      <div style={{ height: 13, background: 'rgba(255,255,255,0.07)', borderRadius: 3, marginBottom: 5 }} />
+                      <div style={{ height: 13, background: 'rgba(255,255,255,0.04)', borderRadius: 3, width: '65%' }} />
+                    </div>
+                    <div style={{ width: 88, height: 68, borderRadius: 10, background: 'rgba(255,255,255,0.03)', flexShrink: 0 }} />
+                  </div>
+                ))
+              ) : (
+                <AnimatePresence mode="popLayout">
+                  {(newsArticles.length > 1 ? newsArticles.slice(1, visibleHeadlines + 1) : []).map((article, i) => {
+                    const srcColor = SOURCE_COLORS[article.source_name] || 'rgba(255,255,255,0.4)'
+                    return (
+                      <motion.a
+                        key={article.article_url}
+                        href={article.article_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ delay: i * 0.04 }}
+                        style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px 0', borderBottom: '1px solid rgba(255,255,255,0.06)', textDecoration: 'none' }}
+                      >
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                            <div style={{ width: 18, height: 18, borderRadius: 4, background: srcColor + '22', border: `1px solid ${srcColor}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                              <span style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 9, color: srcColor }}>{article.source_name[0]}</span>
+                            </div>
+                            <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.55)' }}>{article.source_name}</span>
+                          </div>
+                          <p style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 'clamp(14px, 1.8vw, 16px)', color: '#fff', lineHeight: 1.35, marginBottom: 6, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                            {article.title}
+                          </p>
+                          <span style={{ fontFamily: 'Inter', fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>{timeAgo(article.published_at)}</span>
                         </div>
-                        <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.01em' }}>{item.source}</span>
-                      </div>
-                      <p style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 'clamp(14px, 1.8vw, 16px)', color: '#fff', lineHeight: 1.35, marginBottom: 6, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-                        {item.text}
-                      </p>
-                      <span style={{ fontFamily: 'Inter', fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>{item.time}</span>
-                    </div>
-                    <div style={{ width: 88, height: 68, borderRadius: 10, flexShrink: 0, overflow: 'hidden', background: `linear-gradient(135deg, ${item.color}25, rgba(10,10,10,0.9))`, border: `1px solid ${item.color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <span style={{ fontFamily: 'Bebas Neue', fontSize: 11, letterSpacing: '0.15em', color: item.color, opacity: 0.7 }}>{item.tag}</span>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
+                        {article.image_url ? (
+                          <div style={{ width: 88, height: 68, borderRadius: 10, flexShrink: 0, overflow: 'hidden' }}>
+                            <img src={article.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          </div>
+                        ) : (
+                          <div style={{ width: 88, height: 68, borderRadius: 10, flexShrink: 0, background: `linear-gradient(135deg, ${srcColor}25, rgba(10,10,10,0.9))`, border: `1px solid ${srcColor}22`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <span style={{ fontFamily: 'Bebas Neue', fontSize: 10, letterSpacing: '0.15em', color: srcColor, opacity: 0.7 }}>NEWS</span>
+                          </div>
+                        )}
+                      </motion.a>
+                    )
+                  })}
+                </AnimatePresence>
+              )}
 
-              {visibleHeadlines < CYBER_HEADLINES.length ? (
+              {!newsLoading && newsArticles.length > visibleHeadlines + 1 ? (
                 <button
-                  onClick={() => setVisibleHeadlines(CYBER_HEADLINES.length)}
+                  onClick={() => setVisibleHeadlines((v) => v + 6)}
                   style={{ width: '100%', padding: '18px', background: 'none', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontFamily: 'Inter', fontWeight: 600, fontSize: 14, color: 'rgba(255,255,255,0.35)', marginTop: 4 }}
                 >
                   <ChevronRight size={14} style={{ transform: 'rotate(90deg)' }} />
-                  {CYBER_HEADLINES.length - visibleHeadlines} more stories
+                  More stories
                 </button>
               ) : (
                 <button
