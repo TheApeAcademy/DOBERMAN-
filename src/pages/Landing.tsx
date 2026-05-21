@@ -270,9 +270,8 @@ export default function Landing() {
             >
               <div style={{ position: 'relative', height: 'clamp(180px, 22vw, 260px)', borderRadius: 16, overflow: 'hidden', marginBottom: 28, background: '#060606' }}>
                 <img
-                  src="/assets/video/deepfake-1.jpg"
+                  src="/assets/video/0a068fc3612b18fb193aa68da61d7bb3.jpg"
                   alt=""
-                  onError={(e) => { e.currentTarget.style.opacity = '0' }}
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                 />
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.06)' }} />
@@ -427,21 +426,19 @@ export default function Landing() {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.85, ease: [0.25, 0.1, 0.25, 1] }}
               viewport={{ once: true, margin: '-60px' }}
-              style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'auto auto', gap: 12 }}
+              style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}
             >
-              {/* Featured image — spans 2 columns */}
-              <div style={{ gridColumn: '1 / -1', position: 'relative', borderRadius: 20, overflow: 'hidden', aspectRatio: '16/8', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
+              {/* Featured image — spans all 3 columns */}
+              <div style={{ gridColumn: '1 / -1', position: 'relative', borderRadius: 20, overflow: 'hidden', aspectRatio: '16/7', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
                 <img
-                  src="/assets/video/deepfake-1.jpg"
+                  src="/assets/video/a6d0630ce28473947929efbcdbc53445.jpg"
                   alt=""
-                  onError={(e) => { e.currentTarget.style.opacity = '0' }}
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                 />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,0,0,0.4) 0%, transparent 60%)' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,0,0,0.35) 0%, transparent 55%)' }} />
                 <div style={{ position: 'absolute', top: 16, left: 20 }}>
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)' }}>SCANNING...</span>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)' }}>SCANNING...</span>
                 </div>
-                {/* Trust score overlay */}
                 <div style={{ position: 'absolute', bottom: 16, right: 16, background: 'rgba(6,6,6,0.88)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: '12px 18px', minWidth: 120 }}>
                   <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--danger)', marginBottom: 4 }}>VERDICT</p>
                   <p style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 32, lineHeight: 1, color: 'var(--danger)' }}>97<span style={{ fontSize: 16 }}>%</span></p>
@@ -452,28 +449,39 @@ export default function Landing() {
               {/* Small image 1 */}
               <div style={{ position: 'relative', borderRadius: 14, overflow: 'hidden', aspectRatio: '4/3', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
                 <img
-                  src="/assets/video/deepfake-2.jpg"
+                  src="/assets/video/59e3fe10b1baae0eb4fd232ffd49d868.jpg"
                   alt=""
-                  onError={(e) => { e.currentTarget.style.opacity = '0' }}
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                 />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.72), transparent)' }} />
                 <div style={{ position: 'absolute', bottom: 10, left: 12 }}>
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.45)' }}>FACIAL BOUNDARY SCAN</span>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)' }}>MESH DETECTION</span>
                 </div>
               </div>
 
               {/* Small image 2 */}
               <div style={{ position: 'relative', borderRadius: 14, overflow: 'hidden', aspectRatio: '4/3', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
                 <img
-                  src="/assets/video/deepfake-3.jpg"
+                  src="/assets/video/10ca8356801affed229c007c8bddf93c.jpg"
                   alt=""
-                  onError={(e) => { e.currentTarget.style.opacity = '0' }}
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                 />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.72), transparent)' }} />
                 <div style={{ position: 'absolute', bottom: 10, left: 12 }}>
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.45)' }}>AUDIO SPECTRAL ANALYSIS</span>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)' }}>3D MODEL SCAN</span>
+                </div>
+              </div>
+
+              {/* Small image 3 */}
+              <div style={{ position: 'relative', borderRadius: 14, overflow: 'hidden', aspectRatio: '4/3', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <img
+                  src="/assets/video/d56c1633639c7480b16bfeac3e525dc6.jpg"
+                  alt=""
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.72), transparent)' }} />
+                <div style={{ position: 'absolute', bottom: 10, left: 12 }}>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)' }}>IDENTITY MASKED</span>
                 </div>
               </div>
             </motion.div>
