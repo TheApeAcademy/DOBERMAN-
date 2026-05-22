@@ -140,6 +140,15 @@ export default function Landing() {
       {/* ─── HERO ────────────────────────────────────────── */}
       <section style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', background: '#000', display: 'flex', alignItems: 'center' }}>
 
+        {/* Perspective room grid — depth background */}
+        <img
+          src="/assets/video/22ee8c4a4ffcfe6b8012f297b4232309.jpg"
+          alt=""
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', opacity: 0.28, pointerEvents: 'none', zIndex: 0 }}
+        />
+        {/* Subtle green tint on grid lines */}
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 40% 50%, rgba(48,209,88,0.04) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }} />
+
         <motion.div
           className="hero-portrait"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
