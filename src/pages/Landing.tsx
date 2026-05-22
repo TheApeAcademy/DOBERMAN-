@@ -808,7 +808,7 @@ export default function Landing() {
             style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', height: 'clamp(220px, 38vh, 340px)', marginBottom: 4, flexShrink: 0, cursor: 'pointer' }}
           >
             <img
-              src="/assets/video/cdd8c26722152919a8539f357363c238.jpg"
+              src="/assets/video/59e67eaeb4601648a3e3e9d9e441c447.jpg"
               alt=""
               style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', pointerEvents: 'none' }}
             />
@@ -831,9 +831,9 @@ export default function Landing() {
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             {[
               { source: 'DARK READING', text: 'AI-generated deepfake audio used in $25M corporate wire transfer fraud targeting CEO', time: '11m ago', color: '#FF9500', img: '/assets/video/a6d0630ce28473947929efbcdbc53445.jpg' },
-              { source: 'BLEEPING COMPUTER', text: 'Massive botnet of 40,000 compromised IoT cameras targeting financial sector', time: '28m ago', color: '#FF6B35', img: '/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg' },
+              { source: 'BLEEPING COMPUTER', text: 'Massive botnet of 40,000 compromised IoT cameras targeting financial sector', time: '28m ago', color: '#FF6B35', img: '/assets/video/ca047a55c45f5adbd43df958c3487fee.jpg' },
               { source: 'THE HACKER NEWS', text: 'State-sponsored group deploys rootkit via malicious firmware updates to routers', time: '44m ago', color: '#FF2D2D', img: '/assets/video/d56c1633639c7480b16bfeac3e525dc6.jpg' },
-              { source: 'KREBS ON SECURITY', text: 'Ransomware group LockBit 4.0 claims breach of three critical infrastructure operators', time: '3h ago', color: '#FF6B35', img: '/assets/video/59e3fe10b1baae0eb4fd232ffd49d868.jpg' },
+              { source: 'KREBS ON SECURITY', text: 'Ransomware group LockBit 4.0 claims breach of three critical infrastructure operators', time: '3h ago', color: '#FF6B35', img: '/assets/video/538ca00c1c1483acef1e8ccea3565f9d.jpg' },
             ].map((item, i) => (
               <motion.div
                 key={i}
