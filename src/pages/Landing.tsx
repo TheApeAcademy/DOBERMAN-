@@ -140,14 +140,16 @@ export default function Landing() {
       {/* ─── HERO ────────────────────────────────────────── */}
       <section style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', background: '#000', display: 'flex', alignItems: 'center' }}>
 
-        {/* Perspective room grid — depth background */}
+        {/* Perspective room grid — shift vanishing point toward dog so it sits in the black void */}
         <img
           src="/assets/video/22ee8c4a4ffcfe6b8012f297b4232309.jpg"
           alt=""
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', opacity: 0.28, pointerEvents: 'none', zIndex: 0 }}
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: '68% center', opacity: 0.6, pointerEvents: 'none', zIndex: 0 }}
         />
-        {/* Subtle green tint on grid lines */}
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 40% 50%, rgba(48,209,88,0.04) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }} />
+        {/* Deep vignette — keeps center black void dark, fades bright grid edges */}
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 55% 60% at 68% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.92) 100%)', pointerEvents: 'none', zIndex: 1 }} />
+        {/* Subtle green bloom at vanishing point */}
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 30% 35% at 68% 50%, rgba(48,209,88,0.06) 0%, transparent 100%)', pointerEvents: 'none', zIndex: 1 }} />
 
         <motion.div
           className="hero-portrait"
@@ -161,8 +163,9 @@ export default function Landing() {
             onError={(e) => { const p = e.currentTarget.parentElement; if (p) p.style.display = 'none' }}
             style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
           />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #000 0%, #000 25%, rgba(0,0,0,0.7) 50%, transparent 80%)' }} />
-          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to bottom, transparent, #000)' }} />
+          {/* Blend left edge into page; keep right/top transparent so grid lines show through */}
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #000 0%, rgba(0,0,0,0.6) 30%, transparent 65%)' }} />
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '30%', background: 'linear-gradient(to bottom, transparent, #000)' }} />
         </motion.div>
 
         <style>{`
