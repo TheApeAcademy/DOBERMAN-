@@ -62,6 +62,7 @@ serve(async (req) => {
     let confidenceScore = 50
     let result: 'authentic' | 'fake' | 'uncertain' = 'uncertain'
     let analysisSucceeded = false
+    let hfResult: HFLabel[] | null = null
 
     // ── HIVE AI (primary — key stored as HIVE_API_KEY) ────────────
     const hiveApiKey = Deno.env.get('HIVE_API_KEY') ?? ''
@@ -117,7 +118,6 @@ serve(async (req) => {
               await new Promise((resolve) => setTimeout(resolve, 8000))
               hfResponse = await callHuggingFace('Wvolf/ViT_Deepfake_Detection', imageBuffer, hfApiKey)
             }
-            let hfResult: HFLabel[] | null = null
             if (hfResponse.ok) {
               hfResult = await hfResponse.json() as HFLabel[]
             } else {

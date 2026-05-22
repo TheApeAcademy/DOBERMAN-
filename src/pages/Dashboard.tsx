@@ -438,14 +438,13 @@ export default function Dashboard() {
             onClick={() => navigate('/brain')}
             style={{ borderRadius: 24, marginBottom: 32, overflow: 'hidden', background: '#000', textAlign: 'center', cursor: 'pointer' }}
           >
-            {/* DAYE hero visual — tech grid, no video */}
+            {/* DAYE hero visual — grid video background */}
             <div style={{ position: 'relative', width: '100%', height: 'clamp(260px, 50vw, 520px)', overflow: 'hidden', background: '#000' }}>
-              {/* Dot grid */}
-              <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle, rgba(48,209,88,0.07) 1px, transparent 1px)', backgroundSize: '28px 28px', pointerEvents: 'none' }} />
-              {/* Perspective floor grid */}
-              <div style={{ position: 'absolute', bottom: 0, left: '-10%', right: '-10%', height: '55%', backgroundImage: 'linear-gradient(rgba(48,209,88,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(48,209,88,0.06) 1px,transparent 1px)', backgroundSize: '44px 44px', transform: 'perspective(500px) rotateX(-52deg)', transformOrigin: 'bottom center', maskImage: 'linear-gradient(to top,transparent 5%,rgba(0,0,0,0.45) 55%,transparent 100%)', WebkitMaskImage: 'linear-gradient(to top,transparent 5%,rgba(0,0,0,0.45) 55%,transparent 100%)', pointerEvents: 'none' }} />
+              <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5, pointerEvents: 'none' }}>
+                <source src="/assets/video/Black_grid_background_video___Motion_background_with_black_grid_video___Film_texture,_Motion_graphics_trends,_Motion_backgrounds.mp4" type="video/mp4" />
+              </video>
               {/* Green ambient glow */}
-              <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(48,209,88,0.06) 0%, transparent 70%)', pointerEvents: 'none' }} />
+              <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(48,209,88,0.1) 0%, transparent 70%)', pointerEvents: 'none' }} />
               {/* Corner label */}
               <div style={{ position: 'absolute', top: 20, left: 24, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.12em', color: 'rgba(48,209,88,0.5)', zIndex: 2 }}>DAYE -- AI SECURITY ANALYST</div>
               {/* Fade to black at bottom */}

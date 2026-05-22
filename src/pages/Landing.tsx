@@ -314,14 +314,14 @@ export default function Landing() {
             viewport={{ once: true, margin: '-60px' }}
             style={{ borderRadius: 28, overflow: 'hidden', border: '1px solid rgba(0,212,106,0.12)', background: 'rgba(0,0,0,0.8)' }}
           >
-            {/* Big standalone green logo video — with tech depth grid */}
+            {/* Big standalone green logo video — grid video background + DAYE blob overlay */}
             <div style={{ position: 'relative', width: '100%', height: 'clamp(360px, 55vw, 640px)', background: '#000', overflow: 'hidden' }}>
-              {/* Dot grid layer */}
-              <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle, rgba(48,209,88,0.07) 1px, transparent 1px)', backgroundSize: '28px 28px', pointerEvents: 'none', zIndex: 0 }} />
-              {/* Perspective floor grid */}
-              <div style={{ position: 'absolute', bottom: 0, left: '-10%', right: '-10%', height: '50%', backgroundImage: 'linear-gradient(rgba(48,209,88,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(48,209,88,0.06) 1px,transparent 1px)', backgroundSize: '44px 44px', transform: 'perspective(500px) rotateX(-52deg)', transformOrigin: 'bottom center', maskImage: 'linear-gradient(to top,transparent 5%,rgba(0,0,0,0.45) 55%,transparent 100%)', WebkitMaskImage: 'linear-gradient(to top,transparent 5%,rgba(0,0,0,0.45) 55%,transparent 100%)', pointerEvents: 'none', zIndex: 0 }} />
+              {/* Grid video background */}
+              <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5, pointerEvents: 'none', zIndex: 0 }}>
+                <source src="/assets/video/Black_grid_background_video___Motion_background_with_black_grid_video___Film_texture,_Motion_graphics_trends,_Motion_backgrounds.mp4" type="video/mp4" />
+              </video>
               {/* Ambient glow */}
-              <div style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(48,209,88,0.05) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+              <div style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(48,209,88,0.07) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
               <video
                 autoPlay muted loop playsInline preload="auto"
                 style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', display: 'block', zIndex: 1 }}
@@ -464,19 +464,13 @@ export default function Landing() {
 
       {/* ─── DAYE CINEMATIC SECTION ─────────────────────── */}
       <section style={{ position: 'relative', overflow: 'hidden', background: '#000', padding: 'clamp(48px,7vw,80px) clamp(20px,5vw,60px)' }}>
-        {/* Tech depth grid */}
+        {/* Perspective room grid image background */}
         <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle, rgba(48,209,88,0.08) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
-          <div style={{ position: 'absolute', bottom: 0, left: '-10%', right: '-10%', height: '55%',
-            backgroundImage: 'linear-gradient(rgba(48,209,88,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(48,209,88,0.07) 1px,transparent 1px)',
-            backgroundSize: '50px 50px',
-            transform: 'perspective(600px) rotateX(-50deg)',
-            transformOrigin: 'bottom center',
-            maskImage: 'linear-gradient(to top,transparent 5%,rgba(0,0,0,0.5) 60%,transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to top,transparent 5%,rgba(0,0,0,0.5) 60%,transparent 100%)',
-          }} />
-          {/* Green ambient glow center */}
-          <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%,-50%)', width: 600, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(48,209,88,0.04) 0%, transparent 70%)' }} />
+          <img src="/assets/video/22ee8c4a4ffcfe6b8012f297b4232309.jpg" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', opacity: 0.4 }} />
+          {/* Green tint over grid */}
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(48,209,88,0.06) 0%, transparent 65%)' }} />
+          {/* Darken edges */}
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.75) 100%)' }} />
         </div>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 60, alignItems: 'center' }}>
           {/* Left — typography */}
@@ -805,7 +799,7 @@ export default function Landing() {
             style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', height: 'clamp(220px, 38vh, 340px)', marginBottom: 4, flexShrink: 0, cursor: 'pointer' }}
           >
             <img
-              src="/assets/video/b78ad4f230a4015d24a420fce2a7d53b.jpg"
+              src="/assets/video/cdd8c26722152919a8539f357363c238.jpg"
               alt=""
               style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', pointerEvents: 'none' }}
             />
@@ -829,7 +823,7 @@ export default function Landing() {
             {[
               { source: 'DARK READING', text: 'AI-generated deepfake audio used in $25M corporate wire transfer fraud targeting CEO', time: '11m ago', color: '#FF9500', img: '/assets/video/a6d0630ce28473947929efbcdbc53445.jpg' },
               { source: 'BLEEPING COMPUTER', text: 'Massive botnet of 40,000 compromised IoT cameras targeting financial sector', time: '28m ago', color: '#FF6B35', img: '/assets/video/5550b5f21861539de2d6c651cf6bbb1f.jpg' },
-              { source: 'THE HACKER NEWS', text: 'State-sponsored group deploys rootkit via malicious firmware updates to routers', time: '44m ago', color: '#FF2D2D', img: '/assets/video/cdd8c26722152919a8539f357363c238.jpg' },
+              { source: 'THE HACKER NEWS', text: 'State-sponsored group deploys rootkit via malicious firmware updates to routers', time: '44m ago', color: '#FF2D2D', img: '/assets/video/d56c1633639c7480b16bfeac3e525dc6.jpg' },
               { source: 'KREBS ON SECURITY', text: 'Ransomware group LockBit 4.0 claims breach of three critical infrastructure operators', time: '3h ago', color: '#FF6B35', img: '/assets/video/59e3fe10b1baae0eb4fd232ffd49d868.jpg' },
             ].map((item, i) => (
               <motion.div
