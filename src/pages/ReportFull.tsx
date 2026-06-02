@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, Download, ChevronDown, BookOpen, X } from 'lucide-react'
@@ -13,9 +13,21 @@ const FRONT_SECTIONS = [
   { id: 'acknowledgements', label: 'Acknowledgements' },
 ]
 
+// Match the Layout component's own breakpoint (1024px)
+function useIsMobile() {
+  const [mobile, setMobile] = useState(() => window.innerWidth < 1024)
+  useEffect(() => {
+    const handler = () => setMobile(window.innerWidth < 1024)
+    window.addEventListener('resize', handler)
+    return () => window.removeEventListener('resize', handler)
+  }, [])
+  return mobile
+}
+
 export default function ReportFull() {
   const { profile, signOut } = useAuth()
   const navigate = useNavigate()
+  const isMobile = useIsMobile()
   const [activeSection, setActiveSection] = useState<string>('abstract')
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
   const [downloadOpen, setDownloadOpen] = useState(false)
@@ -97,19 +109,11 @@ export default function ReportFull() {
 
   return (
     <Layout profile={profile} onSignOut={signOut} title="Technical Report — Full Document">
-      <style>{`
-        .report-nav-item:hover { background: rgba(255,255,255,0.04) !important; }
-        .report-desktop-sidebar { display: flex; }
-        @media (max-width: 768px) {
-          .report-desktop-sidebar { display: none !important; }
-          .report-mobile-nav-btn { display: flex !important; }
-        }
-        .report-mobile-nav-btn { display: none; }
-      `}</style>
+      <style>{`.report-nav-item:hover { background: rgba(255,255,255,0.04) !important; }`}</style>
 
       <div style={{ display: 'flex', height: 'calc(100vh - 56px)', overflow: 'hidden', position: 'relative' }}>
 
-        {/* ── MOBILE NAV DRAWER ── */}
+        {/* ── MOBILE NAV DRAWER (JS-controlled, no CSS media queries) ── */}
         <AnimatePresence>
           {navOpen && (
             <>
@@ -142,17 +146,16 @@ export default function ReportFull() {
           )}
         </AnimatePresence>
 
-        {/* ── DESKTOP SIDEBAR ── */}
-        <aside
-          className="report-desktop-sidebar"
-          style={{
+        {/* ── DESKTOP SIDEBAR — only rendered when NOT mobile ── */}
+        {!isMobile && (
+          <aside style={{
             width: 260, height: '100%', borderRight: '1px solid rgba(255,255,255,0.07)',
             overflowY: 'auto', flexShrink: 0, padding: '20px 0',
-            background: 'rgba(4,4,4,0.98)', flexDirection: 'column',
-          }}
-        >
-          <NavContent />
-        </aside>
+            background: 'rgba(4,4,4,0.98)', display: 'flex', flexDirection: 'column',
+          }}>
+            <NavContent />
+          </aside>
+        )}
 
         {/* ── MAIN CONTENT ── */}
         <main
@@ -169,14 +172,15 @@ export default function ReportFull() {
             gap: 8,
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
-              {/* Mobile nav toggle */}
-              <button
-                className="report-mobile-nav-btn"
-                onClick={() => setNavOpen(true)}
-                style={{ alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 7, color: 'rgba(255,255,255,0.6)', padding: '6px 10px', cursor: 'pointer', flexShrink: 0 }}
-              >
-                <BookOpen size={13} />
-              </button>
+              {/* Contents button — only on mobile */}
+              {isMobile && (
+                <button
+                  onClick={() => setNavOpen(true)}
+                  style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 7, color: 'rgba(255,255,255,0.6)', padding: '6px 10px', cursor: 'pointer', flexShrink: 0 }}
+                >
+                  <BookOpen size={13} />
+                </button>
+              )}
               <button
                 onClick={() => navigate('/report')}
                 style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontFamily: 'JetBrains Mono', fontSize: 11, cursor: 'pointer', flexShrink: 0 }}
