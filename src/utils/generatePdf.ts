@@ -239,7 +239,7 @@ export async function downloadPdf() {
   // ── Try loading school logo ──
   let logoDataUrl: string | null = null
   try {
-    const resp = await fetch('/pcu-logo.png')
+    const resp = await fetch('/pcu-logo.jpeg')
     if (resp.ok) {
       const blob = await resp.blob()
       logoDataUrl = await new Promise<string>((res) => {

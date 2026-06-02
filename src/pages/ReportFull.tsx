@@ -209,7 +209,7 @@ export default function ReportFull() {
               Department of Cyber Security
             </p>
             <img
-              src="/pcu-logo.png"
+              src="/pcu-logo.jpeg"
               alt="Precious Cornerstone University"
               style={{ width: 80, height: 80, objectFit: 'contain', display: 'block', margin: '0 auto 20px' }}
               onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}

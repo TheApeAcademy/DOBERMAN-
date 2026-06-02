@@ -57,7 +57,7 @@ export default function Report() {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
             <img
-              src="/pcu-logo.png"
+              src="/pcu-logo.jpeg"
               alt="Precious Cornerstone University"
               style={{ width: 44, height: 44, objectFit: 'contain', flexShrink: 0 }}
               onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}

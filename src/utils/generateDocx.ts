@@ -127,7 +127,7 @@ export async function downloadDocx() {
   // ── Try loading school logo ────────────────────────────
   let logoImageRun: ImageRun | null = null
   try {
-    const resp = await fetch('/pcu-logo.png')
+    const resp = await fetch('/pcu-logo.jpeg')
     if (resp.ok) {
       const buf = await resp.arrayBuffer()
       logoImageRun = new ImageRun({

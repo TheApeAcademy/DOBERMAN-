@@ -1039,7 +1039,7 @@ export default function Landing() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <div style={{ width: 44, height: 44, borderRadius: 10, background: 'rgba(48,209,88,0.06)', border: '1px solid rgba(48,209,88,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
             <img
-              src="/pcu-logo.png"
+              src="/pcu-logo.jpeg"
               alt="PCU"
               style={{ width: 36, height: 36, objectFit: 'contain' }}
               onError={(e) => {
