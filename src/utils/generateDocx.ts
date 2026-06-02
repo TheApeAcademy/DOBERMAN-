@@ -2,7 +2,6 @@ import {
   Document,
   Paragraph,
   TextRun,
-  HeadingLevel,
   AlignmentType,
   PageBreak,
   Footer,

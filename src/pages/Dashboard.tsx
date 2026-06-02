@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Shield, ArrowRight, Clock, ExternalLink, ChevronRight, Zap, Globe, FileText, BookOpen, Download } from 'lucide-react'
+import { Shield, ArrowRight, Clock, ExternalLink, ChevronRight, Zap, Globe, BookOpen, Download } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
