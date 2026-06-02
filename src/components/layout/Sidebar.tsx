@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Eye, Brain, LayoutDashboard, History, Settings, LogOut, User, Newspaper, Globe2, Lock } from 'lucide-react'
+import { Eye, Brain, LayoutDashboard, History, Settings, LogOut, User, Newspaper, Globe2, Lock, FileText } from 'lucide-react'
 import type { Profile } from '../../lib/supabase'
 import { getInitials, getAvatarColor } from '../../lib/utils'
 
@@ -24,6 +24,7 @@ const navItems = [
   { to: '/globe', icon: Globe2, label: 'Cyber Globe', sub: 'Threat Intelligence' },
   { to: '/breach', icon: Lock, label: 'BREACH', sub: 'Breach Detection' },
   { to: '/history', icon: History, label: 'History', sub: '' },
+  { to: '/report', icon: FileText, label: 'Tech Report', sub: '' },
   { to: '/settings', icon: Settings, label: 'Settings', sub: '' },
 ]
 

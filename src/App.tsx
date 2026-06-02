@@ -18,6 +18,8 @@ import Globe from './pages/Globe'
 import Deepfake from './pages/Deepfake'
 import Daye from './pages/Daye'
 import Breach from './pages/Breach'
+import Report from './pages/Report'
+import ReportFull from './pages/ReportFull'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
@@ -60,6 +62,8 @@ function AnimatedRoutes() {
         <Route path="/deepfake" element={<ProtectedRoute><PageWrapper><Deepfake /></PageWrapper></ProtectedRoute>} />
         <Route path="/daye" element={<ProtectedRoute><PageWrapper><Daye /></PageWrapper></ProtectedRoute>} />
         <Route path="/breach" element={<ProtectedRoute><PageWrapper><Breach /></PageWrapper></ProtectedRoute>} />
+        <Route path="/report" element={<ProtectedRoute><PageWrapper><Report /></PageWrapper></ProtectedRoute>} />
+        <Route path="/report/full" element={<ProtectedRoute><PageWrapper><ReportFull /></PageWrapper></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </AnimatePresence>
