@@ -1034,8 +1034,30 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ─── TECHNICAL REPORT BANNER ─────────────────────── */}
+      <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '28px clamp(20px,4vw,48px)', background: 'rgba(4,4,4,0.99)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <svg width="16" height="16" fill="none" stroke="rgba(48,209,88,0.9)" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+          </div>
+          <div>
+            <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.75)', marginBottom: 2 }}>Final Year Technical Report</p>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(255,255,255,0.25)' }}>B.Sc. Cyber Security — Precious Cornerstone University, Ibadan</p>
+          </div>
+        </div>
+        <motion.button
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={() => navigate('/auth')}
+          style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', background: 'rgba(48,209,88,0.1)', border: '1px solid rgba(48,209,88,0.25)', borderRadius: 10, color: 'rgba(48,209,88,0.9)', fontFamily: 'Syne', fontWeight: 700, fontSize: 12 }}
+        >
+          View Technical Report
+          <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg>
+        </motion.button>
+      </div>
+
       {/* ─── FOOTER ──────────────────────────────────────── */}
-      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px clamp(20px,4vw,48px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(4,4,4,0.98)', flexWrap: 'wrap', gap: 20 }}>
+      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.04)', padding: '32px clamp(20px,4vw,48px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(4,4,4,0.98)', flexWrap: 'wrap', gap: 20 }}>
         <span style={{ fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.2em' }}>D0B3RMAN</span>
         <div style={{ display: 'flex', gap: 32, fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>
           <a href="/privacy" style={{ color: 'inherit', textDecoration: 'none' }}>Privacy</a>

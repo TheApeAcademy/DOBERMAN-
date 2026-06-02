@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Shield, ArrowRight, Clock, ExternalLink, ChevronRight, Zap, Globe } from 'lucide-react'
+import { Shield, ArrowRight, Clock, ExternalLink, ChevronRight, Zap, Globe, FileText, BookOpen, Download } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
@@ -650,6 +650,44 @@ export default function Dashboard() {
                   ))}
                 </div>
               </div>
+            </div>
+          </motion.div>
+
+
+          {/* ── TECHNICAL REPORT ─────────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.6 }}
+            className="glass"
+            style={{ marginBottom: 32, padding: '24px 28px', borderRadius: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20, position: 'relative', overflow: 'hidden' }}
+          >
+            <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at left, rgba(48,209,88,0.04), transparent 60%)', pointerEvents: 'none' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <FileText size={18} style={{ color: 'var(--safe)' }} />
+              </div>
+              <div>
+                <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 15, color: 'rgba(255,255,255,0.85)', marginBottom: 2 }}>Final Year Technical Report</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.28)' }}>B.Sc. Cyber Security · Precious Cornerstone University, Ibadan</p>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <motion.button
+                whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                onClick={(e) => { e.stopPropagation(); navigate('/report') }}
+                style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', background: 'var(--safe)', color: 'black', fontFamily: 'Inter', fontWeight: 700, fontSize: 12, border: 'none', borderRadius: 10, cursor: 'pointer' }}
+              >
+                <BookOpen size={13} /> View Report
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                onClick={(e) => { e.stopPropagation(); navigate('/report') }}
+                style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', fontFamily: 'Inter', fontWeight: 600, fontSize: 12, cursor: 'pointer' }}
+              >
+                <Download size={13} /> Download
+              </motion.button>
             </div>
           </motion.div>
 
