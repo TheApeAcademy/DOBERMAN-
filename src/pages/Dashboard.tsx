@@ -665,8 +665,17 @@ export default function Dashboard() {
           >
             <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at left, rgba(48,209,88,0.04), transparent 60%)', pointerEvents: 'none' }} />
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <FileText size={18} style={{ color: 'var(--safe)' }} />
+              <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(48,209,88,0.06)', border: '1px solid rgba(48,209,88,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
+                <img
+                  src="/pcu-logo.png"
+                  alt="PCU"
+                  style={{ width: 36, height: 36, objectFit: 'contain' }}
+                  onError={(e) => {
+                    const img = e.currentTarget as HTMLImageElement
+                    img.style.display = 'none'
+                    img.insertAdjacentHTML('afterend', '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="var(--safe)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>')
+                  }}
+                />
               </div>
               <div>
                 <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 15, color: 'rgba(255,255,255,0.85)', marginBottom: 2 }}>Final Year Technical Report</p>

@@ -1037,8 +1037,19 @@ export default function Landing() {
       {/* ─── TECHNICAL REPORT BANNER ─────────────────────── */}
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '28px clamp(20px,4vw,48px)', background: 'rgba(4,4,4,0.99)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <svg width="16" height="16" fill="none" stroke="rgba(48,209,88,0.9)" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+          <div style={{ width: 44, height: 44, borderRadius: 10, background: 'rgba(48,209,88,0.06)', border: '1px solid rgba(48,209,88,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
+            <img
+              src="/pcu-logo.png"
+              alt="PCU"
+              style={{ width: 36, height: 36, objectFit: 'contain' }}
+              onError={(e) => {
+                const el = e.currentTarget as HTMLImageElement
+                el.style.display = 'none'
+                const svg = document.createElement('div')
+                svg.innerHTML = '<svg width="16" height="16" fill="none" stroke="rgba(48,209,88,0.9)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>'
+                el.parentElement?.appendChild(svg.firstChild as Node)
+              }}
+            />
           </div>
           <div>
             <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.75)', marginBottom: 2 }}>Final Year Technical Report</p>

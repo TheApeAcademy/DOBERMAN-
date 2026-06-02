@@ -205,9 +205,15 @@ export default function ReportFull() {
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.2)', marginBottom: 6, textTransform: 'uppercase' }}>
               Precious Cornerstone University, Ibadan
             </p>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.2)', marginBottom: 40, textTransform: 'uppercase' }}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.2)', marginBottom: 20, textTransform: 'uppercase' }}>
               Department of Cyber Security
             </p>
+            <img
+              src="/pcu-logo.png"
+              alt="Precious Cornerstone University"
+              style={{ width: 80, height: 80, objectFit: 'contain', display: 'block', margin: '0 auto 20px' }}
+              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+            />
             <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(52px, 16vw, 120px)', letterSpacing: '0.15em', lineHeight: 0.88, marginBottom: 20, background: 'linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.6) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
               DOBERMAN
             </h1>

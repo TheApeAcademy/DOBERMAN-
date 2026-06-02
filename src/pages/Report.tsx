@@ -55,9 +55,17 @@ export default function Report() {
         >
           <div style={{ position: 'absolute', top: 0, right: 0, width: 400, height: 400, background: 'radial-gradient(circle at top right, rgba(48,209,88,0.04), transparent 70%)', pointerEvents: 'none' }} />
 
-          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.25)', marginBottom: 16, textTransform: 'uppercase' }}>
-            [ FINAL YEAR PROJECT — 2025/2026 ]
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
+            <img
+              src="/pcu-logo.png"
+              alt="Precious Cornerstone University"
+              style={{ width: 44, height: 44, objectFit: 'contain', flexShrink: 0 }}
+              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+            />
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase' }}>
+              [ FINAL YEAR PROJECT — 2025/2026 ]
+            </p>
+          </div>
 
           <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(52px, 10vw, 96px)', letterSpacing: '0.12em', lineHeight: 0.9, marginBottom: 16 }}>
             DOBERMAN
