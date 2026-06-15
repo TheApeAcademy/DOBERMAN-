@@ -4,6 +4,21 @@ chrome.runtime.onMessage.addListener((msg) => {
   if (msg.type === 'D0B3RMAN_ERROR') showOverlay(null, false, null, true)
 })
 
+// Sync Supabase auth token to extension storage when on the DOBERMAN web app
+if (location.hostname.includes('d0b3rman')) {
+  function syncAuthToken() {
+    try {
+      const raw = localStorage.getItem('sb-bemovimlzrzcztrtikpf-auth-token')
+      if (!raw) return
+      const session = JSON.parse(raw)
+      const token = session?.access_token
+      if (token) chrome.runtime.sendMessage({ type: 'STORE_TOKEN', token })
+    } catch {}
+  }
+  syncAuthToken()
+  window.addEventListener('storage', syncAuthToken)
+}
+
 function showOverlay(data, loading = false, type = null, error = false) {
   document.getElementById('dob-overlay')?.remove()
 
