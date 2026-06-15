@@ -5,7 +5,6 @@ import {
   EffectComposer,
   Bloom,
   ChromaticAberration,
-  Noise,
 } from '@react-three/postprocessing'
 import { BlendFunction } from 'postprocessing'
 import * as THREE from 'three'
@@ -29,7 +28,7 @@ function HeroBlob() {
   return (
     // Torus = the organic ring shape from the reference images
     // args: [radius, tube, radialSeg, tubularSeg]
-    <Torus ref={meshRef} args={[1.4, 0.65, 128, 200]} position={[2.2, 0.1, 0]}>
+    <Torus ref={meshRef} args={[1.4, 0.65, 64, 100]} position={[2.2, 0.1, 0]}>
       <MeshDistortMaterial
         color="#c8c8c8"
         attach="material"
@@ -67,7 +66,7 @@ function SatelliteOrb({
 
   return (
     <mesh ref={meshRef} position={position}>
-      <sphereGeometry args={[1, 64, 64]} />
+      <sphereGeometry args={[1, 48, 48]} />
       <MeshDistortMaterial
         color="#a0a0a0"
         attach="material"
@@ -102,35 +101,29 @@ function Scene() {
       <SatelliteOrb position={[4.5, -2.5, -4]} scale={0.2} speed={0.8} distort={0.8} />
       <SatelliteOrb position={[-1.5, -2.8, -2]} scale={0.3} speed={1.5} distort={0.55} />
 
-      {/* Post-processing — the cinematic layer */}
       <EffectComposer>
-        {/* Bloom — chrome edges glow */}
         <Bloom
-          intensity={0.5}
+          intensity={0.4}
           luminanceThreshold={0.55}
           luminanceSmoothing={0.85}
-          mipmapBlur
         />
-        {/* Chromatic aberration — real camera lens distortion */}
         <ChromaticAberration
           blendFunction={BlendFunction.NORMAL}
-          offset={new THREE.Vector2(0.0006, 0.0006) as any}
+          offset={new THREE.Vector2(0.0005, 0.0005) as any}
         />
-        {/* Film grain on 3D layer */}
-        <Noise blendFunction={BlendFunction.SOFT_LIGHT} opacity={0.12} />
       </EffectComposer>
     </>
   )
 }
 
 export function GlobalChrome3D() {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
       <Canvas
         camera={{ position: [0, 0, 7], fov: 42 }}
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-        dpr={isMobile ? [1, 1] : [1, 1.5]}
+        gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
+        dpr={[0.75, 1]}
+        performance={{ min: 0.5 }}
         style={{ background: 'transparent' }}
       >
         <Scene />
