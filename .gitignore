@@ -33,3 +33,6 @@ dist-ssr
 # Supabase local
 .supabase/
 supabase/.temp/
+
+# Game high score (local per-player, not committed)
+game/highscore.txt
