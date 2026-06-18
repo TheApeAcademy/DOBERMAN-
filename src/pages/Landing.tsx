@@ -1074,6 +1074,7 @@ export default function Landing() {
           <a href="/privacy" style={{ color: 'inherit', textDecoration: 'none' }}>Privacy</a>
           <a href="/terms" style={{ color: 'inherit', textDecoration: 'none' }}>Terms</a>
           <a href="mailto:hello@d0b3rman.ai" style={{ color: 'inherit', textDecoration: 'none' }}>Contact</a>
+          <a href="/report" style={{ color: 'inherit', textDecoration: 'none' }}>Technical Report</a>
         </div>
         <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>2026 D0B3RMAN. All rights reserved.</p>
       </footer>
