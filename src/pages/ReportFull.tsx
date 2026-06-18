@@ -247,20 +247,18 @@ export default function ReportFull() {
             <section id="section-abstract" style={{ marginBottom: 64 }}>
               <SectionLabel>Abstract</SectionLabel>
               {REPORT.abstract.split('\n\n').map((para, i) => (
-                <BodyText key={i}>{para}</BodyText>
+                <BodyText key={i} noIndent>{para}</BodyText>
               ))}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 20 }}>
-                {REPORT.keywords.map((kw) => (
-                  <span key={kw} style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em', color: 'var(--safe)', background: 'rgba(48,209,88,0.06)', border: '1px solid rgba(48,209,88,0.15)', padding: '4px 10px', borderRadius: 4 }}>{kw}</span>
-                ))}
-              </div>
+              <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'rgba(255,255,255,0.45)', marginTop: 20, lineHeight: 1.7 }}>
+                <em>Keywords:</em> {REPORT.keywords.join(', ')}
+              </p>
             </section>
 
             {/* Dedication */}
             <section id="section-dedication" style={{ marginBottom: 64 }}>
               <SectionLabel>Dedication</SectionLabel>
               {REPORT.dedication.split('\n\n').map((para, i) => (
-                <p key={i} style={{ fontFamily: 'Syne', fontSize: 15, fontStyle: 'italic', color: 'rgba(255,255,255,0.5)', lineHeight: 1.8, marginBottom: 16, textAlign: 'center' }}>{para}</p>
+                <p key={i} style={{ fontFamily: 'Syne', fontSize: 15, fontStyle: 'italic', color: 'rgba(255,255,255,0.5)', lineHeight: 1.8, marginBottom: 16, textAlign: 'center', textIndent: 0 }}>{para}</p>
               ))}
             </section>
 
@@ -297,12 +295,22 @@ export default function ReportFull() {
 
             {/* References */}
             <section id="section-references" style={{ marginBottom: 72 }}>
-              <SectionLabel>References</SectionLabel>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <h2 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 22, color: 'rgba(255,255,255,0.9)', textAlign: 'center', marginBottom: 28, letterSpacing: '0.02em' }}>References</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                 {REPORT.references.map((ref) => (
-                  <div key={ref.number} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                    <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.3)', flexShrink: 0, paddingTop: 2, width: 28 }}>[{ref.number}]</span>
-                    <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'rgba(255,255,255,0.5)', lineHeight: 1.65 }}>{ref.citation}</p>
+                  <div key={ref.number} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                    <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(255,255,255,0.22)', flexShrink: 0, paddingTop: 4, minWidth: 26, textAlign: 'right' }}>
+                      [{ref.number}]
+                    </span>
+                    <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.75, margin: 0 }}>
+                      {renderText(ref.citation)}
+                      {ref.url && (
+                        <> <a href={ref.url} target="_blank" rel="noopener noreferrer"
+                               style={{ color: 'rgba(100,210,255,0.65)', textDecoration: 'underline', textUnderlineOffset: '2px', wordBreak: 'break-all' }}>
+                          {ref.url}
+                        </a></>
+                      )}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -334,6 +342,43 @@ export default function ReportFull() {
   )
 }
 
+function renderText(text: string): React.ReactNode {
+  const parts: React.ReactNode[] = []
+  let i = 0
+  let k = 0
+
+  while (i < text.length) {
+    if (text[i] === '*') {
+      const close = text.indexOf('*', i + 1)
+      if (close !== -1) {
+        parts.push(<em key={k++}>{text.slice(i + 1, close)}</em>)
+        i = close + 1
+        continue
+      }
+    }
+
+    if (text.startsWith('https://', i) || text.startsWith('http://', i)) {
+      let j = i
+      while (j < text.length && text[j] !== ' ' && text[j] !== '\n' && text[j] !== ',' && text[j] !== ')') j++
+      const url = text.slice(i, j)
+      parts.push(
+        <a key={k++} href={url} target="_blank" rel="noopener noreferrer"
+           style={{ color: 'rgba(100,210,255,0.7)', textDecoration: 'underline', textUnderlineOffset: '2px' }}>
+          {url}
+        </a>
+      )
+      i = j
+      continue
+    }
+
+    let j = i
+    while (j < text.length && text[j] !== '*' && !text.startsWith('https://', j) && !text.startsWith('http://', j)) j++
+    if (j > i) { parts.push(text.slice(i, j)); i = j } else { parts.push(text[i]); i++ }
+  }
+
+  return <>{parts}</>
+}
+
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <div style={{ marginBottom: 24 }}>
@@ -346,9 +391,9 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
-function BodyText({ children }: { children: React.ReactNode }) {
+function BodyText({ children, noIndent }: { children: React.ReactNode; noIndent?: boolean }) {
   return (
-    <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.85, marginBottom: 16, textAlign: 'justify' }}>
+    <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.85, marginBottom: 16, textAlign: 'justify', textIndent: noIndent ? 0 : '1.5em' }}>
       {children}
     </p>
   )
