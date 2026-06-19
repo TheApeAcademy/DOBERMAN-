@@ -196,25 +196,6 @@ export default function Landing() {
             Three modules. One platform. Zero guesswork.
           </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }}
-            style={{ display: 'flex', gap: 16, marginTop: 40, flexWrap: 'wrap', position: 'relative', zIndex: 4 }}>
-            <motion.button
-              whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(255,255,255,0.2)' }}
-              whileTap={{ scale: 0.97 }}
-              onClick={(e) => { shockwave(e); navigate('/auth') }}
-              style={{ padding: '16px 44px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 15, border: 'none', borderRadius: 12 }}>
-              Deploy Free
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => navigate('/auth')}
-              style={{ padding: '16px 44px', background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 12, color: 'white', fontFamily: 'Syne', fontWeight: 600, fontSize: 15, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.18)' }}>
-              See It Work
-            </motion.button>
-          </motion.div>
-
           <motion.p
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3 }}
             style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.2)', marginTop: 20, position: 'relative', zIndex: 4 }}>
