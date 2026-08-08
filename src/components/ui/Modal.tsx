@@ -26,16 +26,16 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
       />
       <div style={{
         position: 'relative', zIndex: 51, width: '100%', maxWidth: 480,
-        background: 'rgba(255,255,255,0.04)',
-        border: '1px solid rgba(255,255,255,0.12)',
+        background: 'var(--ovw-0p04)',
+        border: '1px solid var(--ovw-0p12)',
         borderRadius: 20,
-        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.14), 0 40px 80px rgba(0,0,0,0.6)',
+        boxShadow: 'inset 0 1px 0 var(--ovw-0p14), 0 40px 80px rgba(0,0,0,0.6)',
         backdropFilter: 'blur(40px)',
         WebkitBackdropFilter: 'blur(40px)',
         animation: 'pageIn 0.25s ease',
       }}>
         {title && (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 22px 16px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 22px 16px', borderBottom: '1px solid var(--ovw-0p07)' }}>
             <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.04em', color: 'var(--text-2)', textTransform: 'uppercase' }}>{title}</p>
             <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-3)', display: 'flex', alignItems: 'center' }}>
               <X size={16} />
@@ -59,7 +59,7 @@ export function UpgradeModal({ open, onClose }: { open: boolean; onClose: () => 
           You have reached your daily limit. Pro gives you unlimited scans,
           priority analysis, and advanced threat reports.
         </p>
-        <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '14px 16px', textAlign: 'left' }}>
+        <div style={{ background: 'var(--ovw-0p02)', border: '1px solid var(--ovw-0p07)', borderRadius: 12, padding: '14px 16px', textAlign: 'left' }}>
           <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.04em', color: 'var(--text-3)', marginBottom: 10, textTransform: 'uppercase' }}>Pro includes:</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {['Unlimited EYES scans', 'Unlimited NOSE scans', '100 BRAIN messages/day', 'Export reports', 'Priority support'].map((item) => (

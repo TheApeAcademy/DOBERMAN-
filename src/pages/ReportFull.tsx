@@ -47,8 +47,8 @@ export default function ReportFull() {
 
   const NavContent = () => (
     <>
-      <div style={{ padding: '0 16px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: 8 }}>
-        <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase' }}>Navigation</p>
+      <div style={{ padding: '0 16px 16px', borderBottom: '1px solid var(--ovw-0p06)', marginBottom: 8 }}>
+        <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.2em', color: 'var(--ovw-0p2)', textTransform: 'uppercase' }}>Navigation</p>
       </div>
 
       {FRONT_SECTIONS.map(({ id, label }) => (
@@ -58,17 +58,17 @@ export default function ReportFull() {
           className="report-nav-item"
           style={{
             display: 'flex', alignItems: 'center', gap: 10, padding: '8px 16px', width: '100%',
-            textAlign: 'left', background: activeSection === id ? 'rgba(255,255,255,0.06)' : 'transparent',
+            textAlign: 'left', background: activeSection === id ? 'var(--ovw-0p06)' : 'transparent',
             border: 'none', transition: 'all 0.15s', cursor: 'pointer',
           }}
         >
           {activeSection === id && <div style={{ width: 2, height: 14, background: 'white', borderRadius: 1, flexShrink: 0 }} />}
-          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: activeSection === id ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.4)', letterSpacing: '0.03em' }}>{label}</p>
+          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: activeSection === id ? 'var(--ovw-0p9)' : 'var(--ovw-0p4)', letterSpacing: '0.03em' }}>{label}</p>
         </button>
       ))}
 
       <div style={{ padding: '12px 16px 4px' }}>
-        <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.15)', textTransform: 'uppercase' }}>Chapters</p>
+        <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--ovw-0p15)', textTransform: 'uppercase' }}>Chapters</p>
       </div>
 
       {REPORT.chapters.map((ch) => (
@@ -76,11 +76,11 @@ export default function ReportFull() {
           <button
             onClick={() => { toggleChapter(ch.number); scrollTo(`ch-${ch.number}`) }}
             className="report-nav-item"
-            style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', width: '100%', textAlign: 'left', background: activeSection === `ch-${ch.number}` ? 'rgba(255,255,255,0.06)' : 'transparent', border: 'none', cursor: 'pointer', transition: 'all 0.15s' }}
+            style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', width: '100%', textAlign: 'left', background: activeSection === `ch-${ch.number}` ? 'var(--ovw-0p06)' : 'transparent', border: 'none', cursor: 'pointer', transition: 'all 0.15s' }}
           >
-            <span style={{ fontFamily: 'Bebas Neue', fontSize: 14, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.25)', width: 18, flexShrink: 0 }}>{ch.number}</span>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: activeSection === `ch-${ch.number}` ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.4)', flex: 1, lineHeight: 1.3 }}>{ch.title}</p>
-            <ChevronDown size={12} style={{ color: 'rgba(255,255,255,0.2)', transform: expanded[ch.number] ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0 }} />
+            <span style={{ fontFamily: 'Bebas Neue', fontSize: 14, letterSpacing: '0.1em', color: 'var(--ovw-0p25)', width: 18, flexShrink: 0 }}>{ch.number}</span>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: activeSection === `ch-${ch.number}` ? 'var(--ovw-0p9)' : 'var(--ovw-0p4)', flex: 1, lineHeight: 1.3 }}>{ch.title}</p>
+            <ChevronDown size={12} style={{ color: 'var(--ovw-0p2)', transform: expanded[ch.number] ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0 }} />
           </button>
           {expanded[ch.number] && ch.sections.map((sec) => (
             <button
@@ -89,7 +89,7 @@ export default function ReportFull() {
               className="report-nav-item"
               style={{ display: 'block', padding: '6px 16px 6px 44px', width: '100%', textAlign: 'left', background: 'transparent', border: 'none', cursor: 'pointer', transition: 'all 0.15s' }}
             >
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: activeSection === sec.id ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.25)', lineHeight: 1.4 }}>{sec.heading}</p>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: activeSection === sec.id ? 'var(--ovw-0p7)' : 'var(--ovw-0p25)', lineHeight: 1.4 }}>{sec.heading}</p>
             </button>
           ))}
         </div>
@@ -101,7 +101,7 @@ export default function ReportFull() {
           className="report-nav-item"
           style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', width: '100%', textAlign: 'left', background: 'transparent', border: 'none', cursor: 'pointer' }}
         >
-          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>References</p>
+          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--ovw-0p4)' }}>References</p>
         </button>
       </div>
     </>
@@ -109,7 +109,7 @@ export default function ReportFull() {
 
   return (
     <Layout profile={profile} onSignOut={signOut} title="Technical Report — Full Document">
-      <style>{`.report-nav-item:hover { background: rgba(255,255,255,0.04) !important; }`}</style>
+      <style>{`.report-nav-item:hover { background: var(--ovw-0p04) !important; }`}</style>
 
       <div style={{ display: 'flex', height: 'calc(100vh - 56px)', overflow: 'hidden', position: 'relative' }}>
 
@@ -129,14 +129,14 @@ export default function ReportFull() {
                 transition={{ type: 'spring', damping: 28, stiffness: 300 }}
                 style={{
                   position: 'fixed', left: 0, top: 0, bottom: 0, width: 280, zIndex: 51,
-                  background: 'rgba(8,8,10,0.98)', borderRight: '1px solid rgba(255,255,255,0.1)',
+                  background: 'var(--void-1)', borderRight: '1px solid var(--ovw-0p1)',
                   overflowY: 'auto', paddingTop: 20,
                   backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)',
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px 16px', borderBottom: '1px solid rgba(255,255,255,0.07)', marginBottom: 4 }}>
-                  <span style={{ fontFamily: 'Bebas Neue', fontSize: 16, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.7)' }}>Contents</span>
-                  <button onClick={() => setNavOpen(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', padding: 4 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px 16px', borderBottom: '1px solid var(--ovw-0p07)', marginBottom: 4 }}>
+                  <span style={{ fontFamily: 'Bebas Neue', fontSize: 16, letterSpacing: '0.15em', color: 'var(--ovw-0p7)' }}>Contents</span>
+                  <button onClick={() => setNavOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--ovw-0p4)', cursor: 'pointer', padding: 4 }}>
                     <X size={16} />
                   </button>
                 </div>
@@ -149,9 +149,9 @@ export default function ReportFull() {
         {/* ── DESKTOP SIDEBAR — only rendered when NOT mobile ── */}
         {!isMobile && (
           <aside style={{
-            width: 260, height: '100%', borderRight: '1px solid rgba(255,255,255,0.07)',
+            width: 260, height: '100%', borderRight: '1px solid var(--ovw-0p07)',
             overflowY: 'auto', flexShrink: 0, padding: '20px 0',
-            background: 'rgba(4,4,4,0.98)', display: 'flex', flexDirection: 'column',
+            background: 'var(--void-1)', display: 'flex', flexDirection: 'column',
           }}>
             <NavContent />
           </aside>
@@ -167,7 +167,7 @@ export default function ReportFull() {
             position: 'sticky', top: 0, zIndex: 10,
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             marginBottom: 32, padding: '12px 0',
-            borderBottom: '1px solid rgba(255,255,255,0.06)',
+            borderBottom: '1px solid var(--ovw-0p06)',
             background: 'var(--void)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
             gap: 8,
           }}>
@@ -176,24 +176,24 @@ export default function ReportFull() {
               {isMobile && (
                 <button
                   onClick={() => setNavOpen(true)}
-                  style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 7, color: 'rgba(255,255,255,0.6)', padding: '6px 10px', cursor: 'pointer', flexShrink: 0 }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'var(--ovw-0p06)', border: '1px solid var(--ovw-0p1)', borderRadius: 7, color: 'var(--ovw-0p6)', padding: '6px 10px', cursor: 'pointer', flexShrink: 0 }}
                 >
                   <BookOpen size={13} />
                 </button>
               )}
               <button
                 onClick={() => navigate('/report')}
-                style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontFamily: 'JetBrains Mono', fontSize: 11, cursor: 'pointer', flexShrink: 0 }}
+                style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', color: 'var(--ovw-0p4)', fontFamily: 'JetBrains Mono', fontSize: 11, cursor: 'pointer', flexShrink: 0 }}
               >
                 <ChevronLeft size={14} />
                 <span>Report</span>
               </button>
-              <span style={{ color: 'rgba(255,255,255,0.15)', fontFamily: 'JetBrains Mono', fontSize: 11, flexShrink: 0 }}>/</span>
-              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(255,255,255,0.35)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Full Document</span>
+              <span style={{ color: 'var(--ovw-0p15)', fontFamily: 'JetBrains Mono', fontSize: 11, flexShrink: 0 }}>/</span>
+              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--ovw-0p35)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Full Document</span>
             </div>
             <button
               onClick={() => setDownloadOpen(true)}
-              style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, color: 'white', fontFamily: 'Syne', fontWeight: 600, fontSize: 12, cursor: 'pointer', flexShrink: 0, whiteSpace: 'nowrap' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', background: 'var(--ovw-0p06)', border: '1px solid var(--ovw-0p12)', borderRadius: 8, color: 'var(--text-1)', fontFamily: 'Syne', fontWeight: 600, fontSize: 12, cursor: 'pointer', flexShrink: 0, whiteSpace: 'nowrap' }}
             >
               <Download size={12} /> Download
             </button>
@@ -206,10 +206,10 @@ export default function ReportFull() {
             transition={{ duration: 0.8 }}
             style={{ textAlign: 'center', marginBottom: 80, paddingTop: 16 }}
           >
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.2)', marginBottom: 6, textTransform: 'uppercase' }}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.18em', color: 'var(--ovw-0p2)', marginBottom: 6, textTransform: 'uppercase' }}>
               Precious Cornerstone University, Ibadan
             </p>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.2)', marginBottom: 20, textTransform: 'uppercase' }}>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.18em', color: 'var(--ovw-0p2)', marginBottom: 20, textTransform: 'uppercase' }}>
               Department of Cyber Security
             </p>
             <img
@@ -218,13 +218,13 @@ export default function ReportFull() {
               style={{ width: 80, height: 80, objectFit: 'contain', display: 'block', margin: '0 auto 20px' }}
               onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
             />
-            <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(52px, 16vw, 120px)', letterSpacing: '0.15em', lineHeight: 0.88, marginBottom: 20, background: 'linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.6) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+            <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(52px, 16vw, 120px)', letterSpacing: '0.15em', lineHeight: 0.88, marginBottom: 20, background: 'linear-gradient(135deg, #fff 0%, var(--ovw-0p6) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
               DOBERMAN
             </h1>
-            <p style={{ fontFamily: 'Syne', fontWeight: 500, fontSize: 'clamp(13px, 2.5vw, 20px)', color: 'rgba(255,255,255,0.5)', maxWidth: 540, margin: '0 auto 40px', lineHeight: 1.55, padding: '0 8px' }}>
+            <p style={{ fontFamily: 'Syne', fontWeight: 500, fontSize: 'clamp(13px, 2.5vw, 20px)', color: 'var(--ovw-0p5)', maxWidth: 540, margin: '0 auto 40px', lineHeight: 1.55, padding: '0 8px' }}>
               Design and Implementation of a Multi-Module AI-Powered Cybersecurity Intelligence Platform
             </p>
-            <div style={{ display: 'inline-block', textAlign: 'left', padding: 'clamp(16px, 4vw, 28px) clamp(16px, 5vw, 36px)', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 16, maxWidth: '100%' }}>
+            <div style={{ display: 'inline-block', textAlign: 'left', padding: 'clamp(16px, 4vw, 28px) clamp(16px, 5vw, 36px)', background: 'var(--ovw-0p03)', border: '1px solid var(--ovw-0p09)', borderRadius: 16, maxWidth: '100%' }}>
               {[
                 ['Author', 'Olusanu Joshua Bankole'],
                 ['Matric', '2022/493'],
@@ -234,8 +234,8 @@ export default function ReportFull() {
                 ['Session', '2025/2026'],
               ].map(([key, val]) => (
                 <div key={key} style={{ display: 'flex', gap: 'clamp(12px, 3vw, 24px)', marginBottom: 8, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.25)', width: 70, flexShrink: 0, textTransform: 'uppercase', paddingTop: 1 }}>{key}</span>
-                  <span style={{ fontFamily: 'Syne', fontWeight: 600, fontSize: 13, color: 'rgba(255,255,255,0.75)', flex: 1, minWidth: 0 }}>{val}</span>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em', color: 'var(--ovw-0p25)', width: 70, flexShrink: 0, textTransform: 'uppercase', paddingTop: 1 }}>{key}</span>
+                  <span style={{ fontFamily: 'Syne', fontWeight: 600, fontSize: 13, color: 'var(--ovw-0p75)', flex: 1, minWidth: 0 }}>{val}</span>
                 </div>
               ))}
             </div>
@@ -249,7 +249,7 @@ export default function ReportFull() {
               {REPORT.abstract.split('\n\n').map((para, i) => (
                 <BodyText key={i} noIndent>{para}</BodyText>
               ))}
-              <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'rgba(255,255,255,0.45)', marginTop: 20, lineHeight: 1.7 }}>
+              <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--ovw-0p45)', marginTop: 20, lineHeight: 1.7 }}>
                 <em>Keywords:</em> {REPORT.keywords.join(', ')}
               </p>
             </section>
@@ -258,7 +258,7 @@ export default function ReportFull() {
             <section id="section-dedication" style={{ marginBottom: 64 }}>
               <SectionLabel>Dedication</SectionLabel>
               {REPORT.dedication.split('\n\n').map((para, i) => (
-                <p key={i} style={{ fontFamily: 'Syne', fontSize: 15, fontStyle: 'italic', color: 'rgba(255,255,255,0.5)', lineHeight: 1.8, marginBottom: 16, textAlign: 'center', textIndent: 0 }}>{para}</p>
+                <p key={i} style={{ fontFamily: 'Syne', fontSize: 15, fontStyle: 'italic', color: 'var(--ovw-0p5)', lineHeight: 1.8, marginBottom: 16, textAlign: 'center', textIndent: 0 }}>{para}</p>
               ))}
             </section>
 
@@ -273,16 +273,16 @@ export default function ReportFull() {
             {/* Chapters */}
             {REPORT.chapters.map((chapter) => (
               <section key={chapter.number} id={`section-ch-${chapter.number}`} style={{ marginBottom: 72 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 32, paddingBottom: 16, borderBottom: '1px solid rgba(255,255,255,0.08)', flexWrap: 'wrap' }}>
-                  <span style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(36px, 8vw, 56px)', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.06)', lineHeight: 1 }}>{chapter.number}</span>
-                  <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(20px, 4vw, 36px)', color: 'white', lineHeight: 1.15, flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 32, paddingBottom: 16, borderBottom: '1px solid var(--ovw-0p08)', flexWrap: 'wrap' }}>
+                  <span style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(36px, 8vw, 56px)', letterSpacing: '0.1em', color: 'var(--ovw-0p06)', lineHeight: 1 }}>{chapter.number}</span>
+                  <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(20px, 4vw, 36px)', color: 'var(--text-1)', lineHeight: 1.15, flex: 1, minWidth: 0 }}>
                     {chapter.title}
                   </h2>
                 </div>
 
                 {chapter.sections.map((section) => (
                   <div key={section.id} id={`section-${section.id}`} style={{ marginBottom: 48 }}>
-                    <h3 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 16, color: 'rgba(255,255,255,0.85)', marginBottom: 16, paddingLeft: 12, borderLeft: '2px solid rgba(255,255,255,0.15)' }}>
+                    <h3 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 16, color: 'var(--ovw-0p85)', marginBottom: 16, paddingLeft: 12, borderLeft: '2px solid var(--ovw-0p15)' }}>
                       {section.heading}
                     </h3>
                     {section.body.map((para, i) => (
@@ -295,14 +295,14 @@ export default function ReportFull() {
 
             {/* References */}
             <section id="section-references" style={{ marginBottom: 72 }}>
-              <h2 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 22, color: 'rgba(255,255,255,0.9)', textAlign: 'center', marginBottom: 28, letterSpacing: '0.02em' }}>References</h2>
+              <h2 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 22, color: 'var(--ovw-0p9)', textAlign: 'center', marginBottom: 28, letterSpacing: '0.02em' }}>References</h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                 {REPORT.references.map((ref) => (
                   <div key={ref.number} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                    <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(255,255,255,0.22)', flexShrink: 0, paddingTop: 4, minWidth: 26, textAlign: 'right' }}>
+                    <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--ovw-0p22)', flexShrink: 0, paddingTop: 4, minWidth: 26, textAlign: 'right' }}>
                       [{ref.number}]
                     </span>
-                    <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.75, margin: 0 }}>
+                    <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--ovw-0p55)', lineHeight: 1.75, margin: 0 }}>
                       {renderText(ref.citation)}
                       {ref.url && (
                         <> <a href={ref.url} target="_blank" rel="noopener noreferrer"
@@ -323,7 +323,7 @@ export default function ReportFull() {
                 {app.content.map((para, j) => {
                   const isCode = para.includes('\n') && (para.includes('CREATE') || para.includes('Deno.serve') || para.includes('//'))
                   return isCode ? (
-                    <pre key={j} style={{ fontFamily: 'JetBrains Mono', fontSize: 11, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '20px 24px', overflowX: 'auto', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, marginBottom: 20, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+                    <pre key={j} style={{ fontFamily: 'JetBrains Mono', fontSize: 11, background: 'var(--ovw-0p03)', border: '1px solid var(--ovw-0p08)', borderRadius: 12, padding: '20px 24px', overflowX: 'auto', color: 'var(--ovw-0p6)', lineHeight: 1.7, marginBottom: 20, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
                       {para}
                     </pre>
                   ) : (
@@ -383,9 +383,9 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <div style={{ marginBottom: 24 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 4 }}>
-        <div style={{ height: 1, width: 32, background: 'rgba(255,255,255,0.12)' }} />
-        <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase' }}>{children}</p>
-        <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
+        <div style={{ height: 1, width: 32, background: 'var(--ovw-0p12)' }} />
+        <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.25em', color: 'var(--ovw-0p2)', textTransform: 'uppercase' }}>{children}</p>
+        <div style={{ flex: 1, height: 1, background: 'var(--ovw-0p06)' }} />
       </div>
     </div>
   )
@@ -393,7 +393,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 function BodyText({ children, noIndent }: { children: React.ReactNode; noIndent?: boolean }) {
   return (
-    <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.85, marginBottom: 16, textAlign: 'justify', textIndent: noIndent ? 0 : '1.5em' }}>
+    <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--ovw-0p55)', lineHeight: 1.85, marginBottom: 16, textAlign: 'justify', textIndent: noIndent ? 0 : '1.5em' }}>
       {children}
     </p>
   )

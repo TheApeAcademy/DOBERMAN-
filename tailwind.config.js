@@ -7,18 +7,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        /* Legacy names mapped to CHROME VOID palette */
-        'bg-primary': '#09090b',
-        'bg-secondary': '#0d0d10',
-        'bg-tertiary': '#111116',
-        'border-color': 'rgba(255,255,255,0.10)',
-        'accent-red': '#FF2D2D',
-        'accent-amber': '#FF9500',
-        'accent-green': '#30D158',
-        'accent-blue': '#ABABAB',
-        'text-primary': '#FFFFFF',
-        'text-secondary': '#94A3B8',
-        'text-muted': '#64748B',
+        /* Legacy names mapped to CHROME VOID palette — routed through the
+           CSS custom properties in index.css so these classes flip with
+           [data-theme] instead of being pinned to dark values. */
+        'bg-primary': 'var(--void)',
+        'bg-secondary': 'var(--void-1)',
+        'bg-tertiary': 'var(--void-2)',
+        'border-color': 'var(--glass-border)',
+        'accent-red': 'var(--danger)',
+        'accent-amber': 'var(--warning)',
+        'accent-green': 'var(--safe)',
+        'accent-blue': 'var(--chrome-mid)',
+        'text-primary': 'var(--text-1)',
+        'text-secondary': 'var(--text-2)',
+        'text-muted': 'var(--text-3)',
       },
       fontFamily: {
         'display': ['"Bebas Neue"', 'sans-serif'],

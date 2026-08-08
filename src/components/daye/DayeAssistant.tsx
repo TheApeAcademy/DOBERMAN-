@@ -197,12 +197,12 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
               bottom: 74,
               right: 0,
               width: 320,
-              background: 'rgba(5,5,5,0.98)',
-              border: '1px solid rgba(255,255,255,0.1)',
+              background: 'var(--void-1)',
+              border: '1px solid var(--ovw-0p1)',
               borderRadius: 22,
               backdropFilter: 'blur(48px)',
               WebkitBackdropFilter: 'blur(48px)',
-              boxShadow: '0 40px 80px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.09)',
+              boxShadow: '0 40px 80px rgba(0,0,0,0.85), 0 0 0 1px var(--ovw-0p04), inset 0 1px 0 var(--ovw-0p09)',
               overflow: 'hidden',
               display: 'flex',
               flexDirection: 'column',
@@ -211,7 +211,7 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
             {/* Header */}
             <div style={{
               padding: '13px 16px',
-              borderBottom: '1px solid rgba(255,255,255,0.07)',
+              borderBottom: '1px solid var(--ovw-0p07)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -248,8 +248,8 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
                     maxWidth: '86%',
                     padding: '8px 12px',
                     borderRadius: bubble.role === 'user' ? '14px 14px 4px 14px' : '4px 14px 14px 14px',
-                    background: bubble.role === 'user' ? 'rgba(48,209,88,0.1)' : 'rgba(255,255,255,0.04)',
-                    border: `1px solid ${bubble.role === 'user' ? 'rgba(48,209,88,0.18)' : 'rgba(255,255,255,0.07)'}`,
+                    background: bubble.role === 'user' ? 'rgba(48,209,88,0.1)' : 'var(--ovw-0p04)',
+                    border: `1px solid ${bubble.role === 'user' ? 'rgba(48,209,88,0.18)' : 'var(--ovw-0p07)'}`,
                     fontFamily: 'Syne',
                     fontSize: 12.5,
                     color: bubble.role === 'user' ? '#30D158' : '#A0A0A0',
@@ -270,8 +270,8 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
             </div>
 
             {/* Input bar */}
-            <div style={{ padding: '10px 12px', borderTop: '1px solid rgba(255,255,255,0.06)', flexShrink: 0 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 13, padding: '7px 10px' }}>
+            <div style={{ padding: '10px 12px', borderTop: '1px solid var(--ovw-0p06)', flexShrink: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'var(--ovw-0p04)', border: '1px solid var(--ovw-0p09)', borderRadius: 13, padding: '7px 10px' }}>
                 <input
                   type="file"
                   ref={fileInputRef}
@@ -310,7 +310,7 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
                   onClick={handleSend}
                   disabled={!input.trim() || sending}
                   style={{
-                    background: input.trim() && !sending ? '#30D158' : 'rgba(255,255,255,0.05)',
+                    background: input.trim() && !sending ? '#30D158' : 'var(--ovw-0p05)',
                     border: 'none',
                     borderRadius: 9,
                     width: 28,
@@ -346,8 +346,8 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
           width: 58,
           height: 58,
           borderRadius: '50%',
-          background: 'rgba(5,5,5,0.97)',
-          border: `1.5px solid ${hasNewMessage ? 'rgba(48,209,88,0.65)' : 'rgba(255,255,255,0.14)'}`,
+          background: 'var(--void-1)',
+          border: `1.5px solid ${hasNewMessage ? 'rgba(48,209,88,0.65)' : 'var(--ovw-0p14)'}`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

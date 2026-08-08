@@ -54,7 +54,7 @@ export default function BrainPage() {
           border: 'none',
           borderBottom: `2px solid ${active ? '#30D158' : 'transparent'}`,
           background: 'transparent',
-          color: active ? '#F5F5F7' : 'rgba(255,255,255,0.32)',
+          color: active ? '#F5F5F7' : 'var(--ovw-0p32)',
           fontSize: 13,
           fontWeight: active ? 600 : 400,
           fontFamily: SF,
@@ -74,13 +74,13 @@ export default function BrainPage() {
       <div style={{ display: 'flex', height: 'calc(100vh - 56px)', fontFamily: SF }}>
 
         {/* Desktop sidebar */}
-        <div style={{ width: 236, flexShrink: 0, borderRight: '1px solid rgba(255,255,255,0.06)', display: 'flex', flexDirection: 'column', background: 'rgba(255,255,255,0.01)' }} className="lg-show">
+        <div style={{ width: 236, flexShrink: 0, borderRight: '1px solid var(--ovw-0p06)', display: 'flex', flexDirection: 'column', background: 'var(--ovw-0p01)' }} className="lg-show">
           <style>{`@media (max-width: 1023px) { .lg-show { display: none !important; } }`}</style>
-          <div style={{ padding: '14px 16px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span style={{ fontFamily: SF, fontSize: 11, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', fontWeight: 600 }}>Conversations</span>
+          <div style={{ padding: '14px 16px 12px', borderBottom: '1px solid var(--ovw-0p06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ fontFamily: SF, fontSize: 11, letterSpacing: '0.04em', color: 'var(--ovw-0p25)', textTransform: 'uppercase', fontWeight: 600 }}>Conversations</span>
             <button
               onClick={() => newConversation()}
-              style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', display: 'flex', alignItems: 'center' }}
+              style={{ background: 'none', border: 'none', color: 'var(--ovw-0p3)', display: 'flex', alignItems: 'center' }}
               title="New conversation"
             >
               <MessageSquarePlus size={14} />
@@ -93,10 +93,10 @@ export default function BrainPage() {
         {historyOpen && (
           <div style={{ position: 'fixed', inset: 0, zIndex: 50, display: 'flex' }}>
             <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.72)', backdropFilter: 'blur(6px)' }} onClick={() => setHistoryOpen(false)} />
-            <div style={{ position: 'relative', zIndex: 51, width: 275, background: 'var(--void-1)', borderRight: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column' }}>
-              <div style={{ padding: '16px 16px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontFamily: SF, fontSize: 12, color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>Conversations</span>
-                <button onClick={() => setHistoryOpen(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', display: 'flex' }}>
+            <div style={{ position: 'relative', zIndex: 51, width: 275, background: 'var(--void-1)', borderRight: '1px solid var(--ovw-0p08)', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ padding: '16px 16px 12px', borderBottom: '1px solid var(--ovw-0p06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontFamily: SF, fontSize: 12, color: 'var(--ovw-0p3)', fontWeight: 600 }}>Conversations</span>
+                <button onClick={() => setHistoryOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--ovw-0p4)', display: 'flex' }}>
                   <X size={16} />
                 </button>
               </div>
@@ -127,9 +127,9 @@ export default function BrainPage() {
                   gap: 5,
                   padding: '7px 13px',
                   borderRadius: 20,
-                  background: 'rgba(255,255,255,0.07)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  color: 'rgba(255,255,255,0.6)',
+                  background: 'var(--ovw-0p07)',
+                  border: '1px solid var(--ovw-0p1)',
+                  color: 'var(--ovw-0p6)',
                   fontSize: 12,
                   fontWeight: 600,
                   fontFamily: SF,
@@ -147,7 +147,7 @@ export default function BrainPage() {
               {tabBtn('intelligence', <Target size={13} />, 'Intelligence Chat')}
               {tabBtn('scar', <Link2 size={13} />, 'Scar Link Analyzer')}
             </div>
-            <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
+            <div style={{ height: 1, background: 'var(--ovw-0p06)' }} />
           </div>
 
           {/* Tab content */}

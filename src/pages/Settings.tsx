@@ -7,11 +7,11 @@ import { supabase } from '../lib/supabase'
 import { useNavigate } from 'react-router-dom'
 
 const card: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.03)',
-  border: '1px solid rgba(255,255,255,0.08)',
+  background: 'var(--ovw-0p03)',
+  border: '1px solid var(--ovw-0p08)',
   borderRadius: 20,
   padding: 24,
-  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07)',
+  boxShadow: 'inset 0 1px 0 var(--ovw-0p07)',
   backdropFilter: 'blur(28px)',
   WebkitBackdropFilter: 'blur(28px)',
 }
@@ -91,7 +91,7 @@ export default function Settings() {
   }
 
   const sectionHeader = (icon: React.ReactNode, title: string) => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, paddingBottom: 14, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, paddingBottom: 14, borderBottom: '1px solid var(--ovw-0p06)' }}>
       <div style={{ color: 'var(--text-3)' }}>{icon}</div>
       <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.04em', color: 'var(--text-2)', textTransform: 'uppercase' }}>{title}</p>
     </div>
@@ -102,7 +102,7 @@ export default function Settings() {
       <div style={{ padding: '28px 28px 48px', maxWidth: 680, margin: '0 auto' }}>
 
         {/* Page header */}
-        <div style={{ marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid var(--ovw-0p06)' }}>
           <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>SETTINGS</h1>
           <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--text-3)', marginTop: 3 }}>MANAGE YOUR D0B3RMAN ACCOUNT</p>
         </div>
@@ -167,8 +167,8 @@ export default function Settings() {
                 onClick={() => setNotifications(!notifications)}
                 style={{
                   width: 44, height: 24, borderRadius: 12, position: 'relative', flexShrink: 0,
-                  background: notifications ? 'rgba(48,209,88,0.3)' : 'rgba(255,255,255,0.06)',
-                  border: `1px solid ${notifications ? 'rgba(48,209,88,0.4)' : 'rgba(255,255,255,0.1)'}`,
+                  background: notifications ? 'rgba(48,209,88,0.3)' : 'var(--ovw-0p06)',
+                  border: `1px solid ${notifications ? 'rgba(48,209,88,0.4)' : 'var(--ovw-0p1)'}`,
                   transition: 'all 0.2s',
                 }}
               >
@@ -186,7 +186,7 @@ export default function Settings() {
           <div style={card}>
             {sectionHeader(<Trash2 size={14} />, 'Data Management')}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: 12, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: 12, background: 'var(--ovw-0p02)', border: '1px solid var(--ovw-0p06)' }}>
                 <div>
                   <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-1)', marginBottom: 3 }}>Delete scan history</p>
                   <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)' }}>Removes all EYES, NOSE, and BRAIN data</p>
@@ -217,7 +217,7 @@ export default function Settings() {
                 { label: 'AI Engine', value: 'Claude claude-sonnet-4-20250514' },
                 { label: 'Detection', value: 'Hive AI Moderation' },
               ].map(({ label: l, value }, i, arr) => (
-                <div key={l} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+                <div key={l} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < arr.length - 1 ? '1px solid var(--ovw-0p04)' : 'none' }}>
                   <span style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.03em', color: 'var(--text-3)', textTransform: 'uppercase' }}>{l}</span>
                   <span style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-2)' }}>{value}</span>
                 </div>

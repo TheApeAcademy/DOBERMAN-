@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Shield, AlertCircle } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
+import { ThemeToggle } from '../components/ui/ThemeToggle'
 
 const rotatingStats = [
   '"1 deepfake is created every 5 minutes."',
@@ -108,7 +109,10 @@ export default function Auth() {
       </div>
 
       {/* Right panel - Auth form */}
-      <div className="flex-1 flex items-center justify-center p-6 bg-bg-primary">
+      <div className="flex-1 flex items-center justify-center p-6 bg-bg-primary relative">
+        <div style={{ position: 'absolute', top: 20, right: 20 }}>
+          <ThemeToggle size={14} />
+        </div>
         <div className="w-full max-w-md space-y-8 page-fade">
           {/* Mobile logo */}
           <div className="lg:hidden text-center">

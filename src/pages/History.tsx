@@ -12,7 +12,7 @@ type Tab = 'dfi' | 'daye'
 
 function ConfidenceBar({ score, color }: { score: number; color: string }) {
   return (
-    <div style={{ height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 2, overflow: 'hidden' }}>
+    <div style={{ height: 3, background: 'var(--ovw-0p06)', borderRadius: 2, overflow: 'hidden' }}>
       <motion.div
         initial={{ width: 0 }}
         animate={{ width: `${score}%` }}
@@ -35,13 +35,13 @@ function ScanDetail({ scan }: { scan: EyesScan }) {
     >
       <div style={{
         padding: '14px 20px 18px 20px',
-        background: 'rgba(255,255,255,0.018)',
-        borderTop: '1px solid rgba(255,255,255,0.05)',
+        background: 'var(--ovw-0p018)',
+        borderTop: '1px solid var(--ovw-0p05)',
       }}>
         {/* Confidence bar */}
         <div style={{ marginBottom: 16 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
-            <span style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase' }}>Confidence</span>
+            <span style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.12em', color: 'var(--ovw-0p28)', textTransform: 'uppercase' }}>Confidence</span>
             <span style={{ fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.05em', color }}>{Math.round(scan.confidence_score)}%</span>
           </div>
           <ConfidenceBar score={scan.confidence_score} color={color} />
@@ -55,10 +55,10 @@ function ScanDetail({ scan }: { scan: EyesScan }) {
           ].map(({ label, value }) => (
             <div key={label} style={{
               padding: '6px 12px', borderRadius: 8,
-              background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)',
+              background: 'var(--ovw-0p04)', border: '1px solid var(--ovw-0p07)',
             }}>
-              <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', marginBottom: 2 }}>{label}</p>
-              <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.7)' }}>{value}</p>
+              <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.1em', color: 'var(--ovw-0p28)', textTransform: 'uppercase', marginBottom: 2 }}>{label}</p>
+              <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--ovw-0p7)' }}>{value}</p>
             </div>
           ))}
         </div>
@@ -67,10 +67,10 @@ function ScanDetail({ scan }: { scan: EyesScan }) {
         {scan.explanation && (
           <div style={{
             padding: '11px 14px', borderRadius: 10,
-            background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)',
+            background: 'var(--ovw-0p03)', border: '1px solid var(--ovw-0p06)',
           }}>
-            <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', marginBottom: 6 }}>AI Analysis</p>
-            <p style={{ fontFamily: 'Inter', fontSize: 11, lineHeight: 1.65, color: 'rgba(255,255,255,0.55)' }}>{scan.explanation}</p>
+            <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.12em', color: 'var(--ovw-0p28)', textTransform: 'uppercase', marginBottom: 6 }}>AI Analysis</p>
+            <p style={{ fontFamily: 'Inter', fontSize: 11, lineHeight: 1.65, color: 'var(--ovw-0p55)' }}>{scan.explanation}</p>
           </div>
         )}
       </div>
@@ -109,16 +109,16 @@ export default function History() {
       <div style={{ padding: 'clamp(20px,3vw,32px)', maxWidth: 720, margin: '0 auto' }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 22, paddingBottom: 18, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ marginBottom: 22, paddingBottom: 18, borderBottom: '1px solid var(--ovw-0p05)' }}>
           <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 30, letterSpacing: '0.1em', color: '#F5F5F7', lineHeight: 1 }}>HISTORY</h1>
-          <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.22)', marginTop: 3, textTransform: 'uppercase' }}>Scans · Sessions · Activity</p>
+          <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.08em', color: 'var(--ovw-0p22)', marginTop: 3, textTransform: 'uppercase' }}>Scans · Sessions · Activity</p>
         </div>
 
         {/* Segmented control */}
         <div style={{
           display: 'inline-flex', gap: 2, marginBottom: 18,
-          padding: 3, background: 'rgba(255,255,255,0.03)',
-          border: '1px solid rgba(255,255,255,0.07)', borderRadius: 13,
+          padding: 3, background: 'var(--ovw-0p03)',
+          border: '1px solid var(--ovw-0p07)', borderRadius: 13,
         }}>
           {tabs.map(({ id, label, icon: Icon, count }) => (
             <button
@@ -127,19 +127,19 @@ export default function History() {
               style={{
                 display: 'flex', alignItems: 'center', gap: 7,
                 padding: '7px 16px', borderRadius: 10, cursor: 'pointer',
-                background: tab === id ? 'rgba(255,255,255,0.08)' : 'transparent',
-                border: tab === id ? '1px solid rgba(255,255,255,0.12)' : '1px solid transparent',
-                color: tab === id ? '#F5F5F7' : 'rgba(255,255,255,0.3)',
+                background: tab === id ? 'var(--ovw-0p08)' : 'transparent',
+                border: tab === id ? '1px solid var(--ovw-0p12)' : '1px solid transparent',
+                color: tab === id ? '#F5F5F7' : 'var(--ovw-0p3)',
                 fontFamily: 'Inter', fontSize: 11, fontWeight: tab === id ? 600 : 400,
                 letterSpacing: '0.04em', transition: 'all 0.16s ease',
-                boxShadow: tab === id ? '0 1px 4px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.09)' : 'none',
+                boxShadow: tab === id ? '0 1px 4px rgba(0,0,0,0.35), inset 0 1px 0 var(--ovw-0p09)' : 'none',
               }}
             >
               <Icon size={12} />
               {label}
               <span style={{
                 fontFamily: 'Bebas Neue', fontSize: 13,
-                color: tab === id ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.18)',
+                color: tab === id ? 'var(--ovw-0p45)' : 'var(--ovw-0p18)',
               }}>
                 {count}
               </span>
@@ -149,11 +149,11 @@ export default function History() {
 
         {/* List card */}
         <div style={{
-          background: 'rgba(255,255,255,0.022)',
-          border: '1px solid rgba(255,255,255,0.07)',
+          background: 'var(--ovw-0p022)',
+          border: '1px solid var(--ovw-0p07)',
           borderRadius: 18,
           overflow: 'hidden',
-          boxShadow: '0 4px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)',
+          boxShadow: '0 4px 40px rgba(0,0,0,0.45), inset 0 1px 0 var(--ovw-0p06)',
         }}>
 
           {loading ? (
@@ -161,7 +161,7 @@ export default function History() {
               {[...Array(5)].map((_, i) => (
                 <div key={i} style={{
                   height: 46, borderRadius: 8,
-                  background: 'rgba(255,255,255,0.03)',
+                  background: 'var(--ovw-0p03)',
                   animation: `pulse 1.6s ease-in-out ${i * 0.08}s infinite`,
                 }} />
               ))}
@@ -170,8 +170,8 @@ export default function History() {
           ) : tab === 'dfi' ? (
             eyesData.length === 0 ? (
               <div style={{ padding: '72px 24px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
-                <Eye size={22} style={{ color: 'rgba(255,255,255,0.12)' }} />
-                <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.22)' }}>No deepfake scans yet</p>
+                <Eye size={22} style={{ color: 'var(--ovw-0p12)' }} />
+                <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--ovw-0p22)' }}>No deepfake scans yet</p>
               </div>
             ) : (
               <div>
@@ -191,12 +191,12 @@ export default function History() {
                         style={{
                           display: 'flex', alignItems: 'center', gap: 11,
                           padding: '12px 18px',
-                          borderBottom: '1px solid rgba(255,255,255,0.045)',
+                          borderBottom: '1px solid var(--ovw-0p045)',
                           cursor: 'pointer',
-                          background: isOpen ? 'rgba(255,255,255,0.025)' : 'transparent',
+                          background: isOpen ? 'var(--ovw-0p025)' : 'transparent',
                           transition: 'background 0.14s',
                         }}
-                        onMouseEnter={e => { if (!isOpen)(e.currentTarget as HTMLDivElement).style.background = 'rgba(255,255,255,0.018)' }}
+                        onMouseEnter={e => { if (!isOpen)(e.currentTarget as HTMLDivElement).style.background = 'var(--ovw-0p018)' }}
                         onMouseLeave={e => { if (!isOpen)(e.currentTarget as HTMLDivElement).style.background = 'transparent' }}
                       >
                         {/* Status dot */}
@@ -209,7 +209,7 @@ export default function History() {
                         {/* Filename */}
                         <p style={{
                           fontFamily: 'Inter', fontSize: 12, fontWeight: 500,
-                          color: 'rgba(255,255,255,0.82)', flex: 1, minWidth: 0,
+                          color: 'var(--ovw-0p82)', flex: 1, minWidth: 0,
                           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                         }}>
                           {scan.file_name}
@@ -236,7 +236,7 @@ export default function History() {
                         {/* Date */}
                         <span style={{
                           fontFamily: 'Inter', fontSize: 10,
-                          color: 'rgba(255,255,255,0.2)', flexShrink: 0,
+                          color: 'var(--ovw-0p2)', flexShrink: 0,
                           minWidth: 48, textAlign: 'right',
                         }}>
                           {formatDate(scan.created_at)}
@@ -244,7 +244,7 @@ export default function History() {
 
                         {/* Chevron */}
                         <motion.div animate={{ rotate: isOpen ? 90 : 0 }} transition={{ duration: 0.18 }}>
-                          <ChevronRight size={13} style={{ color: 'rgba(255,255,255,0.18)', flexShrink: 0 }} />
+                          <ChevronRight size={13} style={{ color: 'var(--ovw-0p18)', flexShrink: 0 }} />
                         </motion.div>
                       </div>
 
@@ -261,8 +261,8 @@ export default function History() {
           ) : (
             brainData.length === 0 ? (
               <div style={{ padding: '72px 24px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
-                <Brain size={22} style={{ color: 'rgba(255,255,255,0.12)' }} />
-                <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.22)' }}>No DAYE sessions yet</p>
+                <Brain size={22} style={{ color: 'var(--ovw-0p12)' }} />
+                <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--ovw-0p22)' }}>No DAYE sessions yet</p>
               </div>
             ) : (
               <div>
@@ -275,10 +275,10 @@ export default function History() {
                     style={{
                       display: 'flex', alignItems: 'center', gap: 11,
                       padding: '12px 18px',
-                      borderBottom: '1px solid rgba(255,255,255,0.045)',
+                      borderBottom: '1px solid var(--ovw-0p045)',
                       cursor: 'pointer', transition: 'background 0.14s',
                     }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = 'rgba(255,255,255,0.018)' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = 'var(--ovw-0p018)' }}
                     onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = 'transparent' }}
                   >
                     <div style={{
@@ -290,21 +290,21 @@ export default function History() {
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <p style={{
                         fontFamily: 'Inter', fontSize: 12, fontWeight: 500,
-                        color: 'rgba(255,255,255,0.82)',
+                        color: 'var(--ovw-0p82)',
                         overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                       }}>
                         {conv.title || 'Untitled session'}
                       </p>
-                      <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'rgba(255,255,255,0.24)', marginTop: 2 }}>
+                      <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--ovw-0p24)', marginTop: 2 }}>
                         {conv.messages?.length || 0} messages
                       </p>
                     </div>
 
-                    <span style={{ fontFamily: 'Inter', fontSize: 10, color: 'rgba(255,255,255,0.22)', flexShrink: 0 }}>
+                    <span style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--ovw-0p22)', flexShrink: 0 }}>
                       {formatDate(conv.updated_at)}
                     </span>
 
-                    <ChevronRight size={13} style={{ color: 'rgba(255,255,255,0.18)', flexShrink: 0 }} />
+                    <ChevronRight size={13} style={{ color: 'var(--ovw-0p18)', flexShrink: 0 }} />
                   </motion.div>
                 ))}
               </div>

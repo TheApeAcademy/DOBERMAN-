@@ -60,7 +60,7 @@ function NewsCard({ article, onClick }: { article: CyberArticle; onClick: () => 
 
   return (
     <motion.button
-      whileHover={{ y: -4, borderColor: 'rgba(255,255,255,0.12)' }}
+      whileHover={{ y: -4, borderColor: 'var(--ovw-0p12)' }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
       className="glass"
@@ -82,17 +82,17 @@ function NewsCard({ article, onClick }: { article: CyberArticle; onClick: () => 
         )}
         {!article.image_url && (
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontFamily: 'Bebas Neue', fontSize: 36, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.04)' }}>D0B3RMAN</span>
+            <span style={{ fontFamily: 'Bebas Neue', fontSize: 36, letterSpacing: '0.2em', color: 'var(--ovw-0p04)' }}>D0B3RMAN</span>
           </div>
         )}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.75))' }} />
         <div style={{ position: 'absolute', bottom: 10, left: 12, right: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           {article.category && (
-            <span style={{ fontFamily: 'JetBrains Mono', fontSize: 8, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.5)', background: 'rgba(0,0,0,0.55)', padding: '3px 7px', borderRadius: 4 }}>
+            <span style={{ fontFamily: 'JetBrains Mono', fontSize: 8, letterSpacing: '0.12em', color: 'var(--ovw-0p5)', background: 'rgba(0,0,0,0.55)', padding: '3px 7px', borderRadius: 4 }}>
               {article.category.toUpperCase().slice(0, 20)}
             </span>
           )}
-          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'rgba(255,255,255,0.35)', display: 'flex', alignItems: 'center', gap: 4, marginLeft: 'auto' }}>
+          <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--ovw-0p35)', display: 'flex', alignItems: 'center', gap: 4, marginLeft: 'auto' }}>
             <Clock size={8} /> {timeAgo(article.published_at)}
           </span>
         </div>
@@ -146,12 +146,12 @@ function ArticleModal({ article, onClose }: { article: CyberArticle; onClose: ()
           )}
           {!article.image_url && (
             <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.04)' }}>D0B3RMAN</span>
+              <span style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.2em', color: 'var(--ovw-0p04)' }}>D0B3RMAN</span>
             </div>
           )}
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.65))' }} />
           <button onClick={onClose}
-            style={{ position: 'absolute', top: 14, right: 14, width: 32, height: 32, borderRadius: '50%', background: 'rgba(0,0,0,0.65)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+            style={{ position: 'absolute', top: 14, right: 14, width: 32, height: 32, borderRadius: '50%', background: 'rgba(0,0,0,0.65)', border: '1px solid var(--ovw-0p1)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
             <X size={14} />
           </button>
         </div>
@@ -164,7 +164,7 @@ function ArticleModal({ article, onClose }: { article: CyberArticle; onClose: ()
               {new Date(article.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
             </span>
             {article.category && (
-              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 8, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.35)', background: 'rgba(255,255,255,0.06)', padding: '2px 8px', borderRadius: 4, marginLeft: 'auto' }}>
+              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 8, letterSpacing: '0.1em', color: 'var(--ovw-0p35)', background: 'var(--ovw-0p06)', padding: '2px 8px', borderRadius: 4, marginLeft: 'auto' }}>
                 {article.category.toUpperCase().slice(0, 24)}
               </span>
             )}
@@ -180,9 +180,9 @@ function ArticleModal({ article, onClose }: { article: CyberArticle; onClose: ()
               href={article.article_url}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.03, boxShadow: '0 0 24px rgba(255,255,255,0.12)' }}
+              whileHover={{ scale: 1.03, boxShadow: '0 0 24px var(--ovw-0p12)' }}
               whileTap={{ scale: 0.97 }}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 26px', background: 'white', color: 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 13, borderRadius: 10, textDecoration: 'none' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 26px', background: 'var(--chrome-white)', color: 'var(--void)', fontFamily: 'Syne', fontWeight: 700, fontSize: 13, borderRadius: 10, textDecoration: 'none' }}
             >
               <ExternalLink size={14} />
               READ FULL ARTICLE
@@ -295,10 +295,10 @@ export default function News() {
 
           {/* Tab bar + controls */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, margin: '28px 0 32px', flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', gap: 4, background: 'rgba(255,255,255,0.04)', padding: 4, borderRadius: 10, border: '1px solid var(--glass-border)' }}>
+            <div style={{ display: 'flex', gap: 4, background: 'var(--ovw-0p04)', padding: 4, borderRadius: 10, border: '1px solid var(--glass-border)' }}>
               {(['feed', 'verify'] as const).map((tab) => (
                 <button key={tab} onClick={() => setActiveTab(tab)}
-                  style={{ padding: '8px 22px', borderRadius: 7, background: activeTab === tab ? 'rgba(255,255,255,0.1)' : 'transparent', border: `1px solid ${activeTab === tab ? 'rgba(255,255,255,0.12)' : 'transparent'}`, color: activeTab === tab ? 'var(--text-1)' : 'var(--text-3)', fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.1em', cursor: 'pointer', transition: 'all 0.2s' }}>
+                  style={{ padding: '8px 22px', borderRadius: 7, background: activeTab === tab ? 'var(--ovw-0p1)' : 'transparent', border: `1px solid ${activeTab === tab ? 'var(--ovw-0p12)' : 'transparent'}`, color: activeTab === tab ? 'var(--text-1)' : 'var(--text-3)', fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.1em', cursor: 'pointer', transition: 'all 0.2s' }}>
                   {tab === 'feed' ? 'LIVE FEED' : 'VERIFY'}
                 </button>
               ))}
@@ -314,13 +314,13 @@ export default function News() {
                 <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
                   {sources.map((src) => (
                     <button key={src} onClick={() => setFilterSource(src)}
-                      style={{ padding: '5px 11px', borderRadius: 6, border: `1px solid ${filterSource === src ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.06)'}`, background: filterSource === src ? 'rgba(255,255,255,0.07)' : 'transparent', color: filterSource === src ? 'var(--text-1)' : 'var(--text-3)', fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.06em', cursor: 'pointer', transition: 'all 0.15s', whiteSpace: 'nowrap' }}>
+                      style={{ padding: '5px 11px', borderRadius: 6, border: `1px solid ${filterSource === src ? 'var(--ovw-0p18)' : 'var(--ovw-0p06)'}`, background: filterSource === src ? 'var(--ovw-0p07)' : 'transparent', color: filterSource === src ? 'var(--text-1)' : 'var(--text-3)', fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.06em', cursor: 'pointer', transition: 'all 0.15s', whiteSpace: 'nowrap' }}>
                       {src === 'all' ? 'ALL' : src.toUpperCase().replace('THE ', '')}
                     </button>
                   ))}
                 </div>
                 <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleRefresh} disabled={refreshing}
-                  style={{ width: 32, height: 32, borderRadius: 7, background: 'rgba(255,255,255,0.04)', border: '1px solid var(--glass-border)', color: 'var(--text-3)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                  style={{ width: 32, height: 32, borderRadius: 7, background: 'var(--ovw-0p04)', border: '1px solid var(--glass-border)', color: 'var(--text-3)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
                   <RefreshCw size={13} style={{ animation: refreshing ? 'spin 0.8s linear infinite' : 'none' }} />
                 </motion.button>
               </div>
@@ -338,7 +338,7 @@ export default function News() {
                       <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 15, color: 'var(--text-1)', marginBottom: 4 }}>Feed unavailable</p>
                       <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-3)' }}>{error}</p>
                     </div>
-                    <button onClick={handleRefresh} style={{ marginLeft: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.06)', border: '1px solid var(--glass-border)', borderRadius: 8, color: 'var(--text-2)', fontFamily: 'JetBrains Mono', fontSize: 11, cursor: 'pointer' }}>
+                    <button onClick={handleRefresh} style={{ marginLeft: 'auto', padding: '8px 16px', background: 'var(--ovw-0p06)', border: '1px solid var(--glass-border)', borderRadius: 8, color: 'var(--text-2)', fontFamily: 'JetBrains Mono', fontSize: 11, cursor: 'pointer' }}>
                       Retry
                     </button>
                   </div>
@@ -370,7 +370,7 @@ export default function News() {
                   </label>
                   <textarea value={content} onChange={(e) => setContent(e.target.value)}
                     placeholder="Paste any news headline, claim, or article URL..." rows={4}
-                    style={{ width: '100%', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--glass-border)', borderRadius: 12, padding: '14px 16px', color: 'var(--text-1)', fontFamily: 'Syne', fontSize: 15, resize: 'vertical', outline: 'none', marginBottom: 20, lineHeight: 1.6, boxSizing: 'border-box' }}
+                    style={{ width: '100%', background: 'var(--ovw-0p03)', border: '1px solid var(--glass-border)', borderRadius: 12, padding: '14px 16px', color: 'var(--text-1)', fontFamily: 'Syne', fontSize: 15, resize: 'vertical', outline: 'none', marginBottom: 20, lineHeight: 1.6, boxSizing: 'border-box' }}
                     onFocus={(e) => { e.target.style.borderColor = 'var(--glass-border-bright)' }}
                     onBlur={(e) => { e.target.style.borderColor = 'var(--glass-border)' }}
                   />
@@ -403,7 +403,7 @@ export default function News() {
                           </p>
                         </div>
                       </div>
-                      <p style={{ fontFamily: 'Syne', fontSize: 15, color: 'var(--text-2)', lineHeight: 1.7, marginBottom: 28, padding: '18px 22px', background: 'rgba(255,255,255,0.03)', borderRadius: 12, borderLeft: `3px solid ${verdictColor}` }}>
+                      <p style={{ fontFamily: 'Syne', fontSize: 15, color: 'var(--text-2)', lineHeight: 1.7, marginBottom: 28, padding: '18px 22px', background: 'var(--ovw-0p03)', borderRadius: 12, borderLeft: `3px solid ${verdictColor}` }}>
                         {result.summary}
                       </p>
                       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 20 }}>
@@ -430,7 +430,7 @@ export default function News() {
                           </div>
                         )}
                       </div>
-                      <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: '14px 18px', display: 'flex', gap: 12, alignItems: 'flex-start', marginBottom: 20 }}>
+                      <div style={{ background: 'var(--ovw-0p03)', borderRadius: 12, padding: '14px 18px', display: 'flex', gap: 12, alignItems: 'flex-start', marginBottom: 20 }}>
                         <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--chrome-dim)', whiteSpace: 'nowrap', marginTop: 2 }}>NEXT STEP</span>
                         <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-1)', lineHeight: 1.6 }}>{result.recommendation}</p>
                       </div>

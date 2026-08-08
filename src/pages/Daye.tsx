@@ -11,11 +11,11 @@ import { dayeNotify } from '../components/daye/DayeAssistant'
 import type { BrainConversation, ScamLinkCheck } from '../lib/supabase'
 
 const card: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.03)',
-  border: '1px solid rgba(255,255,255,0.08)',
+  background: 'var(--ovw-0p03)',
+  border: '1px solid var(--ovw-0p08)',
   borderRadius: 20,
   padding: 24,
-  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07)',
+  boxShadow: 'inset 0 1px 0 var(--ovw-0p07)',
   backdropFilter: 'blur(28px)',
   WebkitBackdropFilter: 'blur(28px)',
 }
@@ -124,10 +124,10 @@ export default function DayePage() {
   const sidebarStyle: React.CSSProperties = {
     width: 240,
     flexShrink: 0,
-    borderRight: '1px solid rgba(255,255,255,0.06)',
+    borderRight: '1px solid var(--ovw-0p06)',
     display: 'flex',
     flexDirection: 'column',
-    background: 'rgba(255,255,255,0.01)',
+    background: 'var(--ovw-0p01)',
   }
 
   const VerdictIcon = scamResult ? (VERDICT_ICONS[scamResult.verdict] || Shield) : Shield
@@ -141,7 +141,7 @@ export default function DayePage() {
         {activeTab === 'chat' && (
           <div style={{ ...sidebarStyle }} className="lg-show-daye">
             <style>{`@media (max-width: 1023px) { .lg-show-daye { display: none !important; } }`}</style>
-            <div style={{ padding: '16px 16px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ padding: '16px 16px 12px', borderBottom: '1px solid var(--ovw-0p06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <Brain size={14} style={{ color: 'var(--text-3)' }} />
                 <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-3)', textTransform: 'uppercase' }}>Conversations</span>
@@ -169,8 +169,8 @@ export default function DayePage() {
         {historyOpen && (
           <div style={{ position: 'fixed', inset: 0, zIndex: 50, display: 'flex' }}>
             <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }} onClick={() => setHistoryOpen(false)} />
-            <div style={{ position: 'relative', zIndex: 51, width: 260, background: 'var(--void-1)', borderRight: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column' }}>
-              <div style={{ padding: '16px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ position: 'relative', zIndex: 51, width: 260, background: 'var(--void-1)', borderRight: '1px solid var(--ovw-0p08)', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ padding: '16px', borderBottom: '1px solid var(--ovw-0p06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-3)', textTransform: 'uppercase' }}>Conversations</span>
                 <button onClick={() => setHistoryOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-3)', cursor: 'pointer' }}><X size={16} /></button>
               </div>
@@ -194,15 +194,15 @@ export default function DayePage() {
             <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
               <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
             </video>
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.8))', borderBottom: '1px solid rgba(255,255,255,0.06)' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.8))', borderBottom: '1px solid var(--ovw-0p06)' }} />
             <div style={{ position: 'absolute', bottom: 16, left: 20, zIndex: 2 }}>
               <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 38, letterSpacing: '0.12em', color: '#F5F5F7', lineHeight: 1 }}>DAYE</h1>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)' }}>AI CYBERSECURITY ANALYST</p>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--ovw-0p4)' }}>AI CYBERSECURITY ANALYST</p>
             </div>
           </div>
 
           {/* Tab bar */}
-          <div style={{ display: 'flex', borderBottom: '1px solid rgba(255,255,255,0.07)', background: 'rgba(0,0,0,0.4)', flexShrink: 0 }}>
+          <div style={{ display: 'flex', borderBottom: '1px solid var(--ovw-0p07)', background: 'var(--void)', flexShrink: 0 }}>
             {[
               { id: 'chat', label: 'INTELLIGENCE CHAT', icon: Brain },
               { id: 'scam', label: 'SCAM LINK ANALYZER', icon: Link2 },
@@ -238,7 +238,7 @@ export default function DayePage() {
                 <style>{`@media (min-width: 1024px) { .lg-hide-daye { display: none !important; } }`}</style>
                 <button
                   onClick={() => setHistoryOpen(true)}
-                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 7, padding: '4px 10px', display: 'flex', alignItems: 'center', gap: 5, color: 'var(--text-3)', fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em', cursor: 'pointer' }}
+                  style={{ background: 'var(--ovw-0p06)', border: '1px solid var(--ovw-0p1)', borderRadius: 7, padding: '4px 10px', display: 'flex', alignItems: 'center', gap: 5, color: 'var(--text-3)', fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em', cursor: 'pointer' }}
                 >
                   <Brain size={11} />
                   HISTORY
@@ -282,8 +282,8 @@ export default function DayePage() {
                         placeholder="https://suspicious-link.com/verify-account"
                         style={{
                           width: '100%',
-                          background: 'rgba(255,255,255,0.04)',
-                          border: '1px solid rgba(255,255,255,0.1)',
+                          background: 'var(--ovw-0p04)',
+                          border: '1px solid var(--ovw-0p1)',
                           borderRadius: 10,
                           padding: '11px 14px 11px 36px',
                           fontFamily: 'JetBrains Mono',
@@ -298,8 +298,8 @@ export default function DayePage() {
                       disabled={scamLoading || !scamUrl.trim()}
                       style={{
                         padding: '11px 20px',
-                        background: scamLoading ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.08)',
-                        border: '1px solid rgba(255,255,255,0.15)',
+                        background: scamLoading ? 'var(--ovw-0p04)' : 'var(--ovw-0p08)',
+                        border: '1px solid var(--ovw-0p15)',
                         borderRadius: 10,
                         fontFamily: 'JetBrains Mono',
                         fontSize: 11,
@@ -368,7 +368,7 @@ export default function DayePage() {
 
                     {/* DAYE Analysis */}
                     {scamResult.daye_analysis && (
-                      <div style={{ padding: '14px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12 }}>
+                      <div style={{ padding: '14px 16px', background: 'var(--ovw-0p03)', border: '1px solid var(--ovw-0p08)', borderRadius: 12 }}>
                         <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 8 }}>DAYE ANALYSIS</p>
                         <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-1)', lineHeight: 1.65 }}>{scamResult.daye_analysis}</p>
                       </div>
@@ -395,7 +395,7 @@ export default function DayePage() {
                               padding: '12px 18px',
                               background: 'none',
                               border: 'none',
-                              borderBottom: i < scamHistory.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                              borderBottom: i < scamHistory.length - 1 ? '1px solid var(--ovw-0p06)' : 'none',
                               cursor: 'pointer',
                               textAlign: 'left',
                             }}

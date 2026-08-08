@@ -55,7 +55,7 @@ export function ScarAnalyzer() {
     if (s === 'safe') return '#30D158'
     if (s === 'suspicious') return '#FF9500'
     if (s === 'danger') return '#FF2D2D'
-    return 'rgba(255,255,255,0.4)'
+    return 'var(--ovw-0p4)'
   }
 
   const StatusIcon = ({ s }: { s: ScanStatus }) => {
@@ -72,8 +72,8 @@ export function ScarAnalyzer() {
 
       {/* Header card */}
       <div style={{
-        background: 'rgba(255,255,255,0.03)',
-        border: '1px solid rgba(255,255,255,0.07)',
+        background: 'var(--ovw-0p03)',
+        border: '1px solid var(--ovw-0p07)',
         borderRadius: 18,
         padding: '18px 20px',
         display: 'flex',
@@ -94,10 +94,10 @@ export function ScarAnalyzer() {
           <Link2 size={20} style={{ color: '#FF9500' }} />
         </div>
         <div>
-          <p style={{ fontSize: 15, fontWeight: 600, color: 'rgba(255,255,255,0.88)', letterSpacing: '-0.02em', margin: 0 }}>
+          <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--ovw-0p88)', letterSpacing: '-0.02em', margin: 0 }}>
             SCAR Link Analyzer
           </p>
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', marginTop: 3, margin: '3px 0 0', lineHeight: 1.4 }}>
+          <p style={{ fontSize: 12, color: 'var(--ovw-0p35)', marginTop: 3, margin: '3px 0 0', lineHeight: 1.4 }}>
             Scan any URL for phishing, malware & suspicious patterns
           </p>
         </div>
@@ -105,27 +105,27 @@ export function ScarAnalyzer() {
 
       {/* URL input */}
       <div style={{
-        background: 'rgba(255,255,255,0.03)',
-        border: '1px solid rgba(255,255,255,0.07)',
+        background: 'var(--ovw-0p03)',
+        border: '1px solid var(--ovw-0p07)',
         borderRadius: 18,
         padding: '16px 18px',
         display: 'flex',
         flexDirection: 'column',
         gap: 12,
       }}>
-        <p style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.06em', textTransform: 'uppercase', margin: 0 }}>
+        <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--ovw-0p25)', letterSpacing: '0.06em', textTransform: 'uppercase', margin: 0 }}>
           Link to analyze
         </p>
         <div style={{
           display: 'flex',
           alignItems: 'center',
           gap: 10,
-          background: 'rgba(255,255,255,0.04)',
-          border: '1px solid rgba(255,255,255,0.09)',
+          background: 'var(--ovw-0p04)',
+          border: '1px solid var(--ovw-0p09)',
           borderRadius: 14,
           padding: '10px 14px',
         }}>
-          <Link2 size={14} style={{ color: 'rgba(255,255,255,0.25)', flexShrink: 0 }} />
+          <Link2 size={14} style={{ color: 'var(--ovw-0p25)', flexShrink: 0 }} />
           <input
             type="url"
             value={url}
@@ -139,7 +139,7 @@ export function ScarAnalyzer() {
               outline: 'none',
               fontSize: 15,
               fontFamily: SF,
-              color: 'rgba(255,255,255,0.85)',
+              color: 'var(--ovw-0p85)',
             }}
           />
         </div>
@@ -154,8 +154,8 @@ export function ScarAnalyzer() {
             padding: '13px',
             borderRadius: 14,
             border: 'none',
-            background: url.trim() && !scanning ? '#30D158' : 'rgba(255,255,255,0.06)',
-            color: url.trim() && !scanning ? '#000' : 'rgba(255,255,255,0.25)',
+            background: url.trim() && !scanning ? '#30D158' : 'var(--ovw-0p06)',
+            color: url.trim() && !scanning ? '#000' : 'var(--ovw-0p25)',
             fontSize: 15,
             fontWeight: 600,
             fontFamily: SF,
@@ -184,7 +184,7 @@ export function ScarAnalyzer() {
       {/* Result */}
       {result && (
         <div style={{
-          background: 'rgba(255,255,255,0.03)',
+          background: 'var(--ovw-0p03)',
           border: `1px solid ${statusColor(result.status)}22`,
           borderRadius: 18,
           padding: '18px 20px',
@@ -211,12 +211,12 @@ export function ScarAnalyzer() {
               <p style={{ fontSize: 15, fontWeight: 600, color: statusColor(result.status), margin: 0, letterSpacing: '-0.02em', textTransform: 'capitalize' }}>
                 {result.status === 'safe' ? 'Link Appears Safe' : result.status === 'suspicious' ? 'Suspicious Link' : 'Dangerous Link'}
               </p>
-              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 2 }}>{result.url}</p>
+              <p style={{ fontSize: 12, color: 'var(--ovw-0p4)', marginTop: 2 }}>{result.url}</p>
             </div>
           </div>
 
           {/* Summary */}
-          <p style={{ fontSize: 14, lineHeight: 1.55, color: 'rgba(255,255,255,0.6)', margin: 0 }}>
+          <p style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--ovw-0p6)', margin: 0 }}>
             {result.summary}
           </p>
 
@@ -234,7 +234,7 @@ export function ScarAnalyzer() {
                   border: `1px solid ${statusColor(result.status)}18`,
                 }}>
                   <div style={{ width: 5, height: 5, borderRadius: '50%', background: statusColor(result.status), flexShrink: 0 }} />
-                  <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontFamily: SF }}>{flag}</span>
+                  <span style={{ fontSize: 13, color: 'var(--ovw-0p6)', fontFamily: SF }}>{flag}</span>
                 </div>
               ))}
             </div>

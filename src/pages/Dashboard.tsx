@@ -40,7 +40,7 @@ function BarChart({ data }: { data: { day: string; count: number }[] }) {
               whileInView={{ height: `${Math.max((d.count / max) * 100, 5)}%`, opacity: 1 }}
               transition={{ delay: i * 0.07, duration: 0.5, ease: 'easeOut' }}
               viewport={{ once: true }}
-              style={{ width: '100%', background: d.count > 0 ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.08)', borderRadius: '3px 3px 0 0', minHeight: 3 }}
+              style={{ width: '100%', background: d.count > 0 ? 'var(--ovw-0p55)' : 'var(--ovw-0p08)', borderRadius: '3px 3px 0 0', minHeight: 3 }}
             />
           </div>
         ))}
@@ -48,7 +48,7 @@ function BarChart({ data }: { data: { day: string; count: number }[] }) {
       <div style={{ display: 'flex', gap: 6 }}>
         {data.map((d) => (
           <div key={d.day} style={{ flex: 1, textAlign: 'center' }}>
-            <span style={{ fontFamily: 'Inter', fontSize: 9, color: 'rgba(255,255,255,0.22)' }}>{d.day}</span>
+            <span style={{ fontFamily: 'Inter', fontSize: 9, color: 'var(--ovw-0p22)' }}>{d.day}</span>
           </div>
         ))}
       </div>
@@ -64,7 +64,7 @@ function DonutChart({ data }: { data: { label: string; count: number; color: str
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
       <svg width={88} height={88} viewBox="0 0 88 88" style={{ flexShrink: 0 }}>
-        <circle cx={44} cy={44} r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={10} />
+        <circle cx={44} cy={44} r={r} fill="none" stroke="var(--ovw-0p06)" strokeWidth={10} />
         {data.map((d, i) => {
           const dash = (d.count / total) * circ
           const gap = circ - dash
@@ -87,14 +87,14 @@ function DonutChart({ data }: { data: { label: string; count: number; color: str
             />
           )
         })}
-        <text x={44} y={48} textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize={13} fontFamily="Inter" fontWeight={700}>{total}</text>
+        <text x={44} y={48} textAnchor="middle" fill="var(--ovw-0p7)" fontSize={13} fontFamily="Inter" fontWeight={700}>{total}</text>
       </svg>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, flex: 1 }}>
         {data.map((d) => (
           <div key={d.label} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
             <div style={{ width: 7, height: 7, borderRadius: '50%', background: d.color, flexShrink: 0 }} />
-            <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.45)', flex: 1 }}>{d.label}</span>
-            <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>{d.count}</span>
+            <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--ovw-0p45)', flex: 1 }}>{d.label}</span>
+            <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--ovw-0p25)' }}>{d.count}</span>
           </div>
         ))}
       </div>
@@ -125,17 +125,17 @@ function ModuleTile({
       <div style={{ position: 'absolute', inset: 0 }}>{media}</div>
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 32%, rgba(0,0,0,0.95) 100%)' }} />
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 'clamp(20px,3vw,32px)', zIndex: 2 }}>
-        <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.4)', marginBottom: 10 }}>{kicker}</p>
+        <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.08em', color: 'var(--ovw-0p4)', marginBottom: 10 }}>{kicker}</p>
         <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(30px,3.2vw,46px)', letterSpacing: '0.04em', lineHeight: 0.95, marginBottom: 12, color: '#fff' }}>{title}</h3>
-        <p style={{ fontFamily: 'Inter', fontSize: 13, color: 'rgba(255,255,255,0.52)', lineHeight: 1.55, marginBottom: meta ? 8 : 14, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{description}</p>
-        {meta && <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'rgba(255,255,255,0.22)', marginBottom: 14 }}>{meta}</p>}
+        <p style={{ fontFamily: 'Inter', fontSize: 13, color: 'var(--ovw-0p52)', lineHeight: 1.55, marginBottom: meta ? 8 : 14, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{description}</p>
+        {meta && <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--ovw-0p22)', marginBottom: 14 }}>{meta}</p>}
         {footer ?? (progress && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.35)', whiteSpace: 'nowrap' }}>{progress.value}/{progress.max} today</span>
-            <div style={{ flex: 1, maxWidth: 90, height: 2, background: 'rgba(255,255,255,0.08)', borderRadius: 1 }}>
+            <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--ovw-0p35)', whiteSpace: 'nowrap' }}>{progress.value}/{progress.max} today</span>
+            <div style={{ flex: 1, maxWidth: 90, height: 2, background: 'var(--ovw-0p08)', borderRadius: 1 }}>
               <div style={{ height: '100%', borderRadius: 1, background: accentColor, width: `${Math.min((progress.value / progress.max) * 100, 100)}%` }} />
             </div>
-            <ArrowRight size={14} style={{ color: 'rgba(255,255,255,0.35)', flexShrink: 0 }} />
+            <ArrowRight size={14} style={{ color: 'var(--ovw-0p35)', flexShrink: 0 }} />
           </div>
         ))}
       </div>
@@ -206,7 +206,7 @@ export default function Dashboard() {
     }))
 
     setModuleBreakdown([
-      { label: 'D.F.I.', count: logs.filter((l) => l.module === 'eyes').length, color: 'rgba(255,255,255,0.65)' },
+      { label: 'D.F.I.', count: logs.filter((l) => l.module === 'eyes').length, color: 'var(--ovw-0p65)' },
       { label: 'BREACH', count: logs.filter((l) => l.module === 'breach').length, color: '#CD853F' },
       { label: 'DAYE', count: logs.filter((l) => l.module === 'brain').length, color: '#30D158' },
       { label: 'NEWS', count: logs.filter((l) => l.module === 'news').length, color: '#FF6B35' },
@@ -221,18 +221,18 @@ export default function Dashboard() {
 
   return (
     <Layout profile={profile} onSignOut={signOut} title="Dashboard">
-      <div style={{ background: '#000', minHeight: '100vh' }}>
+      <div style={{ background: 'var(--void)', minHeight: '100vh' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '56px clamp(16px, 4vw, 48px) 96px' }}>
 
           {/* ── HEADER ────────────────────────────────────── */}
           <div style={{ marginBottom: 72 }}>
-            <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.18)', marginBottom: 20 }}>
+            <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'var(--ovw-0p18)', marginBottom: 20 }}>
               DASHBOARD -- {new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase()}
             </p>
             <h1 style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(36px, 5vw, 60px)', lineHeight: 1, marginBottom: 14 }}>
               {greeting}, {firstName}.
             </h1>
-            <p style={{ fontFamily: 'Inter', fontSize: 17, color: 'rgba(255,255,255,0.38)', marginBottom: 32 }}>
+            <p style={{ fontFamily: 'Inter', fontSize: 17, color: 'var(--ovw-0p38)', marginBottom: 32 }}>
               D0B3RMAN is watching. Here's your threat overview.
             </p>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.2)', borderRadius: 8 }}>
@@ -251,8 +251,8 @@ export default function Dashboard() {
               { label: 'Total Scans', value: stats.eyesTotal, color: 'var(--warning)' },
             ].map(({ label, value, color }, i) => (
               <motion.div key={label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} className="glass" style={{ padding: '28px 32px', borderRadius: 16 }}>
-                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.22)', marginBottom: 12 }}>{label.toUpperCase()}</p>
-                <p className="stats-num" style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 52, lineHeight: 1, color: loading ? 'rgba(255,255,255,0.08)' : color }}>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--ovw-0p22)', marginBottom: 12 }}>{label.toUpperCase()}</p>
+                <p className="stats-num" style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 52, lineHeight: 1, color: loading ? 'var(--ovw-0p08)' : color }}>
                   {loading ? '—' : value}
                 </p>
               </motion.div>
@@ -260,7 +260,7 @@ export default function Dashboard() {
           </div>
 
           {/* ── MODULES LABEL ─────────────────────────────── */}
-          <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.18)', marginBottom: 36 }}>MODULES</p>
+          <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'var(--ovw-0p18)', marginBottom: 36 }}>MODULES</p>
 
           {/* ── MODULES ROW 1 — DFI + CYBER GLOBE, side by side ── */}
           <style>{`@media(max-width:768px){.modules-row{grid-template-columns:1fr!important}}`}</style>
@@ -322,13 +322,13 @@ export default function Dashboard() {
                   <source src="/assets/video/Black_grid_background_video___Motion_background_with_black_grid_video___Film_texture,_Motion_graphics_trends,_Motion_backgrounds.mp4" type="video/mp4" />
                 </video>
               </div>
-              <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.28)', marginBottom: 16 }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.06em', color: 'var(--ovw-0p28)', marginBottom: 16 }}>
                 02 -- AI SECURITY ANALYST
               </p>
               <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 6vw, 72px)', letterSpacing: '0.08em', lineHeight: 0.9, marginBottom: 18, color: 'var(--safe)' }}>
                 DAYE
               </h2>
-              <p style={{ fontFamily: 'Inter', fontSize: 15, color: 'rgba(255,255,255,0.48)', maxWidth: 440, margin: '0 auto 28px', lineHeight: 1.65 }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 15, color: 'var(--ovw-0p48)', maxWidth: 440, margin: '0 auto 28px', lineHeight: 1.65 }}>
                 Ask anything. DAYE responds in plain language and gives you a concrete next step. Like having a security analyst on call 24/7.
               </p>
               <motion.div
@@ -403,8 +403,8 @@ export default function Dashboard() {
                 />
               </div>
               <div>
-                <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 15, color: 'rgba(255,255,255,0.85)', marginBottom: 2 }}>DOBERMAN JOURNAL</p>
-                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.28)' }}>B.Sc. Cyber Security · Precious Cornerstone University, Ibadan</p>
+                <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 15, color: 'var(--ovw-0p85)', marginBottom: 2 }}>DOBERMAN JOURNAL</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--ovw-0p28)' }}>B.Sc. Cyber Security · Precious Cornerstone University, Ibadan</p>
               </div>
             </div>
             <div style={{ display: 'flex', gap: 10 }}>
@@ -418,7 +418,7 @@ export default function Dashboard() {
               <motion.button
                 whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                 onClick={(e) => { e.stopPropagation(); navigate('/report') }}
-                style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', fontFamily: 'Inter', fontWeight: 600, fontSize: 12, cursor: 'pointer' }}
+                style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', background: 'var(--ovw-0p05)', border: '1px solid var(--ovw-0p1)', borderRadius: 10, color: 'var(--ovw-0p6)', fontFamily: 'Inter', fontWeight: 600, fontSize: 12, cursor: 'pointer' }}
               >
                 <Download size={13} /> Download
               </motion.button>
@@ -434,20 +434,20 @@ export default function Dashboard() {
             transition={{ duration: 0.6 }}
             style={{ marginBottom: 96 }}
           >
-            <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.18)', marginBottom: 24 }}>ACTIVITY OVERVIEW</p>
+            <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'var(--ovw-0p18)', marginBottom: 24 }}>ACTIVITY OVERVIEW</p>
             <div className="charts-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div className="glass" style={{ padding: '24px 28px', borderRadius: 16 }}>
-                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.22)', marginBottom: 20 }}>7-DAY SCAN ACTIVITY</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--ovw-0p22)', marginBottom: 20 }}>7-DAY SCAN ACTIVITY</p>
                 {loading ? (
-                  <div style={{ height: 100, background: 'rgba(255,255,255,0.03)', borderRadius: 8 }} />
+                  <div style={{ height: 100, background: 'var(--ovw-0p03)', borderRadius: 8 }} />
                 ) : (
                   <BarChart data={weekData} />
                 )}
               </div>
               <div className="glass" style={{ padding: '24px 28px', borderRadius: 16 }}>
-                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.22)', marginBottom: 20 }}>MODULE BREAKDOWN</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--ovw-0p22)', marginBottom: 20 }}>MODULE BREAKDOWN</p>
                 {loading ? (
-                  <div style={{ height: 100, background: 'rgba(255,255,255,0.03)', borderRadius: 8 }} />
+                  <div style={{ height: 100, background: 'var(--ovw-0p03)', borderRadius: 8 }} />
                 ) : (
                   <DonutChart data={moduleBreakdown} />
                 )}
@@ -459,32 +459,32 @@ export default function Dashboard() {
         </div>
 
         {/* Full-width / full-screen news section — outside the maxWidth container */}
-        <div style={{ minHeight: '100vh', background: '#000', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', flexDirection: 'column', padding: '40px clamp(16px, 4vw, 48px)' }}>
+        <div style={{ minHeight: '100vh', background: 'var(--void)', borderTop: '1px solid var(--ovw-0p06)', display: 'flex', flexDirection: 'column', padding: '40px clamp(16px, 4vw, 48px)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', flex: 1, display: 'flex', flexDirection: 'column' }}>
 
             {/* Samsung News-style header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <div style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--danger)', animation: 'pulse 1.5s infinite' }} />
-                <span style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.3)' }}>LIVE</span>
+                <span style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'var(--ovw-0p3)' }}>LIVE</span>
               </div>
-              <button onClick={() => navigate('/news')} style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.3)', background: 'none', border: 'none' }}>
+              <button onClick={() => navigate('/news')} style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: 'Inter', fontSize: 11, color: 'var(--ovw-0p3)', background: 'none', border: 'none' }}>
                 <ExternalLink size={11} />
                 Verify
               </button>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
               <h2 style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 36px)', display: 'flex', alignItems: 'center', gap: 8 }}>
-                Top Stories <ChevronRight size={24} style={{ color: 'rgba(255,255,255,0.5)' }} />
+                Top Stories <ChevronRight size={24} style={{ color: 'var(--ovw-0p5)' }} />
               </h2>
-              <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>
+              <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--ovw-0p25)' }}>
                 {new Date().toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }).toUpperCase()}
               </span>
             </div>
 
             {/* Hero story card — real news */}
             {newsLoading ? (
-              <div style={{ borderRadius: 16, overflow: 'hidden', height: 'clamp(220px, 38vh, 340px)', marginBottom: 4, flexShrink: 0, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }} />
+              <div style={{ borderRadius: 16, overflow: 'hidden', height: 'clamp(220px, 38vh, 340px)', marginBottom: 4, flexShrink: 0, background: 'var(--ovw-0p03)', border: '1px solid var(--ovw-0p05)' }} />
             ) : newsArticles.length > 0 ? (
               <a
                 href={newsArticles[0].article_url}
@@ -503,8 +503,8 @@ export default function Dashboard() {
                     <div style={{ width: 20, height: 20, borderRadius: 4, background: (SOURCE_COLORS[newsArticles[0].source_name] || '#666') + '33', border: `1px solid ${SOURCE_COLORS[newsArticles[0].source_name] || '#666'}66`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <span style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 10, color: SOURCE_COLORS[newsArticles[0].source_name] || '#aaa' }}>{newsArticles[0].source_name[0]}</span>
                     </div>
-                    <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.9)', textTransform: 'uppercase' }}>{newsArticles[0].source_name}</span>
-                    <span style={{ fontFamily: 'Inter', fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>{timeAgo(newsArticles[0].published_at)}</span>
+                    <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 13, color: 'var(--ovw-0p9)', textTransform: 'uppercase' }}>{newsArticles[0].source_name}</span>
+                    <span style={{ fontFamily: 'Inter', fontSize: 13, color: 'var(--ovw-0p45)' }}>{timeAgo(newsArticles[0].published_at)}</span>
                   </div>
                   <h3 style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 'clamp(17px, 2.5vw, 22px)', lineHeight: 1.3, color: '#fff', maxWidth: 680 }}>
                     {newsArticles[0].title}
@@ -517,19 +517,19 @@ export default function Dashboard() {
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
               {newsLoading ? (
                 [...Array(4)].map((_, i) => (
-                  <div key={i} style={{ display: 'flex', gap: 16, padding: '16px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div key={i} style={{ display: 'flex', gap: 16, padding: '16px 0', borderBottom: '1px solid var(--ovw-0p06)' }}>
                     <div style={{ flex: 1 }}>
-                      <div style={{ height: 9, background: 'rgba(255,255,255,0.05)', borderRadius: 3, width: '30%', marginBottom: 8 }} />
-                      <div style={{ height: 13, background: 'rgba(255,255,255,0.07)', borderRadius: 3, marginBottom: 5 }} />
-                      <div style={{ height: 13, background: 'rgba(255,255,255,0.04)', borderRadius: 3, width: '65%' }} />
+                      <div style={{ height: 9, background: 'var(--ovw-0p05)', borderRadius: 3, width: '30%', marginBottom: 8 }} />
+                      <div style={{ height: 13, background: 'var(--ovw-0p07)', borderRadius: 3, marginBottom: 5 }} />
+                      <div style={{ height: 13, background: 'var(--ovw-0p04)', borderRadius: 3, width: '65%' }} />
                     </div>
-                    <div style={{ width: 88, height: 68, borderRadius: 10, background: 'rgba(255,255,255,0.03)', flexShrink: 0 }} />
+                    <div style={{ width: 88, height: 68, borderRadius: 10, background: 'var(--ovw-0p03)', flexShrink: 0 }} />
                   </div>
                 ))
               ) : (
                 <AnimatePresence mode="popLayout">
                   {(newsArticles.length > 1 ? newsArticles.slice(1, visibleHeadlines + 1) : []).map((article, i) => {
-                    const srcColor = SOURCE_COLORS[article.source_name] || 'rgba(255,255,255,0.4)'
+                    const srcColor = SOURCE_COLORS[article.source_name] || 'var(--ovw-0p4)'
                     return (
                       <motion.a
                         key={article.article_url}
@@ -540,19 +540,19 @@ export default function Dashboard() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0 }}
                         transition={{ delay: i * 0.04 }}
-                        style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px 0', borderBottom: '1px solid rgba(255,255,255,0.06)', textDecoration: 'none' }}
+                        style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px 0', borderBottom: '1px solid var(--ovw-0p06)', textDecoration: 'none' }}
                       >
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
                             <div style={{ width: 18, height: 18, borderRadius: 4, background: srcColor + '22', border: `1px solid ${srcColor}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                               <span style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 9, color: srcColor }}>{article.source_name[0]}</span>
                             </div>
-                            <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.55)' }}>{article.source_name}</span>
+                            <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 13, color: 'var(--ovw-0p55)' }}>{article.source_name}</span>
                           </div>
-                          <p style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 'clamp(14px, 1.8vw, 16px)', color: '#fff', lineHeight: 1.35, marginBottom: 6, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                          <p style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 'clamp(14px, 1.8vw, 16px)', color: 'var(--text-1)', lineHeight: 1.35, marginBottom: 6, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                             {article.title}
                           </p>
-                          <span style={{ fontFamily: 'Inter', fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>{timeAgo(article.published_at)}</span>
+                          <span style={{ fontFamily: 'Inter', fontSize: 13, color: 'var(--ovw-0p35)' }}>{timeAgo(article.published_at)}</span>
                         </div>
                         {article.image_url ? (
                           <div style={{ width: 88, height: 68, borderRadius: 10, flexShrink: 0, overflow: 'hidden' }}>
@@ -572,7 +572,7 @@ export default function Dashboard() {
               {!newsLoading && newsArticles.length > visibleHeadlines + 1 ? (
                 <button
                   onClick={() => setVisibleHeadlines((v) => v + 6)}
-                  style={{ width: '100%', padding: '18px', background: 'none', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontFamily: 'Inter', fontWeight: 600, fontSize: 14, color: 'rgba(255,255,255,0.35)', marginTop: 4 }}
+                  style={{ width: '100%', padding: '18px', background: 'none', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontFamily: 'Inter', fontWeight: 600, fontSize: 14, color: 'var(--ovw-0p35)', marginTop: 4 }}
                 >
                   <ChevronRight size={14} style={{ transform: 'rotate(90deg)' }} />
                   More stories
@@ -612,31 +612,31 @@ export default function Dashboard() {
             />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, #000 100%)' }} />
             <div style={{ position: 'absolute', bottom: 44, left: 44 }}>
-              <p className="portrait-title" style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(40px, 6vw, 72px)', letterSpacing: '0.3em', color: 'rgba(255,255,255,0.92)', lineHeight: 1 }}>D0B3RMAN</p>
-              <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.28)', marginTop: 10 }}>THE WATCHDOG IS WATCHING</p>
+              <p className="portrait-title" style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(40px, 6vw, 72px)', letterSpacing: '0.3em', color: 'var(--ovw-0p92)', lineHeight: 1 }}>D0B3RMAN</p>
+              <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'var(--ovw-0p28)', marginTop: 10 }}>THE WATCHDOG IS WATCHING</p>
             </div>
           </motion.div>
 
           {/* ── RECENT ACTIVITY ────────────────────────────── */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
-              <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.18)' }}>RECENT ACTIVITY</p>
+              <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'var(--ovw-0p18)' }}>RECENT ACTIVITY</p>
               <button onClick={() => navigate('/history')} style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--chrome-dim)', background: 'none', border: 'none' }}>View all</button>
             </div>
             <div className="glass" style={{ borderRadius: 20, overflow: 'hidden' }}>
               {loading ? (
                 [...Array(3)].map((_, i) => (
-                  <div key={i} style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.04)', display: 'flex', gap: 12, alignItems: 'center' }}>
-                    <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(255,255,255,0.03)' }} />
+                  <div key={i} style={{ padding: '16px 20px', borderBottom: '1px solid var(--ovw-0p04)', display: 'flex', gap: 12, alignItems: 'center' }}>
+                    <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--ovw-0p03)' }} />
                     <div style={{ flex: 1 }}>
-                      <div style={{ height: 12, background: 'rgba(255,255,255,0.03)', borderRadius: 4, marginBottom: 6, width: '60%' }} />
-                      <div style={{ height: 10, background: 'rgba(255,255,255,0.03)', borderRadius: 4, width: '30%' }} />
+                      <div style={{ height: 12, background: 'var(--ovw-0p03)', borderRadius: 4, marginBottom: 6, width: '60%' }} />
+                      <div style={{ height: 10, background: 'var(--ovw-0p03)', borderRadius: 4, width: '30%' }} />
                     </div>
                   </div>
                 ))
               ) : activity.length === 0 ? (
                 <div style={{ padding: 48, textAlign: 'center' }}>
-                  <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'rgba(255,255,255,0.2)' }}>No activity yet. Run your first scan.</p>
+                  <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--ovw-0p2)' }}>No activity yet. Run your first scan.</p>
                 </div>
               ) : (
                 activity.map((item, i) => {
@@ -644,16 +644,16 @@ export default function Dashboard() {
                   const IconComp = item.type === 'brain' ? Zap : item.type === 'news' ? ExternalLink : Shield
                   return (
                     <motion.div key={item.id} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}
-                      style={{ padding: '14px 20px', borderBottom: i < activity.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none', display: 'flex', alignItems: 'center', gap: 14 }}>
-                      <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                        <IconComp size={14} style={{ color: 'rgba(255,255,255,0.3)' }} />
+                      style={{ padding: '14px 20px', borderBottom: i < activity.length - 1 ? '1px solid var(--ovw-0p04)' : 'none', display: 'flex', alignItems: 'center', gap: 14 }}>
+                      <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--ovw-0p04)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <IconComp size={14} style={{ color: 'var(--ovw-0p3)' }} />
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <p style={{ fontFamily: 'Inter', fontSize: 14, color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: 2 }}>{item.label}</p>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                          <Clock size={10} style={{ color: 'rgba(255,255,255,0.2)' }} />
-                          <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>{formatRelativeTime(item.created_at)}</span>
-                          <span style={{ fontFamily: 'Inter', fontSize: 9, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.03em' }}>{typeLabel[item.type]}</span>
+                          <Clock size={10} style={{ color: 'var(--ovw-0p2)' }} />
+                          <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--ovw-0p25)' }}>{formatRelativeTime(item.created_at)}</span>
+                          <span style={{ fontFamily: 'Inter', fontSize: 9, color: 'var(--ovw-0p2)', letterSpacing: '0.03em' }}>{typeLabel[item.type]}</span>
                           {item.result && (
                             <span style={{ fontFamily: 'Inter', fontSize: 10, color: getResultLabel(item.result).color, background: `${getResultLabel(item.result).color}22`, padding: '2px 6px', borderRadius: 4 }}>
                               {getResultLabel(item.result).label}

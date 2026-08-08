@@ -76,7 +76,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
       {/* Usage indicator */}
       <div style={{
         padding: '10px 18px',
-        borderBottom: '1px solid rgba(255,255,255,0.05)',
+        borderBottom: '1px solid var(--ovw-0p05)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -84,7 +84,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           <Zap size={11} style={{ color: '#30D158' }} />
-          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', fontWeight: 500, letterSpacing: '0.01em' }}>
+          <span style={{ fontSize: 11, color: 'var(--ovw-0p3)', fontWeight: 500, letterSpacing: '0.01em' }}>
             Doberman Intelligence
           </span>
         </div>
@@ -95,12 +95,12 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
                 width: 5,
                 height: 5,
                 borderRadius: '50%',
-                background: i < dailyRemaining ? '#30D158' : 'rgba(255,255,255,0.08)',
+                background: i < dailyRemaining ? '#30D158' : 'var(--ovw-0p08)',
                 transition: 'background 0.2s',
               }} />
             ))}
           </div>
-          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.22)', letterSpacing: '-0.01em' }}>
+          <span style={{ fontSize: 11, color: 'var(--ovw-0p22)', letterSpacing: '-0.01em' }}>
             {dailyRemaining}/10
           </span>
         </div>
@@ -134,7 +134,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
             <span style={{
               fontSize: 20,
               fontWeight: 600,
-              color: 'rgba(255,255,255,0.85)',
+              color: 'var(--ovw-0p85)',
               letterSpacing: '-0.03em',
               textAlign: 'center',
             }}>
@@ -150,13 +150,13 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
                   style={{
                     padding: '12px 13px',
                     textAlign: 'left',
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '1px solid rgba(255,255,255,0.07)',
+                    background: 'var(--ovw-0p03)',
+                    border: '1px solid var(--ovw-0p07)',
                     borderRadius: 14,
                     fontSize: 12,
                     fontWeight: 400,
                     lineHeight: 1.45,
-                    color: 'rgba(255,255,255,0.5)',
+                    color: 'var(--ovw-0p5)',
                     fontFamily: SF,
                     transition: 'background 0.15s, border-color 0.15s',
                     cursor: dailyRemaining > 0 ? 'pointer' : 'not-allowed',
@@ -193,7 +193,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
       </div>
 
       {/* Input bar */}
-      <div style={{ padding: '10px 12px 22px', borderTop: '1px solid rgba(255,255,255,0.05)', flexShrink: 0 }}>
+      <div style={{ padding: '10px 12px 22px', borderTop: '1px solid var(--ovw-0p05)', flexShrink: 0 }}>
         {dailyRemaining <= 0 ? (
           <button
             onClick={onUpgradeClick}
@@ -216,8 +216,8 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
             display: 'flex',
             alignItems: 'flex-end',
             gap: 6,
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(255,255,255,0.09)',
+            background: 'var(--ovw-0p04)',
+            border: '1px solid var(--ovw-0p09)',
             borderRadius: 24,
             padding: '7px 7px 7px 14px',
           }}>
@@ -233,12 +233,12 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: 'rgba(255,255,255,0.06)',
+                background: 'var(--ovw-0p06)',
                 border: 'none',
                 marginBottom: 0,
               }}
             >
-              <Paperclip size={15} style={{ color: 'rgba(255,255,255,0.38)' }} />
+              <Paperclip size={15} style={{ color: 'var(--ovw-0p38)' }} />
             </button>
             <input
               ref={fileInputRef}
@@ -269,7 +269,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
                 resize: 'none',
                 fontSize: 15,
                 fontFamily: SF,
-                color: 'rgba(255,255,255,0.88)',
+                color: 'var(--ovw-0p88)',
                 lineHeight: 1.5,
                 paddingTop: 5,
                 minHeight: 26,
@@ -294,12 +294,12 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: isRecording ? 'rgba(255,45,45,0.18)' : 'rgba(255,255,255,0.06)',
+                background: isRecording ? 'rgba(255,45,45,0.18)' : 'var(--ovw-0p06)',
                 border: isRecording ? '1px solid rgba(255,45,45,0.4)' : 'none',
                 transition: 'all 0.15s',
               }}
             >
-              <Mic size={15} style={{ color: isRecording ? '#FF2D2D' : 'rgba(255,255,255,0.38)' }} />
+              <Mic size={15} style={{ color: isRecording ? '#FF2D2D' : 'var(--ovw-0p38)' }} />
             </button>
 
             {/* Send */}
@@ -314,12 +314,12 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: canSend ? '#30D158' : 'rgba(255,255,255,0.06)',
+                background: canSend ? '#30D158' : 'var(--ovw-0p06)',
                 border: 'none',
                 transition: 'background 0.15s',
               }}
             >
-              <ArrowUp size={15} style={{ color: canSend ? '#000' : 'rgba(255,255,255,0.22)' }} />
+              <ArrowUp size={15} style={{ color: canSend ? '#000' : 'var(--ovw-0p22)' }} />
             </button>
           </div>
         )}

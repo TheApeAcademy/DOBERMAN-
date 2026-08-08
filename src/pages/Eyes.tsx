@@ -16,11 +16,11 @@ const DETECTS = [
 ]
 
 const card: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.03)',
-  border: '1px solid rgba(255,255,255,0.08)',
+  background: 'var(--ovw-0p03)',
+  border: '1px solid var(--ovw-0p08)',
   borderRadius: 24,
   padding: 24,
-  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06)',
+  boxShadow: 'inset 0 1px 0 var(--ovw-0p06)',
 }
 
 const sectionLabel: React.CSSProperties = {
@@ -65,8 +65,8 @@ export default function Eyes() {
             <source src="/assets/video/3d-broadcast.mp4" type="video/mp4" />
           </video>
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(10,132,255,0.12) 0%, transparent 60%)' }} />
-          <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.07)', borderRadius: 28 }} />
-          <div style={{ position: 'absolute', bottom: 14, left: 20, fontFamily: 'JetBrains Mono, monospace', fontSize: 9, letterSpacing: '0.22em', color: 'rgba(255,255,255,0.3)' }}>
+          <div style={{ position: 'absolute', inset: 0, border: '1px solid var(--ovw-0p07)', borderRadius: 28 }} />
+          <div style={{ position: 'absolute', bottom: 14, left: 20, fontFamily: 'JetBrains Mono, monospace', fontSize: 9, letterSpacing: '0.22em', color: 'var(--ovw-0p3)' }}>
             DEEPFAKE INTELLIGENCE
           </div>
           {/* Scan badge */}
@@ -86,7 +86,7 @@ export default function Eyes() {
         </div>
 
         {/* Module header */}
-        <div style={{ marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid var(--ovw-0p06)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <div style={{
               width: 44, height: 44, borderRadius: 14,
@@ -153,7 +153,7 @@ export default function Eyes() {
               <EyesResult scan={result} />
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', padding: '24px 0 12px', gap: 20 }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, textAlign: 'center', paddingBottom: 20, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, textAlign: 'center', paddingBottom: 20, borderBottom: '1px solid var(--ovw-0p06)' }}>
                   <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(10,132,255,0.08)', border: '1px solid rgba(10,132,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Eye size={18} color="rgba(10,132,255,0.6)" />
                   </div>

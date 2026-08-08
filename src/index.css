@@ -15,13 +15,13 @@
   --chrome-bright: #E8E8E8;
   --chrome-mid:    #ABABAB;
   --chrome-dim:    #666666;
-  --chrome-ghost:  rgba(255, 255, 255, 0.04);
-  --chrome-glow:   rgba(255, 255, 255, 0.12);
+  --chrome-ghost:  var(--ovw-0p04);
+  --chrome-glow:   var(--ovw-0p12);
 
   /* Glassmorphism */
-  --glass-bg:            rgba(255, 255, 255, 0.035);
-  --glass-border:        rgba(255, 255, 255, 0.10);
-  --glass-border-bright: rgba(255, 255, 255, 0.22);
+  --glass-bg:            var(--ovw-0p035);
+  --glass-border:        var(--ovw-0p1);
+  --glass-border-bright: var(--ovw-0p22);
   --glass-blur:          blur(28px);
 
   /* Semantic */
@@ -36,6 +36,136 @@
   --text-1: #FFFFFF;
   --text-2: #94A3B8;
   --text-3: #64748B;
+
+  /* Overlay tokens — chrome-on-void translucent whites, auto-generated from
+     usage across the app. Flipped to ink-on-chrome in light mode below. */
+  --ovw-0p01: rgba(255, 255, 255, 0.01);
+  --ovw-0p018: rgba(255, 255, 255, 0.018);
+  --ovw-0p02: rgba(255, 255, 255, 0.02);
+  --ovw-0p022: rgba(255, 255, 255, 0.022);
+  --ovw-0p025: rgba(255, 255, 255, 0.025);
+  --ovw-0p03: rgba(255, 255, 255, 0.03);
+  --ovw-0p035: rgba(255, 255, 255, 0.035);
+  --ovw-0p04: rgba(255, 255, 255, 0.04);
+  --ovw-0p045: rgba(255, 255, 255, 0.045);
+  --ovw-0p05: rgba(255, 255, 255, 0.05);
+  --ovw-0p06: rgba(255, 255, 255, 0.06);
+  --ovw-0p07: rgba(255, 255, 255, 0.07);
+  --ovw-0p08: rgba(255, 255, 255, 0.08);
+  --ovw-0p09: rgba(255, 255, 255, 0.09);
+  --ovw-0p1: rgba(255, 255, 255, 0.1);
+  --ovw-0p12: rgba(255, 255, 255, 0.12);
+  --ovw-0p13: rgba(255, 255, 255, 0.13);
+  --ovw-0p14: rgba(255, 255, 255, 0.14);
+  --ovw-0p15: rgba(255, 255, 255, 0.15);
+  --ovw-0p16: rgba(255, 255, 255, 0.16);
+  --ovw-0p18: rgba(255, 255, 255, 0.18);
+  --ovw-0p2: rgba(255, 255, 255, 0.2);
+  --ovw-0p22: rgba(255, 255, 255, 0.22);
+  --ovw-0p24: rgba(255, 255, 255, 0.24);
+  --ovw-0p25: rgba(255, 255, 255, 0.25);
+  --ovw-0p26: rgba(255, 255, 255, 0.26);
+  --ovw-0p28: rgba(255, 255, 255, 0.28);
+  --ovw-0p3: rgba(255, 255, 255, 0.3);
+  --ovw-0p32: rgba(255, 255, 255, 0.32);
+  --ovw-0p35: rgba(255, 255, 255, 0.35);
+  --ovw-0p38: rgba(255, 255, 255, 0.38);
+  --ovw-0p4: rgba(255, 255, 255, 0.4);
+  --ovw-0p45: rgba(255, 255, 255, 0.45);
+  --ovw-0p48: rgba(255, 255, 255, 0.48);
+  --ovw-0p5: rgba(255, 255, 255, 0.5);
+  --ovw-0p52: rgba(255, 255, 255, 0.52);
+  --ovw-0p55: rgba(255, 255, 255, 0.55);
+  --ovw-0p6: rgba(255, 255, 255, 0.6);
+  --ovw-0p65: rgba(255, 255, 255, 0.65);
+  --ovw-0p7: rgba(255, 255, 255, 0.7);
+  --ovw-0p75: rgba(255, 255, 255, 0.75);
+  --ovw-0p8: rgba(255, 255, 255, 0.8);
+  --ovw-0p82: rgba(255, 255, 255, 0.82);
+  --ovw-0p85: rgba(255, 255, 255, 0.85);
+  --ovw-0p88: rgba(255, 255, 255, 0.88);
+  --ovw-0p9: rgba(255, 255, 255, 0.9);
+  --ovw-0p92: rgba(255, 255, 255, 0.92);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LIGHT MODE — same structure, chrome inverted onto a bright surface.
+   Accent colors (danger/warning/safe) stay put; everything that was
+   "white catching light on black" becomes "ink catching light on white".
+   ═══════════════════════════════════════════════════════════════ */
+:root[data-theme='light'] {
+  --void:    #F4F4F6;
+  --void-1:  #FFFFFF;
+  --void-2:  #EFEFF2;
+  --void-3:  #E7E7EB;
+  --void-4:  #D6D6DC;
+
+  --chrome-white:  #0A0A0F;
+  --chrome-bright: #1C1C22;
+  --chrome-mid:    #5B5B66;
+  --chrome-dim:    #8A8A94;
+  --chrome-ghost:  var(--ovw-0p04);
+  --chrome-glow:   var(--ovw-0p12);
+
+  --glass-bg:            var(--ovw-0p035);
+  --glass-border:        var(--ovw-0p1);
+  --glass-border-bright: var(--ovw-0p22);
+
+  --danger-glow:  rgba(255, 45, 45, 0.12);
+  --warning-glow: rgba(255, 149, 0, 0.12);
+  --safe-glow:    rgba(48, 209, 88, 0.12);
+
+  --text-1: #0A0A0F;
+  --text-2: #475569;
+  --text-3: #5B6472;
+
+  --ovw-0p01: rgba(10, 10, 18, 0.013);
+  --ovw-0p018: rgba(10, 10, 18, 0.0234);
+  --ovw-0p02: rgba(10, 10, 18, 0.026);
+  --ovw-0p022: rgba(10, 10, 18, 0.0286);
+  --ovw-0p025: rgba(10, 10, 18, 0.0325);
+  --ovw-0p03: rgba(10, 10, 18, 0.039);
+  --ovw-0p035: rgba(10, 10, 18, 0.0455);
+  --ovw-0p04: rgba(10, 10, 18, 0.052);
+  --ovw-0p045: rgba(10, 10, 18, 0.0585);
+  --ovw-0p05: rgba(10, 10, 18, 0.065);
+  --ovw-0p06: rgba(10, 10, 18, 0.078);
+  --ovw-0p07: rgba(10, 10, 18, 0.091);
+  --ovw-0p08: rgba(10, 10, 18, 0.104);
+  --ovw-0p09: rgba(10, 10, 18, 0.117);
+  --ovw-0p1: rgba(10, 10, 18, 0.13);
+  --ovw-0p12: rgba(10, 10, 18, 0.156);
+  --ovw-0p13: rgba(10, 10, 18, 0.169);
+  --ovw-0p14: rgba(10, 10, 18, 0.182);
+  --ovw-0p15: rgba(10, 10, 18, 0.195);
+  --ovw-0p16: rgba(10, 10, 18, 0.208);
+  --ovw-0p18: rgba(10, 10, 18, 0.234);
+  --ovw-0p2: rgba(10, 10, 18, 0.26);
+  --ovw-0p22: rgba(10, 10, 18, 0.286);
+  --ovw-0p24: rgba(10, 10, 18, 0.312);
+  --ovw-0p25: rgba(10, 10, 18, 0.325);
+  --ovw-0p26: rgba(10, 10, 18, 0.338);
+  --ovw-0p28: rgba(10, 10, 18, 0.364);
+  --ovw-0p3: rgba(10, 10, 18, 0.39);
+  --ovw-0p32: rgba(10, 10, 18, 0.416);
+  --ovw-0p35: rgba(10, 10, 18, 0.455);
+  --ovw-0p38: rgba(10, 10, 18, 0.494);
+  --ovw-0p4: rgba(10, 10, 18, 0.52);
+  --ovw-0p45: rgba(10, 10, 18, 0.585);
+  --ovw-0p48: rgba(10, 10, 18, 0.624);
+  --ovw-0p5: rgba(10, 10, 18, 0.65);
+  --ovw-0p52: rgba(10, 10, 18, 0.676);
+  --ovw-0p55: rgba(10, 10, 18, 0.715);
+  --ovw-0p6: rgba(10, 10, 18, 0.78);
+  --ovw-0p65: rgba(10, 10, 18, 0.845);
+  --ovw-0p7: rgba(10, 10, 18, 0.91);
+  --ovw-0p75: rgba(10, 10, 18, 0.975);
+  --ovw-0p8: rgba(10, 10, 18, 1);
+  --ovw-0p82: rgba(10, 10, 18, 1);
+  --ovw-0p85: rgba(10, 10, 18, 1);
+  --ovw-0p88: rgba(10, 10, 18, 1);
+  --ovw-0p9: rgba(10, 10, 18, 1);
+  --ovw-0p92: rgba(10, 10, 18, 1);
 }
 
 *, *::before, *::after {
@@ -48,6 +178,7 @@ html {
   background: var(--void);
   overflow-x: hidden;
   scroll-behavior: auto;
+  transition: background-color 0.25s ease;
 }
 
 body {
@@ -57,6 +188,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 /* Crosshair cursor */
@@ -64,8 +196,8 @@ body {
 
 /* Chrome text selection */
 ::selection {
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffffff;
+  background: var(--ovw-0p15);
+  color: var(--chrome-white);
 }
 
 /* Noise grain overlay */
@@ -79,6 +211,10 @@ body::after {
   opacity: 0.4;
   mix-blend-mode: overlay;
   animation: grain 0.5s steps(2) infinite;
+}
+
+:root[data-theme='light'] body::after {
+  opacity: 0.15;
 }
 
 @keyframes grain {
@@ -98,24 +234,24 @@ body::after {
 
 /* True glassmorphism — requires moving content behind it to look real */
 .glass {
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--ovw-0p035);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid var(--ovw-0p1);
   border-radius: 24px;
   /* Rim-light effect: bright top edge = light catching premium glass */
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.20),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 1px 0 var(--ovw-0p2),
+    inset 0 -1px 0 var(--ovw-0p04),
     0 4px 6px rgba(0, 0, 0, 0.15),
     0 32px 64px rgba(0, 0, 0, 0.4);
   transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.2s ease;
 }
 .glass:hover {
-  border-color: rgba(255, 255, 255, 0.18);
+  border-color: var(--ovw-0p18);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.26),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 1px 0 var(--ovw-0p26),
+    inset 0 -1px 0 var(--ovw-0p06),
     0 8px 16px rgba(0, 0, 0, 0.2),
     0 40px 80px rgba(0, 0, 0, 0.45);
 }
@@ -125,6 +261,11 @@ body::after {
   background: linear-gradient(135deg, #ffffff 0%, #aaaaaa 50%, #ffffff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+:root[data-theme='light'] .chrome-text {
+  background: linear-gradient(135deg, #0a0a0f 0%, #5b5b66 50%, #0a0a0f 100%);
+  -webkit-background-clip: text;
   background-clip: text;
 }
 
@@ -155,7 +296,7 @@ body::after {
 /* Asset slot base styles */
 .asset-slot {
   background: var(--void-3);
-  border: 1px dashed rgba(255, 255, 255, 0.08);
+  border: 1px dashed var(--ovw-0p08);
   border-radius: 16px;
   display: flex;
   align-items: center;
@@ -170,7 +311,7 @@ body::after {
   font-family: 'Inter', sans-serif;
   font-size: 10px;
   letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.15);
+  color: var(--ovw-0p15);
   text-transform: uppercase;
   text-align: center;
   padding: 0 20px;
@@ -178,20 +319,20 @@ body::after {
 
 /* Legacy card utility -- used by inner pages */
 .card {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--ovw-0p03);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid var(--ovw-0p1);
   border-radius: 16px;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.20),
+    inset 0 1px 0 var(--ovw-0p2),
     0 2px 8px rgba(0, 0, 0, 0.2);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .card:hover {
-  border-color: rgba(255, 255, 255, 0.18);
+  border-color: var(--ovw-0p18);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 1px 0 var(--ovw-0p28),
     0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
@@ -219,23 +360,23 @@ body::after {
   white-space: nowrap;
 }
 .btn-primary {
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.18);
+  background: var(--ovw-0p07);
+  border: 1px solid var(--ovw-0p18);
   color: var(--text-1);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+  box-shadow: inset 0 1px 0 var(--ovw-0p1);
 }
 .btn-primary:hover:not(:disabled) {
-  background: rgba(255,255,255,0.13);
-  border-color: rgba(255,255,255,0.28);
+  background: var(--ovw-0p13);
+  border-color: var(--ovw-0p28);
 }
 .btn-secondary {
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid var(--ovw-0p1);
   color: var(--text-2);
 }
 .btn-secondary:hover:not(:disabled) {
-  background: rgba(255,255,255,0.04);
-  border-color: rgba(255,255,255,0.18);
+  background: var(--ovw-0p04);
+  border-color: var(--ovw-0p18);
   color: var(--text-1);
 }
 .btn-danger {
@@ -254,8 +395,8 @@ body::after {
   width: 100%;
   padding: 10px 14px;
   border-radius: 10px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.09);
+  background: var(--ovw-0p03);
+  border: 1px solid var(--ovw-0p09);
   color: var(--text-1);
   font-family: 'Inter', sans-serif;
   font-size: 13px;
@@ -264,8 +405,8 @@ body::after {
 }
 .input::placeholder { color: var(--text-3); }
 .input:focus {
-  border-color: rgba(255,255,255,0.22);
-  background: rgba(255,255,255,0.05);
+  border-color: var(--ovw-0p22);
+  background: var(--ovw-0p05);
 }
 
 /* ─── Scrollbar ────────────────────────────────────────────── */

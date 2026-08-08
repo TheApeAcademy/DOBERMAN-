@@ -112,7 +112,7 @@ export default function NewsArticle() {
     return (
       <PageWrapper>
         <div style={{ minHeight: '100vh', background: 'var(--void)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16 }}>
-          <p style={{ fontFamily: 'Inter', fontSize: 13, color: 'rgba(255,255,255,0.3)' }}>Article not found.</p>
+          <p style={{ fontFamily: 'Inter', fontSize: 13, color: 'var(--ovw-0p3)' }}>Article not found.</p>
           <button onClick={() => navigate('/news', { state: { tab: 'feed' } })} style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--chrome-dim)', background: 'none', border: '1px solid var(--glass-border)', padding: '8px 20px', borderRadius: 8, cursor: 'pointer' }}>
             ← Back to Feed
           </button>
@@ -127,15 +127,15 @@ export default function NewsArticle() {
 
   return (
     <PageWrapper>
-      <div style={{ minHeight: '100vh', background: '#000', position: 'relative' }}>
+      <div style={{ minHeight: '100vh', background: 'var(--void)', position: 'relative' }}>
 
         {/* Back bar */}
-        <div style={{ position: 'sticky', top: 0, zIndex: 20, padding: '16px 24px', background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ position: 'sticky', top: 0, zIndex: 20, padding: '16px 24px', background: 'var(--void-1)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--ovw-0p06)' }}>
           <button
             onClick={() => navigate('/news', { state: { tab: 'feed' } })}
-            style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', color: 'rgba(255,255,255,0.45)', fontFamily: 'Inter', fontSize: 12, fontWeight: 500, cursor: 'pointer', padding: 0, letterSpacing: '0.03em' }}
-            onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.9)' }}
-            onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.45)' }}
+            style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', color: 'var(--ovw-0p45)', fontFamily: 'Inter', fontSize: 12, fontWeight: 500, cursor: 'pointer', padding: 0, letterSpacing: '0.03em' }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--ovw-0p9)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--ovw-0p45)' }}
           >
             <ArrowLeft size={14} />
             BACK TO FEED
@@ -147,18 +147,18 @@ export default function NewsArticle() {
 
           {/* Source + date */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-            <span style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', fontWeight: 600, color: 'rgba(255,255,255,0.55)', background: 'rgba(255,255,255,0.06)', padding: '4px 10px', borderRadius: 4 }}>
+            <span style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', fontWeight: 600, color: 'var(--ovw-0p55)', background: 'var(--ovw-0p06)', padding: '4px 10px', borderRadius: 4 }}>
               {article.source}
             </span>
             {publishedDate && (
-              <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.28)' }}>
+              <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--ovw-0p28)' }}>
                 {publishedDate}
               </span>
             )}
           </div>
 
           {/* Headline */}
-          <h1 style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(28px, 5vw, 48px)', lineHeight: 1.15, color: '#fff', marginBottom: 32 }}>
+          <h1 style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(28px, 5vw, 48px)', lineHeight: 1.15, color: 'var(--text-1)', marginBottom: 32 }}>
             {article.title}
           </h1>
 
@@ -176,7 +176,7 @@ export default function NewsArticle() {
 
           {/* Article body */}
           {article.description && (
-            <p style={{ fontFamily: 'Inter', fontSize: 17, color: 'rgba(255,255,255,0.6)', lineHeight: 1.8, marginBottom: 40 }}>
+            <p style={{ fontFamily: 'Inter', fontSize: 17, color: 'var(--ovw-0p6)', lineHeight: 1.8, marginBottom: 40 }}>
               {article.description}
             </p>
           )}
@@ -186,9 +186,9 @@ export default function NewsArticle() {
             href={article.url}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ fontFamily: 'Inter', fontSize: 12, fontWeight: 600, letterSpacing: '0.03em', color: 'rgba(255,255,255,0.4)', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.1)', padding: '10px 20px', borderRadius: 8, display: 'inline-block', transition: 'all 0.2s' }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.25)'; (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.85)' }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.1)'; (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.4)' }}
+            style={{ fontFamily: 'Inter', fontSize: 12, fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ovw-0p4)', textDecoration: 'none', border: '1px solid var(--ovw-0p1)', padding: '10px 20px', borderRadius: 8, display: 'inline-block', transition: 'all 0.2s' }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ovw-0p25)'; (e.currentTarget as HTMLAnchorElement).style.color = 'var(--ovw-0p85)' }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ovw-0p1)'; (e.currentTarget as HTMLAnchorElement).style.color = 'var(--ovw-0p4)' }}
           >
             VIEW ORIGINAL ARTICLE ↗
           </a>
@@ -211,8 +211,8 @@ export default function NewsArticle() {
                   right: 0,
                   width: 380,
                   height: 500,
-                  background: 'rgba(8,8,8,0.97)',
-                  border: '1px solid rgba(255,255,255,0.1)',
+                  background: 'var(--void-1)',
+                  border: '1px solid var(--ovw-0p1)',
                   borderRadius: 20,
                   display: 'flex',
                   flexDirection: 'column',
@@ -222,16 +222,16 @@ export default function NewsArticle() {
                 }}
               >
                 {/* Header */}
-                <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+                <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--ovw-0p08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
                   <div>
-                    <p style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 13, letterSpacing: '0.03em', color: '#fff' }}>
+                    <p style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 13, letterSpacing: '0.03em', color: 'var(--text-1)' }}>
                       INTELLIGENCE
                     </p>
-                    <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'rgba(255,255,255,0.3)', marginTop: 2 }}>
+                    <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--ovw-0p3)', marginTop: 2 }}>
                       Ask about this article
                     </p>
                   </div>
-                  <button onClick={() => setPanelOpen(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer', padding: 4 }}>
+                  <button onClick={() => setPanelOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--ovw-0p3)', cursor: 'pointer', padding: 4 }}>
                     <X size={14} />
                   </button>
                 </div>
@@ -241,7 +241,7 @@ export default function NewsArticle() {
                   {chatLoading && messages.length === 0 && (
                     <div style={{ display: 'flex', gap: 6, alignItems: 'center', padding: '8px 0' }}>
                       {[0, 0.2, 0.4].map((delay, i) => (
-                        <div key={i} style={{ width: 5, height: 5, borderRadius: '50%', background: 'rgba(255,255,255,0.3)', animation: `pulse 1s infinite ${delay}s` }} />
+                        <div key={i} style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--ovw-0p3)', animation: `pulse 1s infinite ${delay}s` }} />
                       ))}
                     </div>
                   )}
@@ -251,11 +251,11 @@ export default function NewsArticle() {
                         maxWidth: '85%',
                         padding: '10px 14px',
                         borderRadius: msg.role === 'user' ? '14px 14px 4px 14px' : '14px 14px 14px 4px',
-                        background: msg.role === 'user' ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.04)',
-                        border: '1px solid rgba(255,255,255,0.08)',
+                        background: msg.role === 'user' ? 'var(--ovw-0p08)' : 'var(--ovw-0p04)',
+                        border: '1px solid var(--ovw-0p08)',
                         fontFamily: 'Inter',
                         fontSize: 13,
-                        color: 'rgba(255,255,255,0.85)',
+                        color: 'var(--ovw-0p85)',
                         lineHeight: 1.6,
                       }}>
                         {msg.content}
@@ -265,7 +265,7 @@ export default function NewsArticle() {
                   {chatLoading && messages.length > 0 && (
                     <div style={{ display: 'flex', gap: 5, padding: '8px 0' }}>
                       {[0, 0.2, 0.4].map((delay, i) => (
-                        <div key={i} style={{ width: 5, height: 5, borderRadius: '50%', background: 'rgba(255,255,255,0.3)', animation: `pulse 1s infinite ${delay}s` }} />
+                        <div key={i} style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--ovw-0p3)', animation: `pulse 1s infinite ${delay}s` }} />
                       ))}
                     </div>
                   )}
@@ -273,7 +273,7 @@ export default function NewsArticle() {
                 </div>
 
                 {/* Input */}
-                <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.08)', flexShrink: 0 }}>
+                <div style={{ padding: '12px 16px', borderTop: '1px solid var(--ovw-0p08)', flexShrink: 0 }}>
                   {usageCount >= DAILY_LIMIT ? (
                     <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--danger)', textAlign: 'center', padding: '8px 0' }}>
                       Daily limit reached ({DAILY_LIMIT} queries/day)
@@ -288,11 +288,11 @@ export default function NewsArticle() {
                         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() } }}
                         style={{
                           flex: 1,
-                          background: 'rgba(255,255,255,0.04)',
-                          border: '1px solid rgba(255,255,255,0.1)',
+                          background: 'var(--ovw-0p04)',
+                          border: '1px solid var(--ovw-0p1)',
                           borderRadius: 10,
                           padding: '9px 12px',
-                          color: '#fff',
+                          color: 'var(--text-1)',
                           fontFamily: 'Inter',
                           fontSize: 13,
                           resize: 'none',
@@ -300,19 +300,19 @@ export default function NewsArticle() {
                           lineHeight: 1.5,
                           maxHeight: 80,
                         }}
-                        onFocus={(e) => { e.target.style.borderColor = 'rgba(255,255,255,0.25)' }}
-                        onBlur={(e) => { e.target.style.borderColor = 'rgba(255,255,255,0.1)' }}
+                        onFocus={(e) => { e.target.style.borderColor = 'var(--ovw-0p25)' }}
+                        onBlur={(e) => { e.target.style.borderColor = 'var(--ovw-0p1)' }}
                       />
                       <button
                         onClick={sendMessage}
                         disabled={chatLoading || !input.trim()}
-                        style={{ width: 36, height: 36, borderRadius: 10, background: input.trim() && !chatLoading ? '#fff' : 'rgba(255,255,255,0.06)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: input.trim() && !chatLoading ? 'pointer' : 'not-allowed', flexShrink: 0, transition: 'all 0.2s' }}
+                        style={{ width: 36, height: 36, borderRadius: 10, background: input.trim() && !chatLoading ? '#fff' : 'var(--ovw-0p06)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: input.trim() && !chatLoading ? 'pointer' : 'not-allowed', flexShrink: 0, transition: 'all 0.2s' }}
                       >
-                        <Send size={14} style={{ color: input.trim() && !chatLoading ? '#000' : 'rgba(255,255,255,0.25)' }} />
+                        <Send size={14} style={{ color: input.trim() && !chatLoading ? '#000' : 'var(--ovw-0p25)' }} />
                       </button>
                     </div>
                   )}
-                  <p style={{ fontFamily: 'Inter', fontSize: 9, color: 'rgba(255,255,255,0.2)', marginTop: 8, textAlign: 'right' }}>
+                  <p style={{ fontFamily: 'Inter', fontSize: 9, color: 'var(--ovw-0p2)', marginTop: 8, textAlign: 'right' }}>
                     {usageCount}/{DAILY_LIMIT} queries today
                   </p>
                 </div>
@@ -329,17 +329,17 @@ export default function NewsArticle() {
               height: 60,
               borderRadius: '50%',
               overflow: 'hidden',
-              border: panelOpen ? '2px solid rgba(255,255,255,0.35)' : '2px solid rgba(255,255,255,0.12)',
+              border: panelOpen ? '2px solid var(--ovw-0p35)' : '2px solid var(--ovw-0p12)',
               padding: 0,
               cursor: 'pointer',
               position: 'relative',
-              boxShadow: panelOpen ? '0 0 28px rgba(255,255,255,0.18)' : '0 4px 20px rgba(0,0,0,0.5)',
+              boxShadow: panelOpen ? '0 0 28px var(--ovw-0p18)' : '0 4px 20px rgba(0,0,0,0.5)',
               transition: 'all 0.25s',
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.35)'; e.currentTarget.style.boxShadow = '0 0 28px rgba(255,255,255,0.18)' }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--ovw-0p35)'; e.currentTarget.style.boxShadow = '0 0 28px var(--ovw-0p18)' }}
             onMouseLeave={(e) => {
               if (!panelOpen) {
-                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'
+                e.currentTarget.style.borderColor = 'var(--ovw-0p12)'
                 e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.5)'
               }
             }}
