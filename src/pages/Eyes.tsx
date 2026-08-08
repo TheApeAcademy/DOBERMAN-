@@ -57,7 +57,6 @@ export default function Eyes() {
               alt=""
               style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', pointerEvents: 'none' }}
             />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(10,132,255,0.14) 0%, transparent 60%)' }} />
             <div style={{ position: 'absolute', inset: 0, border: '1px solid var(--ovw-0p1)', borderRadius: 20 }} />
           </div>
           <div style={{ flex: 1, minWidth: 200 }}>

@@ -290,7 +290,6 @@ export default function News() {
             <div style={{ position: 'relative', width: 88, height: 88, borderRadius: 20, overflow: 'hidden', flexShrink: 0, background: '#060606' }}>
               <img src="/assets/video/cdd8c26722152919a8539f357363c238.jpg" alt=""
                 style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,45,45,0.14) 0%, transparent 60%)' }} />
               <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20 }} />
             </div>
             <div style={{ flex: 1, minWidth: 200 }}>

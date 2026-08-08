@@ -138,7 +138,7 @@
   --chrome-white:  #0A0A0F;
   --chrome-bright: #1C1C22;
   --chrome-mid:    #5B5B66;
-  --chrome-dim:    #8A8A94;
+  --chrome-dim:    #6B6B76;
   --chrome-ghost:  var(--ovw-0p04);
   --chrome-glow:   var(--ovw-0p12);
 
@@ -146,9 +146,15 @@
   --glass-border:        var(--ovw-0p1);
   --glass-border-bright: var(--ovw-0p22);
 
-  --danger-glow:  rgba(255, 45, 45, 0.12);
-  --warning-glow: rgba(255, 149, 0, 0.12);
-  --safe-glow:    rgba(48, 209, 88, 0.12);
+  /* Same hues as dark mode, deepened just enough to clear 4.5:1 against a
+     near-white page — the iOS-bright originals (#FF2D2D/#FF9500/#30D158)
+     measure 1.8–3.4:1 here and read as washed-out pastel, not "true" color. */
+  --danger:       #D42B2B;
+  --warning:      #B45309;
+  --safe:         #15803D;
+  --danger-glow:  rgba(212, 43, 43, 0.12);
+  --warning-glow: rgba(180, 83, 9, 0.12);
+  --safe-glow:    rgba(21, 128, 61, 0.12);
 
   --text-1: #0A0A0F;
   --text-2: #475569;
@@ -156,53 +162,60 @@
 
   --grid-line-opacity: 0.05;
 
-  --ovw-0p01: rgba(10, 10, 18, 0.013);
-  --ovw-0p018: rgba(10, 10, 18, 0.0234);
-  --ovw-0p02: rgba(10, 10, 18, 0.026);
-  --ovw-0p022: rgba(10, 10, 18, 0.0286);
-  --ovw-0p025: rgba(10, 10, 18, 0.0325);
-  --ovw-0p03: rgba(10, 10, 18, 0.039);
-  --ovw-0p035: rgba(10, 10, 18, 0.0455);
-  --ovw-0p04: rgba(10, 10, 18, 0.052);
-  --ovw-0p045: rgba(10, 10, 18, 0.0585);
-  --ovw-0p05: rgba(10, 10, 18, 0.065);
-  --ovw-0p06: rgba(10, 10, 18, 0.078);
-  --ovw-0p07: rgba(10, 10, 18, 0.091);
-  --ovw-0p08: rgba(10, 10, 18, 0.104);
-  --ovw-0p09: rgba(10, 10, 18, 0.117);
-  --ovw-0p1: rgba(10, 10, 18, 0.13);
-  --ovw-0p12: rgba(10, 10, 18, 0.156);
-  --ovw-0p13: rgba(10, 10, 18, 0.169);
-  --ovw-0p14: rgba(10, 10, 18, 0.182);
-  --ovw-0p15: rgba(10, 10, 18, 0.195);
-  --ovw-0p16: rgba(10, 10, 18, 0.208);
-  --ovw-0p18: rgba(10, 10, 18, 0.234);
-  --ovw-0p2: rgba(10, 10, 18, 0.26);
-  --ovw-0p22: rgba(10, 10, 18, 0.286);
-  --ovw-0p24: rgba(10, 10, 18, 0.312);
-  --ovw-0p25: rgba(10, 10, 18, 0.325);
-  --ovw-0p26: rgba(10, 10, 18, 0.338);
-  --ovw-0p28: rgba(10, 10, 18, 0.364);
-  --ovw-0p3: rgba(10, 10, 18, 0.39);
-  --ovw-0p32: rgba(10, 10, 18, 0.416);
-  --ovw-0p35: rgba(10, 10, 18, 0.455);
-  --ovw-0p38: rgba(10, 10, 18, 0.494);
-  --ovw-0p4: rgba(10, 10, 18, 0.52);
-  --ovw-0p45: rgba(10, 10, 18, 0.585);
-  --ovw-0p48: rgba(10, 10, 18, 0.624);
-  --ovw-0p5: rgba(10, 10, 18, 0.65);
-  --ovw-0p52: rgba(10, 10, 18, 0.676);
-  --ovw-0p55: rgba(10, 10, 18, 0.715);
-  --ovw-0p6: rgba(10, 10, 18, 0.78);
-  --ovw-0p65: rgba(10, 10, 18, 0.845);
-  --ovw-0p7: rgba(10, 10, 18, 0.91);
-  --ovw-0p75: rgba(10, 10, 18, 0.975);
-  --ovw-0p8: rgba(10, 10, 18, 1);
-  --ovw-0p82: rgba(10, 10, 18, 1);
-  --ovw-0p85: rgba(10, 10, 18, 1);
-  --ovw-0p88: rgba(10, 10, 18, 1);
-  --ovw-0p9: rgba(10, 10, 18, 1);
-  --ovw-0p92: rgba(10, 10, 18, 1);
+  /* Flat alpha-scaling (dark's 0.18 → light's 0.234, etc.) looks right on
+     black — white-on-near-black already reads clearly at low alpha — but
+     the same math on a near-white page stays under 2:1 contrast until past
+     0.8 alpha, which is what was reading as permanently greyed-out text.
+     These use a sqrt curve (alpha' = sqrt(alpha)) so light mode reaches
+     real contrast much earlier while still preserving the same monotonic
+     "how much emphasis" ordering as the dark scale. */
+  --ovw-0p01: rgba(10, 10, 18, 0.1);
+  --ovw-0p018: rgba(10, 10, 18, 0.134);
+  --ovw-0p02: rgba(10, 10, 18, 0.141);
+  --ovw-0p022: rgba(10, 10, 18, 0.148);
+  --ovw-0p025: rgba(10, 10, 18, 0.158);
+  --ovw-0p03: rgba(10, 10, 18, 0.173);
+  --ovw-0p035: rgba(10, 10, 18, 0.187);
+  --ovw-0p04: rgba(10, 10, 18, 0.2);
+  --ovw-0p045: rgba(10, 10, 18, 0.212);
+  --ovw-0p05: rgba(10, 10, 18, 0.224);
+  --ovw-0p06: rgba(10, 10, 18, 0.245);
+  --ovw-0p07: rgba(10, 10, 18, 0.265);
+  --ovw-0p08: rgba(10, 10, 18, 0.283);
+  --ovw-0p09: rgba(10, 10, 18, 0.3);
+  --ovw-0p1: rgba(10, 10, 18, 0.316);
+  --ovw-0p12: rgba(10, 10, 18, 0.346);
+  --ovw-0p13: rgba(10, 10, 18, 0.361);
+  --ovw-0p14: rgba(10, 10, 18, 0.374);
+  --ovw-0p15: rgba(10, 10, 18, 0.387);
+  --ovw-0p16: rgba(10, 10, 18, 0.4);
+  --ovw-0p18: rgba(10, 10, 18, 0.424);
+  --ovw-0p2: rgba(10, 10, 18, 0.447);
+  --ovw-0p22: rgba(10, 10, 18, 0.469);
+  --ovw-0p24: rgba(10, 10, 18, 0.49);
+  --ovw-0p25: rgba(10, 10, 18, 0.5);
+  --ovw-0p26: rgba(10, 10, 18, 0.51);
+  --ovw-0p28: rgba(10, 10, 18, 0.529);
+  --ovw-0p3: rgba(10, 10, 18, 0.548);
+  --ovw-0p32: rgba(10, 10, 18, 0.566);
+  --ovw-0p35: rgba(10, 10, 18, 0.592);
+  --ovw-0p38: rgba(10, 10, 18, 0.616);
+  --ovw-0p4: rgba(10, 10, 18, 0.632);
+  --ovw-0p45: rgba(10, 10, 18, 0.671);
+  --ovw-0p48: rgba(10, 10, 18, 0.693);
+  --ovw-0p5: rgba(10, 10, 18, 0.707);
+  --ovw-0p52: rgba(10, 10, 18, 0.721);
+  --ovw-0p55: rgba(10, 10, 18, 0.742);
+  --ovw-0p6: rgba(10, 10, 18, 0.775);
+  --ovw-0p65: rgba(10, 10, 18, 0.806);
+  --ovw-0p7: rgba(10, 10, 18, 0.837);
+  --ovw-0p75: rgba(10, 10, 18, 0.866);
+  --ovw-0p8: rgba(10, 10, 18, 0.894);
+  --ovw-0p82: rgba(10, 10, 18, 0.906);
+  --ovw-0p85: rgba(10, 10, 18, 0.922);
+  --ovw-0p88: rgba(10, 10, 18, 0.938);
+  --ovw-0p9: rgba(10, 10, 18, 0.949);
+  --ovw-0p92: rgba(10, 10, 18, 0.959);
 
   /* BREACH module — same coffee-brown identity, flipped onto a warm
      cream/latte surface instead of collapsing to plain white/gray. */

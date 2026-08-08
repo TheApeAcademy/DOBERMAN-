@@ -335,9 +335,10 @@ export default function Dashboard() {
             <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(48,209,88,0.08) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
             <div style={{ position: 'relative', zIndex: 1 }}>
-              <div className="daye-mid-circle" style={{ width: 240, height: 240, borderRadius: '50%', margin: '0 auto 24px', overflow: 'hidden', border: '2px solid rgba(48,209,88,0.35)', boxShadow: '0 0 44px rgba(48,209,88,0.16)' }}>
+              <div className="daye-mid-circle" style={{ width: 240, height: 240, borderRadius: '50%', margin: '0 auto 24px', overflow: 'hidden', border: '2px solid rgba(48,209,88,0.35)', boxShadow: '0 0 44px rgba(48,209,88,0.16)', background: '#000' }}>
+                {/* Same DAYE logo video as the floating trigger button, so the two are visually the same DAYE identity */}
                 <video autoPlay muted loop playsInline preload="auto" style={{ width: '100%', height: '100%', objectFit: 'cover' }}>
-                  <source src="/assets/video/Black_grid_background_video___Motion_background_with_black_grid_video___Film_texture,_Motion_graphics_trends,_Motion_backgrounds.mp4" type="video/mp4" />
+                  <source src="/assets/video/blob-di.mp4" type="video/mp4" />
                 </video>
               </div>
               <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.06em', color: 'var(--ovw-0p28)', marginBottom: 16 }}>
