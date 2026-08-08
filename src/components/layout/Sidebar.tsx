@@ -45,7 +45,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
         height: '100%',
         width: w,
         minWidth: w,
-        background: 'var(--void-1)',
+        background: 'var(--surface-neutral)',
         backdropFilter: 'blur(40px)',
         WebkitBackdropFilter: 'blur(40px)',
         borderRight: '1px solid var(--ovw-0p08)',

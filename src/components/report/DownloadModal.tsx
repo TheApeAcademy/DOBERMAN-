@@ -55,7 +55,7 @@ export function DownloadModal({ open, onClose }: DownloadModalProps) {
               zIndex: 1,
               width: '100%',
               maxWidth: 440,
-              background: 'var(--void-1)',
+              background: 'var(--surface-modal)',
               border: '1px solid var(--ovw-0p12)',
               borderRadius: 24,
               boxShadow: 'inset 0 1px 0 var(--ovw-0p1), 0 40px 80px rgba(0,0,0,0.8)',

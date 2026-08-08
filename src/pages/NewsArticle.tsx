@@ -130,7 +130,7 @@ export default function NewsArticle() {
       <div style={{ minHeight: '100vh', background: 'var(--void)', position: 'relative' }}>
 
         {/* Back bar */}
-        <div style={{ position: 'sticky', top: 0, zIndex: 20, padding: '16px 24px', background: 'var(--void-1)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--ovw-0p06)' }}>
+        <div style={{ position: 'sticky', top: 0, zIndex: 20, padding: '16px 24px', background: 'var(--surface-neutral)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--ovw-0p06)' }}>
           <button
             onClick={() => navigate('/news', { state: { tab: 'feed' } })}
             style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', color: 'var(--ovw-0p45)', fontFamily: 'Inter', fontSize: 12, fontWeight: 500, cursor: 'pointer', padding: 0, letterSpacing: '0.03em' }}
@@ -211,7 +211,7 @@ export default function NewsArticle() {
                   right: 0,
                   width: 380,
                   height: 500,
-                  background: 'var(--void-1)',
+                  background: 'var(--surface-chat)',
                   border: '1px solid var(--ovw-0p1)',
                   borderRadius: 20,
                   display: 'flex',

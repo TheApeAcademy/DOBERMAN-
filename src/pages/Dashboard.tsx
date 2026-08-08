@@ -221,8 +221,16 @@ export default function Dashboard() {
 
   return (
     <Layout profile={profile} onSignOut={signOut} title="Dashboard">
-      <div style={{ background: 'var(--void)', minHeight: '100vh' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '56px clamp(16px, 4vw, 48px) 96px' }}>
+      <div style={{ background: 'var(--void)', minHeight: '100vh', position: 'relative' }}>
+        {/* Grid lines background — same subtle texture as the Auth page */}
+        <div
+          style={{
+            position: 'absolute', inset: 0, opacity: 0.05, pointerEvents: 'none',
+            backgroundImage: 'linear-gradient(#3B82F6 1px, transparent 1px), linear-gradient(90deg, #3B82F6 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
+          }}
+        />
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '56px clamp(16px, 4vw, 48px) 96px', position: 'relative', zIndex: 1 }}>
 
           {/* ── HEADER ────────────────────────────────────── */}
           <div style={{ marginBottom: 72 }}>
@@ -314,14 +322,11 @@ export default function Dashboard() {
               padding: 'clamp(32px, 5vw, 56px) clamp(20px, 4vw, 48px)', textAlign: 'center',
             }}
           >
-            <style>{`@media(max-width:480px){.daye-mid-circle{width:88px!important;height:88px!important}}`}</style>
-            <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.14, pointerEvents: 'none' }}>
-              <source src="/assets/video/Black_grid_background_video___Motion_background_with_black_grid_video___Film_texture,_Motion_graphics_trends,_Motion_backgrounds.mp4" type="video/mp4" />
-            </video>
+            <style>{`@media(max-width:480px){.daye-mid-circle{width:176px!important;height:176px!important}}`}</style>
             <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(48,209,88,0.08) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
             <div style={{ position: 'relative', zIndex: 1 }}>
-              <div className="daye-mid-circle" style={{ width: 120, height: 120, borderRadius: '50%', margin: '0 auto 24px', overflow: 'hidden', border: '2px solid rgba(48,209,88,0.35)', boxShadow: '0 0 44px rgba(48,209,88,0.16)' }}>
+              <div className="daye-mid-circle" style={{ width: 240, height: 240, borderRadius: '50%', margin: '0 auto 24px', overflow: 'hidden', border: '2px solid rgba(48,209,88,0.35)', boxShadow: '0 0 44px rgba(48,209,88,0.16)' }}>
                 <video autoPlay muted loop playsInline preload="auto" style={{ width: '100%', height: '100%', objectFit: 'cover' }}>
                   <source src="/assets/video/Black_grid_background_video___Motion_background_with_black_grid_video___Film_texture,_Motion_graphics_trends,_Motion_backgrounds.mp4" type="video/mp4" />
                 </video>
@@ -329,10 +334,10 @@ export default function Dashboard() {
               <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.06em', color: 'var(--ovw-0p28)', marginBottom: 16 }}>
                 02 -- AI SECURITY ANALYST
               </p>
-              <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 6vw, 72px)', letterSpacing: '0.08em', lineHeight: 0.9, marginBottom: 18, color: 'var(--safe)' }}>
+              <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 6vw, 72px)', letterSpacing: '0.08em', lineHeight: 0.9, marginBottom: 10, color: 'var(--safe)' }}>
                 DAYE
               </h2>
-              <p style={{ fontFamily: 'Inter', fontSize: 15, color: 'var(--ovw-0p48)', maxWidth: 440, margin: '0 auto 28px', lineHeight: 1.65 }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 15, color: 'var(--ovw-0p48)', maxWidth: 440, margin: '0 auto 16px', lineHeight: 1.65 }}>
                 Ask anything. DAYE responds in plain language and gives you a concrete next step. Like having a security analyst on call 24/7.
               </p>
               <motion.div
