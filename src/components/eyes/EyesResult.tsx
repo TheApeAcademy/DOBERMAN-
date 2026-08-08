@@ -109,6 +109,55 @@ export function EyesResult({ scan }: EyesResultProps) {
         )}
       </div>
 
+      {/* Detectors */}
+      {(scan.ai_probability !== null || scan.deepfake_probability !== null) && (
+        <div className="card p-5 space-y-4">
+          <p className="font-label font-medium text-xs text-text-muted tracking-wide">DETECTORS</p>
+          {scan.ai_probability !== null && (
+            <ConfidenceBar score={scan.ai_probability} label="AI-generation" colorMode="inverse" />
+          )}
+          {scan.deepfake_probability !== null && (
+            <ConfidenceBar score={scan.deepfake_probability} label="Deepfake" colorMode="inverse" />
+          )}
+        </div>
+      )}
+
+      {/* Provenance */}
+      <div className="card p-5 space-y-2">
+        <p className="font-label font-medium text-xs text-text-muted tracking-wide">PROVENANCE (C2PA)</p>
+        {scan.c2pa_present ? (
+          <div className="space-y-1">
+            <p className="text-text-secondary font-body text-sm">Content Credentials: FOUND</p>
+            <p className="text-text-secondary font-body text-sm">
+              Signature: {scan.c2pa_valid === null ? 'UNKNOWN' : scan.c2pa_valid ? 'VALID' : 'INVALID'}
+            </p>
+          </div>
+        ) : (
+          <p className="text-text-secondary font-body text-sm">No C2PA content credentials found in this file.</p>
+        )}
+      </div>
+
+      {/* Model attribution */}
+      <div className="card p-5 space-y-2">
+        <p className="font-label font-medium text-xs text-text-muted tracking-wide">LIKELY GENERATOR</p>
+        {scan.model_attribution?.model ? (
+          <div className="space-y-1.5">
+            <p className="text-text-primary font-body text-sm">
+              {scan.model_attribution.model} — {scan.model_attribution.confidence}%
+            </p>
+            {scan.model_attribution.candidates && scan.model_attribution.candidates.length > 1 && (
+              <div className="space-y-1 pt-1">
+                {scan.model_attribution.candidates.slice(1).map((c) => (
+                  <p key={c.model} className="text-text-muted font-body text-xs">{c.model} — {c.confidence}%</p>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <p className="text-text-secondary font-body text-sm">Generator attribution unavailable.</p>
+        )}
+      </div>
+
       {/* File info */}
       <div className="card p-4">
         <div className="grid grid-cols-2 gap-3">

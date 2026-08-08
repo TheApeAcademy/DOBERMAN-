@@ -9,6 +9,116 @@ const corsHeaders = {
 const DAILY_LIMIT = 3
 
 type HFLabel = { label: string; score: number }
+type HiveClass = { class: string; score: number }
+type HiveOutput = { classes?: HiveClass[]; time?: number; [key: string]: unknown }
+
+const GENERATOR_KEYWORDS: Record<string, string> = {
+  midjourney: 'Midjourney',
+  dalle: 'DALL-E',
+  dalle2: 'DALL-E',
+  dalle3: 'DALL-E',
+  stablediffusion: 'Stable Diffusion',
+  sdxl: 'Stable Diffusion XL',
+  firefly: 'Adobe Firefly',
+  adobefirefly: 'Adobe Firefly',
+  sora: 'Sora',
+  runway: 'Runway',
+  runwayml: 'Runway',
+  kling: 'Kling',
+  veo: 'Veo',
+  imagen: 'Imagen',
+  flux: 'Flux',
+  ideogram: 'Ideogram',
+  stylegan: 'StyleGAN',
+  novelai: 'NovelAI',
+  leonardo: 'Leonardo AI',
+  craiyon: 'Craiyon',
+}
+
+const DEEPFAKE_KEYWORDS = ['deepfake', 'faceswap', 'fakeface', 'manipulatedface', 'facemanipulation']
+const AI_GEN_KEYWORDS = ['aigenerated', 'generated', 'synthetic', 'artificial']
+const GENERIC_FAKE_KEYWORDS = ['yes', 'fake']
+const GENERIC_AUTHENTIC_KEYWORDS = ['no', 'real', 'authentic']
+
+function normalize(key: string): string {
+  return key.toLowerCase().replace(/[^a-z0-9]/g, '')
+}
+
+function collectClasses(hiveResult: Record<string, unknown>): HiveClass[] {
+  const output = (hiveResult as { status?: { response?: { output?: HiveOutput[] } } })?.status?.response?.output
+  if (!Array.isArray(output)) return []
+  return output.flatMap((o) => o?.classes || [])
+}
+
+function extractAttribution(classes: HiveClass[]) {
+  const candidates = classes
+    .map((c) => {
+      const norm = normalize(c.class)
+      const display = GENERATOR_KEYWORDS[norm]
+      return display ? { model: display, confidence: Math.round(c.score * 1000) / 10 } : null
+    })
+    .filter((c): c is { model: string; confidence: number } => c !== null)
+    .sort((a, b) => b.confidence - a.confidence)
+
+  const top = candidates.length > 0 && candidates[0].confidence >= 15 ? candidates[0] : null
+
+  return { top, candidates: candidates.slice(0, 4) }
+}
+
+function extractProbabilities(classes: HiveClass[]) {
+  let aiProbability: number | null = null
+  let deepfakeProbability: number | null = null
+
+  for (const c of classes) {
+    const norm = normalize(c.class)
+    const score = Math.round(c.score * 1000) / 10
+
+    if (DEEPFAKE_KEYWORDS.includes(norm)) {
+      deepfakeProbability = Math.max(deepfakeProbability ?? 0, score)
+    } else if (AI_GEN_KEYWORDS.includes(norm)) {
+      aiProbability = Math.max(aiProbability ?? 0, score)
+    }
+  }
+
+  // Fallback: some Hive tasks return a single generic binary classifier
+  // (yes/no, fake/real) rather than a distinct AI-generation head. Only use
+  // it if we didn't already find a more specific signal.
+  if (aiProbability === null && deepfakeProbability === null) {
+    for (const c of classes) {
+      const norm = normalize(c.class)
+      const score = Math.round(c.score * 1000) / 10
+      if (GENERIC_FAKE_KEYWORDS.includes(norm)) {
+        aiProbability = Math.max(aiProbability ?? 0, score)
+      } else if (GENERIC_AUTHENTIC_KEYWORDS.includes(norm)) {
+        aiProbability = Math.max(aiProbability ?? 0, 100 - score)
+      }
+    }
+  }
+
+  return { aiProbability, deepfakeProbability }
+}
+
+function extractC2pa(hiveResult: Record<string, unknown>) {
+  const candidates: unknown[] = [
+    (hiveResult as Record<string, unknown>)?.c2pa,
+    (hiveResult as Record<string, unknown>)?.content_credentials,
+    (hiveResult as Record<string, unknown>)?.provenance,
+    (hiveResult as { status?: { response?: Record<string, unknown> } })?.status?.response?.c2pa,
+  ]
+
+  const data = candidates.find((c) => c && typeof c === 'object' && Object.keys(c as object).length > 0) as
+    | Record<string, unknown>
+    | undefined
+
+  if (!data) {
+    return { present: false, valid: null as boolean | null, data: null as Record<string, unknown> | null }
+  }
+
+  const validField = data.valid ?? data.signature_valid ?? data.is_valid ?? data.signatureValid
+  const valid = typeof validField === 'boolean' ? validField : typeof validField === 'string' ? /valid/i.test(validField) && !/invalid/i.test(validField) : null
+
+  return { present: true, valid, data }
+}
 
 async function callHuggingFace(model: string, imageBuffer: ArrayBuffer, apiKey: string): Promise<Response> {
   return fetch(`https://api-inference.huggingface.co/models/${model}`, {
@@ -62,7 +172,13 @@ serve(async (req) => {
     let confidenceScore = 50
     let result: 'authentic' | 'fake' | 'uncertain' = 'uncertain'
     let analysisSucceeded = false
+    let hiveResult: Record<string, unknown> = {}
     let hfResult: HFLabel[] | null = null
+    let aiProbability: number | null = null
+    let deepfakeProbability: number | null = null
+    let attribution: { model: string; confidence: number } | null = null
+    let attributionCandidates: { model: string; confidence: number }[] = []
+    let c2pa = { present: false, valid: null as boolean | null, data: null as Record<string, unknown> | null }
 
     // ── HIVE AI (primary — key stored as HIVE_API_KEY) ────────────
     const hiveApiKey = Deno.env.get('HIVE_API_KEY') ?? ''
@@ -78,26 +194,29 @@ serve(async (req) => {
         })
 
         if (hiveResponse.ok) {
-          type HiveOutput = { status?: { response?: { output?: Array<{ classes?: Array<{ class: string; score: number }> }> } } }
-          const hiveData = await hiveResponse.json() as HiveOutput
-          const output = hiveData?.status?.response?.output
-          if (output && Array.isArray(output) && output.length > 0) {
-            const classes = output[0]?.classes || []
-            const fakeClass = classes.find((c) => c.class === 'yes' || c.class === 'fake' || c.class === 'deepfake')
-            const realClass = classes.find((c) => c.class === 'no' || c.class === 'real' || c.class === 'authentic')
-            if (fakeClass) {
-              confidenceScore = Math.round(fakeClass.score * 100)
-              if (confidenceScore >= 70) result = 'fake'
-              else if (confidenceScore >= 40) result = 'uncertain'
-              else { result = 'authentic'; confidenceScore = 100 - confidenceScore }
-              analysisSucceeded = true
-            } else if (realClass) {
-              const realScore = Math.round(realClass.score * 100)
-              if (realScore >= 70) { result = 'authentic'; confidenceScore = realScore }
-              else if (realScore >= 40) { result = 'uncertain'; confidenceScore = 100 - realScore }
-              else { result = 'fake'; confidenceScore = 100 - realScore }
-              analysisSucceeded = true
+          hiveResult = await hiveResponse.json() as Record<string, unknown>
+
+          const classes = collectClasses(hiveResult)
+          const probabilities = extractProbabilities(classes)
+          aiProbability = probabilities.aiProbability
+          deepfakeProbability = probabilities.deepfakeProbability
+
+          const attributionResult = extractAttribution(classes)
+          attribution = attributionResult.top
+          attributionCandidates = attributionResult.candidates
+
+          c2pa = extractC2pa(hiveResult)
+
+          const primaryScore = aiProbability ?? deepfakeProbability
+          if (primaryScore !== null) {
+            confidenceScore = primaryScore
+            if (confidenceScore >= 70) result = 'fake'
+            else if (confidenceScore >= 40) result = 'uncertain'
+            else {
+              result = 'authentic'
+              confidenceScore = 100 - confidenceScore
             }
+            analysisSucceeded = true
           }
         }
       } catch (hiveError) {
@@ -127,16 +246,21 @@ serve(async (req) => {
             if (hfResult && Array.isArray(hfResult)) {
               const fakeEntry = hfResult.find((item) => item.label.toLowerCase().includes('fake') || item.label.toLowerCase().includes('deepfake'))
               const realEntry = hfResult.find((item) => item.label.toLowerCase().includes('real') || item.label.toLowerCase().includes('authentic'))
-              if (fakeEntry) {
-                confidenceScore = Math.round(fakeEntry.score * 100)
+              const fakeLikelihood = fakeEntry
+                ? Math.round(fakeEntry.score * 100)
+                : realEntry
+                ? 100 - Math.round(realEntry.score * 100)
+                : null
+
+              if (fakeLikelihood !== null) {
+                aiProbability = fakeLikelihood
+                confidenceScore = fakeLikelihood
                 if (confidenceScore >= 70) result = 'fake'
                 else if (confidenceScore >= 40) result = 'uncertain'
-                else { result = 'authentic'; confidenceScore = 100 - confidenceScore }
-              } else if (realEntry) {
-                const realScore = Math.round(realEntry.score * 100)
-                if (realScore >= 70) { result = 'authentic'; confidenceScore = realScore }
-                else if (realScore >= 40) { result = 'uncertain'; confidenceScore = 100 - realScore }
-                else { result = 'fake'; confidenceScore = 100 - realScore }
+                else {
+                  result = 'authentic'
+                  confidenceScore = 100 - confidenceScore
+                }
               }
             }
           }
@@ -144,6 +268,21 @@ serve(async (req) => {
           console.error('HuggingFace API error:', hfError)
         }
       }
+    }
+
+    // Structured evidence for the explanation model. This is the only
+    // input it receives — it explains these facts, it does not calculate
+    // or invent new ones (e.g. it must never guess a generator when
+    // model_attribution.model is null).
+    const evidence = {
+      ai_probability: aiProbability !== null ? aiProbability / 100 : null,
+      deepfake_probability: deepfakeProbability !== null ? deepfakeProbability / 100 : null,
+      c2pa_present: c2pa.present,
+      c2pa_valid: c2pa.valid,
+      watermark: { type: null, status: 'not_checked' },
+      model_attribution: attribution
+        ? { model: attribution.model, confidence: attribution.confidence / 100, source: 'hive' }
+        : { model: null, confidence: null, source: null },
     }
 
     // Generate explanation via Claude
@@ -160,12 +299,17 @@ serve(async (req) => {
         },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
-          max_tokens: 200,
+          max_tokens: 250,
           messages: [
             {
               role: 'user',
-              content: `You are a deepfake detection expert. AI analysis result: result="${result}", confidence=${confidenceScore}%. File type: ${file_type}.
-Write a clear 2-3 sentence explanation for the user. Be direct and specific. Do not use em dashes.`,
+              content: `You are a deepfake and synthetic-media forensic analyst. You are given structured evidence only — do not add facts beyond it, and never name a generator unless model_attribution.model is non-null.
+
+File type: ${file_type}
+Overall verdict: ${result} (${Math.round(confidenceScore)}%)
+Evidence: ${JSON.stringify(evidence)}
+
+Write a clear, 2-4 sentence forensic-style explanation for the user covering: the verdict and confidence, whether C2PA provenance was found and valid (only if c2pa_present is true), and generator attribution (state "Generator attribution unavailable" if model_attribution.model is null, otherwise name the model and its confidence). Do not use em dashes. Do not use hedging language.`,
             },
           ],
         }),
@@ -189,7 +333,19 @@ Write a clear 2-3 sentence explanation for the user. Be direct and specific. Do 
         result,
         confidence_score: confidenceScore,
         explanation,
-        hive_raw: hfResult,
+        hive_raw: Object.keys(hiveResult).length > 0 ? hiveResult : hfResult ? { huggingface: hfResult } : {},
+        ai_probability: aiProbability,
+        deepfake_probability: deepfakeProbability,
+        c2pa_present: c2pa.present,
+        c2pa_valid: c2pa.valid,
+        c2pa_data: c2pa.data,
+        model_attribution: {
+          model: attribution?.model ?? null,
+          confidence: attribution?.confidence ?? null,
+          source: attribution ? 'hive' : null,
+          candidates: attributionCandidates,
+        },
+        watermark: { type: null, status: 'not_checked' },
       })
       .select()
       .single()

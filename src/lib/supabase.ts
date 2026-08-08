@@ -26,6 +26,18 @@ export type Profile = {
   last_login: string
 }
 
+export type ModelAttribution = {
+  model: string | null
+  confidence: number | null
+  source: 'hive' | null
+  candidates?: { model: string; confidence: number }[]
+}
+
+export type Watermark = {
+  type: string | null
+  status: 'not_checked' | 'detected' | 'not_detected'
+}
+
 export type EyesScan = {
   id: string
   user_id: string
@@ -36,6 +48,13 @@ export type EyesScan = {
   confidence_score: number
   explanation: string
   hive_raw: Record<string, unknown>
+  ai_probability: number | null
+  deepfake_probability: number | null
+  c2pa_present: boolean
+  c2pa_valid: boolean | null
+  c2pa_data: Record<string, unknown> | null
+  model_attribution: ModelAttribution | null
+  watermark: Watermark | null
   created_at: string
 }
 
