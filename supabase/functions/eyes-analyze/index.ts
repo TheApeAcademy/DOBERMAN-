@@ -55,9 +55,23 @@ function extractAttribution(classes: HiveClass[]) {
     .filter((c): c is { model: string; confidence: number } => c !== null)
     .sort((a, b) => b.confidence - a.confidence)
 
-  const top = candidates.length > 0 && candidates[0].confidence >= 15 ? candidates[0] : null
+  // Always surface the best guess if Hive returned one at all — the
+  // frontend labels anything below its own confidence bar as "low
+  // confidence" rather than hiding it outright.
+  const top = candidates.length > 0 ? candidates[0] : null
 
   return { top, candidates: candidates.slice(0, 4) }
+}
+
+// All classes Hive returned above a noise floor, sorted by score — gives
+// the explanation model (and the UI's technical panel) real named signals
+// to point to instead of just the two aggregate probabilities.
+function extractTopSignals(classes: HiveClass[], limit = 8) {
+  return classes
+    .map((c) => ({ class: c.class, value: Math.round(c.value * 1000) / 10 }))
+    .filter((c) => c.value >= 1)
+    .sort((a, b) => b.value - a.value)
+    .slice(0, limit)
 }
 
 function extractProbabilities(classes: HiveClass[]) {
@@ -143,6 +157,7 @@ serve(async (req) => {
     let deepfakeProbability: number | null = null
     let attribution: { model: string; confidence: number } | null = null
     let attributionCandidates: { model: string; confidence: number }[] = []
+    let topSignals: { class: string; value: number }[] = []
     let c2pa = { present: false, valid: null as boolean | null, data: null as Record<string, unknown> | null }
 
     // ── HIVE AI (primary — V3 Playground key, stored as HIVE_API_KEY) ──
@@ -172,6 +187,7 @@ serve(async (req) => {
           const attributionResult = extractAttribution(classes)
           attribution = attributionResult.top
           attributionCandidates = attributionResult.candidates
+          topSignals = extractTopSignals(classes)
 
           c2pa = extractC2pa(hiveResult)
 
@@ -243,7 +259,8 @@ serve(async (req) => {
     // Structured evidence for the explanation model. This is the only
     // input it receives — it explains these facts, it does not calculate
     // or invent new ones (e.g. it must never guess a generator when
-    // model_attribution.model is null).
+    // model_attribution.model is null, and must never invent a named
+    // signal that isn't in top_signals).
     const evidence = {
       ai_probability: aiProbability !== null ? aiProbability / 100 : null,
       deepfake_probability: deepfakeProbability !== null ? deepfakeProbability / 100 : null,
@@ -253,6 +270,11 @@ serve(async (req) => {
       model_attribution: attribution
         ? { model: attribution.model, confidence: attribution.confidence / 100, source: 'hive' }
         : { model: null, confidence: null, source: null },
+      other_attribution_candidates: attributionCandidates.slice(1).map((c) => ({ model: c.model, confidence: c.confidence / 100 })),
+      // Named detector signals Hive returned (class name + score 0-100),
+      // strongest first. Not all of these are meaningful — only cite ones
+      // that are actually high or that materially explain the verdict.
+      top_signals: topSignals,
     }
 
     // Generate explanation via Claude
@@ -273,13 +295,19 @@ serve(async (req) => {
           messages: [
             {
               role: 'user',
-              content: `You are a deepfake and synthetic-media forensic analyst. You are given structured evidence only — do not add facts beyond it, and never name a generator unless model_attribution.model is non-null.
+              content: `You are a deepfake and synthetic-media forensic analyst. You are given structured evidence only — do not add facts beyond it, never name a generator unless model_attribution.model is non-null, and never cite a named signal that isn't in top_signals or other_attribution_candidates.
 
 File type: ${file_type}
 Overall verdict: ${result} (${Math.round(confidenceScore)}%)
 Evidence: ${JSON.stringify(evidence)}
 
-Write a clear, 2-4 sentence forensic-style explanation for the user covering: the verdict and confidence, whether C2PA provenance was found and valid (only if c2pa_present is true), and generator attribution (state "Generator attribution unavailable" if model_attribution.model is null, otherwise name the model and its confidence). Do not use em dashes. Do not use hedging language.`,
+Write a clear, 3-5 sentence forensic-style explanation for the user covering, in order:
+1. The verdict and confidence.
+2. The one or two specific top_signals that most explain the score (name the signal and its %, e.g. "the diffusion-model signal scored 82%") — skip this if top_signals is empty.
+3. Whether C2PA provenance was found and valid (only mention this if c2pa_present is true).
+4. Generator attribution: if model_attribution.model is null, say "Generator attribution unavailable." If it's non-null but confidence is below 0.15, phrase it as a tentative, low-confidence guess (e.g. "there is a weak signal suggesting..."). If confidence is 0.15 or above, state it plainly. Mention other_attribution_candidates only if there is more than one and they are worth noting as alternates.
+
+Do not use em dashes. Do not use hedging language beyond what's called for in step 4.`,
             },
           ],
         }),

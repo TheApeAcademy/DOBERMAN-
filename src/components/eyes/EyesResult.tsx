@@ -8,6 +8,41 @@ interface EyesResultProps {
   scan: EyesScan
 }
 
+function formatSignalName(raw: string): string {
+  return raw
+    .replace(/_/g, ' ')
+    .split(' ')
+    .map((w) => (w.toLowerCase() === 'ai' ? 'AI' : w.charAt(0).toUpperCase() + w.slice(1)))
+    .join(' ')
+}
+
+function getTechnicalSignals(raw: Record<string, unknown>): { name: string; value: number }[] {
+  if (!raw || Object.keys(raw).length === 0) return []
+
+  const output = (raw as { output?: { classes?: { class: string; value: number }[] }[] }).output
+  if (Array.isArray(output)) {
+    const signals: { name: string; value: number }[] = []
+    for (const o of output) {
+      for (const c of o?.classes ?? []) {
+        if (typeof c?.value === 'number' && c.value >= 0.01) {
+          signals.push({ name: formatSignalName(c.class), value: Math.round(c.value * 1000) / 10 })
+        }
+      }
+    }
+    return signals.sort((a, b) => b.value - a.value).slice(0, 12)
+  }
+
+  const hf = (raw as { huggingface?: { label: string; score: number }[] }).huggingface
+  if (Array.isArray(hf)) {
+    return hf
+      .filter((h) => typeof h?.score === 'number')
+      .map((h) => ({ name: formatSignalName(h.label), value: Math.round(h.score * 1000) / 10 }))
+      .sort((a, b) => b.value - a.value)
+  }
+
+  return []
+}
+
 const resultConfig = {
   authentic: {
     icon: CheckCircle,
@@ -37,8 +72,11 @@ const resultConfig = {
 
 export function EyesResult({ scan }: EyesResultProps) {
   const [expanded, setExpanded] = useState(false)
+  const [showTechnical, setShowTechnical] = useState(false)
   const config = resultConfig[scan.result] || resultConfig.uncertain
   const Icon = config.icon
+  const technicalSignals = getTechnicalSignals(scan.hive_raw)
+  const isLowConfidence = (scan.model_attribution?.confidence ?? 0) < 15
   return (
     <div className="space-y-4 page-fade">
       {/* Main result card */}
@@ -150,9 +188,13 @@ export function EyesResult({ scan }: EyesResultProps) {
           <div className="space-y-1.5">
             <p className="text-text-primary font-body text-sm">
               {scan.model_attribution.model} — {scan.model_attribution.confidence}%
+              {isLowConfidence && (
+                <span className="text-text-muted font-body text-xs ml-2">(low confidence)</span>
+              )}
             </p>
             {scan.model_attribution.candidates && scan.model_attribution.candidates.length > 1 && (
               <div className="space-y-1 pt-1">
+                <p className="text-text-muted font-label text-xs tracking-wide pt-1">OTHER CANDIDATES</p>
                 {scan.model_attribution.candidates.slice(1).map((c) => (
                   <p key={c.model} className="text-text-muted font-body text-xs">{c.model} — {c.confidence}%</p>
                 ))}
@@ -163,6 +205,37 @@ export function EyesResult({ scan }: EyesResultProps) {
           <p className="text-text-secondary font-body text-sm">Generator attribution unavailable.</p>
         )}
       </div>
+
+      {/* Technical breakdown — every signal Hive returned, not just the two we roll up above */}
+      {technicalSignals.length > 0 && (
+        <div className="card p-5 space-y-3">
+          <button
+            onClick={() => setShowTechnical(!showTechnical)}
+            className="flex items-center justify-between w-full"
+          >
+            <p className="font-label font-medium text-xs text-text-muted tracking-wide">TECHNICAL DETAILS</p>
+            {showTechnical ? <ChevronUp size={14} className="text-text-muted" /> : <ChevronDown size={14} className="text-text-muted" />}
+          </button>
+          {showTechnical && (
+            <div className="space-y-2.5 pt-1 page-fade">
+              {technicalSignals.map((s) => (
+                <div key={s.name} className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-text-secondary font-body text-xs">{s.name}</span>
+                    <span className="text-text-primary font-mono text-xs">{s.value}%</span>
+                  </div>
+                  <div className="h-1 rounded-full bg-bg-tertiary overflow-hidden">
+                    <div
+                      className="h-full rounded-full"
+                      style={{ width: `${Math.min(s.value, 100)}%`, background: 'var(--chrome-mid)' }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* File info */}
       <div className="card p-4">
