@@ -115,11 +115,11 @@ export default function Dashboard() {
         </div>
 
         {/* Stats row */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12, marginBottom: 40 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 16, marginBottom: 40 }}>
           {[
+            { label: 'Threats Blocked', value: stats.threatsDetected, color: 'var(--danger)' },
             { label: 'Scans Today', value: stats.eyesToday + stats.noseToday + stats.newsToday, color: 'var(--chrome-mid)' },
-            { label: 'Threats Found', value: stats.threatsDetected, color: 'var(--danger)' },
-            { label: 'AI Messages', value: stats.brainToday, color: 'var(--safe)' },
+            { label: 'AI Queries', value: stats.brainToday, color: 'var(--safe)' },
             { label: 'Total Scans', value: stats.eyesTotal + stats.noseTotal, color: 'var(--warning)' },
           ].map(({ label, value, color }, i) => (
             <motion.div
@@ -127,12 +127,26 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.06 }}
-              className="glass"
-              style={{ padding: '16px 20px', borderRadius: 16 }}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '1 1 120px', minWidth: 120 }}
             >
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.08em', color: 'var(--text-3)', marginBottom: 8 }}>{label.toUpperCase()}</p>
-              <p style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(28px, 5vw, 40px)', lineHeight: 1, color: loading ? 'var(--text-3)' : color }}>
-                {loading ? '-' : value}
+              <div
+                className="glass"
+                style={{
+                  width: 'clamp(96px, 12vw, 128px)',
+                  aspectRatio: '1 / 0.92',
+                  clipPath: 'polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0% 50%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  filter: loading ? 'none' : `drop-shadow(0 0 14px ${color}33)`,
+                }}
+              >
+                <p style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(24px, 4.5vw, 34px)', lineHeight: 1, color: loading ? 'var(--text-3)' : color }}>
+                  {loading ? '-' : value}
+                </p>
+              </div>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.08em', color: 'var(--text-3)', marginTop: 10, textAlign: 'center' }}>
+                {label.toUpperCase()}
               </p>
             </motion.div>
           ))}
