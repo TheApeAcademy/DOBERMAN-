@@ -3,6 +3,17 @@ import type { User, Session } from '@supabase/supabase-js'
 import { supabase } from '../lib/supabase'
 import type { Profile } from '../lib/supabase'
 
+// Bridges the web session into the D0B3RMAN browser extension (if installed).
+// The extension's content script listens for this same-origin message and
+// relays it to the extension's background script — see extension/content.js.
+function syncExtensionAuth(session: Session | null) {
+  if (typeof window === 'undefined') return
+  window.postMessage(
+    { type: 'D0B3RMAN_AUTH_SYNC', token: session?.access_token ?? null, userId: session?.user?.id ?? null },
+    window.location.origin
+  )
+}
+
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<Profile | null>(null)
@@ -13,6 +24,7 @@ export function useAuth() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
       setUser(session?.user ?? null)
+      syncExtensionAuth(session)
       if (session?.user) {
         fetchProfile(session.user.id)
       } else {
@@ -23,6 +35,7 @@ export function useAuth() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
       setUser(session?.user ?? null)
+      syncExtensionAuth(session)
       if (session?.user) {
         fetchProfile(session.user.id)
       } else {

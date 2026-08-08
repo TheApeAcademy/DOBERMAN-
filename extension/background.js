@@ -2,6 +2,14 @@ const SUPABASE_URL = 'https://bemovimlzrzcztrtikpf.supabase.co'
 const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJlbW92aW1senJ6Y3p0cnRpa3BmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgxMjIwNTEsImV4cCI6MjA2MzY5ODA1MX0.Pnl_pNaIaF4bTBL24PN7S0kIHgv2Ht9sEe01Bgs43H0'
 const APP_URL = 'https://doberman-kappa.vercel.app'
 
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg.type === 'D0B3RMAN_STORE_AUTH') {
+    chrome.storage.local.set({ token: msg.token, userId: msg.userId })
+  } else if (msg.type === 'D0B3RMAN_CLEAR_AUTH') {
+    chrome.storage.local.remove(['token', 'userId'])
+  }
+})
+
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({ id: 'doberman-image', title: 'Analyze image with D0B3RMAN', contexts: ['image'] })
   chrome.contextMenus.create({ id: 'doberman-text', title: 'Verify with D0B3RMAN', contexts: ['selection'] })

@@ -6,6 +6,26 @@ chrome.runtime.onMessage.addListener((msg) => {
   if (msg.type === 'D0B3RMAN_ERROR') showOverlay(null, false, null, true)
 })
 
+// Relay the web app's Supabase session into the extension's storage so the
+// popup and context-menu actions can authenticate. Only same-origin, same-
+// window messages are trusted — see src/hooks/useAuth.ts for the sender.
+window.addEventListener('message', (event) => {
+  if (event.source !== window || event.origin !== window.location.origin) return
+  const msg = event.data
+  if (!msg || msg.type !== 'D0B3RMAN_AUTH_SYNC') return
+  if (msg.token && msg.userId) {
+    chrome.runtime.sendMessage({ type: 'D0B3RMAN_STORE_AUTH', token: msg.token, userId: msg.userId })
+  } else {
+    chrome.runtime.sendMessage({ type: 'D0B3RMAN_CLEAR_AUTH' })
+  }
+})
+
+function escapeHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[c]))
+}
+
 function showOverlay(data, loading = false, type = null, error = false) {
   document.getElementById('dob-overlay')?.remove()
 
@@ -46,10 +66,10 @@ function showOverlay(data, loading = false, type = null, error = false) {
           ${score}<span style="font-size:24px;">%</span>
         </div>
         <div style="font-size:11px;letter-spacing:0.15em;color:${color};margin-bottom:14px;font-family:monospace;">
-          ${result.toUpperCase()}
+          ${escapeHtml(result).toUpperCase()}
         </div>
         <p style="font-size:12px;color:#888;line-height:1.55;margin-bottom:18px;font-family:sans-serif;">
-          ${explanation}
+          ${escapeHtml(explanation)}
         </p>
         <a href="${APP_URL}/dashboard" target="_blank"
           style="display:block;text-align:center;padding:10px;background:white;color:black;text-decoration:none;border-radius:10px;font-size:12px;font-weight:700;font-family:monospace;">
