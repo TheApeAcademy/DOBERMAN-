@@ -2,32 +2,37 @@ import { useRef, useMemo, useEffect } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
+// Purely decorative — a single neutral accent color for every city. These dots
+// are ambient set-dressing on the Dashboard, not a live or assessed threat map,
+// so no color should imply a fabricated severity rating for any location.
+const DOT_COLOR = '#0A84FF'
+
 const DOTS = [
-  { lat: 38.9, lon: -77.0, color: '#FF9500' },
-  { lat: 55.75, lon: 37.62, color: '#FF2D2D' },
-  { lat: 39.9, lon: 116.4, color: '#FF2D2D' },
-  { lat: 51.5, lon: -0.12, color: '#FF9500' },
-  { lat: 52.52, lon: 13.4, color: '#FF9500' },
-  { lat: 39.0, lon: 125.75, color: '#FF2D2D' },
-  { lat: 35.7, lon: 51.4, color: '#FF2D2D' },
-  { lat: 50.45, lon: 30.52, color: '#FF2D2D' },
-  { lat: 35.68, lon: 139.69, color: '#30D158' },
-  { lat: 48.85, lon: 2.35, color: '#FF9500' },
-  { lat: 41.9, lon: 12.5, color: '#30D158' },
-  { lat: 40.42, lon: -3.7, color: '#30D158' },
-  { lat: 37.57, lon: 126.98, color: '#FFD60A' },
-  { lat: 25.2, lon: 55.27, color: '#FFD60A' },
-  { lat: -23.55, lon: -46.63, color: '#FF9500' },
-  { lat: 28.6, lon: 77.2, color: '#FF9500' },
-  { lat: -33.87, lon: 151.21, color: '#30D158' },
-  { lat: 1.35, lon: 103.82, color: '#30D158' },
-  { lat: 59.33, lon: 18.07, color: '#30D158' },
-  { lat: -26.2, lon: 28.04, color: '#FFD60A' },
-  { lat: 30.06, lon: 31.25, color: '#FFD60A' },
-  { lat: 43.65, lon: -79.38, color: '#30D158' },
-  { lat: 19.43, lon: -99.13, color: '#FF9500' },
-  { lat: 55.7, lon: 12.6, color: '#30D158' },
-  { lat: -34.6, lon: -58.38, color: '#FF9500' },
+  { lat: 38.9, lon: -77.0 },
+  { lat: 55.75, lon: 37.62 },
+  { lat: 39.9, lon: 116.4 },
+  { lat: 51.5, lon: -0.12 },
+  { lat: 52.52, lon: 13.4 },
+  { lat: 39.0, lon: 125.75 },
+  { lat: 35.7, lon: 51.4 },
+  { lat: 50.45, lon: 30.52 },
+  { lat: 35.68, lon: 139.69 },
+  { lat: 48.85, lon: 2.35 },
+  { lat: 41.9, lon: 12.5 },
+  { lat: 40.42, lon: -3.7 },
+  { lat: 37.57, lon: 126.98 },
+  { lat: 25.2, lon: 55.27 },
+  { lat: -23.55, lon: -46.63 },
+  { lat: 28.6, lon: 77.2 },
+  { lat: -33.87, lon: 151.21 },
+  { lat: 1.35, lon: 103.82 },
+  { lat: 59.33, lon: 18.07 },
+  { lat: -26.2, lon: 28.04 },
+  { lat: 30.06, lon: 31.25 },
+  { lat: 43.65, lon: -79.38 },
+  { lat: 19.43, lon: -99.13 },
+  { lat: 55.7, lon: 12.6 },
+  { lat: -34.6, lon: -58.38 },
 ]
 
 function latLonToXYZ(lat: number, lon: number, r: number): [number, number, number] {
@@ -75,7 +80,7 @@ function GlobeGrid() {
   )
 }
 
-function Dot({ lat, lon, color }: { lat: number; lon: number; color: string }) {
+function Dot({ lat, lon }: { lat: number; lon: number }) {
   const meshRef = useRef<THREE.Mesh>(null)
   const pos = useMemo(() => latLonToXYZ(lat, lon, 2.24), [lat, lon])
   useFrame(({ clock }) => {
@@ -85,7 +90,7 @@ function Dot({ lat, lon, color }: { lat: number; lon: number; color: string }) {
   return (
     <mesh ref={meshRef} position={pos}>
       <sphereGeometry args={[0.033, 8, 8]} />
-      <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.9} roughness={0.1} metalness={0.3} />
+      <meshStandardMaterial color={DOT_COLOR} emissive={DOT_COLOR} emissiveIntensity={0.9} roughness={0.1} metalness={0.3} />
     </mesh>
   )
 }
@@ -106,7 +111,7 @@ function Scene() {
         <meshStandardMaterial color="#0a1628" roughness={0.7} metalness={0.25} />
       </mesh>
       <GlobeGrid />
-      {DOTS.map((d, i) => <Dot key={i} lat={d.lat} lon={d.lon} color={d.color} />)}
+      {DOTS.map((d, i) => <Dot key={i} lat={d.lat} lon={d.lon} />)}
       <ambientLight intensity={0.3} />
       <directionalLight position={[5, 5, 5]} intensity={0.8} />
       <directionalLight position={[-5, -3, -5]} intensity={0.15} color="#0A84FF" />
