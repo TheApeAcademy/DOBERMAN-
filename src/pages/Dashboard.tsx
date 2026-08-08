@@ -250,19 +250,19 @@ export default function Dashboard() {
           </div>
 
           {/* ── STATS ─────────────────────────────────────── */}
-          <style>{`@media(max-width:600px){.stats-grid{gap:12px!important}.stats-hex{width:clamp(72px,17vw,100px)!important}.stats-num{font-size:clamp(20px,6.5vw,30px)!important}}`}</style>
-          <div className="stats-grid" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 16, marginBottom: 96 }}>
+          <style>{`@media(max-width:600px){.stats-grid{gap:8px!important}.stats-hex{width:clamp(84px,19vw,116px)!important}.stats-num{font-size:clamp(24px,7vw,34px)!important}}`}</style>
+          <div className="stats-grid" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 8, marginBottom: 96 }}>
             {[
               { label: 'Threats Found', value: stats.threatsDetected, color: 'var(--danger)' },
               { label: 'Scans Today', value: stats.eyesToday + stats.newsToday, color: 'var(--chrome-mid)' },
               { label: 'AI Queries', value: stats.brainToday, color: 'var(--safe)' },
               { label: 'Total Scans', value: stats.eyesTotal, color: 'var(--warning)' },
             ].map(({ label, value, color }, i) => (
-              <motion.div key={label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '1 1 140px', minWidth: 120 }}>
+              <motion.div key={label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '0 1 150px', minWidth: 130 }}>
                 <div
                   className="glass stats-hex"
                   style={{
-                    width: 'clamp(96px, 11vw, 128px)',
+                    width: 'clamp(112px, 14vw, 152px)',
                     aspectRatio: '1 / 0.92',
                     clipPath: 'polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0% 50%)',
                     display: 'flex',
@@ -271,7 +271,7 @@ export default function Dashboard() {
                     filter: loading ? 'none' : `drop-shadow(0 0 14px ${color}33)`,
                   }}
                 >
-                  <p className="stats-num" style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(24px, 3.6vw, 36px)', lineHeight: 1, color: loading ? 'var(--ovw-0p08)' : color }}>
+                  <p className="stats-num" style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(28px, 4.2vw, 42px)', lineHeight: 1, color: loading ? 'var(--ovw-0p08)' : color }}>
                     {loading ? '—' : value}
                   </p>
                 </div>
