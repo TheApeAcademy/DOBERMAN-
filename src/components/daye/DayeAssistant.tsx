@@ -46,10 +46,15 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
   const recognitionRef = useRef<{ stop(): void } | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const conversationIdRef = useRef<string | undefined>(undefined)
   const location = useLocation()
   const navigate = useNavigate()
 
   useEffect(() => {
+    // A fresh page means fresh context — don't let messages from a previous
+    // page's conversation (e.g. a different scan's results) bleed into the
+    // next brain_conversations thread.
+    conversationIdRef.current = undefined
     const pageMsg = PAGE_MESSAGES[location.pathname]
     if (pageMsg) {
       setConversation([{ role: 'daye', text: pageMsg }])
@@ -96,19 +101,38 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
   const handleSend = async () => {
     const text = input.trim()
     if (!text || sending) return
+
+    if (!userId) {
+      setConversation(prev => [...prev, { role: 'user', text }, { role: 'daye', text: 'Sign in to chat with DAYE — the full analyst is only available to authenticated Operators.' }])
+      setInput('')
+      return
+    }
+
+    // Carry the running conversation (including any proactive event message,
+    // e.g. a breach-scan result) as history so follow-ups like "tell me
+    // more" have the actual context to work from, not just the bare text.
+    const history = conversation.slice(-8).map((b) => ({
+      role: b.role === 'daye' ? 'assistant' as const : 'user' as const,
+      content: b.text,
+    }))
+
     setInput('')
     setConversation(prev => [...prev, { role: 'user', text }])
     setSending(true)
     try {
       const { data } = await supabase.functions.invoke('brain-chat', {
         body: {
+          user_id: userId,
+          conversation_id: conversationIdRef.current,
           messages: [
             { role: 'system', content: 'You are DAYE, a sharp cybersecurity intelligence assistant. Keep replies concise — 2-3 sentences max for this mini chat view.' },
+            ...history,
             { role: 'user', content: text },
           ],
         },
       })
-      const reply = data?.message || data?.content || 'Signal interrupted. Use full chat for complete analysis.'
+      if (data?.conversation_id) conversationIdRef.current = data.conversation_id
+      const reply = data?.reply || 'Signal interrupted. Use full chat for complete analysis.'
       setConversation(prev => [...prev, { role: 'daye', text: reply }])
     } catch (_) {
       setConversation(prev => [...prev, { role: 'daye', text: 'Signal interrupted. Try the full chat for better connectivity.' }])

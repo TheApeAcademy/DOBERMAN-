@@ -223,17 +223,20 @@ export default function Dashboard() {
 
           {/* ── EYES — DEEPFAKE DETECTION ─────────────────── */}
           <motion.div
-            className="glass"
+            className="glass dfi-card"
             initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.7 }}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
             onClick={() => navigate('/eyes')}
             style={{ padding: 40, borderRadius: 24, marginBottom: 32, overflow: 'hidden', cursor: 'pointer' }}
           >
-            <style>{`@media(max-width:768px){.dfi-grid{grid-template-columns:1fr!important}.dfi-video{order:-1!important;height:140px!important}}`}</style>
+            <style>{`
+              @media(max-width:768px){.dfi-grid{grid-template-columns:1fr!important}.dfi-video{order:-1!important;height:140px!important}}
+              @media(min-width:1024px){.dfi-card{padding:20px!important}.dfi-grid{gap:28px!important}.dfi-title{font-size:34px!important;margin-bottom:14px!important}.dfi-video{height:140px!important}}
+            `}</style>
             <div className="dfi-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }}>
               <div>
                 <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.28)', marginBottom: 24 }}>01 -- DEEPFAKE DETECTION</p>
-                <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 5.5vw, 72px)', letterSpacing: '0.05em', lineHeight: 0.9, marginBottom: 28 }}>
+                <h2 className="dfi-title" style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 5.5vw, 72px)', letterSpacing: '0.05em', lineHeight: 0.9, marginBottom: 28 }}>
                   DEEP FAKE<br />INTELLIGENCE
                 </h2>
                 <p style={{ fontFamily: 'Inter', fontSize: 16, color: 'rgba(255,255,255,0.48)', lineHeight: 1.7, marginBottom: 28 }}>
@@ -279,7 +282,7 @@ export default function Dashboard() {
               overflow: 'hidden',
               cursor: 'pointer',
               height: 'clamp(400px, 55vw, 560px)',
-              background: '#000508',
+              background: 'transparent',
             }}
           >
             {/* 3D Globe — fills the section, pointer-events none so clicks reach parent */}
@@ -333,32 +336,43 @@ export default function Dashboard() {
             onClick={() => navigate('/brain')}
             style={{ borderRadius: 24, marginBottom: 32, overflow: 'hidden', background: '#000', textAlign: 'center', cursor: 'pointer' }}
           >
-            {/* DAYE hero visual — grid video background */}
-            <style>{`@media(min-width:1024px){.daye-video{height:280px!important}}`}</style>
+            {/* DAYE hero visual — grid video background, collapses to a small centered circle on desktop */}
+            <style>{`
+              @media(min-width:1024px){
+                .daye-video{height:62px!important;width:62px!important;border-radius:50%!important;margin:0 auto!important;border:1px solid rgba(48,209,88,0.3)!important}
+                .daye-video video{position:static!important;width:100%!important;height:100%!important;border-radius:50%!important;opacity:0.85!important}
+                .daye-glow,.daye-corner-label,.daye-fade{display:none!important}
+                .daye-text{padding:20px clamp(20px,5vw,48px) 32px!important}
+                .daye-title{font-size:40px!important;margin-bottom:14px!important}
+                .daye-desc{font-size:14px!important;max-width:380px!important;margin:0 auto 24px!important}
+                .daye-cta{padding:10px 24px!important;font-size:13px!important}
+              }
+            `}</style>
             <div className="daye-video" style={{ position: 'relative', width: '100%', height: 'clamp(260px, 50vw, 520px)', overflow: 'hidden', background: '#000' }}>
               <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5, pointerEvents: 'none' }}>
                 <source src="/assets/video/Black_grid_background_video___Motion_background_with_black_grid_video___Film_texture,_Motion_graphics_trends,_Motion_backgrounds.mp4" type="video/mp4" />
               </video>
               {/* Green ambient glow */}
-              <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(48,209,88,0.1) 0%, transparent 70%)', pointerEvents: 'none' }} />
+              <div className="daye-glow" style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(48,209,88,0.1) 0%, transparent 70%)', pointerEvents: 'none' }} />
               {/* Corner label */}
-              <div style={{ position: 'absolute', top: 20, left: 24, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.12em', color: 'rgba(48,209,88,0.5)', zIndex: 2 }}>DAYE -- AI SECURITY ANALYST</div>
+              <div className="daye-corner-label" style={{ position: 'absolute', top: 20, left: 24, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.12em', color: 'rgba(48,209,88,0.5)', zIndex: 2 }}>DAYE -- AI SECURITY ANALYST</div>
               {/* Fade to black at bottom */}
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.95))', pointerEvents: 'none' }} />
+              <div className="daye-fade" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.95))', pointerEvents: 'none' }} />
             </div>
 
             {/* Text below */}
-            <div style={{ padding: '32px clamp(20px,5vw,48px) 56px', overflow: 'hidden' }}>
+            <div className="daye-text" style={{ padding: '32px clamp(20px,5vw,48px) 56px', overflow: 'hidden' }}>
               <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.28)', marginBottom: 28 }}>
                 02 -- AI SECURITY ANALYST
               </p>
-              <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(64px, 10vw, 120px)', letterSpacing: '0.08em', lineHeight: 0.88, marginBottom: 28, overflow: 'hidden', color: 'var(--safe)' }}>
+              <h2 className="daye-title" style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(64px, 10vw, 120px)', letterSpacing: '0.08em', lineHeight: 0.88, marginBottom: 28, overflow: 'hidden', color: 'var(--safe)' }}>
                 DAYE
               </h2>
-              <p style={{ fontFamily: 'Inter', fontSize: 17, color: 'rgba(255,255,255,0.45)', maxWidth: 480, margin: '0 auto 44px', lineHeight: 1.7 }}>
+              <p className="daye-desc" style={{ fontFamily: 'Inter', fontSize: 17, color: 'rgba(255,255,255,0.45)', maxWidth: 480, margin: '0 auto 44px', lineHeight: 1.7 }}>
                 Ask anything. DAYE responds in plain language and gives you a concrete next step. Like having a security analyst on call 24/7.
               </p>
               <motion.div
+                className="daye-cta"
                 whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(48,209,88,0.3)' }}
                 whileTap={{ scale: 0.97 }}
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 40px', background: 'var(--safe)', color: '#000', fontFamily: 'Inter', fontWeight: 700, fontSize: 15, borderRadius: 12 }}
@@ -371,17 +385,20 @@ export default function Dashboard() {
 
           {/* ── NEWS VERIFICATION ─────────────────────────── */}
           <motion.div
-            className="glass"
+            className="glass news-card"
             initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.6 }}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
             onClick={() => navigate('/news')}
             style={{ padding: 40, borderRadius: 24, marginBottom: 32, overflow: 'hidden' }}
           >
-            <style>{`@media(max-width:768px){.news-grid{grid-template-columns:1fr!important}}`}</style>
+            <style>{`
+              @media(max-width:768px){.news-grid{grid-template-columns:1fr!important}}
+              @media(min-width:1024px){.news-card{padding:20px!important}.news-grid{gap:28px!important}.news-title{font-size:34px!important;margin-bottom:14px!important}.news-video{height:140px!important}}
+            `}</style>
             <div className="news-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }}>
               <div>
                 <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.28)', marginBottom: 24 }}>03 -- VERIFY CONTENT</p>
-                <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 5.5vw, 72px)', letterSpacing: '0.05em', lineHeight: 0.9, marginBottom: 28 }}>
+                <h3 className="news-title" style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 5.5vw, 72px)', letterSpacing: '0.05em', lineHeight: 0.9, marginBottom: 28 }}>
                   NEWS<br />VERIFICATION
                 </h3>
                 <p style={{ fontFamily: 'Inter', fontSize: 16, color: 'rgba(255,255,255,0.48)', lineHeight: 1.7, marginBottom: 28 }}>
@@ -398,7 +415,7 @@ export default function Dashboard() {
                   <ArrowRight size={16} style={{ color: 'rgba(255,255,255,0.28)', marginLeft: 4 }} />
                 </div>
               </div>
-              <div style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#060606' }}>
+              <div className="news-video" style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', background: '#060606' }}>
                 <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
                   <source src="/assets/video/blob-news.mp4" type="video/mp4" />
                 </video>
@@ -412,6 +429,7 @@ export default function Dashboard() {
 
           {/* ── BREACH SCAN (redesigned) ──────────────────── */}
           <motion.div
+            className="breach-card"
             initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.7 }}
             onClick={() => navigate('/breach')}
             style={{
@@ -428,9 +446,12 @@ export default function Dashboard() {
             {/* Bottom-left warm bleed */}
             <div style={{ position: 'absolute', bottom: -40, left: -40, width: 240, height: 240, borderRadius: '50%', background: 'radial-gradient(circle,rgba(139,69,19,0.06) 0%,transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
             {/* Massive watermark "04" */}
-            <div style={{ position: 'absolute', top: -20, right: 8, fontFamily: 'Bebas Neue', fontSize: 'clamp(120px,22vw,220px)', letterSpacing: '0.02em', color: 'rgba(205,133,63,0.04)', lineHeight: 1, pointerEvents: 'none', zIndex: 0, userSelect: 'none' }}>04</div>
+            <div className="breach-watermark" style={{ position: 'absolute', top: -20, right: 8, fontFamily: 'Bebas Neue', fontSize: 'clamp(120px,22vw,220px)', letterSpacing: '0.02em', color: 'rgba(205,133,63,0.04)', lineHeight: 1, pointerEvents: 'none', zIndex: 0, userSelect: 'none' }}>04</div>
 
-            <style>{`@media(max-width:768px){.breach-grid{grid-template-columns:1fr!important}}`}</style>
+            <style>{`
+              @media(max-width:768px){.breach-grid{grid-template-columns:1fr!important}}
+              @media(min-width:1024px){.breach-card{padding:26px!important}.breach-grid{gap:28px!important}.breach-title{font-size:56px!important}.breach-watermark{font-size:110px!important}}
+            `}</style>
             <div className="breach-grid" style={{ position: 'relative', zIndex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'flex-start' }}>
 
               {/* Left: typographic hero */}
@@ -442,7 +463,7 @@ export default function Dashboard() {
                 <div style={{ marginBottom: 28 }}>
                   <p style={{ fontFamily: 'Syne', fontWeight: 100, fontSize: 'clamp(8px,1.2vw,10px)', letterSpacing: '0.55em', color: 'rgba(205,133,63,0.35)', textTransform: 'uppercase', marginBottom: 0 }}>CREDENTIAL</p>
                   <p style={{ fontFamily: 'Syne', fontWeight: 200, fontSize: 'clamp(9px,1.4vw,11px)', letterSpacing: '0.4em', color: 'rgba(205,133,63,0.28)', textTransform: 'uppercase', marginBottom: 2 }}>DATA</p>
-                  <h3 style={{
+                  <h3 className="breach-title" style={{
                     fontFamily: 'Bebas Neue',
                     fontSize: 'clamp(68px, 10vw, 116px)',
                     letterSpacing: '0.04em', lineHeight: 0.8, marginBottom: 6,
@@ -714,14 +735,17 @@ export default function Dashboard() {
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '80px clamp(16px, 4vw, 48px) 96px' }}>
 
           {/* ── DOBERMAN PORTRAIT ──────────────────────────── */}
+          <style>{`@media(min-width:1024px){.portrait-box{height:320px!important}.portrait-img{object-fit:contain!important;background:#000}.portrait-title{font-size:44px!important}}`}</style>
           <motion.div
+            className="portrait-box"
             initial={{ opacity: 0, scale: 0.97 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.0, ease: [0.25, 0.1, 0.25, 1] }}
             viewport={{ once: true, margin: '-60px' }}
-            style={{ borderRadius: 24, overflow: 'hidden', marginBottom: 80, position: 'relative', height: 520 }}
+            style={{ borderRadius: 24, overflow: 'hidden', marginBottom: 80, position: 'relative', height: 520, background: '#000' }}
           >
             <img
+              className="portrait-img"
               src="/assets/video/b78ad4f230a4015d24a420fce2a7d53b.jpg"
               alt="D0B3RMAN"
               onError={(e) => { const p = e.currentTarget.parentElement; if (p) p.style.display = 'none' }}
@@ -729,7 +753,7 @@ export default function Dashboard() {
             />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, #000 100%)' }} />
             <div style={{ position: 'absolute', bottom: 44, left: 44 }}>
-              <p style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(40px, 6vw, 72px)', letterSpacing: '0.3em', color: 'rgba(255,255,255,0.92)', lineHeight: 1 }}>D0B3RMAN</p>
+              <p className="portrait-title" style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(40px, 6vw, 72px)', letterSpacing: '0.3em', color: 'rgba(255,255,255,0.92)', lineHeight: 1 }}>D0B3RMAN</p>
               <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.28)', marginTop: 10 }}>THE WATCHDOG IS WATCHING</p>
             </div>
           </motion.div>

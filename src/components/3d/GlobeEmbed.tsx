@@ -122,9 +122,9 @@ function Scene() {
 
 export function GlobeEmbed({ height = 480 }: { height?: number }) {
   return (
-    <div style={{ width: '100%', height, background: '#000508', overflow: 'hidden' }}>
+    <div style={{ width: '100%', height, background: 'transparent', overflow: 'hidden' }}>
       <Canvas
-        gl={{ antialias: true, alpha: false }}
+        gl={{ antialias: true, alpha: true }}
         camera={{ position: [0, 0, 6.5], fov: 45 }}
         style={{ background: 'transparent' }}
         dpr={[1, 1.5]}

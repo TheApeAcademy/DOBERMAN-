@@ -1,5 +1,5 @@
-import { Menu } from 'lucide-react'
-import { NavLink } from 'react-router-dom'
+import { Menu, ArrowLeft } from 'lucide-react'
+import { NavLink, useNavigate } from 'react-router-dom'
 import type { Profile } from '../../lib/supabase'
 import { getInitials, getAvatarColor } from '../../lib/utils'
 
@@ -12,11 +12,21 @@ interface HeaderProps {
 const SF = '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif'
 
 export function Header({ profile, onMenuClick }: HeaderProps) {
+  const navigate = useNavigate()
   const initials = getInitials(profile?.name || null, profile?.email || null)
   const avatarColor = getAvatarColor(profile?.email || profile?.name || 'U')
   const now = new Date()
   const day = now.toLocaleDateString('en-GB', { weekday: 'short' })
   const date = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+
+  const handleBack = () => {
+    // history.state.idx is set by react-router's browser history — only go
+    // back if there's actually somewhere in-app to go back to, otherwise
+    // fall back to the dashboard instead of leaving the app.
+    const idx = (window.history.state as { idx?: number } | null)?.idx ?? 0
+    if (idx > 0) navigate(-1)
+    else navigate('/dashboard')
+  }
 
   return (
     <header
@@ -32,6 +42,14 @@ export function Header({ profile, onMenuClick }: HeaderProps) {
         flexShrink: 0,
       }}
     >
+      <button
+        onClick={handleBack}
+        title="Go back"
+        style={{ background: 'none', border: 'none', color: 'var(--text-3)', padding: 4, cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+      >
+        <ArrowLeft size={20} />
+      </button>
+
       <button
         onClick={onMenuClick}
         title="Toggle sidebar"
