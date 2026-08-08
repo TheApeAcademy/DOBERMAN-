@@ -366,7 +366,7 @@ function CountryMarker({ country, isSelected, color, onClick }: MarkerProps) {
       {(hovered || isSelected) && (
         <Html position={[0, 0.1, 0]} center distanceFactor={7} style={{ pointerEvents: 'none' }} zIndexRange={[50, 0]}>
           <div style={{
-            background: 'var(--void-1)',
+            background: 'var(--surface-globe)',
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)',
             border: `1px solid ${color}55`,
@@ -645,7 +645,7 @@ function CountryPanel({ country, brief, loading, articles, onClose }: CountryPan
         zIndex: 100,
         display: 'flex',
         flexDirection: 'column',
-        background: 'var(--void-1)',
+        background: 'var(--surface-globe)',
         backdropFilter: 'blur(40px)',
         WebkitBackdropFilter: 'blur(40px)',
         borderTop: '1px solid var(--ovw-0p1)',
@@ -850,7 +850,7 @@ function SearchBar({ onSelect }: SearchBarProps) {
         display: 'flex',
         alignItems: 'center',
         gap: 10,
-        background: 'var(--void-1)',
+        background: 'var(--surface-globe)',
         backdropFilter: 'blur(30px)',
         WebkitBackdropFilter: 'blur(30px)',
         border: `1px solid ${focused ? 'rgba(10,132,255,0.5)' : 'var(--ovw-0p12)'}`,
@@ -895,7 +895,7 @@ function SearchBar({ onSelect }: SearchBarProps) {
               top: 'calc(100% + 8px)',
               left: 0,
               right: 0,
-              background: 'var(--void-1)',
+              background: 'var(--surface-globe)',
               backdropFilter: 'blur(30px)',
               WebkitBackdropFilter: 'blur(30px)',
               border: '1px solid var(--ovw-0p1)',
@@ -1219,7 +1219,7 @@ export default function Globe() {
                 zIndex: 25,
                 display: 'flex',
                 flexDirection: 'column',
-                background: 'var(--void-1)',
+                background: 'var(--surface-globe)',
                 backdropFilter: 'blur(28px)',
                 borderRight: '1px solid var(--ovw-0p06)',
               }}

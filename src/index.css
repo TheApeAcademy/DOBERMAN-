@@ -10,6 +10,14 @@
   --void-3:  #18181f;
   --void-4:  #222230;
 
+  /* Raised-panel surfaces — each keeps the tint of the section it belongs
+     to (sidebars/nav neutral, DAYE panels warm-green, Globe panels cool-blue)
+     instead of collapsing every panel into one flat gray/white in light mode. */
+  --surface-neutral: rgba(20, 20, 26, 0.94);
+  --surface-modal:   rgba(14, 14, 17, 0.97);
+  --surface-chat:    rgba(8, 14, 10, 0.97);
+  --surface-globe:   rgba(6, 10, 16, 0.93);
+
   /* Chrome silver — the identity */
   --chrome-white:  #FFFFFF;
   --chrome-bright: #E8E8E8;
@@ -99,6 +107,11 @@
   --void-2:  #EFEFF2;
   --void-3:  #E7E7EB;
   --void-4:  #D6D6DC;
+
+  --surface-neutral: rgba(255, 255, 255, 0.94);
+  --surface-modal:   rgba(255, 255, 255, 0.98);
+  --surface-chat:    rgba(246, 251, 248, 0.97);
+  --surface-globe:   rgba(245, 248, 253, 0.93);
 
   --chrome-white:  #0A0A0F;
   --chrome-bright: #1C1C22;

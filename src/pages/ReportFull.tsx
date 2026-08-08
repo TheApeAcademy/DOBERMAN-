@@ -129,7 +129,7 @@ export default function ReportFull() {
                 transition={{ type: 'spring', damping: 28, stiffness: 300 }}
                 style={{
                   position: 'fixed', left: 0, top: 0, bottom: 0, width: 280, zIndex: 51,
-                  background: 'var(--void-1)', borderRight: '1px solid var(--ovw-0p1)',
+                  background: 'var(--surface-neutral)', borderRight: '1px solid var(--ovw-0p1)',
                   overflowY: 'auto', paddingTop: 20,
                   backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)',
                 }}
@@ -151,7 +151,7 @@ export default function ReportFull() {
           <aside style={{
             width: 260, height: '100%', borderRight: '1px solid var(--ovw-0p07)',
             overflowY: 'auto', flexShrink: 0, padding: '20px 0',
-            background: 'var(--void-1)', display: 'flex', flexDirection: 'column',
+            background: 'var(--surface-neutral)', display: 'flex', flexDirection: 'column',
           }}>
             <NavContent />
           </aside>
