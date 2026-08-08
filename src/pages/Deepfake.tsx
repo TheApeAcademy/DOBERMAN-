@@ -11,11 +11,11 @@ import { dayeNotify } from '../components/daye/DayeAssistant'
 import type { EyesScan, VoiceScan } from '../lib/supabase'
 
 const card: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.03)',
-  border: '1px solid rgba(255,255,255,0.08)',
+  background: 'var(--ovw-0p03)',
+  border: '1px solid var(--ovw-0p08)',
   borderRadius: 20,
   padding: 24,
-  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07)',
+  boxShadow: 'inset 0 1px 0 var(--ovw-0p07)',
   backdropFilter: 'blur(28px)',
   WebkitBackdropFilter: 'blur(28px)',
 }
@@ -46,14 +46,14 @@ function VoiceResult({ scan }: { scan: VoiceScan }) {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-        <div style={{ padding: '14px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12 }}>
+        <div style={{ padding: '14px', background: 'var(--ovw-0p03)', border: '1px solid var(--ovw-0p07)', borderRadius: 12 }}>
           <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.12em', marginBottom: 6 }}>MANIPULATION PROBABILITY</p>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
             <span style={{ fontFamily: 'Bebas Neue', fontSize: 28, color: config.color }}>{scan.manipulation_probability}</span>
             <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>%</span>
           </div>
         </div>
-        <div style={{ padding: '14px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12 }}>
+        <div style={{ padding: '14px', background: 'var(--ovw-0p03)', border: '1px solid var(--ovw-0p07)', borderRadius: 12 }}>
           <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.12em', marginBottom: 6 }}>EMOTIONAL MANIPULATION</p>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
             <span style={{ fontFamily: 'Bebas Neue', fontSize: 28, color: scan.emotional_manipulation_score >= 60 ? 'var(--danger)' : 'var(--text-2)' }}>
@@ -83,7 +83,7 @@ function VoiceResult({ scan }: { scan: VoiceScan }) {
       )}
 
       {scan.daye_analysis && (
-        <div style={{ padding: '14px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12 }}>
+        <div style={{ padding: '14px 16px', background: 'var(--ovw-0p03)', border: '1px solid var(--ovw-0p08)', borderRadius: 12 }}>
           <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 8 }}>DAYE VOICE INTELLIGENCE</p>
           <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-1)', lineHeight: 1.65 }}>{scan.daye_analysis}</p>
         </div>
@@ -125,12 +125,12 @@ function UploadZone({
       <label
         style={{
           display: 'block',
-          border: `2px dashed ${dragging ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.1)'}`,
+          border: `2px dashed ${dragging ? 'var(--ovw-0p3)' : 'var(--ovw-0p1)'}`,
           borderRadius: 16,
           padding: '40px 20px',
           textAlign: 'center',
           cursor: remainingScans <= 0 ? 'not-allowed' : 'pointer',
-          background: dragging ? 'rgba(255,255,255,0.04)' : 'transparent',
+          background: dragging ? 'var(--ovw-0p04)' : 'transparent',
           transition: 'all 0.2s',
           opacity: remainingScans <= 0 ? 0.5 : 1,
         }}
@@ -255,10 +255,10 @@ export default function DeepfakePage() {
           <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
             <source src="/assets/video/blob-eyes.mp4" type="video/mp4" />
           </video>
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.85))', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 24 }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.85))', border: '1px solid var(--ovw-0p06)', borderRadius: 24 }} />
           <div style={{ position: 'absolute', bottom: 20, left: 20, zIndex: 2 }}>
             <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 42, letterSpacing: '0.1em', color: '#F5F5F7', lineHeight: 1 }}>DEEPFAKE INTELLIGENCE</h1>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)' }}>IMAGE · VIDEO · VOICE ANALYSIS</p>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--ovw-0p4)' }}>IMAGE · VIDEO · VOICE ANALYSIS</p>
           </div>
           <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 2, display: 'flex', gap: 10 }}>
             <div style={{ padding: '6px 14px', borderRadius: 8, background: eyesRemaining > 0 ? 'rgba(48,209,88,0.1)' : 'rgba(255,45,45,0.1)', border: `1px solid ${eyesRemaining > 0 ? 'rgba(48,209,88,0.3)' : 'rgba(255,45,45,0.3)'}`, fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em', color: eyesRemaining > 0 ? 'var(--safe)' : 'var(--danger)' }}>
@@ -271,8 +271,8 @@ export default function DeepfakePage() {
         </div>
 
         {/* Module header */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <div style={{ width: 52, height: 52, borderRadius: 14, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid var(--ovw-0p06)' }}>
+          <div style={{ width: 52, height: 52, borderRadius: 14, background: 'var(--ovw-0p04)', border: '1px solid var(--ovw-0p1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <Eye size={22} style={{ color: 'var(--text-1)' }} />
           </div>
           <div>
@@ -282,7 +282,7 @@ export default function DeepfakePage() {
         </div>
 
         {/* Tabs */}
-        <div style={{ display: 'flex', gap: 4, marginBottom: 24, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: 4 }}>
+        <div style={{ display: 'flex', gap: 4, marginBottom: 24, background: 'var(--ovw-0p03)', border: '1px solid var(--ovw-0p07)', borderRadius: 12, padding: 4 }}>
           {tabs.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
@@ -294,8 +294,8 @@ export default function DeepfakePage() {
                 justifyContent: 'center',
                 gap: 8,
                 padding: '10px 16px',
-                background: activeTab === id ? 'rgba(255,255,255,0.07)' : 'transparent',
-                border: activeTab === id ? '1px solid rgba(255,255,255,0.1)' : '1px solid transparent',
+                background: activeTab === id ? 'var(--ovw-0p07)' : 'transparent',
+                border: activeTab === id ? '1px solid var(--ovw-0p1)' : '1px solid transparent',
                 borderRadius: 9,
                 fontFamily: 'JetBrains Mono',
                 fontSize: 10,
@@ -329,11 +329,11 @@ export default function DeepfakePage() {
                   onUpgradeClick={() => setUpgradeOpen(true)}
                 />
               </div>
-              <div style={{ width: 1, background: 'rgba(255,255,255,0.06)', flexShrink: 0 }} />
+              <div style={{ width: 1, background: 'var(--ovw-0p06)', flexShrink: 0 }} />
               <div style={{ minWidth: 180, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 10 }}>
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.1em', marginBottom: 4 }}>DAYE DETECTS</p>
                 {['Face Swaps', 'GANs', 'Diffusion Synthesis', 'Neural Rendering', 'Facial Puppeting'].map((tag) => (
-                  <span key={tag} style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', background: 'rgba(255,255,255,0.04)', padding: '4px 10px', borderRadius: 5, border: '1px solid rgba(255,255,255,0.07)', display: 'block' }}>{tag}</span>
+                  <span key={tag} style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', background: 'var(--ovw-0p04)', padding: '4px 10px', borderRadius: 5, border: '1px solid var(--ovw-0p07)', display: 'block' }}>{tag}</span>
                 ))}
               </div>
             </div>
@@ -350,7 +350,7 @@ export default function DeepfakePage() {
               {eyesScanning ? (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 0', gap: 16 }}>
                   <div style={{ position: 'relative', width: 56, height: 56 }}>
-                    <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.08)' }} />
+                    <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '1px solid var(--ovw-0p08)' }} />
                     <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid transparent', borderTopColor: 'var(--text-1)', animation: 'spin 0.8s linear infinite' }} />
                     <Eye size={18} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: 'var(--text-3)' }} />
                   </div>
@@ -362,14 +362,14 @@ export default function DeepfakePage() {
               ) : eyesResult ? (
                 <>
                   <EyesResult scan={eyesResult} />
-                  <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid var(--ovw-0p06)' }}>
                     <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 12 }}>CONFIDENCE ANALYSIS</p>
                     <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
                       <span style={{ fontFamily: 'Bebas Neue', fontSize: 40, color: eyesResult.result === 'fake' ? 'var(--danger)' : 'var(--safe)', lineHeight: 1, flexShrink: 0 }}>
                         {eyesResult.confidence_score}%
                       </span>
                       <div style={{ flex: 1 }}>
-                        <div style={{ height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 3, overflow: 'hidden', marginBottom: 6 }}>
+                        <div style={{ height: 6, background: 'var(--ovw-0p06)', borderRadius: 3, overflow: 'hidden', marginBottom: 6 }}>
                           <div style={{
                             height: '100%', borderRadius: 3,
                             background: eyesResult.result === 'fake' ? 'var(--danger)' : 'var(--safe)',
@@ -432,11 +432,11 @@ export default function DeepfakePage() {
                   onUpgradeClick={() => setUpgradeOpen(true)}
                 />
               </div>
-              <div style={{ width: 1, background: 'rgba(255,255,255,0.06)', flexShrink: 0 }} />
+              <div style={{ width: 1, background: 'var(--ovw-0p06)', flexShrink: 0 }} />
               <div style={{ minWidth: 180, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 10 }}>
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.1em', marginBottom: 4 }}>DAYE DETECTS</p>
                 {['AI Voice Cloning', 'Emotional Manipulation', 'Synthetic Speech', 'Scam Audio Patterns', 'Voice Deepfakes'].map((tag) => (
-                  <span key={tag} style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', background: 'rgba(255,255,255,0.04)', padding: '4px 10px', borderRadius: 5, border: '1px solid rgba(255,255,255,0.07)', display: 'block' }}>{tag}</span>
+                  <span key={tag} style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', background: 'var(--ovw-0p04)', padding: '4px 10px', borderRadius: 5, border: '1px solid var(--ovw-0p07)', display: 'block' }}>{tag}</span>
                 ))}
               </div>
             </div>
@@ -453,7 +453,7 @@ export default function DeepfakePage() {
                 {voiceScanning ? (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 0', gap: 16 }}>
                     <div style={{ position: 'relative', width: 56, height: 56 }}>
-                      <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.08)' }} />
+                      <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '1px solid var(--ovw-0p08)' }} />
                       <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid transparent', borderTopColor: 'var(--warning)', animation: 'spin 0.8s linear infinite' }} />
                       <Mic size={18} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: 'var(--text-3)' }} />
                     </div>
@@ -491,7 +491,7 @@ export default function DeepfakePage() {
                             padding: '12px 0',
                             background: 'none',
                             border: 'none',
-                            borderBottom: i < voiceHistory.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
+                            borderBottom: i < voiceHistory.length - 1 ? '1px solid var(--ovw-0p05)' : 'none',
                             cursor: 'pointer',
                             textAlign: 'left',
                           }}
@@ -504,7 +504,7 @@ export default function DeepfakePage() {
                     })}
                   </div>
                   {voiceHistory.length >= 2 && (
-                    <div style={{ marginTop: 18, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                    <div style={{ marginTop: 18, paddingTop: 14, borderTop: '1px solid var(--ovw-0p05)' }}>
                       <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 12 }}>MANIPULATION TREND</p>
                       <div style={{ display: 'flex', alignItems: 'flex-end', gap: 6, height: 52 }}>
                         {voiceHistory.slice(0, 6).reverse().map((scan) => {

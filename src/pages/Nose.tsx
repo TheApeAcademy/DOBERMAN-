@@ -10,11 +10,11 @@ import { useNose } from '../hooks/useNose'
 import type { NoseScan } from '../lib/supabase'
 
 const card: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.03)',
-  border: '1px solid rgba(255,255,255,0.08)',
+  background: 'var(--ovw-0p03)',
+  border: '1px solid var(--ovw-0p08)',
   borderRadius: 20,
   padding: 24,
-  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07)',
+  boxShadow: 'inset 0 1px 0 var(--ovw-0p07)',
   backdropFilter: 'blur(28px)',
   WebkitBackdropFilter: 'blur(28px)',
 }
@@ -51,8 +51,8 @@ export default function Nose() {
         </div>
 
         {/* Module header */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 32, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <div style={{ width: 52, height: 52, borderRadius: 14, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 32, paddingBottom: 24, borderBottom: '1px solid var(--ovw-0p06)' }}>
+          <div style={{ width: 52, height: 52, borderRadius: 14, background: 'var(--ovw-0p04)', border: '1px solid var(--ovw-0p1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: 'inset 0 1px 0 var(--ovw-0p1)' }}>
             <Wifi size={22} style={{ color: 'var(--text-1)' }} />
           </div>
           <div style={{ flex: 1 }}>
@@ -96,7 +96,7 @@ export default function Nose() {
             {scanning ? (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 0', gap: 16 }}>
                 <div style={{ position: 'relative', width: 56, height: 56 }}>
-                  <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.08)' }} />
+                  <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '1px solid var(--ovw-0p08)' }} />
                   <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid transparent', borderTopColor: 'var(--text-1)', animation: 'spin 0.8s linear infinite' }} />
                   <Wifi size={18} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: 'var(--text-3)' }} />
                 </div>

@@ -45,10 +45,10 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
         height: '100%',
         width: w,
         minWidth: w,
-        background: 'rgba(18,18,22,0.92)',
+        background: 'var(--void-1)',
         backdropFilter: 'blur(40px)',
         WebkitBackdropFilter: 'blur(40px)',
-        borderRight: '1px solid rgba(255,255,255,0.08)',
+        borderRight: '1px solid var(--ovw-0p08)',
         borderRadius: 0,
         position: 'relative',
         overflow: 'hidden',
@@ -57,15 +57,15 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
       }}
     >
       {/* Logo */}
-      <div style={{ padding: mobile || expanded ? '28px 20px 18px' : '24px 0 18px', borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: mobile || expanded ? 'flex-start' : 'center', transition: 'padding 0.25s ease' }}>
+      <div style={{ padding: mobile || expanded ? '28px 20px 18px' : '24px 0 18px', borderBottom: '1px solid var(--ovw-0p07)', display: 'flex', alignItems: 'center', justifyContent: mobile || expanded ? 'flex-start' : 'center', transition: 'padding 0.25s ease' }}>
         <NavLink to="/dashboard" onClick={onClose} style={{ textDecoration: 'none' }}>
           {mobile || expanded ? (
             <>
-              <span style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.18em', color: '#fff', display: 'block' }}>D0B3RMAN</span>
-              <span style={{ fontFamily: SF, fontSize: 11, letterSpacing: '0.01em', color: 'rgba(255,255,255,0.35)', display: 'block', marginTop: 3, fontWeight: 400 }}>Cyber Watchdog</span>
+              <span style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.18em', color: 'var(--text-1)', display: 'block' }}>D0B3RMAN</span>
+              <span style={{ fontFamily: SF, fontSize: 11, letterSpacing: '0.01em', color: 'var(--ovw-0p35)', display: 'block', marginTop: 3, fontWeight: 400 }}>Cyber Watchdog</span>
             </>
           ) : (
-            <span style={{ fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.1em', color: '#fff' }}>D</span>
+            <span style={{ fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.1em', color: 'var(--text-1)' }}>D</span>
           )}
         </NavLink>
       </div>
@@ -107,7 +107,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                   <Icon
                     size={17}
                     style={{
-                      color: isActive ? activeColor : 'rgba(255,255,255,0.4)',
+                      color: isActive ? activeColor : 'var(--ovw-0p4)',
                       flexShrink: 0,
                       strokeWidth: isActive ? 2 : 1.75,
                     }}
@@ -119,7 +119,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                         fontSize: 14,
                         letterSpacing: '-0.01em',
                         lineHeight: 1.2,
-                        color: isActive ? activeColor : 'rgba(255,255,255,0.82)',
+                        color: isActive ? activeColor : 'var(--ovw-0p82)',
                         fontWeight: isActive ? 600 : 400,
                         whiteSpace: 'nowrap',
                       }}>
@@ -130,7 +130,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                           fontFamily: SF,
                           fontSize: 11,
                           letterSpacing: '0em',
-                          color: isActive ? `${activeColor}99` : 'rgba(255,255,255,0.28)',
+                          color: isActive ? `${activeColor}99` : 'var(--ovw-0p28)',
                           marginTop: 1,
                           fontWeight: 400,
                           lineHeight: 1.2,
@@ -152,7 +152,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
       </nav>
 
       {/* Divider */}
-      <div style={{ height: 1, background: 'rgba(255,255,255,0.07)', margin: '0 8px' }} />
+      <div style={{ height: 1, background: 'var(--ovw-0p07)', margin: '0 8px' }} />
 
       {/* User profile */}
       <div style={{ padding: '10px 8px 16px' }}>
@@ -197,7 +197,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                     fontSize: 14,
                     fontWeight: 500,
                     letterSpacing: '-0.01em',
-                    color: 'rgba(255,255,255,0.88)',
+                    color: 'var(--ovw-0p88)',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',
@@ -208,7 +208,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                   <p style={{
                     fontFamily: SF,
                     fontSize: 11,
-                    color: 'rgba(255,255,255,0.3)',
+                    color: 'var(--ovw-0p3)',
                     textTransform: 'capitalize',
                     fontWeight: 400,
                     marginTop: 2,
@@ -217,7 +217,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
                     {profile?.plan || 'free'}
                   </p>
                 </div>
-                <User size={13} style={{ color: 'rgba(255,255,255,0.25)', flexShrink: 0 }} />
+                <User size={13} style={{ color: 'var(--ovw-0p25)', flexShrink: 0 }} />
               </>
             )}
           </div>
@@ -235,7 +235,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
             borderRadius: 10,
             background: 'none',
             border: 'none',
-            color: 'rgba(255,255,255,0.38)',
+            color: 'var(--ovw-0p38)',
             fontFamily: SF,
             fontSize: 14,
             fontWeight: 400,
@@ -249,7 +249,7 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
           }}
           onMouseLeave={(e) => {
             const el = e.currentTarget as HTMLButtonElement
-            el.style.color = 'rgba(255,255,255,0.38)'
+            el.style.color = 'var(--ovw-0p38)'
             el.style.background = 'none'
           }}
         >

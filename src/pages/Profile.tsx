@@ -13,11 +13,11 @@ interface Stats {
 }
 
 const card: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.03)',
-  border: '1px solid rgba(255,255,255,0.08)',
+  background: 'var(--ovw-0p03)',
+  border: '1px solid var(--ovw-0p08)',
   borderRadius: 20,
   padding: 24,
-  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07)',
+  boxShadow: 'inset 0 1px 0 var(--ovw-0p07)',
   backdropFilter: 'blur(28px)',
   WebkitBackdropFilter: 'blur(28px)',
 }
@@ -61,7 +61,7 @@ export default function Profile() {
       <div style={{ padding: '28px 28px 48px', maxWidth: 680, margin: '0 auto' }}>
 
         {/* Page header */}
-        <div style={{ marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid var(--ovw-0p06)' }}>
           <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>PROFILE</h1>
           <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--text-3)', marginTop: 3 }}>ACCOUNT OVERVIEW</p>
         </div>
@@ -76,7 +76,7 @@ export default function Profile() {
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 color: 'white', fontSize: 22, fontFamily: 'Bebas Neue',
                 letterSpacing: '0.05em', flexShrink: 0, background: avatarColor,
-                boxShadow: '0 0 0 3px rgba(255,255,255,0.08)',
+                boxShadow: '0 0 0 3px var(--ovw-0p08)',
               }}>
                 {initials}
               </div>
@@ -87,8 +87,8 @@ export default function Profile() {
                     display: 'inline-flex', alignItems: 'center', gap: 4,
                     padding: '3px 10px', borderRadius: 6,
                     fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.03em',
-                    background: isPro ? 'rgba(255,176,32,0.1)' : 'rgba(255,255,255,0.05)',
-                    border: `1px solid ${isPro ? 'rgba(255,176,32,0.3)' : 'rgba(255,255,255,0.1)'}`,
+                    background: isPro ? 'rgba(255,176,32,0.1)' : 'var(--ovw-0p05)',
+                    border: `1px solid ${isPro ? 'rgba(255,176,32,0.3)' : 'var(--ovw-0p1)'}`,
                     color: isPro ? '#FFB020' : 'var(--text-3)',
                   }}>
                     {isPro && <Crown size={9} />}
@@ -125,7 +125,7 @@ export default function Profile() {
           {/* Plan */}
           <div style={card}>
             <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'var(--text-3)', marginBottom: 16, textTransform: 'uppercase' }}>Current Plan</p>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 18px', borderRadius: 14, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)', gap: 16 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 18px', borderRadius: 14, background: 'var(--ovw-0p02)', border: '1px solid var(--ovw-0p07)', gap: 16 }}>
               <div>
                 <p style={{ fontFamily: 'Inter', fontSize: 14, fontWeight: 600, color: 'var(--text-1)', marginBottom: 4 }}>Free Plan</p>
                 <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)' }}>3 EYES · 3 NOSE · 10 BRAIN / day</p>

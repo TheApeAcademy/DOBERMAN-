@@ -5,6 +5,7 @@ import './index.css'
 import Lenis from 'lenis'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ThemeProvider } from './hooks/useTheme'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -24,6 +25,8 @@ gsap.ticker.lagSmoothing(0)
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>
 )

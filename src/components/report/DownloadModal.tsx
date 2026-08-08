@@ -55,27 +55,27 @@ export function DownloadModal({ open, onClose }: DownloadModalProps) {
               zIndex: 1,
               width: '100%',
               maxWidth: 440,
-              background: 'rgba(10,10,10,0.95)',
-              border: '1px solid rgba(255,255,255,0.12)',
+              background: 'var(--void-1)',
+              border: '1px solid var(--ovw-0p12)',
               borderRadius: 24,
-              boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1), 0 40px 80px rgba(0,0,0,0.8)',
+              boxShadow: 'inset 0 1px 0 var(--ovw-0p1), 0 40px 80px rgba(0,0,0,0.8)',
               backdropFilter: 'blur(40px)',
               WebkitBackdropFilter: 'blur(40px)',
             }}
           >
             {/* Header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px 16px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px 16px', borderBottom: '1px solid var(--ovw-0p07)' }}>
               <div>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.3)', marginBottom: 4, textTransform: 'uppercase' }}>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--ovw-0p3)', marginBottom: 4, textTransform: 'uppercase' }}>
                   Technical Report
                 </p>
-                <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 16, color: 'white' }}>
+                <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 16, color: 'var(--text-1)' }}>
                   Download Format
                 </p>
               </div>
               <button
                 onClick={onClose}
-                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.5)', cursor: 'pointer' }}
+                style={{ background: 'var(--ovw-0p06)', border: '1px solid var(--ovw-0p1)', borderRadius: 8, width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ovw-0p5)', cursor: 'pointer' }}
               >
                 <X size={14} />
               </button>
@@ -89,7 +89,7 @@ export function DownloadModal({ open, onClose }: DownloadModalProps) {
               ].map(({ type, icon: Icon, label, sub, color }) => (
                 <motion.button
                   key={type}
-                  whileHover={{ scale: 1.02, borderColor: 'rgba(255,255,255,0.2)' }}
+                  whileHover={{ scale: 1.02, borderColor: 'var(--ovw-0p2)' }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => handleDownload(type)}
                   disabled={loading !== null}
@@ -98,8 +98,8 @@ export function DownloadModal({ open, onClose }: DownloadModalProps) {
                     alignItems: 'center',
                     gap: 16,
                     padding: '16px 20px',
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '1px solid rgba(255,255,255,0.09)',
+                    background: 'var(--ovw-0p03)',
+                    border: '1px solid var(--ovw-0p09)',
                     borderRadius: 14,
                     textAlign: 'left',
                     cursor: loading !== null ? 'not-allowed' : 'pointer',
@@ -115,11 +115,11 @@ export function DownloadModal({ open, onClose }: DownloadModalProps) {
                     )}
                   </div>
                   <div style={{ flex: 1 }}>
-                    <p style={{ fontFamily: 'Syne', fontWeight: 600, fontSize: 14, color: 'white', marginBottom: 2 }}>{label}</p>
-                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(255,255,255,0.35)' }}>{sub}</p>
+                    <p style={{ fontFamily: 'Syne', fontWeight: 600, fontSize: 14, color: 'var(--text-1)', marginBottom: 2 }}>{label}</p>
+                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--ovw-0p35)' }}>{sub}</p>
                   </div>
                   {loading === type ? null : (
-                    <Download size={14} style={{ color: 'rgba(255,255,255,0.3)', flexShrink: 0 }} />
+                    <Download size={14} style={{ color: 'var(--ovw-0p3)', flexShrink: 0 }} />
                   )}
                 </motion.button>
               ))}
@@ -127,7 +127,7 @@ export function DownloadModal({ open, onClose }: DownloadModalProps) {
 
             {/* Footer note */}
             <div style={{ padding: '0 24px 20px' }}>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(255,255,255,0.2)', lineHeight: 1.6, textAlign: 'center' }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--ovw-0p2)', lineHeight: 1.6, textAlign: 'center' }}>
                 Academic standard formatting — Times New Roman 12pt, 1" margins, double spacing
               </p>
             </div>

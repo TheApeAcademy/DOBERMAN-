@@ -16,11 +16,11 @@ const DETECTS = [
 ]
 
 const card: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.03)',
-  border: '1px solid rgba(255,255,255,0.08)',
+  background: 'var(--ovw-0p03)',
+  border: '1px solid var(--ovw-0p08)',
   borderRadius: 24,
   padding: 24,
-  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06)',
+  boxShadow: 'inset 0 1px 0 var(--ovw-0p06)',
 }
 
 const sectionLabel: React.CSSProperties = {
@@ -57,7 +57,7 @@ export default function Eyes() {
       <div style={{ padding: 'clamp(20px, 4vw, 32px)', maxWidth: 1100, margin: '0 auto', paddingBottom: 60 }}>
 
         {/* Module header — square identity tile + title, no decorative video */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid var(--ovw-0p06)', flexWrap: 'wrap' }}>
           <div style={{ position: 'relative', width: 88, height: 88, borderRadius: 20, overflow: 'hidden', flexShrink: 0, background: '#060606' }}>
             <img
               src="/assets/video/0a068fc3612b18fb193aa68da61d7bb3.jpg"
@@ -65,7 +65,7 @@ export default function Eyes() {
               style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', pointerEvents: 'none' }}
             />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(10,132,255,0.14) 0%, transparent 60%)' }} />
-            <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20 }} />
+            <div style={{ position: 'absolute', inset: 0, border: '1px solid var(--ovw-0p1)', borderRadius: 20 }} />
           </div>
           <div style={{ flex: 1, minWidth: 200 }}>
             <h1 style={{
@@ -137,7 +137,7 @@ export default function Eyes() {
               <EyesResult scan={result} />
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', padding: '24px 0 12px', gap: 20 }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, textAlign: 'center', paddingBottom: 20, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, textAlign: 'center', paddingBottom: 20, borderBottom: '1px solid var(--ovw-0p06)' }}>
                   <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(10,132,255,0.08)', border: '1px solid rgba(10,132,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Eye size={18} color="rgba(10,132,255,0.6)" />
                   </div>

@@ -2,6 +2,7 @@ import { Menu, ArrowLeft } from 'lucide-react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import type { Profile } from '../../lib/supabase'
 import { getInitials, getAvatarColor } from '../../lib/utils'
+import { ThemeToggle } from '../ui/ThemeToggle'
 
 interface HeaderProps {
   profile: Profile | null
@@ -69,6 +70,8 @@ export function Header({ profile, onMenuClick }: HeaderProps) {
             {date}
           </span>
         </div>
+
+        <ThemeToggle />
 
         <NavLink to="/profile" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
           <div style={{ width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 11, fontFamily: SF, fontWeight: 600, background: avatarColor }}>

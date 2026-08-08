@@ -366,7 +366,7 @@ function CountryMarker({ country, isSelected, color, onClick }: MarkerProps) {
       {(hovered || isSelected) && (
         <Html position={[0, 0.1, 0]} center distanceFactor={7} style={{ pointerEvents: 'none' }} zIndexRange={[50, 0]}>
           <div style={{
-            background: 'rgba(10,10,10,0.9)',
+            background: 'var(--void-1)',
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)',
             border: `1px solid ${color}55`,
@@ -374,7 +374,7 @@ function CountryMarker({ country, isSelected, color, onClick }: MarkerProps) {
             padding: '4px 10px',
             fontSize: 12,
             fontWeight: 600,
-            color: '#fff',
+            color: 'var(--text-1)',
             whiteSpace: 'nowrap',
             boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
             letterSpacing: '0.01em',
@@ -481,7 +481,7 @@ function ThreatBar({ level, color }: { level: number; color: string }) {
         <span>Threat Level</span>
         <span style={{ color, fontWeight: 700 }}>{level.toFixed(1)} / 10</span>
       </div>
-      <div style={{ height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 99, overflow: 'hidden' }}>
+      <div style={{ height: 6, background: 'var(--ovw-0p06)', borderRadius: 99, overflow: 'hidden' }}>
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${pct}%` }}
@@ -529,9 +529,9 @@ function SkeletonLines({ count = 6 }: { count?: number }) {
     <>
       {[...Array(count)].map((_, i) => (
         <div key={i} style={{ marginBottom: 18, opacity: Math.max(0.35, 1 - i * 0.1) }}>
-          <div style={{ height: 8, width: 100, background: 'rgba(255,255,255,0.08)', borderRadius: 3, marginBottom: 8 }} />
-          <div style={{ height: 11, background: 'rgba(255,255,255,0.06)', borderRadius: 3, marginBottom: 5 }} />
-          <div style={{ height: 11, background: 'rgba(255,255,255,0.05)', borderRadius: 3, width: `${72 - i * 5}%` }} />
+          <div style={{ height: 8, width: 100, background: 'var(--ovw-0p08)', borderRadius: 3, marginBottom: 8 }} />
+          <div style={{ height: 11, background: 'var(--ovw-0p06)', borderRadius: 3, marginBottom: 5 }} />
+          <div style={{ height: 11, background: 'var(--ovw-0p05)', borderRadius: 3, width: `${72 - i * 5}%` }} />
         </div>
       ))}
     </>
@@ -568,8 +568,8 @@ function NewsMatchCard({ article }: { article: CyberArticle }) {
         display: 'flex',
         gap: 12,
         alignItems: 'flex-start',
-        background: 'rgba(255,255,255,0.03)',
-        border: '1px solid rgba(255,255,255,0.07)',
+        background: 'var(--ovw-0p03)',
+        border: '1px solid var(--ovw-0p07)',
         borderRadius: 14,
         padding: '14px 16px',
         marginBottom: 10,
@@ -645,18 +645,18 @@ function CountryPanel({ country, brief, loading, articles, onClose }: CountryPan
         zIndex: 100,
         display: 'flex',
         flexDirection: 'column',
-        background: 'rgba(6,6,6,0.92)',
+        background: 'var(--void-1)',
         backdropFilter: 'blur(40px)',
         WebkitBackdropFilter: 'blur(40px)',
-        borderTop: '1px solid rgba(255,255,255,0.10)',
+        borderTop: '1px solid var(--ovw-0p1)',
         borderRadius: '28px 28px 0 0',
-        boxShadow: '0 -32px 80px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.12)',
+        boxShadow: '0 -32px 80px rgba(0,0,0,0.8), inset 0 1px 0 var(--ovw-0p12)',
         touchAction: 'none',
       }}
     >
       {/* Drag handle */}
       <div style={{ display: 'flex', justifyContent: 'center', padding: '12px 0 0', cursor: 'grab', flexShrink: 0 }}>
-        <div style={{ width: 36, height: 4, background: 'rgba(255,255,255,0.22)', borderRadius: 99 }} />
+        <div style={{ width: 36, height: 4, background: 'var(--ovw-0p22)', borderRadius: 99 }} />
       </div>
 
       {/* Header */}
@@ -694,8 +694,8 @@ function CountryPanel({ country, brief, loading, articles, onClose }: CountryPan
           <button
             onClick={onClose}
             style={{
-              background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(255,255,255,0.12)',
+              background: 'var(--ovw-0p08)',
+              border: '1px solid var(--ovw-0p12)',
               borderRadius: 10,
               width: 32,
               height: 32,
@@ -716,7 +716,7 @@ function CountryPanel({ country, brief, loading, articles, onClose }: CountryPan
               <span>Threat Level</span>
               <span style={{ color: 'var(--text-3)' }}>DAYE analyzing…</span>
             </div>
-            <div style={{ height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 99, overflow: 'hidden' }}>
+            <div style={{ height: 6, background: 'var(--ovw-0p06)', borderRadius: 99, overflow: 'hidden' }}>
               <motion.div
                 animate={{ x: ['-100%', '220%'] }}
                 transition={{ duration: 1.3, repeat: Infinity, ease: 'linear' }}
@@ -740,8 +740,8 @@ function CountryPanel({ country, brief, loading, articles, onClose }: CountryPan
                 gap: 5,
                 padding: '7px 14px',
                 borderRadius: 99,
-                border: activeTab === tab.id ? '1px solid rgba(10,132,255,0.5)' : '1px solid rgba(255,255,255,0.08)',
-                background: activeTab === tab.id ? 'rgba(10,132,255,0.18)' : 'rgba(255,255,255,0.04)',
+                border: activeTab === tab.id ? '1px solid rgba(10,132,255,0.5)' : '1px solid var(--ovw-0p08)',
+                background: activeTab === tab.id ? 'rgba(10,132,255,0.18)' : 'var(--ovw-0p04)',
                 color: activeTab === tab.id ? '#0A84FF' : 'var(--text-2)',
                 fontSize: 11,
                 fontWeight: activeTab === tab.id ? 600 : 400,
@@ -850,10 +850,10 @@ function SearchBar({ onSelect }: SearchBarProps) {
         display: 'flex',
         alignItems: 'center',
         gap: 10,
-        background: 'rgba(10,10,10,0.85)',
+        background: 'var(--void-1)',
         backdropFilter: 'blur(30px)',
         WebkitBackdropFilter: 'blur(30px)',
-        border: `1px solid ${focused ? 'rgba(10,132,255,0.5)' : 'rgba(255,255,255,0.12)'}`,
+        border: `1px solid ${focused ? 'rgba(10,132,255,0.5)' : 'var(--ovw-0p12)'}`,
         borderRadius: 99,
         padding: '10px 16px',
         transition: 'border-color 0.2s ease',
@@ -895,10 +895,10 @@ function SearchBar({ onSelect }: SearchBarProps) {
               top: 'calc(100% + 8px)',
               left: 0,
               right: 0,
-              background: 'rgba(10,10,10,0.95)',
+              background: 'var(--void-1)',
               backdropFilter: 'blur(30px)',
               WebkitBackdropFilter: 'blur(30px)',
-              border: '1px solid rgba(255,255,255,0.10)',
+              border: '1px solid var(--ovw-0p1)',
               borderRadius: 16,
               overflow: 'hidden',
               boxShadow: '0 16px 48px rgba(0,0,0,0.6)',
@@ -917,7 +917,7 @@ function SearchBar({ onSelect }: SearchBarProps) {
                   padding: '11px 16px',
                   background: 'none',
                   border: 'none',
-                  borderBottom: '1px solid rgba(255,255,255,0.05)',
+                  borderBottom: '1px solid var(--ovw-0p05)',
                   color: 'var(--text-1)',
                   fontSize: 13,
                   textAlign: 'left',
@@ -931,8 +931,8 @@ function SearchBar({ onSelect }: SearchBarProps) {
                   fontSize: 10,
                   fontWeight: 700,
                   color: 'var(--text-3)',
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.1)',
+                  background: 'var(--ovw-0p06)',
+                  border: '1px solid var(--ovw-0p1)',
                   borderRadius: 6,
                   padding: '2px 7px',
                   letterSpacing: '0.06em',
@@ -1085,7 +1085,7 @@ export default function Globe() {
             background: 'rgba(6,6,6,0.7)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255,255,255,0.08)',
+            border: '1px solid var(--ovw-0p08)',
             borderRadius: 14,
             padding: '10px 14px',
           }}
@@ -1125,7 +1125,7 @@ export default function Globe() {
                 gap: 6,
               }}
             >
-              <div style={{ fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)' }}>
+              <div style={{ fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ovw-0p25)' }}>
                 Drag to explore · Click markers
               </div>
             </motion.div>
@@ -1186,15 +1186,15 @@ export default function Globe() {
             gap: 7,
             padding: '8px 14px',
             background: showLiveFeed ? 'rgba(255,45,45,0.18)' : 'rgba(0,0,0,0.7)',
-            border: `1px solid ${showLiveFeed ? 'rgba(255,45,45,0.4)' : 'rgba(255,255,255,0.1)'}`,
+            border: `1px solid ${showLiveFeed ? 'rgba(255,45,45,0.4)' : 'var(--ovw-0p1)'}`,
             borderRadius: 10,
             backdropFilter: 'blur(16px)',
             cursor: 'pointer',
             transition: 'left 0.35s cubic-bezier(0.4,0,0.2,1), background 0.2s, border-color 0.2s',
           }}
         >
-          <Radio size={13} style={{ color: showLiveFeed ? '#FF2D2D' : 'rgba(255,255,255,0.6)' }} />
-          <span style={{ fontFamily: 'Inter', fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', color: showLiveFeed ? '#FF2D2D' : 'rgba(255,255,255,0.6)' }}>
+          <Radio size={13} style={{ color: showLiveFeed ? '#FF2D2D' : 'var(--ovw-0p6)' }} />
+          <span style={{ fontFamily: 'Inter', fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', color: showLiveFeed ? '#FF2D2D' : 'var(--ovw-0p6)' }}>
             LIVE INTEL
           </span>
           {!showLiveFeed && (
@@ -1219,40 +1219,40 @@ export default function Globe() {
                 zIndex: 25,
                 display: 'flex',
                 flexDirection: 'column',
-                background: 'rgba(2,5,10,0.92)',
+                background: 'var(--void-1)',
                 backdropFilter: 'blur(28px)',
-                borderRight: '1px solid rgba(255,255,255,0.06)',
+                borderRight: '1px solid var(--ovw-0p06)',
               }}
             >
               {/* Panel header */}
-              <div style={{ padding: '20px 18px 14px', borderBottom: '1px solid rgba(255,255,255,0.05)', flexShrink: 0 }}>
+              <div style={{ padding: '20px 18px 14px', borderBottom: '1px solid var(--ovw-0p05)', flexShrink: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#FF2D2D', animation: 'pulseDot 1.5s infinite' }} />
                     <span style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.16em', color: '#FF2D2D', textTransform: 'uppercase' }}>Live</span>
                   </div>
                   <button onClick={() => setShowLiveFeed(false)}
-                    style={{ width: 24, height: 24, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                    style={{ width: 24, height: 24, borderRadius: '50%', background: 'var(--ovw-0p06)', border: '1px solid var(--ovw-0p08)', color: 'var(--ovw-0p4)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
                     <X size={11} />
                   </button>
                 </div>
-                <p style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 16, color: 'rgba(255,255,255,0.85)', letterSpacing: '0.02em' }}>
+                <p style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 16, color: 'var(--ovw-0p85)', letterSpacing: '0.02em' }}>
                   Live Threat Intel
                 </p>
-                <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'rgba(255,255,255,0.2)', marginTop: 2 }}>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--ovw-0p2)', marginTop: 2 }}>
                   {articles.length} articles from 5 sources
                 </p>
               </div>
 
               {/* Category pills */}
-              <div style={{ padding: '9px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', display: 'flex', gap: 5, overflowX: 'auto', flexShrink: 0, scrollbarWidth: 'none' }}>
+              <div style={{ padding: '9px 14px', borderBottom: '1px solid var(--ovw-0p04)', display: 'flex', gap: 5, overflowX: 'auto', flexShrink: 0, scrollbarWidth: 'none' }}>
                 {['all', ...Array.from(new Set(articles.map((a) => a.source_name)))].map((cat) => (
                   <button key={cat} onClick={() => setLiveFilterCat(cat)}
                     style={{
                       padding: '3px 8px', borderRadius: 5,
-                      border: `1px solid ${liveFilterCat === cat ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.05)'}`,
-                      background: liveFilterCat === cat ? 'rgba(255,255,255,0.07)' : 'transparent',
-                      color: liveFilterCat === cat ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.25)',
+                      border: `1px solid ${liveFilterCat === cat ? 'var(--ovw-0p15)' : 'var(--ovw-0p05)'}`,
+                      background: liveFilterCat === cat ? 'var(--ovw-0p07)' : 'transparent',
+                      color: liveFilterCat === cat ? 'var(--ovw-0p8)' : 'var(--ovw-0p25)',
                       fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.07em', whiteSpace: 'nowrap', cursor: 'pointer', transition: 'all 0.15s',
                     }}>
                     {cat === 'all' ? 'ALL' : cat.toUpperCase()}
@@ -1261,17 +1261,17 @@ export default function Globe() {
               </div>
 
               {/* Articles */}
-              <div style={{ flex: 1, overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.06) transparent' }}>
+              <div style={{ flex: 1, overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: 'var(--ovw-0p06) transparent' }}>
                 {newsLoading
                   ? [...Array(8)].map((_, i) => (
-                      <div key={i} style={{ padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.03)', opacity: Math.max(0.2, 1 - i * 0.1) }}>
-                        <div style={{ height: 7, background: 'rgba(255,255,255,0.05)', borderRadius: 3, width: '45%', marginBottom: 8 }} />
-                        <div style={{ height: 11, background: 'rgba(255,255,255,0.06)', borderRadius: 3, marginBottom: 4 }} />
-                        <div style={{ height: 11, background: 'rgba(255,255,255,0.04)', borderRadius: 3, width: '70%' }} />
+                      <div key={i} style={{ padding: '12px 16px', borderBottom: '1px solid var(--ovw-0p03)', opacity: Math.max(0.2, 1 - i * 0.1) }}>
+                        <div style={{ height: 7, background: 'var(--ovw-0p05)', borderRadius: 3, width: '45%', marginBottom: 8 }} />
+                        <div style={{ height: 11, background: 'var(--ovw-0p06)', borderRadius: 3, marginBottom: 4 }} />
+                        <div style={{ height: 11, background: 'var(--ovw-0p04)', borderRadius: 3, width: '70%' }} />
                       </div>
                     ))
                   : (liveFilterCat === 'all' ? articles : articles.filter(a => a.source_name === liveFilterCat)).map((article, i) => {
-                      const srcColor = SOURCE_COLORS[article.source_name] || 'rgba(255,255,255,0.4)'
+                      const srcColor = SOURCE_COLORS[article.source_name] || 'var(--ovw-0p4)'
                       return (
                         <motion.a
                           key={article.article_url}
@@ -1281,18 +1281,18 @@ export default function Globe() {
                           initial={{ opacity: 0, x: -12 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: i * 0.025 }}
-                          style={{ display: 'block', padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.03)', textDecoration: 'none', transition: 'background 0.15s' }}
-                          onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
+                          style={{ display: 'block', padding: '12px 16px', borderBottom: '1px solid var(--ovw-0p03)', textDecoration: 'none', transition: 'background 0.15s' }}
+                          onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--ovw-0p03)')}
                           onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                         >
                           <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 5 }}>
                             <span style={{ width: 5, height: 5, borderRadius: '50%', background: srcColor, flexShrink: 0, boxShadow: `0 0 4px ${srcColor}` }} />
                             <span style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.08em', color: srcColor, flex: 1 }}>{article.source_name.toUpperCase()}</span>
-                            <span style={{ fontFamily: 'Inter', fontSize: 8, color: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', gap: 3 }}>
+                            <span style={{ fontFamily: 'Inter', fontSize: 8, color: 'var(--ovw-0p2)', display: 'flex', alignItems: 'center', gap: 3 }}>
                               <Clock size={7} />{timeAgo(article.published_at)}
                             </span>
                           </div>
-                          <p style={{ fontFamily: 'Inter', fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.75)', lineHeight: 1.45, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                          <p style={{ fontFamily: 'Inter', fontSize: 12, fontWeight: 500, color: 'var(--ovw-0p75)', lineHeight: 1.45, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                             {article.title}
                           </p>
                         </motion.a>
@@ -1301,11 +1301,11 @@ export default function Globe() {
               </div>
 
               {/* Footer */}
-              <div style={{ padding: '10px 16px', borderTop: '1px solid rgba(255,255,255,0.04)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontFamily: 'Inter', fontSize: 8, color: 'rgba(255,255,255,0.18)', letterSpacing: '0.06em' }}>
+              <div style={{ padding: '10px 16px', borderTop: '1px solid var(--ovw-0p04)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontFamily: 'Inter', fontSize: 8, color: 'var(--ovw-0p18)', letterSpacing: '0.06em' }}>
                   THN · BC · KREBS · DARK READING · CISA
                 </span>
-                <ExternalLink size={10} style={{ color: 'rgba(255,255,255,0.15)' }} />
+                <ExternalLink size={10} style={{ color: 'var(--ovw-0p15)' }} />
               </div>
             </motion.div>
           )}

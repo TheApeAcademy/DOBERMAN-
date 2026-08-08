@@ -114,7 +114,7 @@ export default function ShareTarget() {
                 <motion.button
                   whileHover={{ scale: 1.03 }}
                   onClick={() => navigate('/dashboard')}
-                  style={{ padding: '12px 32px', background: 'white', color: 'black', fontFamily: 'Inter', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}
+                  style={{ padding: '12px 32px', background: 'var(--chrome-white)', color: 'var(--void)', fontFamily: 'Inter', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}
                 >
                   Go to Dashboard
                 </motion.button>
@@ -139,7 +139,7 @@ export default function ShareTarget() {
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     onClick={() => navigate(result.type === 'eyes' ? '/eyes' : '/news')}
-                    style={{ padding: '12px 28px', background: 'white', color: 'black', fontFamily: 'Inter', fontWeight: 700, fontSize: 13, border: 'none', borderRadius: 10 }}
+                    style={{ padding: '12px 28px', background: 'var(--chrome-white)', color: 'var(--void)', fontFamily: 'Inter', fontWeight: 700, fontSize: 13, border: 'none', borderRadius: 10 }}
                   >
                     View Full Report
                   </motion.button>

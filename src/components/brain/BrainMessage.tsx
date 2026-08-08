@@ -17,14 +17,14 @@ export function BrainMessage({ message }: BrainMessageProps) {
       if (part.startsWith('```') && part.endsWith('```')) {
         const code = part.slice(3, -3).replace(/^\w+\n/, '')
         return (
-          <pre key={i} style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '10px 12px', margin: '8px 0', overflowX: 'auto' }}>
+          <pre key={i} style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid var(--ovw-0p08)', borderRadius: 10, padding: '10px 12px', margin: '8px 0', overflowX: 'auto' }}>
             <code style={{ fontFamily: `'JetBrains Mono', 'SF Mono', monospace`, fontSize: 12, color: '#30D158', lineHeight: 1.5 }}>{code}</code>
           </pre>
         )
       }
       if (part.startsWith('`') && part.endsWith('`')) {
         return (
-          <code key={i} style={{ fontFamily: `'JetBrains Mono', 'SF Mono', monospace`, fontSize: 12, background: 'rgba(255,255,255,0.06)', color: '#ABABAB', padding: '1px 6px', borderRadius: 5 }}>
+          <code key={i} style={{ fontFamily: `'JetBrains Mono', 'SF Mono', monospace`, fontSize: 12, background: 'var(--ovw-0p06)', color: '#ABABAB', padding: '1px 6px', borderRadius: 5 }}>
             {part.slice(1, -1)}
           </code>
         )
@@ -51,12 +51,12 @@ export function BrainMessage({ message }: BrainMessageProps) {
             borderRadius: '18px 18px 4px 18px',
             padding: '10px 14px',
           }}>
-            <p style={{ fontSize: 15, lineHeight: 1.5, color: 'rgba(255,255,255,0.88)', fontFamily: SF, margin: 0 }}>
+            <p style={{ fontSize: 15, lineHeight: 1.5, color: 'var(--ovw-0p88)', fontFamily: SF, margin: 0 }}>
               {message.content}
             </p>
           </div>
           {message.timestamp && (
-            <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.22)', textAlign: 'right', marginTop: 4, fontFamily: SF }}>
+            <p style={{ fontSize: 11, color: 'var(--ovw-0p22)', textAlign: 'right', marginTop: 4, fontFamily: SF }}>
               {formatRelativeTime(message.timestamp)}
             </p>
           )}
@@ -83,17 +83,17 @@ export function BrainMessage({ message }: BrainMessageProps) {
       </div>
       <div style={{ maxWidth: '84%' }}>
         <div style={{
-          background: 'rgba(255,255,255,0.04)',
-          border: '1px solid rgba(255,255,255,0.07)',
+          background: 'var(--ovw-0p04)',
+          border: '1px solid var(--ovw-0p07)',
           borderRadius: '18px 18px 18px 4px',
           padding: '10px 14px',
         }}>
-          <p style={{ fontSize: 15, lineHeight: 1.6, color: 'rgba(255,255,255,0.75)', fontFamily: SF, margin: 0 }}>
+          <p style={{ fontSize: 15, lineHeight: 1.6, color: 'var(--ovw-0p75)', fontFamily: SF, margin: 0 }}>
             {renderContent(message.content)}
           </p>
         </div>
         {message.timestamp && (
-          <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.22)', marginTop: 4, fontFamily: SF }}>
+          <p style={{ fontSize: 11, color: 'var(--ovw-0p22)', marginTop: 4, fontFamily: SF }}>
             {formatRelativeTime(message.timestamp)}
           </p>
         )}
@@ -119,8 +119,8 @@ export function TypingIndicator() {
         <Zap size={13} style={{ color: '#30D158' }} />
       </div>
       <div style={{
-        background: 'rgba(255,255,255,0.04)',
-        border: '1px solid rgba(255,255,255,0.07)',
+        background: 'var(--ovw-0p04)',
+        border: '1px solid var(--ovw-0p07)',
         borderRadius: '18px 18px 18px 4px',
         padding: '12px 16px',
         display: 'flex',
