@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Shield, ArrowRight, Clock, ExternalLink, ChevronRight, Zap, Globe, BookOpen, Download } from 'lucide-react'
+import { Shield, ArrowRight, Clock, ExternalLink, ChevronRight, Zap, BookOpen, Download } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
@@ -218,48 +218,6 @@ export default function Dashboard() {
             ))}
           </div>
 
-          {/* ── THREAT PULSE ──────────────────────────────── */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.7 }}
-            style={{ marginBottom: 48, padding: '20px 28px', background: 'rgba(255,255,255,0.018)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 16, overflow: 'hidden', position: 'relative' }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-              <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.2)' }}>THREAT PULSE — 24H ACTIVITY</p>
-              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'rgba(48,209,88,0.6)' }}>● LIVE</span>
-            </div>
-            <svg width="100%" height="52" viewBox="0 0 600 52" preserveAspectRatio="none" style={{ display: 'block' }}>
-              <defs>
-                <linearGradient id="pulseGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="rgba(48,209,88,0)" />
-                  <stop offset="15%" stopColor="rgba(48,209,88,0.7)" />
-                  <stop offset="85%" stopColor="rgba(48,209,88,0.7)" />
-                  <stop offset="100%" stopColor="rgba(48,209,88,0)" />
-                </linearGradient>
-              </defs>
-              <path d="M0,26 L60,26 L70,6 L78,46 L86,26 L150,26 L158,12 L164,40 L170,26 L230,26 L238,8 L244,44 L250,26 L310,26 L318,4 L326,48 L334,26 L390,26 L398,10 L404,42 L410,26 L470,26 L478,6 L486,46 L494,26 L600,26" fill="none" stroke="rgba(48,209,88,0.05)" strokeWidth="8" />
-              <motion.path
-                d="M0,26 L60,26 L70,6 L78,46 L86,26 L150,26 L158,12 L164,40 L170,26 L230,26 L238,8 L244,44 L250,26 L310,26 L318,4 L326,48 L334,26 L390,26 L398,10 L404,42 L410,26 L470,26 L478,6 L486,46 L494,26 L600,26"
-                fill="none"
-                stroke="url(#pulseGrad)"
-                strokeWidth="1.5"
-                initial={{ pathLength: 0, opacity: 0 }}
-                whileInView={{ pathLength: 1, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 2, ease: 'easeOut' }}
-              />
-            </svg>
-            <div style={{ display: 'flex', gap: 24, marginTop: 10, alignItems: 'center' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--safe)', animation: 'pulse 2s infinite' }} />
-                <span style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.25)' }}>SYSTEMS NOMINAL</span>
-              </div>
-              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'rgba(255,255,255,0.15)' }}>NO ACTIVE THREATS</span>
-            </div>
-          </motion.div>
-
           {/* ── MODULES LABEL ─────────────────────────────── */}
           <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.18)', marginBottom: 36 }}>MODULES</p>
 
@@ -303,69 +261,6 @@ export default function Dashboard() {
                   DEEPFAKE INTELLIGENCE
                 </div>
               </div>
-            </div>
-          </motion.div>
-
-          {/* ── GLOBAL THREAT LEVEL ───────────────────────── */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.7 }}
-            className="glass"
-            style={{ padding: '24px 32px', borderRadius: 20, marginBottom: 32, display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: 32, alignItems: 'center', overflow: 'hidden' }}
-          >
-            <div>
-              <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.2)', marginBottom: 12 }}>GLOBAL THREAT LEVEL</p>
-              <div style={{ position: 'relative', width: 130, height: 76 }}>
-                <svg width={130} height={76} viewBox="0 0 130 76">
-                  <path d="M 8,70 A 58,58 0 0,1 122,70" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth={7} strokeLinecap="round" />
-                  <defs>
-                    <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#30D158" />
-                      <stop offset="50%" stopColor="#FF9500" />
-                      <stop offset="100%" stopColor="#FF2D2D" />
-                    </linearGradient>
-                  </defs>
-                  <motion.path
-                    d="M 8,70 A 58,58 0 0,1 122,70"
-                    fill="none" stroke="url(#gaugeGrad)" strokeWidth={7} strokeLinecap="round"
-                    strokeDasharray="181"
-                    initial={{ strokeDashoffset: 181 }}
-                    whileInView={{ strokeDashoffset: 181 * 0.26 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.4, ease: 'easeOut', delay: 0.2 }}
-                  />
-                  <text x={65} y={64} textAnchor="middle" fill="rgba(255,255,255,0.85)" fontSize={20} fontFamily="Inter" fontWeight={700}>74</text>
-                  <text x={65} y={76} textAnchor="middle" fill="rgba(255,255,255,0.2)" fontSize={7} fontFamily="Inter">/100</text>
-                </svg>
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {[
-                { label: 'MALWARE', val: 82, color: '#FF2D2D' },
-                { label: 'PHISHING', val: 67, color: '#FF9500' },
-                { label: 'DEEPFAKE', val: 55, color: '#FF6B35' },
-                { label: 'DATA BREACH', val: 74, color: '#CD853F' },
-              ].map(({ label, val, color }) => (
-                <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <span style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.28)', width: 80, flexShrink: 0 }}>{label}</span>
-                  <div style={{ flex: 1, height: 2, background: 'rgba(255,255,255,0.05)', borderRadius: 1, overflow: 'hidden' }}>
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${val}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.8, ease: 'easeOut' }}
-                      style={{ height: '100%', background: color, borderRadius: 1 }}
-                    />
-                  </div>
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'rgba(255,255,255,0.3)', width: 24, textAlign: 'right' }}>{val}</span>
-                </div>
-              ))}
-            </div>
-            <div style={{ textAlign: 'right', flexShrink: 0 }}>
-              <p style={{ fontFamily: 'Bebas Neue', fontSize: 40, letterSpacing: '0.04em', color: '#FF9500', lineHeight: 1 }}>HIGH</p>
-              <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.2)', marginTop: 4 }}>THREAT INDEX</p>
             </div>
           </motion.div>
 
@@ -439,7 +334,8 @@ export default function Dashboard() {
             style={{ borderRadius: 24, marginBottom: 32, overflow: 'hidden', background: '#000', textAlign: 'center', cursor: 'pointer' }}
           >
             {/* DAYE hero visual — grid video background */}
-            <div style={{ position: 'relative', width: '100%', height: 'clamp(260px, 50vw, 520px)', overflow: 'hidden', background: '#000' }}>
+            <style>{`@media(min-width:1024px){.daye-video{height:280px!important}}`}</style>
+            <div className="daye-video" style={{ position: 'relative', width: '100%', height: 'clamp(260px, 50vw, 520px)', overflow: 'hidden', background: '#000' }}>
               <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5, pointerEvents: 'none' }}>
                 <source src="/assets/video/Black_grid_background_video___Motion_background_with_black_grid_video___Film_texture,_Motion_graphics_trends,_Motion_backgrounds.mp4" type="video/mp4" />
               </video>
@@ -511,44 +407,6 @@ export default function Dashboard() {
                   NEWS -- VERIFY CONTENT
                 </div>
               </div>
-            </div>
-          </motion.div>
-
-          {/* ── DETECTION ACCURACY ───────────────────────── */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.6 }}
-            style={{ marginBottom: 32, padding: '22px 28px', background: 'rgba(255,255,255,0.012)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 18 }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-              <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.2)' }}>MODULE ACCURACY — ALL TIME</p>
-              <span style={{ fontFamily: 'Bebas Neue', fontSize: 20, letterSpacing: '0.06em', color: 'var(--safe)' }}>97.3%</span>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {[
-                { label: 'Deep Fake Intelligence', pct: 97, color: 'rgba(255,255,255,0.55)' },
-                { label: 'Data Breach Detection', pct: 99, color: '#CD853F' },
-                { label: 'News Verification', pct: 94, color: '#FF6B35' },
-                { label: 'DAYE Intelligence', pct: 98, color: 'var(--safe)' },
-              ].map(({ label, pct, color }) => (
-                <div key={label}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                    <span style={{ fontFamily: 'Syne', fontWeight: 400, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>{label}</span>
-                    <span style={{ fontFamily: 'Inter', fontSize: 12, fontWeight: 700, color }}>{pct}%</span>
-                  </div>
-                  <div style={{ height: 2, background: 'rgba(255,255,255,0.04)', borderRadius: 1, overflow: 'hidden' }}>
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${pct}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.9, ease: 'easeOut' }}
-                      style={{ height: '100%', background: color, borderRadius: 1 }}
-                    />
-                  </div>
-                </div>
-              ))}
             </div>
           </motion.div>
 
@@ -635,19 +493,6 @@ export default function Dashboard() {
                   <div style={{ flex: 1, height: 1, background: 'rgba(205,133,63,0.09)' }} />
                   <span style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.16em', color: 'rgba(205,133,63,0.3)', textTransform: 'uppercase' }}>Zero Data Retained</span>
                   <div style={{ flex: 1, height: 1, background: 'rgba(205,133,63,0.09)' }} />
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  {[
-                    { val: '14B+', label: 'RECORDS', color: '#D4A44E' },
-                    { val: '500+', label: 'SOURCES', color: '#CD853F' },
-                    { val: '<1s', label: 'SCAN TIME', color: '#A0522D' },
-                    { val: '100%', label: 'ENCRYPTED', color: 'rgba(212,164,78,0.6)' },
-                  ].map(({ val, label, color }) => (
-                    <div key={label} style={{ padding: '14px 12px', borderRadius: 12, textAlign: 'center', background: 'rgba(205,133,63,0.04)', border: '1px solid rgba(205,133,63,0.12)' }}>
-                      <p style={{ fontFamily: 'Bebas Neue', fontSize: 28, letterSpacing: '0.04em', color, lineHeight: 1 }}>{val}</p>
-                      <p style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.14em', color: 'rgba(205,133,63,0.38)', marginTop: 4 }}>{label}</p>
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>
@@ -941,62 +786,6 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-        {/* ── Live Intel News ── */}
-        <div style={{ marginTop: 40 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18, flexWrap: 'wrap', gap: 12 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase' }}>Live Intel</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '2px 8px', background: 'rgba(255,45,45,0.08)', border: '1px solid rgba(255,45,45,0.18)', borderRadius: 5 }}>
-                <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#FF2D2D', animation: 'pulse 1.5s infinite' }} />
-                <span style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.12em', color: '#FF2D2D', textTransform: 'uppercase' }}>Live</span>
-              </div>
-            </div>
-            <div style={{ display: 'flex', gap: 12 }}>
-              <button onClick={() => navigate('/globe')}
-                style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.3)', background: 'none', border: 'none', cursor: 'pointer' }}>
-                <Globe size={11} /> Threat Globe
-              </button>
-              <button onClick={() => navigate('/news')}
-                style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.3)', background: 'none', border: 'none', cursor: 'pointer' }}>
-                View all →
-              </button>
-            </div>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: 10 }}>
-            {newsLoading
-              ? [...Array(4)].map((_, i) => (
-                  <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: '14px 16px' }}>
-                    <div style={{ height: 7, background: 'rgba(255,255,255,0.05)', borderRadius: 3, width: '40%', marginBottom: 10 }} />
-                    <div style={{ height: 12, background: 'rgba(255,255,255,0.07)', borderRadius: 3, marginBottom: 5 }} />
-                    <div style={{ height: 12, background: 'rgba(255,255,255,0.04)', borderRadius: 3, width: '70%' }} />
-                  </div>
-                ))
-              : newsArticles.slice(0, 4).map((article, i) => {
-                  const srcColor = SOURCE_COLORS[article.source_name] || 'rgba(255,255,255,0.4)'
-                  return (
-                    <motion.button key={article.article_url}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.07 }}
-                      whileHover={{ y: -3, borderColor: 'rgba(255,255,255,0.12)' }}
-                      onClick={() => navigate('/news')}
-                      style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: '14px 16px', textAlign: 'left', cursor: 'pointer', transition: 'all 0.2s', display: 'block', width: '100%' }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 8 }}>
-                        <span style={{ width: 5, height: 5, borderRadius: '50%', background: srcColor, flexShrink: 0 }} />
-                        <span style={{ fontFamily: 'Inter', fontSize: 8, letterSpacing: '0.08em', color: srcColor, flex: 1 }}>{article.source_name.toUpperCase()}</span>
-                        <span style={{ fontFamily: 'Inter', fontSize: 8, color: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', gap: 3 }}>
-                          <Clock size={7} />{timeAgo(article.published_at)}
-                        </span>
-                      </div>
-                      <p style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 12, color: 'rgba(255,255,255,0.8)', lineHeight: 1.45, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                        {article.title}
-                      </p>
-                    </motion.button>
-                  )
-                })}
-          </div>
-        </div>
 
       <style>{`@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }`}</style>
     </Layout>

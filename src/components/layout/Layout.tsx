@@ -55,7 +55,7 @@ export function Layout({ profile, onSignOut, children, title }: LayoutProps) {
       {/* Main content — always beside sidebar, never under it */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflowX: 'hidden', zIndex: 1, minHeight: 0 }}>
         <Header profile={profile} onMenuClick={handleMenuClick} title={title} />
-        <main style={{ flex: 1, overflowY: 'scroll', minHeight: 0, WebkitOverflowScrolling: 'touch' } as React.CSSProperties}>
+        <main data-lenis-prevent style={{ flex: 1, overflowY: 'scroll', minHeight: 0, WebkitOverflowScrolling: 'touch' } as React.CSSProperties}>
           {children}
         </main>
       </div>
