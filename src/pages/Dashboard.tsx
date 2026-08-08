@@ -225,10 +225,10 @@ export default function Dashboard() {
         {/* Grid lines background — same subtle texture as the Auth page */}
         <div
           style={{
-            position: 'absolute', inset: 0, opacity: 0.05, pointerEvents: 'none',
+            position: 'absolute', inset: 0, opacity: 'var(--grid-line-opacity)', pointerEvents: 'none',
             backgroundImage: 'linear-gradient(#3B82F6 1px, transparent 1px), linear-gradient(90deg, #3B82F6 1px, transparent 1px)',
             backgroundSize: '40px 40px',
-          }}
+          } as React.CSSProperties}
         />
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '56px clamp(16px, 4vw, 48px) 96px', position: 'relative', zIndex: 1 }}>
 
@@ -317,9 +317,8 @@ export default function Dashboard() {
             initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.7 }}
             onClick={() => navigate('/brain')}
             style={{
-              position: 'relative', borderRadius: 24, marginBottom: 20, overflow: 'hidden', cursor: 'pointer',
-              background: '#000', border: '1px solid rgba(48,209,88,0.14)',
-              padding: 'clamp(32px, 5vw, 56px) clamp(20px, 4vw, 48px)', textAlign: 'center',
+              position: 'relative', marginBottom: 20, cursor: 'pointer',
+              padding: 'clamp(24px, 4vw, 40px) clamp(20px, 4vw, 48px)', textAlign: 'center',
             }}
           >
             <style>{`@media(max-width:480px){.daye-mid-circle{width:176px!important;height:176px!important}}`}</style>
@@ -334,10 +333,10 @@ export default function Dashboard() {
               <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.06em', color: 'var(--ovw-0p28)', marginBottom: 16 }}>
                 02 -- AI SECURITY ANALYST
               </p>
-              <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 6vw, 72px)', letterSpacing: '0.08em', lineHeight: 0.9, marginBottom: 10, color: 'var(--safe)' }}>
+              <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 6vw, 72px)', letterSpacing: '0.08em', lineHeight: 0.9, marginBottom: 8, color: 'var(--safe)' }}>
                 DAYE
               </h2>
-              <p style={{ fontFamily: 'Inter', fontSize: 15, color: 'var(--ovw-0p48)', maxWidth: 440, margin: '0 auto 16px', lineHeight: 1.65 }}>
+              <p style={{ fontFamily: 'Inter', fontSize: 15, color: 'var(--ovw-0p48)', maxWidth: 440, margin: '0 auto 10px', lineHeight: 1.65 }}>
                 Ask anything. DAYE responds in plain language and gives you a concrete next step. Like having a security analyst on call 24/7.
               </p>
               <motion.div
@@ -602,79 +601,82 @@ export default function Dashboard() {
         {/* Back inside the padded container for remaining sections */}
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '80px clamp(16px, 4vw, 48px) 96px' }}>
 
-          {/* ── DOBERMAN PORTRAIT ──────────────────────────── */}
-          <style>{`@media(min-width:1024px){.portrait-box{height:320px!important}.portrait-img{object-fit:contain!important;background:#000}.portrait-title{font-size:44px!important}}`}</style>
-          <motion.div
-            className="portrait-box"
-            initial={{ opacity: 0, scale: 0.97 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.0, ease: [0.25, 0.1, 0.25, 1] }}
-            viewport={{ once: true, margin: '-60px' }}
-            style={{ borderRadius: 24, overflow: 'hidden', marginBottom: 80, position: 'relative', height: 520, background: '#000' }}
-          >
-            <img
-              className="portrait-img"
-              src="/assets/video/b78ad4f230a4015d24a420fce2a7d53b.jpg"
-              alt="D0B3RMAN"
-              onError={(e) => { const p = e.currentTarget.parentElement; if (p) p.style.display = 'none' }}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
-            />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, #000 100%)' }} />
-            <div style={{ position: 'absolute', bottom: 44, left: 44 }}>
-              <p className="portrait-title" style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(40px, 6vw, 72px)', letterSpacing: '0.3em', color: 'var(--ovw-0p92)', lineHeight: 1 }}>D0B3RMAN</p>
-              <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'var(--ovw-0p28)', marginTop: 10 }}>THE WATCHDOG IS WATCHING</p>
-            </div>
-          </motion.div>
+          {/* ── RECENT ACTIVITY + DOBERMAN PORTRAIT, side by side ── */}
+          <style>{`@media(max-width:900px){.activity-portrait-row{grid-template-columns:1fr!important}.activity-portrait-row .portrait-box{order:-1;height:220px!important}}`}</style>
+          <div className="activity-portrait-row" style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 24, alignItems: 'start', marginBottom: 80 }}>
 
-          {/* ── RECENT ACTIVITY ────────────────────────────── */}
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
-              <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'var(--ovw-0p18)' }}>RECENT ACTIVITY</p>
-              <button onClick={() => navigate('/history')} style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--chrome-dim)', background: 'none', border: 'none' }}>View all</button>
-            </div>
-            <div className="glass" style={{ borderRadius: 20, overflow: 'hidden' }}>
-              {loading ? (
-                [...Array(3)].map((_, i) => (
-                  <div key={i} style={{ padding: '16px 20px', borderBottom: '1px solid var(--ovw-0p04)', display: 'flex', gap: 12, alignItems: 'center' }}>
-                    <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--ovw-0p03)' }} />
-                    <div style={{ flex: 1 }}>
-                      <div style={{ height: 12, background: 'var(--ovw-0p03)', borderRadius: 4, marginBottom: 6, width: '60%' }} />
-                      <div style={{ height: 10, background: 'var(--ovw-0p03)', borderRadius: 4, width: '30%' }} />
+            {/* Recent activity */}
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+                <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'var(--ovw-0p18)' }}>RECENT ACTIVITY</p>
+                <button onClick={() => navigate('/history')} style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--chrome-dim)', background: 'none', border: 'none' }}>View all</button>
+              </div>
+              <div className="glass" style={{ borderRadius: 20, overflow: 'hidden' }}>
+                {loading ? (
+                  [...Array(3)].map((_, i) => (
+                    <div key={i} style={{ padding: '16px 20px', borderBottom: '1px solid var(--ovw-0p04)', display: 'flex', gap: 12, alignItems: 'center' }}>
+                      <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--ovw-0p03)' }} />
+                      <div style={{ flex: 1 }}>
+                        <div style={{ height: 12, background: 'var(--ovw-0p03)', borderRadius: 4, marginBottom: 6, width: '60%' }} />
+                        <div style={{ height: 10, background: 'var(--ovw-0p03)', borderRadius: 4, width: '30%' }} />
+                      </div>
                     </div>
+                  ))
+                ) : activity.length === 0 ? (
+                  <div style={{ padding: 48, textAlign: 'center' }}>
+                    <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--ovw-0p2)' }}>No activity yet. Run your first scan.</p>
                   </div>
-                ))
-              ) : activity.length === 0 ? (
-                <div style={{ padding: 48, textAlign: 'center' }}>
-                  <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--ovw-0p2)' }}>No activity yet. Run your first scan.</p>
-                </div>
-              ) : (
-                activity.map((item, i) => {
-                  const typeLabel: Record<string, string> = { eyes: 'D.F.I.', brain: 'D0B3RMAN I.', news: 'NEWS' }
-                  const IconComp = item.type === 'brain' ? Zap : item.type === 'news' ? ExternalLink : Shield
-                  return (
-                    <motion.div key={item.id} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}
-                      style={{ padding: '14px 20px', borderBottom: i < activity.length - 1 ? '1px solid var(--ovw-0p04)' : 'none', display: 'flex', alignItems: 'center', gap: 14 }}>
-                      <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--ovw-0p04)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                        <IconComp size={14} style={{ color: 'var(--ovw-0p3)' }} />
-                      </div>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <p style={{ fontFamily: 'Inter', fontSize: 14, color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: 2 }}>{item.label}</p>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                          <Clock size={10} style={{ color: 'var(--ovw-0p2)' }} />
-                          <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--ovw-0p25)' }}>{formatRelativeTime(item.created_at)}</span>
-                          <span style={{ fontFamily: 'Inter', fontSize: 9, color: 'var(--ovw-0p2)', letterSpacing: '0.03em' }}>{typeLabel[item.type]}</span>
-                          {item.result && (
-                            <span style={{ fontFamily: 'Inter', fontSize: 10, color: getResultLabel(item.result).color, background: `${getResultLabel(item.result).color}22`, padding: '2px 6px', borderRadius: 4 }}>
-                              {getResultLabel(item.result).label}
-                            </span>
-                          )}
+                ) : (
+                  activity.map((item, i) => {
+                    const typeLabel: Record<string, string> = { eyes: 'D.F.I.', brain: 'D0B3RMAN I.', news: 'NEWS' }
+                    const IconComp = item.type === 'brain' ? Zap : item.type === 'news' ? ExternalLink : Shield
+                    return (
+                      <motion.div key={item.id} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}
+                        style={{ padding: '14px 20px', borderBottom: i < activity.length - 1 ? '1px solid var(--ovw-0p04)' : 'none', display: 'flex', alignItems: 'center', gap: 14 }}>
+                        <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--ovw-0p04)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          <IconComp size={14} style={{ color: 'var(--ovw-0p3)' }} />
                         </div>
-                      </div>
-                    </motion.div>
-                  )
-                })
-              )}
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <p style={{ fontFamily: 'Inter', fontSize: 14, color: 'var(--text-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: 2 }}>{item.label}</p>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                            <Clock size={10} style={{ color: 'var(--ovw-0p2)' }} />
+                            <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--ovw-0p25)' }}>{formatRelativeTime(item.created_at)}</span>
+                            <span style={{ fontFamily: 'Inter', fontSize: 9, color: 'var(--ovw-0p2)', letterSpacing: '0.03em' }}>{typeLabel[item.type]}</span>
+                            {item.result && (
+                              <span style={{ fontFamily: 'Inter', fontSize: 10, color: getResultLabel(item.result).color, background: `${getResultLabel(item.result).color}22`, padding: '2px 6px', borderRadius: 4 }}>
+                                {getResultLabel(item.result).label}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )
+                  })
+                )}
+              </div>
             </div>
+
+            {/* Doberman portrait — small, right-aligned */}
+            <motion.div
+              className="portrait-box"
+              initial={{ opacity: 0, scale: 0.97 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.0, ease: [0.25, 0.1, 0.25, 1] }}
+              viewport={{ once: true, margin: '-60px' }}
+              style={{ borderRadius: 20, overflow: 'hidden', position: 'relative', height: 380, background: '#000' }}
+            >
+              <img
+                src="/assets/video/b78ad4f230a4015d24a420fce2a7d53b.jpg"
+                alt="D0B3RMAN"
+                onError={(e) => { const p = e.currentTarget.parentElement; if (p) p.style.display = 'none' }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+              />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, #000 100%)' }} />
+              <div style={{ position: 'absolute', bottom: 20, left: 20 }}>
+                <p style={{ fontFamily: 'Bebas Neue', fontSize: 26, letterSpacing: '0.2em', color: 'var(--ovw-0p92)', lineHeight: 1 }}>D0B3RMAN</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.04em', color: 'var(--ovw-0p28)', marginTop: 6 }}>THE WATCHDOG IS WATCHING</p>
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>

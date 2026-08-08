@@ -45,6 +45,10 @@
   --text-2: #94A3B8;
   --text-3: #64748B;
 
+  /* Decorative grid-line texture — dimmer on dark (lines read brighter
+     against black) than on light, where they need more presence to show. */
+  --grid-line-opacity: 0.025;
+
   /* Overlay tokens — chrome-on-void translucent whites, auto-generated from
      usage across the app. Flipped to ink-on-chrome in light mode below. */
   --ovw-0p01: rgba(255, 255, 255, 0.01);
@@ -131,6 +135,8 @@
   --text-1: #0A0A0F;
   --text-2: #475569;
   --text-3: #5B6472;
+
+  --grid-line-opacity: 0.05;
 
   --ovw-0p01: rgba(10, 10, 18, 0.013);
   --ovw-0p018: rgba(10, 10, 18, 0.0234);
