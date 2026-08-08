@@ -129,7 +129,8 @@ export type VoiceScan = {
 export type BreachScan = {
   type: 'email' | 'password' | 'phone'
   breached: boolean
-  severity: 'none' | 'low' | 'medium' | 'critical'
+  unavailable?: boolean
+  severity: 'none' | 'low' | 'medium' | 'critical' | 'unavailable'
   message: string
   recommendations: string[]
   occurrences?: number

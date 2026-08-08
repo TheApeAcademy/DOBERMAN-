@@ -32,6 +32,7 @@ function Pill({ severity }: { severity: string }) {
     low: { label: 'LOW RISK', color: '#FF9F0A' },
     medium: { label: 'MEDIUM RISK', color: '#FF9F0A' },
     critical: { label: 'CRITICAL', color: '#FF453A' },
+    unavailable: { label: 'CHECK UNAVAILABLE', color: '#8E8E93' },
   }
   const { label, color } = cfg[severity] ?? cfg.none
   return (
@@ -263,7 +264,9 @@ export default function Breach() {
 
                 {/* Status row */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20 }}>
-                  {result.breached
+                  {result.unavailable
+                    ? <Shield size={26} style={{ color: '#8E8E93', flexShrink: 0 }} />
+                    : result.breached
                     ? <AlertTriangle size={26} style={{ color: result.severity === 'critical' ? '#FF453A' : '#FF9F0A', flexShrink: 0 }} />
                     : <CheckCircle size={26} style={{ color: '#30D158', flexShrink: 0 }} />
                   }

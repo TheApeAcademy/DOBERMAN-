@@ -89,35 +89,13 @@ serve(async (req) => {
       }
     } else if (type === 'email') {
       if (!HIBP_KEY) {
-        const seed = value.split('').reduce((a: number, c: string) => a + c.charCodeAt(0), 0)
-        const breachCount = seed % 7
-        const mockBreaches = ['Adobe', 'LinkedIn', 'Dropbox', 'MyFitnessPal', 'Canva', 'Zynga', 'Kickstarter']
-        const selectedBreaches = mockBreaches.slice(0, breachCount)
         result = {
           type: 'email',
-          breached: breachCount > 0,
-          breach_count: breachCount,
-          breaches: selectedBreaches.map((name) => ({
-            name,
-            domain: `${name.toLowerCase()}.com`,
-            breach_date: '2019-01-01',
-            data_classes: ['Email addresses', 'Passwords', 'Usernames'],
-            description: `${name} suffered a data breach exposing user credentials.`,
-            is_verified: true,
-          })),
-          severity: breachCount === 0 ? 'none' : breachCount < 3 ? 'medium' : 'critical',
-          message: breachCount === 0
-            ? 'Good news — this email was not found in any known data breach.'
-            : `This email appeared in ${breachCount} data breach${breachCount !== 1 ? 'es' : ''}. Review the details below.`,
-          recommendations: breachCount > 0 ? [
-            'Change passwords on all listed services',
-            'Enable two-factor authentication on each breached account',
-            'Check if any breached passwords were reused elsewhere',
-            'Monitor your accounts for suspicious activity',
-          ] : [
-            'Keep monitoring with regular breach checks',
-            'Use unique passwords for every service',
-          ],
+          breached: false,
+          unavailable: true,
+          severity: 'unavailable',
+          message: 'Live email breach checking is not configured yet (missing HIBP API key) — this check could not run against real data.',
+          recommendations: [],
         }
       } else {
         const hibpRes = await fetch(
@@ -163,28 +141,14 @@ serve(async (req) => {
         }
       }
     } else if (type === 'phone') {
-      const digits = value.replace(/\D/g, '')
-      const seed = digits.split('').reduce((a: number, c: string) => a + parseInt(c), 0)
-      const leaked = seed % 5 > 1
-      const sources = leaked ? ['Facebook 2021 Leak', 'Twitter 2022 Breach', 'Truecaller Database'].slice(0, (seed % 3) + 1) : []
-
       result = {
         type: 'phone',
-        breached: leaked,
-        sources,
-        severity: leaked ? (sources.length > 1 ? 'critical' : 'medium') : 'none',
-        message: leaked
-          ? `This phone number was found in ${sources.length} known breach source${sources.length !== 1 ? 's' : ''}. Your number may be exposed to spam and social engineering.`
-          : 'This phone number was not found in known breach databases.',
-        recommendations: leaked ? [
-          'Be vigilant about unsolicited calls and SMS messages',
-          'Do not respond to suspicious texts claiming to be from banks or services',
-          'Consider using a separate number for sensitive registrations',
-          'Enable spam call filtering on your device',
-        ] : [
-          'Continue being cautious about where you share your number',
-          'Avoid registering with services that sell user data',
-        ],
+        breached: false,
+        unavailable: true,
+        severity: 'unavailable',
+        sources: [],
+        message: 'Phone number breach checking is not yet connected to a live data source — no verified breach databases currently support this lookup.',
+        recommendations: [],
       }
     }
 
