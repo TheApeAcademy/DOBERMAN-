@@ -105,7 +105,7 @@ function extractC2pa(hiveResult: Record<string, unknown>) {
 }
 
 async function callHuggingFace(model: string, imageBuffer: ArrayBuffer, apiKey: string): Promise<Response> {
-  return fetch(`https://api-inference.huggingface.co/models/${model}`, {
+  return fetch(`https://router.huggingface.co/hf-inference/models/${model}`, {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${apiKey}`,
