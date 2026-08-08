@@ -20,6 +20,8 @@ import Daye from './pages/Daye'
 import Breach from './pages/Breach'
 import Report from './pages/Report'
 import ReportFull from './pages/ReportFull'
+import Privacy from './pages/Privacy'
+import Terms from './pages/Terms'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
@@ -48,6 +50,8 @@ function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Landing />} />
         <Route path="/auth" element={<PageWrapper><Auth /></PageWrapper>} />
+        <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
+        <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
         <Route path="/share-target" element={<ProtectedRoute><ShareTarget /></ProtectedRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><PageWrapper><Dashboard /></PageWrapper></ProtectedRoute>} />
         <Route path="/eyes" element={<ProtectedRoute><PageWrapper><Eyes /></PageWrapper></ProtectedRoute>} />
