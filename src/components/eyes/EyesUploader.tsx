@@ -4,11 +4,9 @@ import { Upload, File, Image, Video, Music, X, Zap } from 'lucide-react'
 interface EyesUploaderProps {
   onAnalyze: (file: File) => void
   scanning: boolean
-  remainingScans: number
-  onUpgradeClick: () => void
 }
 
-export function EyesUploader({ onAnalyze, scanning, remainingScans, onUpgradeClick }: EyesUploaderProps) {
+export function EyesUploader({ onAnalyze, scanning }: EyesUploaderProps) {
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [dragOver, setDragOver] = useState(false)
@@ -55,28 +53,6 @@ export function EyesUploader({ onAnalyze, scanning, remainingScans, onUpgradeCli
 
   return (
     <div className="space-y-4">
-      {/* Daily limit indicator */}
-      <div className="flex items-center justify-between p-3 bg-bg-tertiary rounded-lg border border-border-color">
-        <span className="text-text-secondary font-label text-xs">Daily scans remaining</span>
-        <div className="flex items-center gap-2">
-          <div className="flex gap-1">
-            {[...Array(3)].map((_, i) => (
-              <div
-                key={i}
-                className="w-5 h-1.5 rounded-full"
-                style={{ background: i < remainingScans ? '#3B82F6' : '#21262D' }}
-              />
-            ))}
-          </div>
-          <span
-            className="font-display text-lg"
-            style={{ color: remainingScans > 0 ? '#3B82F6' : '#FF3B3B' }}
-          >
-            {remainingScans}/3
-          </span>
-        </div>
-      </div>
-
       {/* Drop zone */}
       <div
         className={`relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-200 ${
@@ -146,30 +122,24 @@ export function EyesUploader({ onAnalyze, scanning, remainingScans, onUpgradeCli
       </div>
 
       {/* Analyze button */}
-      {remainingScans === 0 ? (
-        <button onClick={onUpgradeClick} className="w-full btn-danger py-3">
-          Daily limit reached - Upgrade to Pro
-        </button>
-      ) : (
-        <button
-          onClick={() => file && onAnalyze(file)}
-          disabled={!file || scanning}
-          className="w-full btn-primary py-3"
-          style={{ fontSize: '15px' }}
-        >
-          {scanning ? (
-            <span className="flex items-center gap-2">
-              <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              Analyzing with D0B3RMAN...
-            </span>
-          ) : (
-            <span className="flex items-center gap-2">
-              <Zap size={16} />
-              Analyze File
-            </span>
-          )}
-        </button>
-      )}
+      <button
+        onClick={() => file && onAnalyze(file)}
+        disabled={!file || scanning}
+        className="w-full btn-primary py-3"
+        style={{ fontSize: '15px' }}
+      >
+        {scanning ? (
+          <span className="flex items-center gap-2">
+            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            Analyzing with D0B3RMAN...
+          </span>
+        ) : (
+          <span className="flex items-center gap-2">
+            <Zap size={16} />
+            Analyze File
+          </span>
+        )}
+      </button>
     </div>
   )
 }

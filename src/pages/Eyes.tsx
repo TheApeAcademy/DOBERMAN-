@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Eye } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Layout } from '../components/layout/Layout'
 import { EyesUploader } from '../components/eyes/EyesUploader'
 import { EyesResult } from '../components/eyes/EyesResult'
 import { EyesScanHistory } from '../components/eyes/EyesScanHistory'
-import { UpgradeModal } from '../components/ui/Modal'
 import { useAuth } from '../hooks/useAuth'
 import { useEyes } from '../hooks/useEyes'
 import type { EyesScan } from '../lib/supabase'
@@ -34,23 +33,13 @@ const sectionLabel: React.CSSProperties = {
 
 export default function Eyes() {
   const { user, profile, signOut } = useAuth()
-  const { scanning, result, error, analyze, getHistory, getDailyCount, setResult } = useEyes(user?.id)
-  const [dailyCount, setDailyCount] = useState(0)
-  const [upgradeOpen, setUpgradeOpen] = useState(false)
+  const { scanning, result, error, analyze, getHistory, setResult } = useEyes(user?.id)
   const [historyKey, setHistoryKey] = useState(0)
-
-  useEffect(() => {
-    if (user) getDailyCount().then(setDailyCount)
-  }, [user])
 
   const handleAnalyze = async (file: File) => {
     await analyze(file)
-    const count = await getDailyCount()
-    setDailyCount(count)
     setHistoryKey((k) => k + 1)
   }
-
-  const remainingScans = Math.max(0, 3 - dailyCount)
 
   return (
     <Layout profile={profile} onSignOut={signOut} title="Deepfake Intelligence">
@@ -78,19 +67,6 @@ export default function Eyes() {
               AI-powered detection of synthetic media
             </p>
           </div>
-          <div style={{
-            padding: '6px 14px',
-            borderRadius: 100,
-            background: remainingScans > 0 ? 'rgba(48,209,88,0.12)' : 'rgba(255,45,45,0.12)',
-            border: `1px solid ${remainingScans > 0 ? 'rgba(48,209,88,0.3)' : 'rgba(255,45,45,0.3)'}`,
-            fontFamily: 'JetBrains Mono, monospace',
-            fontSize: 10,
-            color: remainingScans > 0 ? 'var(--safe)' : 'var(--danger)',
-            letterSpacing: '0.08em',
-            flexShrink: 0,
-          }}>
-            {remainingScans} / 3 TODAY
-          </div>
         </div>
 
         {/* Main two-panel layout */}
@@ -103,8 +79,6 @@ export default function Eyes() {
               <EyesUploader
                 onAnalyze={handleAnalyze}
                 scanning={scanning}
-                remainingScans={remainingScans}
-                onUpgradeClick={() => setUpgradeOpen(true)}
               />
               <p style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'var(--text-3)', marginTop: 14, letterSpacing: '0.06em' }}>
                 Supported: Images, Videos, Audio · Max 50MB
@@ -184,7 +158,6 @@ export default function Eyes() {
         </div>
       </div>
 
-      <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </Layout>
   )

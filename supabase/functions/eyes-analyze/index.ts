@@ -6,7 +6,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-const DAILY_LIMIT = 3
 const HIVE_ENDPOINT = 'https://api.thehive.ai/api/v3/hive/ai-generated-and-deepfake-content-detection'
 
 type HFLabel = { label: string; score: number }
@@ -134,24 +133,6 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
-
-    // Check daily limit
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-
-    const { count } = await supabase
-      .from('usage_logs')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user_id)
-      .eq('module', 'eyes')
-      .gte('created_at', today.toISOString())
-
-    if ((count || 0) >= DAILY_LIMIT) {
-      return new Response(
-        JSON.stringify({ error: 'Daily scan limit reached. Upgrade to Pro for unlimited scans.' }),
-        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
-    }
 
     let confidenceScore = 50
     let result: 'authentic' | 'fake' | 'uncertain' = 'uncertain'

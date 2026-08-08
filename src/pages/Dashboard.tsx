@@ -273,13 +273,17 @@ export default function Dashboard() {
               title={<>DEEP FAKE<br />INTELLIGENCE</>}
               description="Upload any image, video, or audio. D0B3RMAN analyzes it against known deepfake signatures and returns a trust score in seconds."
               meta="Hive AI · XceptionNet · EfficientNet · MesoNet"
-              progress={{ value: stats.eyesToday, max: 3 }}
               media={
                 <img
                   src="/assets/video/0a068fc3612b18fb193aa68da61d7bb3.jpg"
                   alt=""
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', pointerEvents: 'none' }}
                 />
+              }
+              footer={
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>
+                  {stats.eyesToday} scans today <ArrowRight size={14} />
+                </div>
               }
             />
 
