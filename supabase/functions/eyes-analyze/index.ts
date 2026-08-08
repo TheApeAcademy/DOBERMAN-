@@ -7,10 +7,11 @@ const corsHeaders = {
 }
 
 const DAILY_LIMIT = 3
+const HIVE_ENDPOINT = 'https://api.thehive.ai/api/v3/hive/ai-generated-and-deepfake-content-detection'
 
 type HFLabel = { label: string; score: number }
-type HiveClass = { class: string; score: number }
-type HiveOutput = { classes?: HiveClass[]; time?: number; [key: string]: unknown }
+type HiveClass = { class: string; value: number }
+type HiveOutput = { extra?: { name: string; value: number }[]; classes?: HiveClass[] }
 
 const GENERATOR_KEYWORDS: Record<string, string> = {
   midjourney: 'Midjourney',
@@ -35,17 +36,12 @@ const GENERATOR_KEYWORDS: Record<string, string> = {
   craiyon: 'Craiyon',
 }
 
-const DEEPFAKE_KEYWORDS = ['deepfake', 'faceswap', 'fakeface', 'manipulatedface', 'facemanipulation']
-const AI_GEN_KEYWORDS = ['aigenerated', 'generated', 'synthetic', 'artificial']
-const GENERIC_FAKE_KEYWORDS = ['yes', 'fake']
-const GENERIC_AUTHENTIC_KEYWORDS = ['no', 'real', 'authentic']
-
 function normalize(key: string): string {
   return key.toLowerCase().replace(/[^a-z0-9]/g, '')
 }
 
 function collectClasses(hiveResult: Record<string, unknown>): HiveClass[] {
-  const output = (hiveResult as { status?: { response?: { output?: HiveOutput[] } } })?.status?.response?.output
+  const output = (hiveResult as { output?: HiveOutput[] })?.output
   if (!Array.isArray(output)) return []
   return output.flatMap((o) => o?.classes || [])
 }
@@ -55,7 +51,7 @@ function extractAttribution(classes: HiveClass[]) {
     .map((c) => {
       const norm = normalize(c.class)
       const display = GENERATOR_KEYWORDS[norm]
-      return display ? { model: display, confidence: Math.round(c.score * 1000) / 10 } : null
+      return display ? { model: display, confidence: Math.round(c.value * 1000) / 10 } : null
     })
     .filter((c): c is { model: string; confidence: number } => c !== null)
     .sort((a, b) => b.confidence - a.confidence)
@@ -71,27 +67,15 @@ function extractProbabilities(classes: HiveClass[]) {
 
   for (const c of classes) {
     const norm = normalize(c.class)
-    const score = Math.round(c.score * 1000) / 10
+    const value = Math.round(c.value * 1000) / 10
 
-    if (DEEPFAKE_KEYWORDS.includes(norm)) {
-      deepfakeProbability = Math.max(deepfakeProbability ?? 0, score)
-    } else if (AI_GEN_KEYWORDS.includes(norm)) {
-      aiProbability = Math.max(aiProbability ?? 0, score)
-    }
-  }
-
-  // Fallback: some Hive tasks return a single generic binary classifier
-  // (yes/no, fake/real) rather than a distinct AI-generation head. Only use
-  // it if we didn't already find a more specific signal.
-  if (aiProbability === null && deepfakeProbability === null) {
-    for (const c of classes) {
-      const norm = normalize(c.class)
-      const score = Math.round(c.score * 1000) / 10
-      if (GENERIC_FAKE_KEYWORDS.includes(norm)) {
-        aiProbability = Math.max(aiProbability ?? 0, score)
-      } else if (GENERIC_AUTHENTIC_KEYWORDS.includes(norm)) {
-        aiProbability = Math.max(aiProbability ?? 0, 100 - score)
-      }
+    // Mutually-exclusive heads: "ai_generated" (visual) and
+    // "ai_generated_audio" (audio track) each sum to 1 with their
+    // "not_*" counterpart, so we only need the positive class's value.
+    if (norm === 'aigenerated' || norm === 'aigeneratedaudio') {
+      aiProbability = Math.max(aiProbability ?? 0, value)
+    } else if (norm === 'deepfake') {
+      deepfakeProbability = Math.max(deepfakeProbability ?? 0, value)
     }
   }
 
@@ -100,10 +84,10 @@ function extractProbabilities(classes: HiveClass[]) {
 
 function extractC2pa(hiveResult: Record<string, unknown>) {
   const candidates: unknown[] = [
-    (hiveResult as Record<string, unknown>)?.c2pa,
-    (hiveResult as Record<string, unknown>)?.content_credentials,
-    (hiveResult as Record<string, unknown>)?.provenance,
-    (hiveResult as { status?: { response?: Record<string, unknown> } })?.status?.response?.c2pa,
+    hiveResult?.c2pa,
+    hiveResult?.content_credentials,
+    hiveResult?.provenance,
+    (hiveResult?.metadata as Record<string, unknown> | undefined)?.c2pa,
   ]
 
   const data = candidates.find((c) => c && typeof c === 'object' && Object.keys(c as object).length > 0) as
@@ -180,17 +164,20 @@ serve(async (req) => {
     let attributionCandidates: { model: string; confidence: number }[] = []
     let c2pa = { present: false, valid: null as boolean | null, data: null as Record<string, unknown> | null }
 
-    // ── HIVE AI (primary — key stored as HIVE_API_KEY) ────────────
+    // ── HIVE AI (primary — V3 Playground key, stored as HIVE_API_KEY) ──
     const hiveApiKey = Deno.env.get('HIVE_API_KEY') ?? ''
     if (hiveApiKey) {
       try {
-        const hiveResponse = await fetch('https://api.thehive.ai/api/v2/task/sync', {
+        const hiveResponse = await fetch(HIVE_ENDPOINT, {
           method: 'POST',
           headers: {
-            'Authorization': `token ${hiveApiKey}`,
+            'authorization': `Bearer ${hiveApiKey}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ url: file_url }),
+          body: JSON.stringify({
+            media_metadata: true,
+            input: [{ media_url: file_url }],
+          }),
         })
 
         if (hiveResponse.ok) {
@@ -218,6 +205,8 @@ serve(async (req) => {
             }
             analysisSucceeded = true
           }
+        } else {
+          console.error('Hive API non-ok response:', hiveResponse.status, await hiveResponse.text())
         }
       } catch (hiveError) {
         console.error('Hive API error:', hiveError)
