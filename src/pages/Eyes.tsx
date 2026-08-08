@@ -110,14 +110,7 @@ export default function Eyes() {
             ) : result ? (
               <EyesResult scan={result} />
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', padding: '24px 0 12px', gap: 20 }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, textAlign: 'center', paddingBottom: 20, borderBottom: '1px solid var(--ovw-0p06)' }}>
-                  <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(10,132,255,0.08)', border: '1px solid rgba(10,132,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Eye size={18} color="rgba(10,132,255,0.6)" />
-                  </div>
-                  <p style={{ fontFamily: 'Syne, sans-serif', fontSize: 14, color: 'var(--text-2)' }}>Upload a file to begin</p>
-                </div>
-
+              <div style={{ display: 'flex', flexDirection: 'column', padding: '4px 0 12px', gap: 20 }}>
                 <div>
                   <p style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '0.14em', color: 'var(--text-3)', marginBottom: 10 }}>DAYE DETECTS</p>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
