@@ -250,18 +250,33 @@ export default function Dashboard() {
           </div>
 
           {/* ── STATS ─────────────────────────────────────── */}
-          <style>{`@media(max-width:600px){.stats-grid{grid-template-columns:repeat(2,1fr)!important}.stats-grid .glass{padding:20px!important}.stats-num{font-size:clamp(32px,8vw,52px)!important}}`}</style>
-          <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 96 }}>
+          <style>{`@media(max-width:600px){.stats-grid{gap:12px!important}.stats-hex{width:clamp(72px,17vw,100px)!important}.stats-num{font-size:clamp(20px,6.5vw,30px)!important}}`}</style>
+          <div className="stats-grid" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 16, marginBottom: 96 }}>
             {[
-              { label: 'Scans Today', value: stats.eyesToday + stats.newsToday, color: 'var(--chrome-mid)' },
               { label: 'Threats Found', value: stats.threatsDetected, color: 'var(--danger)' },
+              { label: 'Scans Today', value: stats.eyesToday + stats.newsToday, color: 'var(--chrome-mid)' },
               { label: 'AI Queries', value: stats.brainToday, color: 'var(--safe)' },
               { label: 'Total Scans', value: stats.eyesTotal, color: 'var(--warning)' },
             ].map(({ label, value, color }, i) => (
-              <motion.div key={label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} className="glass" style={{ padding: '28px 32px', borderRadius: 16 }}>
-                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--ovw-0p22)', marginBottom: 12 }}>{label.toUpperCase()}</p>
-                <p className="stats-num" style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 52, lineHeight: 1, color: loading ? 'var(--ovw-0p08)' : color }}>
-                  {loading ? '—' : value}
+              <motion.div key={label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '1 1 140px', minWidth: 120 }}>
+                <div
+                  className="glass stats-hex"
+                  style={{
+                    width: 'clamp(96px, 11vw, 128px)',
+                    aspectRatio: '1 / 0.92',
+                    clipPath: 'polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0% 50%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    filter: loading ? 'none' : `drop-shadow(0 0 14px ${color}33)`,
+                  }}
+                >
+                  <p className="stats-num" style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(24px, 3.6vw, 36px)', lineHeight: 1, color: loading ? 'var(--ovw-0p08)' : color }}>
+                    {loading ? '—' : value}
+                  </p>
+                </div>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--ovw-0p22)', marginTop: 10, textAlign: 'center' }}>
+                  {label.toUpperCase()}
                 </p>
               </motion.div>
             ))}
