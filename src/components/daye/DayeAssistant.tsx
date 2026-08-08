@@ -8,10 +8,18 @@ export type DayeEventPayload = {
   context_type: string
   data: Record<string, unknown>
   message?: string
+  forceOpen?: boolean
 }
 
 export function dayeNotify(event: DayeEventPayload) {
   window.dispatchEvent(new CustomEvent('daye:update', { detail: event }))
+}
+
+// Like dayeNotify, but expands the floating bubble so the Operator sees the
+// contextual reply immediately instead of only getting a "new message" dot.
+// This is what "Ask DAYE" links on scan results call.
+export function dayeAskAbout(event: Omit<DayeEventPayload, 'forceOpen'>) {
+  dayeNotify({ ...event, forceOpen: true })
 }
 
 const PAGE_MESSAGES: Record<string, string> = {
@@ -67,6 +75,7 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
   useEffect(() => {
     const handleDayeEvent = async (e: Event) => {
       const event = (e as CustomEvent<DayeEventPayload>).detail
+      if (event.forceOpen) setOpen(true)
 
       if (event.message) {
         setConversation(prev => [...prev.slice(-8), { role: 'daye', text: event.message! }])
@@ -75,7 +84,12 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
         return
       }
 
-      if (!userId) return
+      if (!userId) {
+        if (event.forceOpen) {
+          setConversation(prev => [...prev.slice(-8), { role: 'daye', text: 'Sign in to get a DAYE briefing on this.' }])
+        }
+        return
+      }
       setLoading(true)
       try {
         const { data } = await supabase.functions.invoke('daye-assistant', {

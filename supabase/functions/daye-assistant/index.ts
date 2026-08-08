@@ -39,11 +39,16 @@ serve(async (req) => {
       case 'scam_link_result':
         prompt = `DAYE scam link analysis complete. Domain: ${data.domain}. Risk score: ${data.risk_score}/100. Verdict: ${data.verdict}. Give a 1-sentence threat alert for the Operator.`
         break
+      case 'news_verify_result':
+        prompt = `DAYE content verification complete. Credibility score: ${data.credibility_score}/100. Verdict: ${data.verdict}. Source quality: ${data.source_quality}. Claim checked: "${data.content}". Give a 2-sentence interpretation and what the Operator should do next.`
+        break
       case 'dashboard_load':
         prompt = `Operator dashboard loaded. Stats - total scans today: ${data.scans_today}, threats detected: ${data.threats_detected}. Give a 1-sentence situational awareness brief.`
         break
       case 'globe_country':
-        prompt = `The Operator selected ${data.country} on the Cyber Globe. Give a 2-sentence cyber threat intelligence brief specific to this country. Include common attack types or major incidents.`
+        prompt = data.overview
+          ? `The Operator is asking DAYE for more on ${data.country} from the Cyber Globe. DAYE's live assessment already on screen: threat level ${data.threatLevel}/10 (${data.threatLabel}). Overview: ${data.overview} Give a 2-sentence follow-up brief that adds something beyond what's already shown - a concrete watch-item or next step, not a repeat of the overview.`
+          : `The Operator selected ${data.country} on the Cyber Globe. Give a 2-sentence cyber threat intelligence brief specific to this country. Include common attack types or major incidents.`
         break
       case 'idle_tip':
         prompt = `Give the Operator a 1-sentence proactive cybersecurity tip or threat awareness alert. Make it specific and actionable.`

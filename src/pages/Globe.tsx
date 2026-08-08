@@ -10,6 +10,7 @@ import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { useCyberNews, SOURCE_COLORS, timeAgo, type CyberArticle } from '../hooks/useCyberNews'
 import { supabase } from '../lib/supabase'
+import { AskDayeButton } from '../components/daye/AskDayeButton'
 
 // ─── Country Data ────────────────────────────────────────────────────────────
 
@@ -788,6 +789,11 @@ function CountryPanel({ country, brief, loading, articles, onClose }: CountryPan
                   <SituationRow label="The Ugly" text={brief.ugly} accent="#FF2D2D" />
                   <SituationRow label="Be Aware Of" text={brief.aware} accent="#FFD60A" />
                   <SituationRow label="Recommended Actions" text={brief.recommended} accent="#0A84FF" />
+                  <AskDayeButton
+                    contextType="globe_country"
+                    data={{ country: country.name, threatLevel: brief.threatLevel, threatLabel: brief.threatLabel, overview: brief.overview }}
+                    label="Ask DAYE to go deeper"
+                  />
                 </>
               )}
               {!loading && !brief && (

@@ -2,6 +2,7 @@ import { CheckCircle, XCircle, AlertCircle, ChevronDown, ChevronUp } from 'lucid
 import { useState } from 'react'
 import type { EyesScan } from '../../lib/supabase'
 import { ConfidenceBar } from '../ui/ConfidenceBar'
+import { AskDayeButton } from '../daye/AskDayeButton'
 
 interface EyesResultProps {
   scan: EyesScan
@@ -75,6 +76,11 @@ export function EyesResult({ scan }: EyesResultProps) {
             colorMode={scan.result === 'fake' ? 'inverse' : 'normal'}
           />
         </div>
+
+        <AskDayeButton
+          contextType="deepfake_result"
+          data={{ file_type: scan.file_type, result: scan.result, confidence_score: Math.round(scan.confidence_score) }}
+        />
       </div>
 
       {/* Explanation */}

@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Shield, Mail, Lock, Phone, AlertTriangle, CheckCircle, ChevronRight, Brain, Clock } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { useBreach } from '../hooks/useBreach'
 import { UpgradeModal } from '../components/ui/Modal'
-import { dayeNotify } from '../components/daye/DayeAssistant'
+import { dayeNotify, dayeAskAbout } from '../components/daye/DayeAssistant'
 
 const B = {
   dark: '#0d0500',
@@ -48,7 +47,6 @@ function Pill({ severity }: { severity: string }) {
 
 export default function Breach() {
   const { user, profile, signOut } = useAuth()
-  const navigate = useNavigate()
   const { scanning, result, error, scan, getHistory, getDailyCount } = useBreach(user?.id)
 
   const [activeTab, setActiveTab] = useState<ScanType>('email')
@@ -85,12 +83,14 @@ export default function Breach() {
 
   const handleAskBrain = () => {
     if (!result) return
-    const ctx = result.type === 'password'
-      ? `I ran a breach check on a password — it appeared ${(result.occurrences as number | undefined) ?? 0} times in known databases. Severity: ${result.severity}. What steps should I take?`
-      : result.type === 'email'
-      ? `I ran a breach check on an email and found it in ${(result.breach_count as number | undefined) ?? 0} breaches. Severity: ${result.severity}. Help me understand the risk and next steps.`
-      : `I checked a phone number for breaches: ${result.message} Severity: ${result.severity}. What should I do?`
-    navigate('/daye', { state: { prefillMessage: ctx } })
+    dayeAskAbout({
+      context_type: 'breach_result',
+      data: {
+        check_type: result.type,
+        breach_count: result.breach_count ?? result.occurrences ?? (result.sources as string[] | undefined)?.length ?? 0,
+        risk_level: result.severity,
+      },
+    })
   }
 
   const tab = TABS.find((t) => t.type === activeTab)!

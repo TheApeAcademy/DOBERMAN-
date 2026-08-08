@@ -5,6 +5,7 @@ import { Layout } from '../components/layout/Layout'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
 import { useCyberNews, type CyberArticle, SOURCE_COLORS, SOURCE_GRADIENTS, timeAgo } from '../hooks/useCyberNews'
+import { AskDayeButton } from '../components/daye/AskDayeButton'
 
 /* ── FeedArticle compat export (used by NewsArticle.tsx) ────────── */
 export interface FeedArticle {
@@ -429,10 +430,19 @@ export default function News() {
                           </div>
                         )}
                       </div>
-                      <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: '14px 18px', display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                      <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: '14px 18px', display: 'flex', gap: 12, alignItems: 'flex-start', marginBottom: 20 }}>
                         <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--chrome-dim)', whiteSpace: 'nowrap', marginTop: 2 }}>NEXT STEP</span>
                         <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-1)', lineHeight: 1.6 }}>{result.recommendation}</p>
                       </div>
+                      <AskDayeButton
+                        contextType="news_verify_result"
+                        data={{
+                          credibility_score: result.credibility_score,
+                          verdict: result.verdict,
+                          source_quality: result.source_quality,
+                          content: content.slice(0, 200),
+                        }}
+                      />
                     </motion.div>
                   )}
                 </AnimatePresence>
