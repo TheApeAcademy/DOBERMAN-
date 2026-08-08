@@ -115,7 +115,7 @@ export default function Dashboard() {
         </div>
 
         {/* Stats row */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 16, marginBottom: 40 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 8, marginBottom: 40 }}>
           {[
             { label: 'Threats Blocked', value: stats.threatsDetected, color: 'var(--danger)' },
             { label: 'Scans Today', value: stats.eyesToday + stats.noseToday + stats.newsToday, color: 'var(--chrome-mid)' },
@@ -127,12 +127,12 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.06 }}
-              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '1 1 120px', minWidth: 120 }}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '0 1 150px', minWidth: 130 }}
             >
               <div
                 className="glass"
                 style={{
-                  width: 'clamp(96px, 12vw, 128px)',
+                  width: 'clamp(112px, 14vw, 152px)',
                   aspectRatio: '1 / 0.92',
                   clipPath: 'polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0% 50%)',
                   display: 'flex',
@@ -141,7 +141,7 @@ export default function Dashboard() {
                   filter: loading ? 'none' : `drop-shadow(0 0 14px ${color}33)`,
                 }}
               >
-                <p style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(24px, 4.5vw, 34px)', lineHeight: 1, color: loading ? 'var(--text-3)' : color }}>
+                <p style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(28px, 5.5vw, 40px)', lineHeight: 1, color: loading ? 'var(--text-3)' : color }}>
                   {loading ? '-' : value}
                 </p>
               </div>
