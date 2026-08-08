@@ -9,6 +9,7 @@ import { supabase } from '../lib/supabase'
 import { formatRelativeTime, getResultLabel } from '../lib/utils'
 import { GlobeEmbed } from '../components/3d/GlobeEmbed'
 import { useCyberNews, SOURCE_COLORS, timeAgo } from '../hooks/useCyberNews'
+import { GridLines } from '../components/ui/GridLines'
 
 interface ActivityItem {
   id: string
@@ -223,13 +224,7 @@ export default function Dashboard() {
     <Layout profile={profile} onSignOut={signOut} title="Dashboard">
       <div style={{ background: 'var(--void)', minHeight: '100vh', position: 'relative' }}>
         {/* Grid lines background — same subtle texture as the Auth page */}
-        <div
-          style={{
-            position: 'absolute', inset: 0, opacity: 'var(--grid-line-opacity)', pointerEvents: 'none',
-            backgroundImage: 'linear-gradient(#3B82F6 1px, transparent 1px), linear-gradient(90deg, #3B82F6 1px, transparent 1px)',
-            backgroundSize: '40px 40px',
-          } as React.CSSProperties}
-        />
+        <GridLines />
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '56px clamp(16px, 4vw, 48px) 96px', position: 'relative', zIndex: 1 }}>
 
           {/* ── HEADER ────────────────────────────────────── */}

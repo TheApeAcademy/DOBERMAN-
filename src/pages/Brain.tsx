@@ -7,6 +7,7 @@ import { ScarAnalyzer } from '../components/brain/ScarAnalyzer'
 import { UpgradeModal } from '../components/ui/Modal'
 import { useAuth } from '../hooks/useAuth'
 import { useBrain } from '../hooks/useBrain'
+import { GridLines } from '../components/ui/GridLines'
 import type { BrainConversation } from '../lib/supabase'
 
 const SF = `-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif`
@@ -106,10 +107,12 @@ export default function BrainPage() {
         )}
 
         {/* Main area */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, position: 'relative' }}>
+          {/* Grid lines background — same subtle texture as the Dashboard */}
+          <GridLines />
 
           {/* iOS-style page header */}
-          <div style={{ padding: '20px 20px 0', background: 'var(--void)', flexShrink: 0 }}>
+          <div style={{ padding: '20px 20px 0', background: 'var(--void)', flexShrink: 0, position: 'relative', zIndex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 14 }}>
               <div>
                 <h1 style={{ fontFamily: SF, fontSize: 34, fontWeight: 700, color: '#F5F5F7', letterSpacing: '-0.04em', lineHeight: 1, margin: 0 }}>
@@ -151,18 +154,20 @@ export default function BrainPage() {
           </div>
 
           {/* Tab content */}
-          {activeTab === 'intelligence' ? (
-            <BrainChat
-              messages={activeConversation?.messages || []}
-              onSend={handleSend}
-              loading={loading}
-              error={error}
-              dailyRemaining={dailyRemaining}
-              onUpgradeClick={() => setUpgradeOpen(true)}
-            />
-          ) : (
-            <ScarAnalyzer />
-          )}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, position: 'relative', zIndex: 1 }}>
+            {activeTab === 'intelligence' ? (
+              <BrainChat
+                messages={activeConversation?.messages || []}
+                onSend={handleSend}
+                loading={loading}
+                error={error}
+                dailyRemaining={dailyRemaining}
+                onUpgradeClick={() => setUpgradeOpen(true)}
+              />
+            ) : (
+              <ScarAnalyzer />
+            )}
+          </div>
         </div>
       </div>
 

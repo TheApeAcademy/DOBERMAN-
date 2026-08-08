@@ -6,6 +6,7 @@ import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
 import { useCyberNews, type CyberArticle, SOURCE_COLORS, SOURCE_GRADIENTS, timeAgo } from '../hooks/useCyberNews'
 import { AskDayeButton } from '../components/daye/AskDayeButton'
+import { GridLines } from '../components/ui/GridLines'
 
 /* ── FeedArticle compat export (used by NewsArticle.tsx) ────────── */
 export interface FeedArticle {
@@ -278,9 +279,11 @@ export default function News() {
 
   return (
     <Layout profile={profile} onSignOut={signOut} title="News">
-      <div style={{ minHeight: '100%', background: 'var(--void)' }}>
+      <div style={{ minHeight: '100%', background: 'var(--void)', position: 'relative' }}>
+        {/* Grid lines background — same subtle texture as the Dashboard */}
+        <GridLines />
 
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 clamp(16px, 4vw, 40px) 60px' }}>
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto', padding: '0 clamp(16px, 4vw, 40px) 60px' }}>
 
           {/* Module header — square identity tile + title, no decorative banner */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 20, padding: '28px 0 24px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: 28, flexWrap: 'wrap' }}>

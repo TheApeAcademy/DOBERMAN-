@@ -98,6 +98,24 @@
   --ovw-0p88: rgba(255, 255, 255, 0.88);
   --ovw-0p9: rgba(255, 255, 255, 0.9);
   --ovw-0p92: rgba(255, 255, 255, 0.92);
+
+  /* BREACH module — dedicated coffee-brown identity, not the neutral
+     chrome palette. Dark mode reads as a deep espresso, not near-black;
+     light mode is a warm latte/cream, not white. */
+  --breach-void:     #150c05;
+  --breach-void-mid: #2c1608;
+  --breach-surface:  rgba(163, 105, 48, 0.10);
+  --breach-border:   rgba(163, 105, 48, 0.34);
+  --breach-accent:   #B4772F;
+  --breach-bright:   #E4A85E;
+  --breach-heading:  #F6ECDE;
+  --breach-text:     #E6D3B8;
+  --breach-dim:      #B69B78;
+  --breach-glow:     rgba(180, 119, 47, 0.22);
+  --breach-safe:     #4ADE80;
+  --breach-warn:     #FBBF24;
+  --breach-critical: #F87171;
+  --breach-muted:    #9CA3AF;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -185,6 +203,23 @@
   --ovw-0p88: rgba(10, 10, 18, 1);
   --ovw-0p9: rgba(10, 10, 18, 1);
   --ovw-0p92: rgba(10, 10, 18, 1);
+
+  /* BREACH module — same coffee-brown identity, flipped onto a warm
+     cream/latte surface instead of collapsing to plain white/gray. */
+  --breach-void:     #FBF2E5;
+  --breach-void-mid: #F4E3C8;
+  --breach-surface:  rgba(122, 74, 24, 0.07);
+  --breach-border:   rgba(122, 74, 24, 0.26);
+  --breach-accent:   #8A5A22;
+  --breach-bright:   #5C3A14;
+  --breach-heading:  #2B1A08;
+  --breach-text:     #4A3013;
+  --breach-dim:      #7C6449;
+  --breach-glow:     rgba(122, 74, 24, 0.14);
+  --breach-safe:     #15803D;
+  --breach-warn:     #B45309;
+  --breach-critical: #B91C1C;
+  --breach-muted:    #5B6472;
 }
 
 *, *::before, *::after {

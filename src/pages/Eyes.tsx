@@ -7,6 +7,7 @@ import { EyesResult } from '../components/eyes/EyesResult'
 import { EyesScanHistory } from '../components/eyes/EyesScanHistory'
 import { useAuth } from '../hooks/useAuth'
 import { useEyes } from '../hooks/useEyes'
+import { GridLines } from '../components/ui/GridLines'
 import type { EyesScan } from '../lib/supabase'
 
 const DETECTS = [
@@ -43,7 +44,10 @@ export default function Eyes() {
 
   return (
     <Layout profile={profile} onSignOut={signOut} title="Deepfake Intelligence">
-      <div style={{ padding: 'clamp(20px, 4vw, 32px)', maxWidth: 1100, margin: '0 auto', paddingBottom: 60 }}>
+      <div style={{ position: 'relative', minHeight: '100%' }}>
+        {/* Grid lines background — same subtle texture as the Dashboard */}
+        <GridLines />
+      <div style={{ position: 'relative', zIndex: 1, padding: 'clamp(20px, 4vw, 32px)', maxWidth: 1100, margin: '0 auto', paddingBottom: 60 }}>
 
         {/* Module header — square identity tile + title, no decorative video */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid var(--ovw-0p06)', flexWrap: 'wrap' }}>
@@ -149,6 +153,7 @@ export default function Eyes() {
             onSelect={(scan: EyesScan) => setResult(scan)}
           />
         </div>
+      </div>
       </div>
 
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
