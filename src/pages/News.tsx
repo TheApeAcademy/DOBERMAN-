@@ -280,18 +280,21 @@ export default function News() {
     <Layout profile={profile} onSignOut={signOut} title="News">
       <div style={{ minHeight: '100%', background: 'var(--void)' }}>
 
-        {/* Hero */}
-        <div style={{ position: 'relative', height: 220, overflow: 'hidden', background: '#060606' }}>
-          <img src="/assets/video/cdd8c26722152919a8539f357363c238.jpg" alt=""
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5 }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, var(--void) 100%)' }} />
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '0 clamp(16px, 4vw, 40px) 24px' }}>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--danger)', marginBottom: 6 }}>[ CYBER INTELLIGENCE ]</p>
-            <h1 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 72px)', lineHeight: 0.9 }}>NEWS</h1>
-          </div>
-        </div>
-
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 clamp(16px, 4vw, 40px) 60px' }}>
+
+          {/* Module header — square identity tile + title, no decorative banner */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 20, padding: '28px 0 24px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: 28, flexWrap: 'wrap' }}>
+            <div style={{ position: 'relative', width: 88, height: 88, borderRadius: 20, overflow: 'hidden', flexShrink: 0, background: '#060606' }}>
+              <img src="/assets/video/cdd8c26722152919a8539f357363c238.jpg" alt=""
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,45,45,0.14) 0%, transparent 60%)' }} />
+              <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20 }} />
+            </div>
+            <div style={{ flex: 1, minWidth: 200 }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--danger)', marginBottom: 4 }}>[ CYBER INTELLIGENCE ]</p>
+              <h1 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 28, lineHeight: 1.1 }}>NEWS</h1>
+            </div>
+          </div>
 
           {/* Tab bar + controls */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, margin: '28px 0 32px', flexWrap: 'wrap' }}>

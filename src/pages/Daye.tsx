@@ -189,15 +189,18 @@ export default function DayePage() {
         {/* Main content */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
 
-          {/* Hero */}
-          <div style={{ position: 'relative', height: 200, overflow: 'hidden', background: '#060606', flexShrink: 0 }}>
-            <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
-              <source src="/assets/video/blob-brain.mp4" type="video/mp4" />
-            </video>
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.8))', borderBottom: '1px solid rgba(255,255,255,0.06)' }} />
-            <div style={{ position: 'absolute', bottom: 16, left: 20, zIndex: 2 }}>
-              <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 38, letterSpacing: '0.12em', color: '#F5F5F7', lineHeight: 1 }}>DAYE</h1>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)' }}>AI CYBERSECURITY ANALYST</p>
+          {/* Module header — square identity tile + title, no decorative video */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.06)', flexShrink: 0 }}>
+            <div style={{
+              width: 64, height: 64, borderRadius: 16, flexShrink: 0,
+              background: 'rgba(48,209,88,0.1)', border: '1px solid rgba(48,209,88,0.25)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <Brain size={28} color="#30D158" />
+            </div>
+            <div>
+              <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 32, letterSpacing: '0.12em', color: '#F5F5F7', lineHeight: 1 }}>DAYE</h1>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>AI CYBERSECURITY ANALYST</p>
             </div>
           </div>
 

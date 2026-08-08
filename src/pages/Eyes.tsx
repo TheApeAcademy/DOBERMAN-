@@ -56,22 +56,29 @@ export default function Eyes() {
     <Layout profile={profile} onSignOut={signOut} title="Deepfake Intelligence">
       <div style={{ padding: 'clamp(20px, 4vw, 32px)', maxWidth: 1100, margin: '0 auto', paddingBottom: 60 }}>
 
-        {/* Hero video — radio wave logo */}
-        <div style={{ position: 'relative', height: 220, borderRadius: 28, overflow: 'hidden', background: '#000814', marginBottom: 28 }}>
-          <video
-            autoPlay muted loop playsInline
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}
-          >
-            <source src="/assets/video/3d-broadcast.mp4" type="video/mp4" />
-          </video>
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(10,132,255,0.12) 0%, transparent 60%)' }} />
-          <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.07)', borderRadius: 28 }} />
-          <div style={{ position: 'absolute', bottom: 14, left: 20, fontFamily: 'JetBrains Mono, monospace', fontSize: 9, letterSpacing: '0.22em', color: 'rgba(255,255,255,0.3)' }}>
-            DEEPFAKE INTELLIGENCE
+        {/* Module header — square identity tile + title, no decorative video */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)', flexWrap: 'wrap' }}>
+          <div style={{ position: 'relative', width: 88, height: 88, borderRadius: 20, overflow: 'hidden', flexShrink: 0, background: '#060606' }}>
+            <img
+              src="/assets/video/0a068fc3612b18fb193aa68da61d7bb3.jpg"
+              alt=""
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', pointerEvents: 'none' }}
+            />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(10,132,255,0.14) 0%, transparent 60%)' }} />
+            <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20 }} />
           </div>
-          {/* Scan badge */}
+          <div style={{ flex: 1, minWidth: 200 }}>
+            <h1 style={{
+              fontFamily: 'Syne, system-ui, -apple-system, sans-serif',
+              fontWeight: 700, fontSize: 24, color: 'var(--text-1)', lineHeight: 1.1,
+            }}>
+              Deepfake Intelligence
+            </h1>
+            <p style={{ fontFamily: 'Syne, sans-serif', fontSize: 13, color: 'var(--text-2)', marginTop: 4 }}>
+              AI-powered detection of synthetic media
+            </p>
+          </div>
           <div style={{
-            position: 'absolute', top: 14, right: 14,
             padding: '6px 14px',
             borderRadius: 100,
             background: remainingScans > 0 ? 'rgba(48,209,88,0.12)' : 'rgba(255,45,45,0.12)',
@@ -80,32 +87,9 @@ export default function Eyes() {
             fontSize: 10,
             color: remainingScans > 0 ? 'var(--safe)' : 'var(--danger)',
             letterSpacing: '0.08em',
+            flexShrink: 0,
           }}>
             {remainingScans} / 3 TODAY
-          </div>
-        </div>
-
-        {/* Module header */}
-        <div style={{ marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <div style={{
-              width: 44, height: 44, borderRadius: 14,
-              background: 'rgba(10,132,255,0.1)', border: '1px solid rgba(10,132,255,0.2)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-            }}>
-              <Eye size={20} color="#0A84FF" />
-            </div>
-            <div>
-              <h1 style={{
-                fontFamily: 'Syne, system-ui, -apple-system, sans-serif',
-                fontWeight: 700, fontSize: 22, color: 'var(--text-1)', lineHeight: 1.1,
-              }}>
-                Deepfake Intelligence
-              </h1>
-              <p style={{ fontFamily: 'Syne, sans-serif', fontSize: 13, color: 'var(--text-2)', marginTop: 2 }}>
-                AI-powered detection of synthetic media
-              </p>
-            </div>
           </div>
         </div>
 
