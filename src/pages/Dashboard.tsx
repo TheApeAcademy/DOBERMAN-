@@ -455,7 +455,7 @@ export default function Dashboard() {
           >
             <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'var(--ovw-0p18)', marginBottom: 24 }}>ACTIVITY OVERVIEW</p>
             <div className="charts-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-              <div className="glass" style={{ padding: '24px 28px', borderRadius: 16 }}>
+              <div className="glass chart-card-dark" style={{ padding: '24px 28px', borderRadius: 16 }}>
                 <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--ovw-0p22)', marginBottom: 20 }}>7-DAY SCAN ACTIVITY</p>
                 {loading ? (
                   <div style={{ height: 100, background: 'var(--ovw-0p03)', borderRadius: 8 }} />
@@ -463,7 +463,7 @@ export default function Dashboard() {
                   <BarChart data={weekData} />
                 )}
               </div>
-              <div className="glass" style={{ padding: '24px 28px', borderRadius: 16 }}>
+              <div className="glass chart-card-dark" style={{ padding: '24px 28px', borderRadius: 16 }}>
                 <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--ovw-0p22)', marginBottom: 20 }}>MODULE BREAKDOWN</p>
                 {loading ? (
                   <div style={{ height: 100, background: 'var(--ovw-0p03)', borderRadius: 8 }} />

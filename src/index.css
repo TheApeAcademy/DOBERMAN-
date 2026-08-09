@@ -339,11 +339,70 @@ body::after {
   background-clip: text;
 }
 
-/* Dashboard stat hexagons — solid black in light mode only, so the colored
-   numbers still pop against the bright page instead of near-vanishing on
-   the default translucent glass wash. */
+/* Dashboard stat hexagons — solid dark grey in light mode only, so the
+   colored numbers still pop against the bright page instead of
+   near-vanishing on the default translucent glass wash. */
 :root[data-theme='light'] .stats-hex {
-  background: #0A0A0F;
+  background: #2A2A2E;
+}
+
+/* Dashboard "7-day scan activity" / "module breakdown" cards — solid dark
+   grey in light mode, with their own re-themed --ovw-* scale (same values
+   dark mode uses) so the chart labels/bars/rings painted with those tokens
+   stay legible against the dark card instead of going near-invisible ink
+   on ink. */
+:root[data-theme='light'] .chart-card-dark {
+  background: #2A2A2E;
+  --ovw-0p01: rgba(255, 255, 255, 0.044);
+  --ovw-0p018: rgba(255, 255, 255, 0.054);
+  --ovw-0p02: rgba(255, 255, 255, 0.056);
+  --ovw-0p022: rgba(255, 255, 255, 0.059);
+  --ovw-0p025: rgba(255, 255, 255, 0.062);
+  --ovw-0p03: rgba(255, 255, 255, 0.067);
+  --ovw-0p035: rgba(255, 255, 255, 0.073);
+  --ovw-0p04: rgba(255, 255, 255, 0.078);
+  --ovw-0p045: rgba(255, 255, 255, 0.098);
+  --ovw-0p05: rgba(255, 255, 255, 0.109);
+  --ovw-0p06: rgba(255, 255, 255, 0.128);
+  --ovw-0p07: rgba(255, 255, 255, 0.145);
+  --ovw-0p08: rgba(255, 255, 255, 0.16);
+  --ovw-0p09: rgba(255, 255, 255, 0.175);
+  --ovw-0p1: rgba(255, 255, 255, 0.194);
+  --ovw-0p12: rgba(255, 255, 255, 0.229);
+  --ovw-0p13: rgba(255, 255, 255, 0.244);
+  --ovw-0p14: rgba(255, 255, 255, 0.259);
+  --ovw-0p15: rgba(255, 255, 255, 0.272);
+  --ovw-0p16: rgba(255, 255, 255, 0.285);
+  --ovw-0p18: rgba(255, 255, 255, 0.526);
+  --ovw-0p2: rgba(255, 255, 255, 0.542);
+  --ovw-0p22: rgba(255, 255, 255, 0.557);
+  --ovw-0p24: rgba(255, 255, 255, 0.572);
+  --ovw-0p25: rgba(255, 255, 255, 0.579);
+  --ovw-0p26: rgba(255, 255, 255, 0.586);
+  --ovw-0p28: rgba(255, 255, 255, 0.6);
+  --ovw-0p3: rgba(255, 255, 255, 0.613);
+  --ovw-0p32: rgba(255, 255, 255, 0.664);
+  --ovw-0p35: rgba(255, 255, 255, 0.682);
+  --ovw-0p38: rgba(255, 255, 255, 0.699);
+  --ovw-0p4: rgba(255, 255, 255, 0.71);
+  --ovw-0p45: rgba(255, 255, 255, 0.737);
+  --ovw-0p48: rgba(255, 255, 255, 0.753);
+  --ovw-0p5: rgba(255, 255, 255, 0.763);
+  --ovw-0p52: rgba(255, 255, 255, 0.803);
+  --ovw-0p55: rgba(255, 255, 255, 0.812);
+  --ovw-0p6: rgba(255, 255, 255, 0.827);
+  --ovw-0p65: rgba(255, 255, 255, 0.843);
+  --ovw-0p7: rgba(255, 255, 255, 0.857);
+  --ovw-0p75: rgba(255, 255, 255, 0.872);
+  --ovw-0p8: rgba(255, 255, 255, 0.886);
+  --ovw-0p82: rgba(255, 255, 255, 0.892);
+  --ovw-0p85: rgba(255, 255, 255, 0.9);
+  --ovw-0p88: rgba(255, 255, 255, 0.908);
+  --ovw-0p9: rgba(255, 255, 255, 0.914);
+  --ovw-0p92: rgba(255, 255, 255, 0.919);
+  --text-1: #FFFFFF;
+  --text-2: #94A3B8;
+  --text-3: #64748B;
 }
 
 /* Click shockwave animation */
