@@ -103,18 +103,20 @@ export default function Landing() {
         position: 'fixed', top: 12, left: '50%', transform: 'translateX(-50%)',
         width: 'calc(100% - 32px)', maxWidth: 1200,
         padding: '12px 24px',
-        background: 'rgba(0,0,0,0.4)',
+        background: 'var(--nav-glass-bg)',
         backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)',
-        border: '1px solid var(--ovw-0p1)',
+        border: '1px solid var(--nav-glass-border)',
         borderRadius: 14,
-        boxShadow: 'inset 0 1px 0 var(--ovw-0p18)',
+        boxShadow: 'var(--nav-glass-shadow)',
         zIndex: 200,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        transition: 'background 0.25s var(--ease-apple), border-color 0.25s var(--ease-apple)',
       }}>
         <style>{`@media(max-width:768px){.nav-links,.nav-signin{display:none!important}}`}</style>
-        {/* Nav pill background is fixed dark glass regardless of theme, so its text must stay fixed light rather than following the theme-swapping tokens */}
-        <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 22, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.92)' }}>D0B3RMAN</span>
-        <div className="nav-links" style={{ display: 'flex', gap: 40, fontFamily: 'Inter', fontSize: 12, color: 'rgba(255,255,255,0.71)' }}>
+        {/* Nav pill background is now theme-aware glass (dark glass in dark mode, light frosted glass in light
+            mode), so its text follows the matching --nav-text-* tokens instead of being fixed light. */}
+        <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 22, letterSpacing: '0.2em', color: 'var(--nav-text-1)' }}>D0B3RMAN</span>
+        <div className="nav-links" style={{ display: 'flex', gap: 40, fontFamily: 'Inter', fontSize: 12, color: 'var(--nav-text-2)' }}>
           <a href="#modules" style={{ color: 'inherit', textDecoration: 'none' }}>MODULES</a>
           <a href="#intelligence" style={{ color: 'inherit', textDecoration: 'none' }}>INTELLIGENCE</a>
           <a href="#news" style={{ color: 'inherit', textDecoration: 'none' }}>NEWS</a>
@@ -127,7 +129,7 @@ export default function Landing() {
             whileTap={{ scale: 0.97 }}
             onClick={() => navigate('/auth')}
             className="nav-signin"
-            style={{ padding: '8px 20px', background: 'var(--ovw-0p06)', backdropFilter: 'blur(20px)', border: '1px solid var(--ovw-0p12)', borderRadius: 8, color: 'white', fontFamily: 'Inter', fontWeight: 600, fontSize: 13, boxShadow: 'inset 0 1px 0 var(--ovw-0p18)' }}>
+            style={{ padding: '8px 20px', background: 'var(--ovw-0p06)', backdropFilter: 'blur(20px)', border: '1px solid var(--ovw-0p12)', borderRadius: 8, color: 'var(--nav-text-3)', fontFamily: 'Inter', fontWeight: 600, fontSize: 13, boxShadow: 'inset 0 1px 0 var(--ovw-0p18)' }}>
             Sign In
           </motion.button>
           <motion.button
@@ -222,18 +224,22 @@ export default function Landing() {
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }}
             style={{ display: 'flex', gap: 16, marginTop: 40, flexWrap: 'wrap', position: 'relative', zIndex: 4 }}>
+            {/* Hero CTAs sit on the permanently-dark hero backdrop in both themes (heavy vignette keeps it dark
+                regardless of --void), so they're pinned to the same white/black values dark mode already
+                resolved to — var(--chrome-white)/var(--void) used to invert to a near-black button in light
+                mode, which vanished against the dark backdrop instead of reading as a solid white pill. */}
             <motion.button
-              whileHover={{ scale: 1.04, boxShadow: '0 0 40px var(--ovw-0p2)' }}
+              whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(255,255,255,0.2)' }}
               whileTap={{ scale: 0.97 }}
               onClick={(e) => { shockwave(e); navigate('/auth') }}
-              style={{ padding: '16px 44px', background: 'var(--chrome-white)', color: 'var(--void)', fontFamily: 'Inter', fontWeight: 700, fontSize: 15, border: 'none', borderRadius: 12 }}>
+              style={{ padding: '16px 44px', background: '#FFFFFF', color: '#0A0A0F', fontFamily: 'Inter', fontWeight: 700, fontSize: 15, border: 'none', borderRadius: 12 }}>
               Deploy Free
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate('/auth')}
-              style={{ padding: '16px 44px', background: 'var(--ovw-0p05)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--ovw-0p15)', borderRadius: 12, color: 'white', fontFamily: 'Inter', fontWeight: 600, fontSize: 15, boxShadow: 'inset 0 1px 0 var(--ovw-0p18)' }}>
+              style={{ padding: '16px 44px', background: 'rgba(255,255,255,0.109)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.272)', borderRadius: 12, color: 'white', fontFamily: 'Inter', fontWeight: 600, fontSize: 15, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.526)' }}>
               See It Work
             </motion.button>
           </motion.div>
@@ -337,10 +343,6 @@ export default function Landing() {
                 site theme instead of swapping to near-white in light mode. No mixBlendMode on the blob video either —
                 that washed its real colors toward white whenever the backdrop wasn't black. */}
             <div style={{ position: 'relative', width: '100%', height: 'clamp(360px, 55vw, 640px)', background: '#060606', overflow: 'hidden' }}>
-              {/* Grid video background */}
-              <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5, pointerEvents: 'none', zIndex: 0 }}>
-                <source src="/assets/video/Black_grid_background_video___Motion_background_with_black_grid_video___Film_texture,_Motion_graphics_trends,_Motion_backgrounds.mp4" type="video/mp4" />
-              </video>
               {/* Ambient glow */}
               <div style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(48,209,88,0.07) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
               <video
@@ -484,7 +486,11 @@ export default function Landing() {
       </section>
 
       {/* ─── DAYE CINEMATIC SECTION ─────────────────────── */}
-      <section style={{ position: 'relative', overflow: 'hidden', background: 'var(--void)', padding: 'clamp(48px,7vw,80px) clamp(20px,5vw,60px)' }}>
+      {/* Pinned to a fixed dark backdrop rather than var(--void): the vignette below only reaches 75% black at
+          the edges and stays transparent through the center, so on the light --void it netted out as a washed
+          grey instead of the intended always-dark atmospheric section (the green accents below are already
+          pinned on that assumption). */}
+      <section style={{ position: 'relative', overflow: 'hidden', background: '#09090b', padding: 'clamp(48px,7vw,80px) clamp(20px,5vw,60px)' }}>
         {/* Perspective room grid image background */}
         <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
           <img src="/assets/video/22ee8c4a4ffcfe6b8012f297b4232309.jpg" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', opacity: 0.4 }} />
@@ -585,11 +591,22 @@ export default function Landing() {
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 60, alignItems: 'center' }}>
 
+            {/* Label/headline/pills sit directly on the light page (unlike the fixed-dark BREACH REPORT card
+                below), so they use a light-mode-only darker gradient/color instead of the dark-mode gold/tan,
+                which measured low contrast against the light --void page background. */}
+            <style>{`
+              .breach-headline{background:linear-gradient(135deg,#D4A44E,#CD853F,#8B4513);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+              :root[data-theme='light'] .breach-headline{background:linear-gradient(135deg,#8A5322,#6B3F16,#3D220A);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+              .breach-label{color:rgba(205,133,63,0.7);}
+              :root[data-theme='light'] .breach-label{color:#6B3F16;}
+              .breach-pill{color:rgba(205,133,63,0.7);border-color:rgba(205,133,63,0.2);background:rgba(205,133,63,0.06);}
+              :root[data-theme='light'] .breach-pill{color:#5C3812;border-color:rgba(91,58,18,0.35);background:rgba(91,58,18,0.08);}
+            `}</style>
             <motion.div {...IN_VIEW} style={{ flex: '1 1 300px' }}>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(205,133,63,0.7)', marginBottom: 20 }}>
+              <p className="breach-label" style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', marginBottom: 20 }}>
                 [ DATA BREACH INTELLIGENCE ]
               </p>
-              <h2 className="gsap-heading" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, marginBottom: 20, background: 'linear-gradient(135deg,#D4A44E,#CD853F,#8B4513)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              <h2 className="gsap-heading breach-headline" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, marginBottom: 20 }}>
                 Your data<br />is already<br />out there.
               </h2>
               <p style={{ color: 'var(--ovw-0p5)', fontSize: 16, maxWidth: 500, lineHeight: 1.65, marginBottom: 36 }}>
@@ -597,7 +614,7 @@ export default function Landing() {
               </p>
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 36 }}>
                 {['14B+ leaked records', '600+ breach sources', 'Instant verdict'].map((feat) => (
-                  <span key={feat} style={{ padding: '8px 14px', background: 'rgba(205,133,63,0.06)', border: '1px solid rgba(205,133,63,0.2)', borderRadius: 8, fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(205,133,63,0.7)' }}>
+                  <span key={feat} className="breach-pill" style={{ padding: '8px 14px', borderWidth: 1, borderStyle: 'solid', borderRadius: 8, fontFamily: 'JetBrains Mono', fontSize: 11 }}>
                     {feat}
                   </span>
                 ))}
@@ -738,7 +755,10 @@ export default function Landing() {
               className="h-panel"
               style={{ width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: 'var(--void)' }}
             >
-              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.25} style={{ zIndex: 0 }} />
+              {/* blendMode pinned via CSS var — the default "screen" blend only reads against a near-black
+                  backdrop; on the light --void behind this panel it washed the video toward white instead of
+                  showing its real color, so light mode swaps it to a plain composite. */}
+              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.25} blendMode="var(--media-blend-mode)" style={{ zIndex: 0 }} />
               <div className="glass" style={{ position: 'relative', zIndex: 1, padding: 'clamp(32px,6vw,60px) clamp(24px,7vw,72px)', borderRadius: 32, maxWidth: 600, textAlign: 'center' }}>
                 <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.06em', color: 'var(--ovw-0p25)', marginBottom: 20 }}>
                   {panel.num} -- {panel.module}
@@ -784,7 +804,7 @@ export default function Landing() {
               className="glass"
               style={{ flex: '1 1 300px', padding: 40, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 360, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}
             >
-              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.4} style={{ zIndex: 0 }} />
+              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.4} blendMode="var(--media-blend-mode)" style={{ zIndex: 0 }} />
               <div style={{ position: 'relative', zIndex: 1 }}>
                 <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--danger)', marginBottom: 16 }}>VERDICT -- LIKELY FALSE</p>
                 <p style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 18, lineHeight: 1.4, marginBottom: 12 }}>"Breaking: Scientists Confirm AI Will Replace All Jobs By 2025"</p>
@@ -1016,7 +1036,17 @@ export default function Landing() {
 
       {/* ─── FINAL CTA ───────────────────────────────────── */}
       <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: 'var(--void)' }}>
-        <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.5} style={{ zIndex: 0 }} />
+        {/* Contained in a squircle rather than full-bleed cover — spanning the whole section let this blob's hard
+            rectangular edges and "screen" wash show through as a stray red/orange smear on a light page instead
+            of reading as a deliberate shape. */}
+        <div style={{
+          position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+          width: 'min(640px, 82vw)', height: 'min(640px, 82vw)',
+          borderRadius: '22%', overflow: 'hidden', zIndex: 0,
+          background: 'var(--void-2)', border: '1px solid var(--ovw-0p06)',
+        }}>
+          <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.5} blendMode="var(--media-blend-mode)" />
+        </div>
         <div style={{ position: 'relative', zIndex: 1, padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 720 }}>
           {/* No mixBlendMode here — that washes the video toward white on a light page (the "tint" bug). Instead a soft radial mask fades
               the video's hard rectangular edges to transparent, so it dissolves into the page behind it in either theme instead of

@@ -32,6 +32,21 @@
   --glass-border-bright: var(--ovw-0p22);
   --glass-blur:          blur(28px);
 
+  /* Fixed-position nav pill — floats over both the permanently-dark hero
+     and the theme-adaptive sections below it, so it needs its own glass
+     tone per theme rather than following either. */
+  --nav-glass-bg:     rgba(0, 0, 0, 0.4);
+  --nav-glass-border: var(--ovw-0p1);
+  --nav-glass-shadow: inset 0 1px 0 var(--ovw-0p18);
+  --nav-text-1:       rgba(255, 255, 255, 0.92);
+  --nav-text-2:       rgba(255, 255, 255, 0.71);
+  --nav-text-3:       #FFFFFF;
+
+  /* Video blend mode for ambient background clips — "screen" only reads
+     correctly against a near-black backdrop (it washes toward white on a
+     light page), so light mode swaps it to a plain composite. */
+  --media-blend-mode: screen;
+
   /* Semantic */
   --danger:       #FF2D2D;
   --danger-glow:  rgba(255, 45, 45, 0.18);
@@ -160,6 +175,15 @@
   --glass-bg:            var(--ovw-0p035);
   --glass-border:        var(--ovw-0p1);
   --glass-border-bright: var(--ovw-0p22);
+
+  --nav-glass-bg:     rgba(255, 255, 255, 0.55);
+  --nav-glass-border: rgba(10, 10, 15, 0.08);
+  --nav-glass-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  --nav-text-1:       rgba(10, 10, 15, 0.92);
+  --nav-text-2:       rgba(10, 10, 15, 0.68);
+  --nav-text-3:       #0A0A0F;
+
+  --media-blend-mode: normal;
 
   /* Same hues as dark mode, deepened just enough to clear 4.5:1 against a
      near-white page — the iOS-bright originals (#FF2D2D/#FF9500/#30D158)
