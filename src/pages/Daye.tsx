@@ -8,6 +8,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useBrain } from '../hooks/useBrain'
 import { supabase } from '../lib/supabase'
 import { dayeNotify } from '../components/daye/DayeAssistant'
+import { GridLines } from '../components/ui/GridLines'
 import type { BrainConversation, ScamLinkCheck } from '../lib/supabase'
 
 const card: React.CSSProperties = {
@@ -187,10 +188,12 @@ export default function DayePage() {
         )}
 
         {/* Main content */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, position: 'relative' }}>
+          {/* Grid lines background — same subtle texture as the Dashboard */}
+          <GridLines />
 
           {/* Module header — square identity tile + title, no decorative video */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '20px', borderBottom: '1px solid var(--ovw-0p06)', flexShrink: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '20px', borderBottom: '1px solid var(--ovw-0p06)', flexShrink: 0, position: 'relative', zIndex: 1 }}>
             <div style={{
               width: 64, height: 64, borderRadius: 16, flexShrink: 0,
               background: 'rgba(48,209,88,0.1)', border: '1px solid rgba(48,209,88,0.25)',
@@ -205,7 +208,7 @@ export default function DayePage() {
           </div>
 
           {/* Tab bar */}
-          <div style={{ display: 'flex', borderBottom: '1px solid var(--ovw-0p07)', background: 'var(--void)', flexShrink: 0 }}>
+          <div style={{ display: 'flex', borderBottom: '1px solid var(--ovw-0p07)', background: 'var(--void)', flexShrink: 0, position: 'relative', zIndex: 1 }}>
             {[
               { id: 'chat', label: 'INTELLIGENCE CHAT', icon: Brain },
               { id: 'scam', label: 'SCAM LINK ANALYZER', icon: Link2 },
@@ -251,6 +254,7 @@ export default function DayePage() {
           </div>
 
           {/* Tab content */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, position: 'relative', zIndex: 1 }}>
           {activeTab === 'chat' ? (
             <BrainChat
               messages={activeConversation?.messages || []}
@@ -415,6 +419,7 @@ export default function DayePage() {
               </div>
             </div>
           )}
+          </div>
         </div>
       </div>
 

@@ -8,6 +8,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useEyes } from '../hooks/useEyes'
 import { useVoice } from '../hooks/useVoice'
 import { dayeNotify } from '../components/daye/DayeAssistant'
+import { GridLines } from '../components/ui/GridLines'
 import type { EyesScan, VoiceScan } from '../lib/supabase'
 
 const card: React.CSSProperties = {
@@ -248,7 +249,10 @@ export default function DeepfakePage() {
 
   return (
     <Layout profile={profile} onSignOut={signOut} title="DEEPFAKE INTELLIGENCE">
-      <div style={{ padding: '28px 28px 48px', maxWidth: 1200, margin: '0 auto' }}>
+      <div style={{ position: 'relative', minHeight: '100%' }}>
+        {/* Grid lines background — same subtle texture as the Dashboard */}
+        <GridLines />
+      <div style={{ position: 'relative', zIndex: 1, padding: '28px 28px 48px', maxWidth: 1200, margin: '0 auto' }}>
 
         {/* Hero */}
         <div style={{ position: 'relative', height: 280, borderRadius: 24, overflow: 'hidden', marginBottom: 36, background: '#060606' }}>
@@ -524,6 +528,7 @@ export default function DeepfakePage() {
             )}
           </div>
         )}
+      </div>
       </div>
 
 
