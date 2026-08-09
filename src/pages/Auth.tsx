@@ -119,14 +119,19 @@ export default function Auth() {
             <span className="font-display text-3xl tracking-widest text-text-primary">D0B3RMAN</span>
           </div>
 
-          {/* 3D animation */}
+          {/* 3D animation — contained in a black squircle rather than sitting directly on bg-primary (var(--void)).
+              "screen" blend only makes the video's own black background disappear against an actually-black
+              backdrop; against the theme-adaptive page it washed white in light mode instead of showing the
+              cube's real color, so the squircle pins a guaranteed-black surface behind it. */}
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: -8 }}>
-            <video
-              autoPlay muted loop playsInline
-              style={{ width: 340, height: 340, objectFit: 'contain', mixBlendMode: 'screen', pointerEvents: 'none' }}
-            >
-              <source src="/assets/video/blob-cube.mp4" type="video/mp4" />
-            </video>
+            <div style={{ width: 220, height: 220, borderRadius: '22%', overflow: 'hidden', background: '#050505' }}>
+              <video
+                autoPlay muted loop playsInline
+                style={{ width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', pointerEvents: 'none' }}
+              >
+                <source src="/assets/video/blob-cube.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
 
           <div>

@@ -338,22 +338,23 @@ export default function Landing() {
             viewport={{ once: true, margin: '-60px' }}
             style={{ borderRadius: 28, overflow: 'hidden', border: '1px solid rgba(0,212,106,0.12)', background: 'rgba(0,0,0,0.8)' }}
           >
-            {/* Big standalone green logo video — this card is a deliberate always-dark feature card (like the outer
-                rgba(0,0,0,0.8) wrapper), not a themed surface, so its background and text stay fixed regardless of
-                site theme instead of swapping to near-white in light mode. No mixBlendMode on the blob video either —
-                that washed its real colors toward white whenever the backdrop wasn't black. */}
-            <div style={{ position: 'relative', width: '100%', height: 'clamp(360px, 55vw, 640px)', background: '#060606', overflow: 'hidden' }}>
-              {/* Ambient glow */}
-              <div style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(48,209,88,0.07) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
-              <video
-                autoPlay muted loop playsInline preload="auto"
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', display: 'block', zIndex: 1 }}
-              >
-                <source src="/assets/video/blob-di.mp4" type="video/mp4" />
-              </video>
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.95))', pointerEvents: 'none', zIndex: 2 }} />
-              <div style={{ position: 'absolute', top: 20, left: 24, fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.12em', color: 'rgba(48,209,88,0.5)', zIndex: 3 }}>
-                DAYE -- AI SECURITY ANALYST
+            {/* The orb video is contained in its own squircle rather than stretched into a full-width rectangular
+                card — that rectangle was a visibly different shade of black than the rest of this always-dark
+                feature card, reading as a mismatched "card within a card" instead of the video's own black
+                background blending away. The squircle's fill matches the video's black backdrop exactly. */}
+            <div style={{ position: 'relative', padding: 'clamp(32px,5vw,56px) clamp(32px,5vw,56px) 8px', display: 'flex', justifyContent: 'center' }}>
+              <div style={{ position: 'relative', width: 'clamp(240px, 42vw, 420px)', height: 'clamp(240px, 42vw, 420px)', borderRadius: '22%', overflow: 'hidden', background: '#050505' }}>
+                {/* Ambient glow */}
+                <div style={{ position: 'absolute', top: '42%', left: '50%', transform: 'translate(-50%, -50%)', width: '85%', height: '85%', borderRadius: '50%', background: 'radial-gradient(circle, rgba(48,209,88,0.1) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+                <video
+                  autoPlay muted loop playsInline preload="auto"
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', display: 'block', zIndex: 1 }}
+                >
+                  <source src="/assets/video/blob-di.mp4" type="video/mp4" />
+                </video>
+                <div style={{ position: 'absolute', top: 16, left: 20, fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em', color: 'rgba(48,209,88,0.55)', zIndex: 2 }}>
+                  DAYE -- AI SECURITY ANALYST
+                </div>
               </div>
             </div>
 
@@ -753,12 +754,13 @@ export default function Landing() {
             <div
               key={i}
               className="h-panel"
-              style={{ width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: 'var(--void)' }}
+              style={{ width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: '#09090b' }}
             >
-              {/* blendMode pinned via CSS var — the default "screen" blend only reads against a near-black
-                  backdrop; on the light --void behind this panel it washed the video toward white instead of
-                  showing its real color, so light mode swaps it to a plain composite. */}
-              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.25} blendMode="var(--media-blend-mode)" style={{ zIndex: 0 }} />
+              {/* Panel background pinned to fixed black rather than var(--void): the video is composited with
+                  the default "screen" blend, which only makes its black background disappear when the backdrop
+                  behind it is actually black — against the light --void it washed white, and swapping the blend
+                  mode itself just traded that for a flat grey smear (the video's own black frame painted opaque). */}
+              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.25} style={{ zIndex: 0 }} />
               <div className="glass" style={{ position: 'relative', zIndex: 1, padding: 'clamp(32px,6vw,60px) clamp(24px,7vw,72px)', borderRadius: 32, maxWidth: 600, textAlign: 'center' }}>
                 <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.06em', color: 'var(--ovw-0p25)', marginBottom: 20 }}>
                   {panel.num} -- {panel.module}
@@ -799,18 +801,22 @@ export default function Landing() {
               </motion.button>
             </motion.div>
 
+            {/* Pinned to fixed black rather than the .glass class's theme-adaptive tint: the video behind it relies
+                on the default "screen" blend to make its own black background disappear, which only works
+                against a guaranteed-black backdrop — text below is pinned to fixed light/bright-red values to
+                match, since the theme-swapping tokens would go near-invisible on a card that no longer varies. */}
             <motion.div
               {...IN_VIEW}
               className="glass"
-              style={{ flex: '1 1 300px', padding: 40, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 360, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}
+              style={{ flex: '1 1 300px', padding: 40, borderRadius: 24, position: 'relative', overflow: 'hidden', minHeight: 360, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', background: '#09090b' }}
             >
-              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.4} blendMode="var(--media-blend-mode)" style={{ zIndex: 0 }} />
+              <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.4} style={{ zIndex: 0 }} />
               <div style={{ position: 'relative', zIndex: 1 }}>
-                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--danger)', marginBottom: 16 }}>VERDICT -- LIKELY FALSE</p>
-                <p style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 18, lineHeight: 1.4, marginBottom: 12 }}>"Breaking: Scientists Confirm AI Will Replace All Jobs By 2025"</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: '#FF2D2D', marginBottom: 16 }}>VERDICT -- LIKELY FALSE</p>
+                <p style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 18, lineHeight: 1.4, marginBottom: 12, color: '#FFFFFF' }}>"Breaking: Scientists Confirm AI Will Replace All Jobs By 2025"</p>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   {['Sensationalist framing', 'No primary source', 'Vague attribution'].map((flag) => (
-                    <span key={flag} style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--danger)', background: 'rgba(255,45,45,0.12)', border: '1px solid rgba(255,45,45,0.25)', padding: '4px 10px', borderRadius: 4 }}>{flag}</span>
+                    <span key={flag} style={{ fontFamily: 'Inter', fontSize: 10, color: '#FF2D2D', background: 'rgba(255,45,45,0.12)', border: '1px solid rgba(255,45,45,0.25)', padding: '4px 10px', borderRadius: 4 }}>{flag}</span>
                   ))}
                 </div>
               </div>
@@ -1036,16 +1042,17 @@ export default function Landing() {
 
       {/* ─── FINAL CTA ───────────────────────────────────── */}
       <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: 'var(--void)' }}>
-        {/* Contained in a squircle rather than full-bleed cover — spanning the whole section let this blob's hard
-            rectangular edges and "screen" wash show through as a stray red/orange smear on a light page instead
-            of reading as a deliberate shape. */}
+        {/* Contained in a squircle rather than full-bleed cover, and the squircle itself is pinned black to match
+            the video's own black background — the video only loses its black backdrop via the default "screen"
+            blend mode against an actually-black surface, so a theme-adaptive container (light in light mode)
+            just showed the video's black frame as a mismatched box instead of hiding it. */}
         <div style={{
           position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
           width: 'min(640px, 82vw)', height: 'min(640px, 82vw)',
           borderRadius: '22%', overflow: 'hidden', zIndex: 0,
-          background: 'var(--void-2)', border: '1px solid var(--ovw-0p06)',
+          background: '#050505',
         }}>
-          <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.5} blendMode="var(--media-blend-mode)" />
+          <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.85} />
         </div>
         <div style={{ position: 'relative', zIndex: 1, padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 720 }}>
           {/* No mixBlendMode here — that washes the video toward white on a light page (the "tint" bug). Instead a soft radial mask fades

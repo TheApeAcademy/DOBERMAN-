@@ -42,11 +42,6 @@
   --nav-text-2:       rgba(255, 255, 255, 0.71);
   --nav-text-3:       #FFFFFF;
 
-  /* Video blend mode for ambient background clips — "screen" only reads
-     correctly against a near-black backdrop (it washes toward white on a
-     light page), so light mode swaps it to a plain composite. */
-  --media-blend-mode: screen;
-
   /* Semantic */
   --danger:       #FF2D2D;
   --danger-glow:  rgba(255, 45, 45, 0.18);
@@ -182,8 +177,6 @@
   --nav-text-1:       rgba(10, 10, 15, 0.92);
   --nav-text-2:       rgba(10, 10, 15, 0.68);
   --nav-text-3:       #0A0A0F;
-
-  --media-blend-mode: normal;
 
   /* Same hues as dark mode, deepened just enough to clear 4.5:1 against a
      near-white page — the iOS-bright originals (#FF2D2D/#FF9500/#30D158)
