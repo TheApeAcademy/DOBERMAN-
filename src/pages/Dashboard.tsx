@@ -105,7 +105,7 @@ function DonutChart({ data }: { data: { label: string; count: number; color: str
 
 
 function ModuleTile({
-  onClick, kicker, title, description, meta, media, progress, footer, accentColor = 'var(--chrome-mid)',
+  onClick, kicker, title, description, meta, media, progress, footer, accentColor = '#ABABAB',
 }: {
   onClick: () => void
   kicker: string
@@ -117,6 +117,10 @@ function ModuleTile({
   footer?: ReactNode
   accentColor?: string
 }) {
+  // This tile's own background is always a dark photo/video + black gradient,
+  // independent of the site's light/dark theme — so its text must stay fixed
+  // light-on-dark rather than following the theme-swapping --ovw-* tokens,
+  // which would go near-invisible (ink-on-black) in light mode.
   return (
     <motion.div
       whileHover={{ y: -4, transition: { duration: 0.2 } }}
@@ -126,17 +130,17 @@ function ModuleTile({
       <div style={{ position: 'absolute', inset: 0 }}>{media}</div>
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 32%, rgba(0,0,0,0.95) 100%)' }} />
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 'clamp(20px,3vw,32px)', zIndex: 2 }}>
-        <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.08em', color: 'var(--ovw-0p4)', marginBottom: 10 }}>{kicker}</p>
+        <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.72)', marginBottom: 10 }}>{kicker}</p>
         <h3 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(30px,3.2vw,46px)', letterSpacing: '0.04em', lineHeight: 0.95, marginBottom: 12, color: '#fff' }}>{title}</h3>
-        <p style={{ fontFamily: 'Inter', fontSize: 13, color: 'var(--ovw-0p52)', lineHeight: 1.55, marginBottom: meta ? 8 : 14, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{description}</p>
-        {meta && <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--ovw-0p22)', marginBottom: 14 }}>{meta}</p>}
+        <p style={{ fontFamily: 'Inter', fontSize: 13, color: 'rgba(255,255,255,0.82)', lineHeight: 1.55, marginBottom: meta ? 8 : 14, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{description}</p>
+        {meta && <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'rgba(255,255,255,0.56)', marginBottom: 14 }}>{meta}</p>}
         {footer ?? (progress && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--ovw-0p35)', whiteSpace: 'nowrap' }}>{progress.value}/{progress.max} today</span>
-            <div style={{ flex: 1, maxWidth: 90, height: 2, background: 'var(--ovw-0p08)', borderRadius: 1 }}>
+            <span style={{ fontFamily: 'Inter', fontSize: 11, color: 'rgba(255,255,255,0.68)', whiteSpace: 'nowrap' }}>{progress.value}/{progress.max} today</span>
+            <div style={{ flex: 1, maxWidth: 90, height: 2, background: 'rgba(255,255,255,0.16)', borderRadius: 1 }}>
               <div style={{ height: '100%', borderRadius: 1, background: accentColor, width: `${Math.min((progress.value / progress.max) * 100, 100)}%` }} />
             </div>
-            <ArrowRight size={14} style={{ color: 'var(--ovw-0p35)', flexShrink: 0 }} />
+            <ArrowRight size={14} style={{ color: 'rgba(255,255,255,0.68)', flexShrink: 0 }} />
           </div>
         ))}
       </div>
@@ -522,8 +526,8 @@ export default function Dashboard() {
                     <div style={{ width: 20, height: 20, borderRadius: 4, background: (SOURCE_COLORS[newsArticles[0].source_name] || '#666') + '33', border: `1px solid ${SOURCE_COLORS[newsArticles[0].source_name] || '#666'}66`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <span style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 10, color: SOURCE_COLORS[newsArticles[0].source_name] || '#aaa' }}>{newsArticles[0].source_name[0]}</span>
                     </div>
-                    <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 13, color: 'var(--ovw-0p9)', textTransform: 'uppercase' }}>{newsArticles[0].source_name}</span>
-                    <span style={{ fontFamily: 'Inter', fontSize: 13, color: 'var(--ovw-0p45)' }}>{timeAgo(newsArticles[0].published_at)}</span>
+                    <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.94)', textTransform: 'uppercase' }}>{newsArticles[0].source_name}</span>
+                    <span style={{ fontFamily: 'Inter', fontSize: 13, color: 'rgba(255,255,255,0.75)' }}>{timeAgo(newsArticles[0].published_at)}</span>
                   </div>
                   <h3 style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 'clamp(17px, 2.5vw, 22px)', lineHeight: 1.3, color: '#fff', maxWidth: 680 }}>
                     {newsArticles[0].title}
@@ -683,9 +687,10 @@ export default function Dashboard() {
                 style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
               />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, #000 100%)' }} />
+              {/* Fixed black backdrop regardless of theme — text stays fixed white, not the theme-swapping tokens */}
               <div style={{ position: 'absolute', bottom: 20, left: 20 }}>
-                <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 26, letterSpacing: '0.2em', color: 'var(--ovw-0p92)', lineHeight: 1 }}>D0B3RMAN</p>
-                <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.04em', color: 'var(--ovw-0p28)', marginTop: 6 }}>THE WATCHDOG IS WATCHING</p>
+                <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 26, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.96)', lineHeight: 1 }}>D0B3RMAN</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.6)', marginTop: 6 }}>THE WATCHDOG IS WATCHING</p>
               </div>
             </motion.div>
           </div>

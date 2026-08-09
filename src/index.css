@@ -361,9 +361,20 @@ body::after {
 
 /* Dashboard stat hexagons — solid dark grey in light mode only, so the
    colored numbers still pop against the bright page instead of
-   near-vanishing on the default translucent glass wash. */
+   near-vanishing on the default translucent glass wash. The accent colors
+   (--danger/--warning/--safe/--chrome-mid) are also re-pointed here: the
+   light-mode versions of those tokens are tuned for ~4.5:1+ against a
+   near-white page (measured 2.1-2.9:1 against this dark hexagon), so this
+   scope swaps in brighter variants verified against the actual #2A2A2E
+   background (3.9-7.1:1). Scoped to .stats-hex only — doesn't touch the
+   same tokens used elsewhere on the light page. */
 :root[data-theme='light'] .stats-hex {
   background: #2A2A2E;
+  --danger: #FF6B6B;
+  --warning: #FF9500;
+  --safe: #30D158;
+  --chrome-mid: #ABABAB;
+  --ovw-0p08: rgba(255, 255, 255, 0.16);
 }
 
 /* Dashboard "7-day scan activity" / "module breakdown" cards — solid dark
