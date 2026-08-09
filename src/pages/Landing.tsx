@@ -112,8 +112,9 @@ export default function Landing() {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         <style>{`@media(max-width:768px){.nav-links,.nav-signin{display:none!important}}`}</style>
-        <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 22, letterSpacing: '0.2em' }}>D0B3RMAN</span>
-        <div className="nav-links" style={{ display: 'flex', gap: 40, fontFamily: 'Inter', fontSize: 12, color: 'var(--ovw-0p4)' }}>
+        {/* Nav pill background is fixed dark glass regardless of theme, so its text must stay fixed light rather than following the theme-swapping tokens */}
+        <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 22, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.92)' }}>D0B3RMAN</span>
+        <div className="nav-links" style={{ display: 'flex', gap: 40, fontFamily: 'Inter', fontSize: 12, color: 'rgba(255,255,255,0.71)' }}>
           <a href="#modules" style={{ color: 'inherit', textDecoration: 'none' }}>MODULES</a>
           <a href="#intelligence" style={{ color: 'inherit', textDecoration: 'none' }}>INTELLIGENCE</a>
           <a href="#news" style={{ color: 'inherit', textDecoration: 'none' }}>NEWS</a>
@@ -313,7 +314,10 @@ export default function Landing() {
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                 />
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)', border: '1px solid var(--ovw-0p06)' }} />
-                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'var(--ovw-0p4)', zIndex: 2 }}>
+                {/* Fixed scrim + fixed light text for the caption — the photo underneath isn't theme-adaptive, so a
+                    theme-swapping text color risked landing invisible depending on the photo's own brightness. */}
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 30%)', zIndex: 1 }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.85)', zIndex: 2 }}>
                   DEEP FAKE INTELLIGENCE -- DEEPFAKE DETECTION
                 </div>
               </div>
@@ -328,8 +332,11 @@ export default function Landing() {
             viewport={{ once: true, margin: '-60px' }}
             style={{ borderRadius: 28, overflow: 'hidden', border: '1px solid rgba(0,212,106,0.12)', background: 'rgba(0,0,0,0.8)' }}
           >
-            {/* Big standalone green logo video — grid video background + DAYE blob overlay */}
-            <div style={{ position: 'relative', width: '100%', height: 'clamp(360px, 55vw, 640px)', background: 'var(--void)', overflow: 'hidden' }}>
+            {/* Big standalone green logo video — this card is a deliberate always-dark feature card (like the outer
+                rgba(0,0,0,0.8) wrapper), not a themed surface, so its background and text stay fixed regardless of
+                site theme instead of swapping to near-white in light mode. No mixBlendMode on the blob video either —
+                that washed its real colors toward white whenever the backdrop wasn't black. */}
+            <div style={{ position: 'relative', width: '100%', height: 'clamp(360px, 55vw, 640px)', background: '#060606', overflow: 'hidden' }}>
               {/* Grid video background */}
               <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5, pointerEvents: 'none', zIndex: 0 }}>
                 <source src="/assets/video/Black_grid_background_video___Motion_background_with_black_grid_video___Film_texture,_Motion_graphics_trends,_Motion_backgrounds.mp4" type="video/mp4" />
@@ -338,7 +345,7 @@ export default function Landing() {
               <div style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(48,209,88,0.07) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
               <video
                 autoPlay muted loop playsInline preload="auto"
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen', display: 'block', zIndex: 1 }}
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', display: 'block', zIndex: 1 }}
               >
                 <source src="/assets/video/blob-di.mp4" type="video/mp4" />
               </video>
@@ -353,13 +360,13 @@ export default function Landing() {
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.12em', color: 'rgba(48,209,88,0.6)', marginBottom: 16 }}>
                 02 -- AI SECURITY ANALYST
               </p>
-              <h3 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(60px, 10vw, 120px)', letterSpacing: '0.1em', lineHeight: 0.9, marginBottom: 20, color: 'var(--safe)' }}>
+              <h3 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(60px, 10vw, 120px)', letterSpacing: '0.1em', lineHeight: 0.9, marginBottom: 20, color: '#30D158' }}>
                 DAYE
               </h3>
-              <p style={{ color: 'var(--ovw-0p5)', fontSize: 16, lineHeight: 1.7, marginBottom: 36, maxWidth: 560, margin: '0 auto 36px' }}>
+              <p style={{ color: 'rgba(255,255,255,0.82)', fontSize: 16, lineHeight: 1.7, marginBottom: 36, maxWidth: 560, margin: '0 auto 36px' }}>
                 Ask anything. DAYE explains threats in plain language and gives you a concrete next step. Like having a security analyst on call 24/7.
               </p>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--ovw-0p2)', marginBottom: 32 }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(255,255,255,0.55)', marginBottom: 32 }}>
                 VOICE · FILE ANALYSIS · REAL-TIME INTEL · GLOBE BRIEFS
               </p>
               <motion.button
@@ -412,7 +419,7 @@ export default function Landing() {
                 <div key={n} style={{ display: 'flex', gap: 20, marginBottom: 36 }}>
                   <span style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 13, color: 'var(--ovw-0p15)', flexShrink: 0, paddingTop: 3 }}>{n}</span>
                   <div>
-                    <p style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 16, color: '#fff', marginBottom: 8 }}>{title}</p>
+                    <p style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 16, color: 'var(--text-1)', marginBottom: 8 }}>{title}</p>
                     <p style={{ fontFamily: 'Inter', fontSize: 14, color: 'var(--ovw-0p45)', lineHeight: 1.65 }}>{desc}</p>
                   </div>
                 </div>
@@ -425,7 +432,7 @@ export default function Landing() {
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 36 }}>
                 {[{ label: '99.7%', sub: 'ACCURACY' }, { label: '<3s', sub: 'ANALYSIS' }, { label: '50+', sub: 'AI MODELS' }, { label: '1M+', sub: 'MEDIA SCANNED' }].map(({ label, sub }) => (
                   <div key={sub} style={{ padding: '10px 16px', background: 'var(--ovw-0p04)', border: '1px solid var(--ovw-0p08)', borderRadius: 10 }}>
-                    <p style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 16, color: '#fff', lineHeight: 1 }}>{label}</p>
+                    <p style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 16, color: 'var(--text-1)', lineHeight: 1 }}>{label}</p>
                     <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.06em', color: 'var(--ovw-0p3)', marginTop: 3 }}>{sub}</p>
                   </div>
                 ))}
@@ -487,23 +494,26 @@ export default function Landing() {
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.75) 100%)' }} />
         </div>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 60, alignItems: 'center' }}>
-          {/* Left — typography */}
+          {/* Left — typography. This section's vignette darkens toward the edges up to 75% black regardless of
+              theme (an intentional atmospheric section, like the hero), so its green accents stay fixed to the
+              vibrant dark-mode green rather than the light-mode --safe (tuned for a light page), which would be
+              low-contrast against this background. */}
           <motion.div {...IN_VIEW}>
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(48,209,88,0.5)', marginBottom: 16 }}>MEET YOUR ANALYST</p>
-            <h2 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(80px, 14vw, 160px)', letterSpacing: '0.05em', color: 'var(--safe)', lineHeight: 0.85, marginBottom: 24 }}>DAYE</h2>
-            <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 400, fontSize: 'clamp(16px, 2vw, 20px)', color: 'var(--ovw-0p55)', lineHeight: 1.65, marginBottom: 36, maxWidth: 460 }}>
+            <h2 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(80px, 14vw, 160px)', letterSpacing: '0.05em', color: '#30D158', lineHeight: 0.85, marginBottom: 24 }}>DAYE</h2>
+            <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 400, fontSize: 'clamp(16px, 2vw, 20px)', color: 'rgba(255,255,255,0.81)', lineHeight: 1.65, marginBottom: 36, maxWidth: 460 }}>
               A cybersecurity intelligence analyst powered by AI. Understands context, speaks plainly, acts fast. Available every second of every day.
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 40 }}>
               {['Voice Intelligence', 'File Analysis', 'Chat', 'Globe Briefs', 'Real-time Intel'].map((pill) => (
-                <span key={pill} style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em', color: 'var(--safe)', background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.2)', padding: '6px 14px', borderRadius: 20 }}>{pill}</span>
+                <span key={pill} style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em', color: '#30D158', background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.2)', padding: '6px 14px', borderRadius: 20 }}>{pill}</span>
               ))}
             </div>
             <motion.button
               whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(48,209,88,0.18)' }}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate('/auth')}
-              style={{ padding: '14px 36px', background: 'var(--safe)', color: '#000', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 18, letterSpacing: '0.08em', border: 'none', borderRadius: 12, cursor: 'pointer' }}
+              style={{ padding: '14px 36px', background: '#30D158', color: '#000', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 18, letterSpacing: '0.08em', border: 'none', borderRadius: 12, cursor: 'pointer' }}
             >
               Chat with DAYE
             </motion.button>
@@ -517,14 +527,14 @@ export default function Landing() {
             viewport={{ once: true, margin: '-60px' }}
             style={{ display: 'flex', justifyContent: 'center' }}
           >
-            <div style={{ width: 320, background: 'rgba(12,12,16,0.95)', border: '1px solid var(--ovw-0p1)', borderRadius: 20, overflow: 'hidden', boxShadow: '0 40px 80px rgba(0,0,0,0.6)' }}>
-              {/* Popup header */}
-              <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--ovw-0p07)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ width: 320, background: 'rgba(12,12,16,0.95)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 20, overflow: 'hidden', boxShadow: '0 40px 80px rgba(0,0,0,0.6)' }}>
+              {/* Popup header — fixed-dark mockup window, text stays fixed light regardless of theme */}
+              <div style={{ padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.09)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--safe)', boxShadow: '0 0 8px rgba(48,209,88,0.6)' }} />
+                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#30D158', boxShadow: '0 0 8px rgba(48,209,88,0.6)' }} />
                   <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 14, letterSpacing: '0.12em', color: '#F5F5F7' }}>DAYE</span>
                 </div>
-                <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--safe)', letterSpacing: '0.08em' }}>ONLINE</span>
+                <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#30D158', letterSpacing: '0.08em' }}>ONLINE</span>
               </div>
               {/* Chat bubbles */}
               <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -534,24 +544,24 @@ export default function Landing() {
                   { role: 'daye', text: 'Yes. Forward to your IT team and report to phishing@irs.gov. Block the sender immediately.' },
                 ].map((msg, i) => (
                   <div key={i} style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start' }}>
-                    <div style={{ maxWidth: '80%', padding: '8px 12px', borderRadius: msg.role === 'user' ? '12px 12px 4px 12px' : '12px 12px 12px 4px', background: msg.role === 'user' ? 'var(--ovw-0p1)' : 'rgba(48,209,88,0.1)', border: msg.role === 'user' ? '1px solid var(--ovw-0p1)' : '1px solid rgba(48,209,88,0.2)' }}>
-                      <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 12, color: msg.role === 'daye' ? '#F5F5F7' : 'var(--ovw-0p8)', lineHeight: 1.5 }}>{msg.text}</p>
+                    <div style={{ maxWidth: '80%', padding: '8px 12px', borderRadius: msg.role === 'user' ? '12px 12px 4px 12px' : '12px 12px 12px 4px', background: msg.role === 'user' ? 'rgba(255,255,255,0.1)' : 'rgba(48,209,88,0.1)', border: msg.role === 'user' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(48,209,88,0.2)' }}>
+                      <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 12, color: msg.role === 'daye' ? '#F5F5F7' : 'rgba(255,255,255,0.88)', lineHeight: 1.5 }}>{msg.text}</p>
                     </div>
                   </div>
                 ))}
               </div>
-              {/* Input bar mockup */}
-              <div style={{ padding: '10px 14px 14px', borderTop: '1px solid var(--ovw-0p06)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--ovw-0p04)', border: '1px solid var(--ovw-0p08)', borderRadius: 12, padding: '8px 12px' }}>
-                  <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 12, color: 'var(--ovw-0p25)', flex: 1 }}>Ask DAYE anything...</span>
-                  <div style={{ width: 26, height: 26, borderRadius: '50%', background: 'var(--safe)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              {/* Input bar mockup — this popup is a fixed-dark chat window mockup, so its text stays fixed light-on-dark */}
+              <div style={{ padding: '10px 14px 14px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 12, padding: '8px 12px' }}>
+                  <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 12, color: 'rgba(255,255,255,0.56)', flex: 1 }}>Ask DAYE anything...</span>
+                  <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#30D158', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <span style={{ fontSize: 10 }}>↑</span>
                   </div>
                 </div>
               </div>
               {/* Footer */}
               <div style={{ padding: '8px 16px 10px', textAlign: 'center' }}>
-                <span style={{ fontFamily: 'JetBrains Mono', fontSize: 8, color: 'var(--ovw-0p2)', letterSpacing: '0.12em' }}>DAYE · INTELLIGENCE ACTIVE</span>
+                <span style={{ fontFamily: 'JetBrains Mono', fontSize: 8, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.12em' }}>DAYE · INTELLIGENCE ACTIVE</span>
               </div>
             </div>
           </motion.div>
@@ -611,7 +621,10 @@ export default function Landing() {
                 <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 32, letterSpacing: '0.04em', background: 'linear-gradient(135deg,#D4A44E,#CD853F)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', lineHeight: 1 }}>
                   7 breaches found
                 </p>
-                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--ovw-0p22)', marginTop: 6 }}>for ██████@email.com</p>
+                {/* This card is a fixed dark "espresso" terminal card (like the rest of its already-hardcoded tan/orange
+                    text below) — the ovw and text theme tokens go near-invisible here in light mode, so this and the
+                    breach rows below use fixed light values matching the card's own dark background. */}
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'rgba(230,211,184,0.65)', marginTop: 6 }}>for ██████@email.com</p>
               </div>
               {[
                 { name: 'LinkedIn', year: '2021', records: '700M records', types: 'Email · Phone · Salary data' },
@@ -622,15 +635,15 @@ export default function Landing() {
                 <div key={breach.name} style={{ padding: '10px 14px', background: 'rgba(205,133,63,0.05)', border: '1px solid rgba(205,133,63,0.14)', borderRadius: 10, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 12 }}>
                   <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#CD853F', flexShrink: 0 }} />
                   <div style={{ flex: 1 }}>
-                    <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 13, color: 'var(--text-1)', lineHeight: 1.3 }}>
-                      {breach.name} <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', fontWeight: 400 }}>{breach.year}</span>
+                    <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 13, color: '#F6ECDE', lineHeight: 1.3 }}>
+                      {breach.name} <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(230,211,184,0.65)', fontWeight: 400 }}>{breach.year}</span>
                     </p>
-                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', marginTop: 2 }}>{breach.types}</p>
+                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(230,211,184,0.65)', marginTop: 2 }}>{breach.types}</p>
                   </div>
                   <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(205,133,63,0.6)', whiteSpace: 'nowrap' }}>{breach.records}</span>
                 </div>
               ))}
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', marginTop: 12, textAlign: 'center', letterSpacing: '0.08em' }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(230,211,184,0.65)', marginTop: 12, textAlign: 'center', letterSpacing: '0.08em' }}>
                 + 3 more breaches — sign in to view all
               </p>
             </motion.div>
@@ -659,9 +672,10 @@ export default function Landing() {
             </div>
             <div style={{ position: 'absolute', bottom: 16, left: 16, right: 16, display: 'flex', gap: 10 }}>
               {[{ n: '8', label: 'CRITICAL ZONES' }, { n: '30+', label: 'HIGH RISK' }, { n: '80+', label: 'COUNTRIES' }].map(({ n, label }) => (
-                <div key={label} style={{ flex: 1, padding: '8px 10px', background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(12px)', borderRadius: 10, border: '1px solid var(--ovw-0p08)' }}>
+                <div key={label} style={{ flex: 1, padding: '8px 10px', background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(12px)', borderRadius: 10, border: '1px solid rgba(255,255,255,0.1)' }}>
                   <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 20, color: '#F5F5F7', lineHeight: 1 }}>{n}</p>
-                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 8, color: 'var(--ovw-0p35)', letterSpacing: '0.08em' }}>{label}</p>
+                  {/* Fixed dark pill background — label stays fixed light rather than the theme-swapping token */}
+                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 8, color: 'rgba(255,255,255,0.68)', letterSpacing: '0.08em' }}>{label}</p>
                 </div>
               ))}
             </div>
@@ -823,8 +837,8 @@ export default function Landing() {
                 <div style={{ width: 20, height: 20, borderRadius: 4, background: 'rgba(255,45,45,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <span style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 10, color: '#fff' }}>R</span>
                 </div>
-                <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 13, color: 'var(--ovw-0p9)' }}>REUTERS</span>
-                <span style={{ fontFamily: 'Inter', fontSize: 13, color: 'var(--ovw-0p45)' }}>2 hours ago</span>
+                <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 13, color: 'rgba(255,255,255,0.94)' }}>REUTERS</span>
+                <span style={{ fontFamily: 'Inter', fontSize: 13, color: 'rgba(255,255,255,0.75)' }}>2 hours ago</span>
               </div>
               <h3 style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 'clamp(17px, 2.5vw, 22px)', lineHeight: 1.3, color: '#fff', maxWidth: 680 }}>
                 Deepfake video of former US president spreads across platforms ahead of election, millions fooled before takedown
@@ -853,7 +867,7 @@ export default function Landing() {
                     </div>
                     <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 13, color: 'var(--ovw-0p55)' }}>{item.source}</span>
                   </div>
-                  <p style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 'clamp(14px, 1.8vw, 16px)', color: '#fff', lineHeight: 1.35, marginBottom: 6, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                  <p style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 'clamp(14px, 1.8vw, 16px)', color: 'var(--text-1)', lineHeight: 1.35, marginBottom: 6, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                     {item.text}
                   </p>
                   <span style={{ fontFamily: 'Inter', fontSize: 13, color: 'var(--ovw-0p35)' }}>{item.time}</span>
@@ -913,14 +927,16 @@ export default function Landing() {
               <div style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--ovw-0p25)', marginBottom: 24 }}>
                 EXTENSION DEMO VIDEO -- /assets/video/extension-demo.mp4
               </div>
-              <div style={{ padding: '24px', background: 'rgba(6,6,6,0.94)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', border: '1px solid var(--ovw-0p1)', borderRadius: 20, boxShadow: 'inset 0 1px 0 var(--ovw-0p18)' }}>
+              {/* Mockup of the always-dark extension popup UI — fixed background, so its text stays fixed
+                  light-on-dark rather than the theme-swapping tokens, which would go near-invisible in light mode. */}
+              <div style={{ padding: '24px', background: 'rgba(6,6,6,0.94)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 20, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.14)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-                  <span style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'var(--ovw-0p4)' }}>D0B3RMAN</span>
-                  <span style={{ color: 'var(--ovw-0p3)', fontSize: 18, lineHeight: 1 }}>×</span>
+                  <span style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.71)' }}>D0B3RMAN</span>
+                  <span style={{ color: 'rgba(255,255,255,0.61)', fontSize: 18, lineHeight: 1 }}>×</span>
                 </div>
-                <div style={{ fontFamily: 'Inter', fontSize: 64, fontWeight: 700, color: 'var(--danger)', lineHeight: 1, marginBottom: 4 }}>97<span style={{ fontSize: 28 }}>%</span></div>
-                <div style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.04em', color: 'var(--danger)', marginBottom: 12 }}>FAKE</div>
-                <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--ovw-0p5)', lineHeight: 1.55, marginBottom: 16 }}>
+                <div style={{ fontFamily: 'Inter', fontSize: 64, fontWeight: 700, color: '#FF2D2D', lineHeight: 1, marginBottom: 4 }}>97<span style={{ fontSize: 28 }}>%</span></div>
+                <div style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.04em', color: '#FF2D2D', marginBottom: 12 }}>FAKE</div>
+                <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'rgba(255,255,255,0.76)', lineHeight: 1.55, marginBottom: 16 }}>
                   This image shows strong deepfake indicators. The facial boundaries and lighting are inconsistent with authentic photography.
                 </p>
                 <div style={{ display: 'block', textAlign: 'center', padding: '10px', background: 'var(--chrome-white)', color: 'var(--void)', borderRadius: 10, fontFamily: 'Inter', fontSize: 12, fontWeight: 700 }}>
@@ -947,7 +963,10 @@ export default function Landing() {
               alt="Doberman"
               style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
             />
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '40%', background: 'linear-gradient(to bottom, transparent, #000)' }} />
+            {/* No text sits on this photo — the fade exists purely to blend its bottom edge into the page, so it
+                targets the actual page background color instead of a hardcoded black that would leave a hard
+                seam against a light page. */}
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '40%', background: 'linear-gradient(to bottom, transparent, var(--void))' }} />
           </motion.div>
           <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'var(--ovw-0p25)', marginBottom: 20 }}>[ WHAT USERS SAY ]</p>
           <h2 className="gsap-heading" style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92 }}>
@@ -986,7 +1005,9 @@ export default function Landing() {
                 {r.badge}
               </span>
               <p style={{ fontFamily: 'Inter', fontSize: 15, color: 'var(--ovw-0p55)', lineHeight: 1.65, marginBottom: 24, marginTop: 8 }}>"{r.text}"</p>
-              <p style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 14, color: 'white' }}>{r.author}</p>
+              {/* This card's background is theme-adaptive (var(--ovw-0p04) over the page), so the author name must follow
+                  the theme too — 'white' was a dark-mode leftover, invisible on the light-mode card. */}
+              <p style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 14, color: 'var(--text-1)' }}>{r.author}</p>
               <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--ovw-0p25)', marginTop: 4 }}>{r.role}</p>
             </motion.div>
           ))}
@@ -997,10 +1018,20 @@ export default function Landing() {
       <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: 'var(--void)' }}>
         <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.5} style={{ zIndex: 0 }} />
         <div style={{ position: 'relative', zIndex: 1, padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 720 }}>
-          <div style={{ position: 'relative', height: 320, width: '60%', maxWidth: 360, margin: '0 auto', marginBottom: -20, overflow: 'hidden', clipPath: 'inset(0)', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {/* No mixBlendMode here — that washes the video toward white on a light page (the "tint" bug). Instead a soft radial mask fades
+              the video's hard rectangular edges to transparent, so it dissolves into the page behind it in either theme instead of
+              showing a boxed-in background. */}
+          <div
+            style={{
+              position: 'relative', height: 320, width: '60%', maxWidth: 360, margin: '0 auto', marginBottom: -20, overflow: 'hidden',
+              pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              maskImage: 'radial-gradient(closest-side, black 60%, transparent 100%)',
+              WebkitMaskImage: 'radial-gradient(closest-side, black 60%, transparent 100%)',
+            }}
+          >
             <video
               autoPlay muted loop playsInline preload="auto"
-              style={{ width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'screen' }}
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
             >
               <source src="/assets/video/blob-hero-2.mp4" type="video/mp4" />
             </video>
