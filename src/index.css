@@ -339,6 +339,13 @@ body::after {
   background-clip: text;
 }
 
+/* Dashboard stat hexagons — solid black in light mode only, so the colored
+   numbers still pop against the bright page instead of near-vanishing on
+   the default translucent glass wash. */
+:root[data-theme='light'] .stats-hex {
+  background: #0A0A0F;
+}
+
 /* Click shockwave animation */
 @keyframes shockwave {
   0%   { transform: scale(0); opacity: 1; }

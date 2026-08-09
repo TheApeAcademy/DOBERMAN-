@@ -363,7 +363,7 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
         {/* DAYE logo video — screen blend */}
         <video
           autoPlay muted loop playsInline preload="auto"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', mixBlendMode: 'screen', opacity: 0.9, pointerEvents: 'none' }}
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}
         >
           <source src="/assets/video/blob-di.mp4" type="video/mp4" />
         </video>

@@ -240,7 +240,7 @@ export default function Dashboard() {
             </p>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 16px', background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.2)', borderRadius: 8 }}>
               <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--safe)', animation: 'pulse 2s infinite' }} />
-              <span style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.03em', color: 'var(--safe)' }}>ALL SYSTEMS ACTIVE</span>
+              <span style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.03em', color: 'var(--text-1)' }}>ALL SYSTEMS ACTIVE</span>
             </div>
           </div>
 
