@@ -330,19 +330,17 @@ export default function Landing() {
             </div>
           </motion.div>
 
-          {/* D0B3RMAN Intelligence — featured full-width with big standalone video */}
+          {/* D0B3RMAN Intelligence — no card wrapper: the video is the only thing that needs a dark surface (its
+              own black background, contained in a squircle), so the heading/copy/button sit directly on the
+              section's normal page background and use the same theme-adaptive tokens as every other module,
+              instead of being dragged into a fixed dark "feature card" that only worked in dark mode. */}
           <motion.div
             initial={{ opacity: 0, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
             viewport={{ once: true, margin: '-60px' }}
-            style={{ borderRadius: 28, overflow: 'hidden', border: '1px solid rgba(0,212,106,0.12)', background: 'rgba(0,0,0,0.8)' }}
           >
-            {/* The orb video is contained in its own squircle rather than stretched into a full-width rectangular
-                card — that rectangle was a visibly different shade of black than the rest of this always-dark
-                feature card, reading as a mismatched "card within a card" instead of the video's own black
-                background blending away. The squircle's fill matches the video's black backdrop exactly. */}
-            <div style={{ position: 'relative', padding: 'clamp(32px,5vw,56px) clamp(32px,5vw,56px) 8px', display: 'flex', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 40 }}>
               <div style={{ position: 'relative', width: 'clamp(240px, 42vw, 420px)', height: 'clamp(240px, 42vw, 420px)', borderRadius: '22%', overflow: 'hidden', background: '#050505' }}>
                 {/* Ambient glow */}
                 <div style={{ position: 'absolute', top: '42%', left: '50%', transform: 'translate(-50%, -50%)', width: '85%', height: '85%', borderRadius: '50%', background: 'radial-gradient(circle, rgba(48,209,88,0.1) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
@@ -358,18 +356,17 @@ export default function Landing() {
               </div>
             </div>
 
-            {/* Content below the video */}
-            <div style={{ padding: 'clamp(32px,5vw,56px)', textAlign: 'center' }}>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.12em', color: 'rgba(48,209,88,0.6)', marginBottom: 16 }}>
+            <div style={{ textAlign: 'center' }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.12em', color: 'var(--safe)', marginBottom: 16 }}>
                 02 -- AI SECURITY ANALYST
               </p>
-              <h3 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(60px, 10vw, 120px)', letterSpacing: '0.1em', lineHeight: 0.9, marginBottom: 20, color: '#30D158' }}>
+              <h3 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(60px, 10vw, 120px)', letterSpacing: '0.1em', lineHeight: 0.9, marginBottom: 20, color: 'var(--safe)' }}>
                 DAYE
               </h3>
-              <p style={{ color: 'rgba(255,255,255,0.82)', fontSize: 16, lineHeight: 1.7, marginBottom: 36, maxWidth: 560, margin: '0 auto 36px' }}>
+              <p style={{ color: 'var(--ovw-0p8)', fontSize: 16, lineHeight: 1.7, marginBottom: 36, maxWidth: 560, margin: '0 auto 36px' }}>
                 Ask anything. DAYE explains threats in plain language and gives you a concrete next step. Like having a security analyst on call 24/7.
               </p>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'rgba(255,255,255,0.55)', marginBottom: 32 }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--ovw-0p4)', marginBottom: 32 }}>
                 VOICE · FILE ANALYSIS · REAL-TIME INTEL · GLOBE BRIEFS
               </p>
               <motion.button
@@ -382,7 +379,7 @@ export default function Landing() {
                   gap: 10,
                   padding: '16px 44px',
                   background: 'var(--safe)',
-                  color: '#000',
+                  color: 'var(--void)',
                   fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif',
                   fontSize: 18,
                   border: 'none',
@@ -761,14 +758,26 @@ export default function Landing() {
                   behind it is actually black — against the light --void it washed white, and swapping the blend
                   mode itself just traded that for a flat grey smear (the video's own black frame painted opaque). */}
               <VideoBlob src="/assets/video/blob-news.mp4" cover opacity={0.25} style={{ zIndex: 0 }} />
-              <div className="glass" style={{ position: 'relative', zIndex: 1, padding: 'clamp(32px,6vw,60px) clamp(24px,7vw,72px)', borderRadius: 32, maxWidth: 600, textAlign: 'center' }}>
-                <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.06em', color: 'var(--ovw-0p25)', marginBottom: 20 }}>
+              {/* The .glass class's own background/border are theme-adaptive (a light tint on dark mode's black
+                  panel, but a dark tint on this now-permanently-black panel in light mode — i.e. invisible), so
+                  they're pinned here to the same light-on-black values dark mode already resolved to, and the
+                  text inside is pinned to fixed white/light rather than the ink-on-white tokens that went
+                  near-black-on-black once this panel stopped following the page theme. */}
+              <div
+                className="glass"
+                style={{
+                  position: 'relative', zIndex: 1, padding: 'clamp(32px,6vw,60px) clamp(24px,7vw,72px)', borderRadius: 32, maxWidth: 600, textAlign: 'center',
+                  background: 'rgba(255,255,255,0.073)', border: '1px solid rgba(255,255,255,0.194)',
+                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.542), inset 0 -1px 0 rgba(255,255,255,0.078), 0 4px 6px rgba(0,0,0,0.15), 0 32px 64px rgba(0,0,0,0.4)',
+                }}
+              >
+                <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.58)', marginBottom: 20 }}>
                   {panel.num} -- {panel.module}
                 </p>
-                <h2 style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(28px, 8vw, 96px)', lineHeight: 0.9, whiteSpace: 'pre-line', marginBottom: 32 }}>
+                <h2 style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(28px, 8vw, 96px)', lineHeight: 0.9, whiteSpace: 'pre-line', marginBottom: 32, color: '#FFFFFF' }}>
                   {panel.headline}
                 </h2>
-                <p style={{ fontFamily: 'Inter', fontSize: 18, color: 'var(--ovw-0p5)', lineHeight: 1.6 }}>
+                <p style={{ fontFamily: 'Inter', fontSize: 18, color: 'rgba(255,255,255,0.76)', lineHeight: 1.6 }}>
                   {panel.sub}
                 </p>
               </div>
@@ -1042,36 +1051,21 @@ export default function Landing() {
 
       {/* ─── FINAL CTA ───────────────────────────────────── */}
       <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', background: 'var(--void)' }}>
-        {/* Contained in a squircle rather than full-bleed cover, and the squircle itself is pinned black to match
-            the video's own black background — the video only loses its black backdrop via the default "screen"
-            blend mode against an actually-black surface, so a theme-adaptive container (light in light mode)
-            just showed the video's black frame as a mismatched box instead of hiding it. */}
-        <div style={{
-          position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-          width: 'min(640px, 82vw)', height: 'min(640px, 82vw)',
-          borderRadius: '22%', overflow: 'hidden', zIndex: 0,
-          background: '#050505',
-        }}>
-          <VideoBlob src="/assets/video/blob-cta.mp4" cover opacity={0.85} />
-        </div>
         <div style={{ position: 'relative', zIndex: 1, padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 720 }}>
-          {/* No mixBlendMode here — that washes the video toward white on a light page (the "tint" bug). Instead a soft radial mask fades
-              the video's hard rectangular edges to transparent, so it dissolves into the page behind it in either theme instead of
-              showing a boxed-in background. */}
-          <div
-            style={{
-              position: 'relative', height: 320, width: '60%', maxWidth: 360, margin: '0 auto', marginBottom: -20, overflow: 'hidden',
-              pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              maskImage: 'radial-gradient(closest-side, black 60%, transparent 100%)',
-              WebkitMaskImage: 'radial-gradient(closest-side, black 60%, transparent 100%)',
-            }}
-          >
-            <video
-              autoPlay muted loop playsInline preload="auto"
-              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-            >
-              <source src="/assets/video/blob-hero-2.mp4" type="video/mp4" />
-            </video>
+          {/* Single blob video, contained in a black squircle matching its own baked-in black background — there
+              used to be two overlapping copies here (one full-bleed behind the card via a mismatched theme-adaptive
+              squircle, near-invisible under the opaque card; one loose/unmasked floating above it), which is why
+              the squircle never actually seemed to contain the visible blob. Now there's one, sized and tucked
+              to overlap the card the same way the original floating video did. */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: -28 }}>
+            <div style={{ position: 'relative', width: 'clamp(220px, 34vw, 320px)', height: 'clamp(220px, 34vw, 320px)', borderRadius: '22%', overflow: 'hidden', background: '#050505' }}>
+              <video
+                autoPlay muted loop playsInline preload="auto"
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              >
+                <source src="/assets/video/blob-hero-2.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
           <motion.div
             initial={{ opacity: 0, scale: 0.94, y: 40 }}
