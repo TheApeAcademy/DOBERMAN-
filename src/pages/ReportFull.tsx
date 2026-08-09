@@ -78,7 +78,7 @@ export default function ReportFull() {
             className="report-nav-item"
             style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', width: '100%', textAlign: 'left', background: activeSection === `ch-${ch.number}` ? 'var(--ovw-0p06)' : 'transparent', border: 'none', cursor: 'pointer', transition: 'all 0.15s' }}
           >
-            <span style={{ fontFamily: 'Bebas Neue', fontSize: 14, letterSpacing: '0.1em', color: 'var(--ovw-0p25)', width: 18, flexShrink: 0 }}>{ch.number}</span>
+            <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 14, letterSpacing: '0.1em', color: 'var(--ovw-0p25)', width: 18, flexShrink: 0 }}>{ch.number}</span>
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: activeSection === `ch-${ch.number}` ? 'var(--ovw-0p9)' : 'var(--ovw-0p4)', flex: 1, lineHeight: 1.3 }}>{ch.title}</p>
             <ChevronDown size={12} style={{ color: 'var(--ovw-0p2)', transform: expanded[ch.number] ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0 }} />
           </button>
@@ -135,7 +135,7 @@ export default function ReportFull() {
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px 16px', borderBottom: '1px solid var(--ovw-0p07)', marginBottom: 4 }}>
-                  <span style={{ fontFamily: 'Bebas Neue', fontSize: 16, letterSpacing: '0.15em', color: 'var(--ovw-0p7)' }}>Contents</span>
+                  <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 16, letterSpacing: '0.15em', color: 'var(--ovw-0p7)' }}>Contents</span>
                   <button onClick={() => setNavOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--ovw-0p4)', cursor: 'pointer', padding: 4 }}>
                     <X size={16} />
                   </button>
@@ -193,7 +193,7 @@ export default function ReportFull() {
             </div>
             <button
               onClick={() => setDownloadOpen(true)}
-              style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', background: 'var(--ovw-0p06)', border: '1px solid var(--ovw-0p12)', borderRadius: 8, color: 'var(--text-1)', fontFamily: 'Syne', fontWeight: 600, fontSize: 12, cursor: 'pointer', flexShrink: 0, whiteSpace: 'nowrap' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', background: 'var(--ovw-0p06)', border: '1px solid var(--ovw-0p12)', borderRadius: 8, color: 'var(--text-1)', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 600, fontSize: 12, cursor: 'pointer', flexShrink: 0, whiteSpace: 'nowrap' }}
             >
               <Download size={12} /> Download
             </button>
@@ -218,10 +218,10 @@ export default function ReportFull() {
               style={{ width: 80, height: 80, objectFit: 'contain', display: 'block', margin: '0 auto 20px' }}
               onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
             />
-            <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(52px, 16vw, 120px)', letterSpacing: '0.15em', lineHeight: 0.88, marginBottom: 20, background: 'linear-gradient(135deg, #fff 0%, var(--ovw-0p6) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+            <h1 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(52px, 16vw, 120px)', letterSpacing: '0.15em', lineHeight: 0.88, marginBottom: 20, background: 'linear-gradient(135deg, #fff 0%, var(--ovw-0p6) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
               DOBERMAN
             </h1>
-            <p style={{ fontFamily: 'Syne', fontWeight: 500, fontSize: 'clamp(13px, 2.5vw, 20px)', color: 'var(--ovw-0p5)', maxWidth: 540, margin: '0 auto 40px', lineHeight: 1.55, padding: '0 8px' }}>
+            <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 500, fontSize: 'clamp(13px, 2.5vw, 20px)', color: 'var(--ovw-0p5)', maxWidth: 540, margin: '0 auto 40px', lineHeight: 1.55, padding: '0 8px' }}>
               Design and Implementation of a Multi-Module AI-Powered Cybersecurity Intelligence Platform
             </p>
             <div style={{ display: 'inline-block', textAlign: 'left', padding: 'clamp(16px, 4vw, 28px) clamp(16px, 5vw, 36px)', background: 'var(--ovw-0p03)', border: '1px solid var(--ovw-0p09)', borderRadius: 16, maxWidth: '100%' }}>
@@ -235,7 +235,7 @@ export default function ReportFull() {
               ].map(([key, val]) => (
                 <div key={key} style={{ display: 'flex', gap: 'clamp(12px, 3vw, 24px)', marginBottom: 8, alignItems: 'flex-start', flexWrap: 'wrap' }}>
                   <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.1em', color: 'var(--ovw-0p25)', width: 70, flexShrink: 0, textTransform: 'uppercase', paddingTop: 1 }}>{key}</span>
-                  <span style={{ fontFamily: 'Syne', fontWeight: 600, fontSize: 13, color: 'var(--ovw-0p75)', flex: 1, minWidth: 0 }}>{val}</span>
+                  <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 600, fontSize: 13, color: 'var(--ovw-0p75)', flex: 1, minWidth: 0 }}>{val}</span>
                 </div>
               ))}
             </div>
@@ -249,7 +249,7 @@ export default function ReportFull() {
               {REPORT.abstract.split('\n\n').map((para, i) => (
                 <BodyText key={i} noIndent>{para}</BodyText>
               ))}
-              <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--ovw-0p45)', marginTop: 20, lineHeight: 1.7 }}>
+              <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, color: 'var(--ovw-0p45)', marginTop: 20, lineHeight: 1.7 }}>
                 <em>Keywords:</em> {REPORT.keywords.join(', ')}
               </p>
             </section>
@@ -258,7 +258,7 @@ export default function ReportFull() {
             <section id="section-dedication" style={{ marginBottom: 64 }}>
               <SectionLabel>Dedication</SectionLabel>
               {REPORT.dedication.split('\n\n').map((para, i) => (
-                <p key={i} style={{ fontFamily: 'Syne', fontSize: 15, fontStyle: 'italic', color: 'var(--ovw-0p5)', lineHeight: 1.8, marginBottom: 16, textAlign: 'center', textIndent: 0 }}>{para}</p>
+                <p key={i} style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 15, fontStyle: 'italic', color: 'var(--ovw-0p5)', lineHeight: 1.8, marginBottom: 16, textAlign: 'center', textIndent: 0 }}>{para}</p>
               ))}
             </section>
 
@@ -274,15 +274,15 @@ export default function ReportFull() {
             {REPORT.chapters.map((chapter) => (
               <section key={chapter.number} id={`section-ch-${chapter.number}`} style={{ marginBottom: 72 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 32, paddingBottom: 16, borderBottom: '1px solid var(--ovw-0p08)', flexWrap: 'wrap' }}>
-                  <span style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(36px, 8vw, 56px)', letterSpacing: '0.1em', color: 'var(--ovw-0p06)', lineHeight: 1 }}>{chapter.number}</span>
-                  <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(20px, 4vw, 36px)', color: 'var(--text-1)', lineHeight: 1.15, flex: 1, minWidth: 0 }}>
+                  <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(36px, 8vw, 56px)', letterSpacing: '0.1em', color: 'var(--ovw-0p06)', lineHeight: 1 }}>{chapter.number}</span>
+                  <h2 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 800, fontSize: 'clamp(20px, 4vw, 36px)', color: 'var(--text-1)', lineHeight: 1.15, flex: 1, minWidth: 0 }}>
                     {chapter.title}
                   </h2>
                 </div>
 
                 {chapter.sections.map((section) => (
                   <div key={section.id} id={`section-${section.id}`} style={{ marginBottom: 48 }}>
-                    <h3 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 16, color: 'var(--ovw-0p85)', marginBottom: 16, paddingLeft: 12, borderLeft: '2px solid var(--ovw-0p15)' }}>
+                    <h3 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 16, color: 'var(--ovw-0p85)', marginBottom: 16, paddingLeft: 12, borderLeft: '2px solid var(--ovw-0p15)' }}>
                       {section.heading}
                     </h3>
                     {section.body.map((para, i) => (
@@ -295,14 +295,14 @@ export default function ReportFull() {
 
             {/* References */}
             <section id="section-references" style={{ marginBottom: 72 }}>
-              <h2 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 22, color: 'var(--ovw-0p9)', textAlign: 'center', marginBottom: 28, letterSpacing: '0.02em' }}>References</h2>
+              <h2 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 22, color: 'var(--ovw-0p9)', textAlign: 'center', marginBottom: 28, letterSpacing: '0.02em' }}>References</h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                 {REPORT.references.map((ref) => (
                   <div key={ref.number} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
                     <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--ovw-0p22)', flexShrink: 0, paddingTop: 4, minWidth: 26, textAlign: 'right' }}>
                       [{ref.number}]
                     </span>
-                    <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--ovw-0p55)', lineHeight: 1.75, margin: 0 }}>
+                    <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, color: 'var(--ovw-0p55)', lineHeight: 1.75, margin: 0 }}>
                       {renderText(ref.citation)}
                       {ref.url && (
                         <> <a href={ref.url} target="_blank" rel="noopener noreferrer"
@@ -393,7 +393,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 function BodyText({ children, noIndent }: { children: React.ReactNode; noIndent?: boolean }) {
   return (
-    <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--ovw-0p55)', lineHeight: 1.85, marginBottom: 16, textAlign: 'justify', textIndent: noIndent ? 0 : '1.5em' }}>
+    <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 14, color: 'var(--ovw-0p55)', lineHeight: 1.85, marginBottom: 16, textAlign: 'justify', textIndent: noIndent ? 0 : '1.5em' }}>
       {children}
     </p>
   )

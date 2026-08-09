@@ -127,7 +127,7 @@ function ModuleTile({
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 32%, rgba(0,0,0,0.95) 100%)' }} />
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 'clamp(20px,3vw,32px)', zIndex: 2 }}>
         <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.08em', color: 'var(--ovw-0p4)', marginBottom: 10 }}>{kicker}</p>
-        <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(30px,3.2vw,46px)', letterSpacing: '0.04em', lineHeight: 0.95, marginBottom: 12, color: '#fff' }}>{title}</h3>
+        <h3 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(30px,3.2vw,46px)', letterSpacing: '0.04em', lineHeight: 0.95, marginBottom: 12, color: '#fff' }}>{title}</h3>
         <p style={{ fontFamily: 'Inter', fontSize: 13, color: 'var(--ovw-0p52)', lineHeight: 1.55, marginBottom: meta ? 8 : 14, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{description}</p>
         {meta && <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--ovw-0p22)', marginBottom: 14 }}>{meta}</p>}
         {footer ?? (progress && (
@@ -344,7 +344,7 @@ export default function Dashboard() {
               <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.06em', color: 'var(--ovw-0p28)', marginBottom: 16 }}>
                 02 -- AI SECURITY ANALYST
               </p>
-              <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(48px, 6vw, 72px)', letterSpacing: '0.08em', lineHeight: 0.9, marginBottom: 8, color: 'var(--safe)' }}>
+              <h2 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(48px, 6vw, 72px)', letterSpacing: '0.08em', lineHeight: 0.9, marginBottom: 8, color: 'var(--safe)' }}>
                 DAYE
               </h2>
               <p style={{ fontFamily: 'Inter', fontSize: 15, color: 'var(--ovw-0p48)', maxWidth: 440, margin: '0 auto 10px', lineHeight: 1.65 }}>
@@ -392,7 +392,7 @@ export default function Dashboard() {
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(20,10,4,1) 0%, rgba(42,20,8,0.9) 100%)' }}>
                   <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(205,133,63,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(205,133,63,0.035) 1px,transparent 1px)', backgroundSize: '32px 32px' }} />
                   <div style={{ position: 'absolute', top: -40, right: -40, width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle,rgba(205,133,63,0.16) 0%,transparent 68%)' }} />
-                  <div style={{ position: 'absolute', top: -10, right: -6, fontFamily: 'Bebas Neue', fontSize: 'clamp(90px,14vw,160px)', color: 'rgba(205,133,63,0.07)', lineHeight: 1, userSelect: 'none' }}>04</div>
+                  <div style={{ position: 'absolute', top: -10, right: -6, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(90px,14vw,160px)', color: 'rgba(205,133,63,0.07)', lineHeight: 1, userSelect: 'none' }}>04</div>
                 </div>
               }
             />
@@ -422,7 +422,7 @@ export default function Dashboard() {
                 />
               </div>
               <div>
-                <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 15, color: 'var(--ovw-0p85)', marginBottom: 2 }}>DOBERMAN JOURNAL</p>
+                <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 15, color: 'var(--ovw-0p85)', marginBottom: 2 }}>DOBERMAN JOURNAL</p>
                 <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--ovw-0p28)' }}>B.Sc. Cyber Security · Precious Cornerstone University, Ibadan</p>
               </div>
             </div>
@@ -579,7 +579,7 @@ export default function Dashboard() {
                           </div>
                         ) : (
                           <div style={{ width: 88, height: 68, borderRadius: 10, flexShrink: 0, background: `linear-gradient(135deg, ${srcColor}25, rgba(10,10,10,0.9))`, border: `1px solid ${srcColor}22`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <span style={{ fontFamily: 'Bebas Neue', fontSize: 10, letterSpacing: '0.15em', color: srcColor, opacity: 0.7 }}>NEWS</span>
+                            <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 10, letterSpacing: '0.15em', color: srcColor, opacity: 0.7 }}>NEWS</span>
                           </div>
                         )}
                       </motion.a>
@@ -684,7 +684,7 @@ export default function Dashboard() {
               />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, #000 100%)' }} />
               <div style={{ position: 'absolute', bottom: 20, left: 20 }}>
-                <p style={{ fontFamily: 'Bebas Neue', fontSize: 26, letterSpacing: '0.2em', color: 'var(--ovw-0p92)', lineHeight: 1 }}>D0B3RMAN</p>
+                <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 26, letterSpacing: '0.2em', color: 'var(--ovw-0p92)', lineHeight: 1 }}>D0B3RMAN</p>
                 <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.04em', color: 'var(--ovw-0p28)', marginTop: 6 }}>THE WATCHDOG IS WATCHING</p>
               </div>
             </motion.div>

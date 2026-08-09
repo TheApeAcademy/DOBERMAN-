@@ -90,7 +90,7 @@ export default function ShareTarget() {
 
         <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 560, padding: '0 24px' }}>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
-            <span style={{ fontFamily: 'Bebas Neue', fontSize: 28, letterSpacing: '0.2em' }}>D0B3RMAN</span>
+            <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 28, letterSpacing: '0.2em' }}>D0B3RMAN</span>
           </div>
 
           <div className="glass" style={{ borderRadius: 28, padding: 40, textAlign: 'center' }}>
@@ -129,7 +129,7 @@ export default function ShareTarget() {
                 <div style={{ fontFamily: 'Inter', fontSize: 80, fontWeight: 700, color: scoreColor, lineHeight: 1, marginBottom: 4 }}>
                   {result.score}
                 </div>
-                <span style={{ fontFamily: 'Bebas Neue', fontSize: 20, letterSpacing: '0.15em', color: scoreColor }}>
+                <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 20, letterSpacing: '0.15em', color: scoreColor }}>
                   {result.verdict}
                 </span>
                 <p style={{ fontFamily: 'Inter', fontSize: 14, color: 'var(--text-2)', lineHeight: 1.65, margin: '20px 0 32px' }}>

@@ -23,11 +23,11 @@ export default {
         'text-muted': 'var(--text-3)',
       },
       fontFamily: {
-        'display': ['"Bebas Neue"', 'sans-serif'],
-        'heading': ['Inter', 'sans-serif'],
-        'body': ['Inter', 'sans-serif'],
-        'label': ['Inter', 'sans-serif'],
-        'mono': ['"Geist Mono"', 'monospace'],
+        'display': ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', 'Inter', 'sans-serif'],
+        'heading': ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', 'Inter', 'sans-serif'],
+        'body': ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', 'Inter', 'sans-serif'],
+        'label': ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', 'Inter', 'sans-serif'],
+        'mono': ['"SF Mono"', 'ui-monospace', '"Geist Mono"', 'monospace'],
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',

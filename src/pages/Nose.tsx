@@ -56,7 +56,7 @@ export default function Nose() {
             <Wifi size={22} style={{ color: 'var(--text-1)' }} />
           </div>
           <div style={{ flex: 1 }}>
-            <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>NOSE</h1>
+            <h1 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>NOSE</h1>
             <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'var(--text-3)', marginTop: 3 }}>IoT + NETWORK VULNERABILITY INTELLIGENCE</p>
           </div>
           <div style={{

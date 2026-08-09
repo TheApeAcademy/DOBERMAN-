@@ -61,11 +61,11 @@ export function Sidebar({ profile, onSignOut, mobile, onClose }: SidebarProps) {
         <NavLink to="/dashboard" onClick={onClose} style={{ textDecoration: 'none' }}>
           {mobile || expanded ? (
             <>
-              <span style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.18em', color: 'var(--text-1)', display: 'block' }}>D0B3RMAN</span>
+              <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 22, letterSpacing: '0.18em', color: 'var(--text-1)', display: 'block' }}>D0B3RMAN</span>
               <span style={{ fontFamily: SF, fontSize: 11, letterSpacing: '0.01em', color: 'var(--ovw-0p35)', display: 'block', marginTop: 3, fontWeight: 400 }}>Cyber Watchdog</span>
             </>
           ) : (
-            <span style={{ fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.1em', color: 'var(--text-1)' }}>D</span>
+            <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 18, letterSpacing: '0.1em', color: 'var(--text-1)' }}>D</span>
           )}
         </NavLink>
       </div>

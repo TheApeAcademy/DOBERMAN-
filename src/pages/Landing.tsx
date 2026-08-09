@@ -112,7 +112,7 @@ export default function Landing() {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         <style>{`@media(max-width:768px){.nav-links,.nav-signin{display:none!important}}`}</style>
-        <span style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.2em' }}>D0B3RMAN</span>
+        <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 22, letterSpacing: '0.2em' }}>D0B3RMAN</span>
         <div className="nav-links" style={{ display: 'flex', gap: 40, fontFamily: 'Inter', fontSize: 12, color: 'var(--ovw-0p4)' }}>
           <a href="#modules" style={{ color: 'inherit', textDecoration: 'none' }}>MODULES</a>
           <a href="#intelligence" style={{ color: 'inherit', textDecoration: 'none' }}>INTELLIGENCE</a>
@@ -291,7 +291,7 @@ export default function Landing() {
             <div className="dfi-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 36, alignItems: 'center' }}>
               <div>
                 <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'var(--ovw-0p3)', marginBottom: 12 }}>01 -- DEEPFAKE DETECTION</p>
-                <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(40px, 6vw, 72px)', letterSpacing: '0.08em', marginBottom: 16, lineHeight: 0.95 }}>DEEP FAKE<br />INTELLIGENCE</h3>
+                <h3 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(40px, 6vw, 72px)', letterSpacing: '0.08em', marginBottom: 16, lineHeight: 0.95 }}>DEEP FAKE<br />INTELLIGENCE</h3>
                 <p style={{ color: 'var(--ovw-0p5)', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
                   Upload any image, video, or audio. D0B3RMAN's detection engine analyzes it
                   against known deepfake signatures and returns a trust score in seconds.
@@ -353,7 +353,7 @@ export default function Landing() {
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.12em', color: 'rgba(48,209,88,0.6)', marginBottom: 16 }}>
                 02 -- AI SECURITY ANALYST
               </p>
-              <h3 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(60px, 10vw, 120px)', letterSpacing: '0.1em', lineHeight: 0.9, marginBottom: 20, color: 'var(--safe)' }}>
+              <h3 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(60px, 10vw, 120px)', letterSpacing: '0.1em', lineHeight: 0.9, marginBottom: 20, color: 'var(--safe)' }}>
                 DAYE
               </h3>
               <p style={{ color: 'var(--ovw-0p5)', fontSize: 16, lineHeight: 1.7, marginBottom: 36, maxWidth: 560, margin: '0 auto 36px' }}>
@@ -373,7 +373,7 @@ export default function Landing() {
                   padding: '16px 44px',
                   background: 'var(--safe)',
                   color: '#000',
-                  fontFamily: 'Bebas Neue',
+                  fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif',
                   fontSize: 18,
                   border: 'none',
                   borderRadius: 14,
@@ -490,8 +490,8 @@ export default function Landing() {
           {/* Left — typography */}
           <motion.div {...IN_VIEW}>
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(48,209,88,0.5)', marginBottom: 16 }}>MEET YOUR ANALYST</p>
-            <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(80px, 14vw, 160px)', letterSpacing: '0.05em', color: 'var(--safe)', lineHeight: 0.85, marginBottom: 24 }}>DAYE</h2>
-            <p style={{ fontFamily: 'Syne', fontWeight: 400, fontSize: 'clamp(16px, 2vw, 20px)', color: 'var(--ovw-0p55)', lineHeight: 1.65, marginBottom: 36, maxWidth: 460 }}>
+            <h2 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(80px, 14vw, 160px)', letterSpacing: '0.05em', color: 'var(--safe)', lineHeight: 0.85, marginBottom: 24 }}>DAYE</h2>
+            <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 400, fontSize: 'clamp(16px, 2vw, 20px)', color: 'var(--ovw-0p55)', lineHeight: 1.65, marginBottom: 36, maxWidth: 460 }}>
               A cybersecurity intelligence analyst powered by AI. Understands context, speaks plainly, acts fast. Available every second of every day.
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 40 }}>
@@ -503,7 +503,7 @@ export default function Landing() {
               whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(48,209,88,0.18)' }}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate('/auth')}
-              style={{ padding: '14px 36px', background: 'var(--safe)', color: '#000', fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.08em', border: 'none', borderRadius: 12, cursor: 'pointer' }}
+              style={{ padding: '14px 36px', background: 'var(--safe)', color: '#000', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 18, letterSpacing: '0.08em', border: 'none', borderRadius: 12, cursor: 'pointer' }}
             >
               Chat with DAYE
             </motion.button>
@@ -522,7 +522,7 @@ export default function Landing() {
               <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--ovw-0p07)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--safe)', boxShadow: '0 0 8px rgba(48,209,88,0.6)' }} />
-                  <span style={{ fontFamily: 'Bebas Neue', fontSize: 14, letterSpacing: '0.12em', color: '#F5F5F7' }}>DAYE</span>
+                  <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 14, letterSpacing: '0.12em', color: '#F5F5F7' }}>DAYE</span>
                 </div>
                 <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--safe)', letterSpacing: '0.08em' }}>ONLINE</span>
               </div>
@@ -535,7 +535,7 @@ export default function Landing() {
                 ].map((msg, i) => (
                   <div key={i} style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start' }}>
                     <div style={{ maxWidth: '80%', padding: '8px 12px', borderRadius: msg.role === 'user' ? '12px 12px 4px 12px' : '12px 12px 12px 4px', background: msg.role === 'user' ? 'var(--ovw-0p1)' : 'rgba(48,209,88,0.1)', border: msg.role === 'user' ? '1px solid var(--ovw-0p1)' : '1px solid rgba(48,209,88,0.2)' }}>
-                      <p style={{ fontFamily: 'Syne', fontSize: 12, color: msg.role === 'daye' ? '#F5F5F7' : 'var(--ovw-0p8)', lineHeight: 1.5 }}>{msg.text}</p>
+                      <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 12, color: msg.role === 'daye' ? '#F5F5F7' : 'var(--ovw-0p8)', lineHeight: 1.5 }}>{msg.text}</p>
                     </div>
                   </div>
                 ))}
@@ -543,7 +543,7 @@ export default function Landing() {
               {/* Input bar mockup */}
               <div style={{ padding: '10px 14px 14px', borderTop: '1px solid var(--ovw-0p06)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--ovw-0p04)', border: '1px solid var(--ovw-0p08)', borderRadius: 12, padding: '8px 12px' }}>
-                  <span style={{ fontFamily: 'Syne', fontSize: 12, color: 'var(--ovw-0p25)', flex: 1 }}>Ask DAYE anything...</span>
+                  <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 12, color: 'var(--ovw-0p25)', flex: 1 }}>Ask DAYE anything...</span>
                   <div style={{ width: 26, height: 26, borderRadius: '50%', background: 'var(--safe)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <span style={{ fontSize: 10 }}>↑</span>
                   </div>
@@ -579,7 +579,7 @@ export default function Landing() {
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: '0.2em', color: 'rgba(205,133,63,0.7)', marginBottom: 20 }}>
                 [ DATA BREACH INTELLIGENCE ]
               </p>
-              <h2 className="gsap-heading" style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, marginBottom: 20, background: 'linear-gradient(135deg,#D4A44E,#CD853F,#8B4513)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              <h2 className="gsap-heading" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92, marginBottom: 20, background: 'linear-gradient(135deg,#D4A44E,#CD853F,#8B4513)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                 Your data<br />is already<br />out there.
               </h2>
               <p style={{ color: 'var(--ovw-0p5)', fontSize: 16, maxWidth: 500, lineHeight: 1.65, marginBottom: 36 }}>
@@ -596,7 +596,7 @@ export default function Landing() {
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => navigate('/auth')}
-                style={{ padding: '14px 36px', background: 'var(--chrome-white)', color: 'var(--void)', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}>
+                style={{ padding: '14px 36px', background: 'var(--chrome-white)', color: 'var(--void)', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10 }}>
                 Check Your Email
               </motion.button>
             </motion.div>
@@ -608,7 +608,7 @@ export default function Landing() {
             >
               <div style={{ marginBottom: 20 }}>
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(205,133,63,0.7)', marginBottom: 8 }}>BREACH REPORT</p>
-                <p style={{ fontFamily: 'Bebas Neue', fontSize: 32, letterSpacing: '0.04em', background: 'linear-gradient(135deg,#D4A44E,#CD853F)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', lineHeight: 1 }}>
+                <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 32, letterSpacing: '0.04em', background: 'linear-gradient(135deg,#D4A44E,#CD853F)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', lineHeight: 1 }}>
                   7 breaches found
                 </p>
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--ovw-0p22)', marginTop: 6 }}>for ██████@email.com</p>
@@ -622,7 +622,7 @@ export default function Landing() {
                 <div key={breach.name} style={{ padding: '10px 14px', background: 'rgba(205,133,63,0.05)', border: '1px solid rgba(205,133,63,0.14)', borderRadius: 10, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 12 }}>
                   <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#CD853F', flexShrink: 0 }} />
                   <div style={{ flex: 1 }}>
-                    <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 13, color: 'var(--text-1)', lineHeight: 1.3 }}>
+                    <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 13, color: 'var(--text-1)', lineHeight: 1.3 }}>
                       {breach.name} <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', fontWeight: 400 }}>{breach.year}</span>
                     </p>
                     <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', marginTop: 2 }}>{breach.types}</p>
@@ -660,7 +660,7 @@ export default function Landing() {
             <div style={{ position: 'absolute', bottom: 16, left: 16, right: 16, display: 'flex', gap: 10 }}>
               {[{ n: '8', label: 'CRITICAL ZONES' }, { n: '30+', label: 'HIGH RISK' }, { n: '80+', label: 'COUNTRIES' }].map(({ n, label }) => (
                 <div key={label} style={{ flex: 1, padding: '8px 10px', background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(12px)', borderRadius: 10, border: '1px solid var(--ovw-0p08)' }}>
-                  <p style={{ fontFamily: 'Bebas Neue', fontSize: 20, color: '#F5F5F7', lineHeight: 1 }}>{n}</p>
+                  <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 20, color: '#F5F5F7', lineHeight: 1 }}>{n}</p>
                   <p style={{ fontFamily: 'JetBrains Mono', fontSize: 8, color: 'var(--ovw-0p35)', letterSpacing: '0.08em' }}>{label}</p>
                 </div>
               ))}
@@ -670,17 +670,17 @@ export default function Landing() {
           {/* Right — text */}
           <motion.div {...IN_VIEW} style={{ textAlign: 'right' }}>
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(100,160,255,0.5)', marginBottom: 16 }}>GLOBAL CYBER INTELLIGENCE</p>
-            <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 80px)', lineHeight: 0.92, marginBottom: 24 }}>
+            <h2 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 80px)', lineHeight: 0.92, marginBottom: 24 }}>
               The world's<br />cyber threats.
             </h2>
-            <p style={{ fontFamily: 'Syne', fontWeight: 400, fontSize: 'clamp(15px, 1.8vw, 18px)', color: 'var(--ovw-0p5)', lineHeight: 1.65, marginBottom: 36 }}>
+            <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 400, fontSize: 'clamp(15px, 1.8vw, 18px)', color: 'var(--ovw-0p5)', lineHeight: 1.65, marginBottom: 36 }}>
               Every country. Real threats. DAYE's analysis. See where attacks originate, track risk scores, and get live intelligence briefs for any nation on Earth.
             </p>
             <motion.button
               whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(100,160,255,0.15)' }}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate('/auth')}
-              style={{ padding: '14px 36px', background: 'rgba(100,160,255,0.12)', color: '#6AA0FF', fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.08em', border: '1px solid rgba(100,160,255,0.25)', borderRadius: 12, cursor: 'pointer' }}
+              style={{ padding: '14px 36px', background: 'rgba(100,160,255,0.12)', color: '#6AA0FF', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 18, letterSpacing: '0.08em', border: '1px solid rgba(100,160,255,0.25)', borderRadius: 12, cursor: 'pointer' }}
             >
               Open Cyber Globe
             </motion.button>
@@ -1054,7 +1054,7 @@ export default function Landing() {
             />
           </div>
           <div>
-            <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 13, color: 'var(--ovw-0p75)', marginBottom: 2 }}>Final Year Technical Report</p>
+            <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 13, color: 'var(--ovw-0p75)', marginBottom: 2 }}>Final Year Technical Report</p>
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--ovw-0p25)' }}>B.Sc. Cyber Security — Precious Cornerstone University, Ibadan</p>
           </div>
         </div>
@@ -1062,7 +1062,7 @@ export default function Landing() {
           whileHover={{ scale: 1.04 }}
           whileTap={{ scale: 0.97 }}
           onClick={() => navigate('/auth')}
-          style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', background: 'rgba(48,209,88,0.1)', border: '1px solid rgba(48,209,88,0.25)', borderRadius: 10, color: 'rgba(48,209,88,0.9)', fontFamily: 'Syne', fontWeight: 700, fontSize: 12 }}
+          style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', background: 'rgba(48,209,88,0.1)', border: '1px solid rgba(48,209,88,0.25)', borderRadius: 10, color: 'rgba(48,209,88,0.9)', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 12 }}
         >
           View Technical Report
           <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg>
@@ -1071,7 +1071,7 @@ export default function Landing() {
 
       {/* ─── FOOTER ──────────────────────────────────────── */}
       <footer style={{ borderTop: '1px solid var(--ovw-0p04)', padding: '32px clamp(20px,4vw,48px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--void)', flexWrap: 'wrap', gap: 20 }}>
-        <span style={{ fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.2em' }}>D0B3RMAN</span>
+        <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 18, letterSpacing: '0.2em' }}>D0B3RMAN</span>
         <div style={{ display: 'flex', gap: 32, fontFamily: 'Inter', fontSize: 11, color: 'var(--ovw-0p2)' }}>
           <a href="/privacy" style={{ color: 'inherit', textDecoration: 'none' }}>Privacy</a>
           <a href="/terms" style={{ color: 'inherit', textDecoration: 'none' }}>Terms</a>

@@ -103,7 +103,7 @@ export default function Settings() {
 
         {/* Page header */}
         <div style={{ marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid var(--ovw-0p06)' }}>
-          <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>SETTINGS</h1>
+          <h1 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>SETTINGS</h1>
           <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--text-3)', marginTop: 3 }}>MANAGE YOUR D0B3RMAN ACCOUNT</p>
         </div>
 

@@ -67,10 +67,10 @@ export default function Report() {
             </p>
           </div>
 
-          <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(52px, 10vw, 96px)', letterSpacing: '0.12em', lineHeight: 0.9, marginBottom: 16 }}>
+          <h1 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(52px, 10vw, 96px)', letterSpacing: '0.12em', lineHeight: 0.9, marginBottom: 16 }}>
             DOBERMAN
           </h1>
-          <p style={{ fontFamily: 'Syne', fontWeight: 600, fontSize: 'clamp(14px, 2.5vw, 20px)', color: 'var(--ovw-0p65)', maxWidth: 700, lineHeight: 1.5, marginBottom: 32 }}>
+          <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 600, fontSize: 'clamp(14px, 2.5vw, 20px)', color: 'var(--ovw-0p65)', maxWidth: 700, lineHeight: 1.5, marginBottom: 32 }}>
             Design and Implementation of a Multi-Module AI-Powered Cybersecurity Intelligence Platform
           </p>
 
@@ -96,7 +96,7 @@ export default function Report() {
               whileHover={{ scale: 1.03, boxShadow: '0 0 30px var(--ovw-0p12)' }}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate('/report/full')}
-              style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 28px', background: 'var(--chrome-white)', color: 'var(--void)', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 12 }}
+              style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 28px', background: 'var(--chrome-white)', color: 'var(--void)', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 12 }}
             >
               <BookOpen size={16} />
               View Full Document
@@ -105,7 +105,7 @@ export default function Report() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => setDownloadOpen(true)}
-              style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 28px', background: 'var(--ovw-0p06)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--ovw-0p14)', borderRadius: 12, color: 'var(--text-1)', fontFamily: 'Syne', fontWeight: 600, fontSize: 14, boxShadow: 'inset 0 1px 0 var(--ovw-0p12)' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 28px', background: 'var(--ovw-0p06)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--ovw-0p14)', borderRadius: 12, color: 'var(--text-1)', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 600, fontSize: 14, boxShadow: 'inset 0 1px 0 var(--ovw-0p12)' }}
             >
               <Download size={16} />
               Download
@@ -117,7 +117,7 @@ export default function Report() {
         <motion.div {...IN_VIEW} className="glass" style={{ padding: '32px 36px', borderRadius: 24, marginBottom: 32 }}>
           <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--ovw-0p3)', marginBottom: 16, textTransform: 'uppercase' }}>Abstract</p>
           {REPORT.abstract.split('\n\n').map((para, i) => (
-            <p key={i} style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--ovw-0p6)', lineHeight: 1.75, marginBottom: i < REPORT.abstract.split('\n\n').length - 1 ? 16 : 0 }}>
+            <p key={i} style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 14, color: 'var(--ovw-0p6)', lineHeight: 1.75, marginBottom: i < REPORT.abstract.split('\n\n').length - 1 ? 16 : 0 }}>
               {para}
             </p>
           ))}
@@ -150,7 +150,7 @@ export default function Report() {
                   <Icon size={16} style={{ color }} />
                 </div>
                 <div>
-                  <p style={{ fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.1em', lineHeight: 1 }}>{label}</p>
+                  <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 18, letterSpacing: '0.1em', lineHeight: 1 }}>{label}</p>
                   <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--ovw-0p35)', marginTop: 2 }}>{sub}</p>
                 </div>
               </motion.div>
@@ -179,14 +179,14 @@ export default function Report() {
                   className="glass"
                   style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '18px 22px', borderRadius: 16, textAlign: 'left', transition: 'all 0.2s' }}
                 >
-                  <span style={{ fontFamily: 'Bebas Neue', fontSize: 24, letterSpacing: '0.1em', color: 'var(--ovw-0p15)', width: 32, flexShrink: 0 }}>
+                  <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 24, letterSpacing: '0.1em', color: 'var(--ovw-0p15)', width: 32, flexShrink: 0 }}>
                     {ch.number}
                   </span>
                   <div style={{ width: 36, height: 36, borderRadius: 10, background: `${color.replace('0.9', '0.08')}`, border: `1px solid ${color.replace('0.9', '0.2')}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <Icon size={15} style={{ color }} />
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 14, color: 'var(--ovw-0p85)', marginBottom: 3 }}>
+                    <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 14, color: 'var(--ovw-0p85)', marginBottom: 3 }}>
                       {ch.title}
                     </p>
                     <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--ovw-0p3)' }}>
@@ -203,7 +203,7 @@ export default function Report() {
         {/* ── BOTTOM CTA ── */}
         <motion.div {...IN_VIEW} className="glass" style={{ padding: '32px', borderRadius: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20 }}>
           <div>
-            <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 18, color: 'var(--text-1)', marginBottom: 4 }}>
+            <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 18, color: 'var(--text-1)', marginBottom: 4 }}>
               Ready to read the full document?
             </p>
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--ovw-0p35)' }}>
@@ -215,7 +215,7 @@ export default function Report() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate('/report/full')}
-              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 24px', background: 'var(--chrome-white)', color: 'var(--void)', fontFamily: 'Syne', fontWeight: 700, fontSize: 13, border: 'none', borderRadius: 10 }}
+              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 24px', background: 'var(--chrome-white)', color: 'var(--void)', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 13, border: 'none', borderRadius: 10 }}
             >
               <BookOpen size={14} />
               Read Full Report
@@ -224,7 +224,7 @@ export default function Report() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => setDownloadOpen(true)}
-              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 24px', background: 'var(--ovw-0p06)', border: '1px solid var(--ovw-0p14)', borderRadius: 10, color: 'var(--text-1)', fontFamily: 'Syne', fontWeight: 600, fontSize: 13 }}
+              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 24px', background: 'var(--ovw-0p06)', border: '1px solid var(--ovw-0p14)', borderRadius: 10, color: 'var(--text-1)', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 600, fontSize: 13 }}
             >
               <Download size={14} />
               Download

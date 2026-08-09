@@ -83,7 +83,7 @@ function NewsCard({ article, onClick }: { article: CyberArticle; onClick: () => 
         )}
         {!article.image_url && (
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontFamily: 'Bebas Neue', fontSize: 36, letterSpacing: '0.2em', color: 'var(--ovw-0p04)' }}>D0B3RMAN</span>
+            <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 36, letterSpacing: '0.2em', color: 'var(--ovw-0p04)' }}>D0B3RMAN</span>
           </div>
         )}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.75))' }} />
@@ -107,10 +107,10 @@ function NewsCard({ article, onClick }: { article: CyberArticle; onClick: () => 
             {article.source_name.toUpperCase()}
           </span>
         </div>
-        <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 13, color: 'var(--text-1)', lineHeight: 1.45, marginBottom: 6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+        <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 13, color: 'var(--text-1)', lineHeight: 1.45, marginBottom: 6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
           {article.title}
         </p>
-        <p style={{ fontFamily: 'Syne', fontSize: 12, color: 'var(--text-3)', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+        <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 12, color: 'var(--text-3)', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
           {article.description}
         </p>
       </div>
@@ -147,7 +147,7 @@ function ArticleModal({ article, onClose }: { article: CyberArticle; onClose: ()
           )}
           {!article.image_url && (
             <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontFamily: 'Bebas Neue', fontSize: 56, letterSpacing: '0.2em', color: 'var(--ovw-0p04)' }}>D0B3RMAN</span>
+              <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 56, letterSpacing: '0.2em', color: 'var(--ovw-0p04)' }}>D0B3RMAN</span>
             </div>
           )}
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.65))' }} />
@@ -170,10 +170,10 @@ function ArticleModal({ article, onClose }: { article: CyberArticle; onClose: ()
               </span>
             )}
           </div>
-          <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 22, lineHeight: 1.3, color: 'var(--text-1)', marginBottom: 16 }}>
+          <h2 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 800, fontSize: 22, lineHeight: 1.3, color: 'var(--text-1)', marginBottom: 16 }}>
             {article.title}
           </h2>
-          <p style={{ fontFamily: 'Syne', fontSize: 15, color: 'var(--text-2)', lineHeight: 1.75, marginBottom: 28 }}>
+          <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 15, color: 'var(--text-2)', lineHeight: 1.75, marginBottom: 28 }}>
             {article.description}
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
@@ -183,13 +183,13 @@ function ArticleModal({ article, onClose }: { article: CyberArticle; onClose: ()
               rel="noopener noreferrer"
               whileHover={{ scale: 1.03, boxShadow: '0 0 24px var(--ovw-0p12)' }}
               whileTap={{ scale: 0.97 }}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 26px', background: 'var(--chrome-white)', color: 'var(--void)', fontFamily: 'Syne', fontWeight: 700, fontSize: 13, borderRadius: 10, textDecoration: 'none' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 26px', background: 'var(--chrome-white)', color: 'var(--void)', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 13, borderRadius: 10, textDecoration: 'none' }}
             >
               <ExternalLink size={14} />
               READ FULL ARTICLE
             </motion.a>
             <button onClick={onClose}
-              style={{ padding: '12px 20px', background: 'transparent', border: '1px solid var(--glass-border)', color: 'var(--text-3)', fontFamily: 'Syne', fontSize: 13, borderRadius: 10, cursor: 'pointer' }}>
+              style={{ padding: '12px 20px', background: 'transparent', border: '1px solid var(--glass-border)', color: 'var(--text-3)', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, borderRadius: 10, cursor: 'pointer' }}>
               Close
             </button>
           </div>
@@ -294,7 +294,7 @@ export default function News() {
             </div>
             <div style={{ flex: 1, minWidth: 200 }}>
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--danger)', marginBottom: 4 }}>[ CYBER INTELLIGENCE ]</p>
-              <h1 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 28, lineHeight: 1.1 }}>NEWS</h1>
+              <h1 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 800, fontSize: 28, lineHeight: 1.1 }}>NEWS</h1>
             </div>
           </div>
 
@@ -340,8 +340,8 @@ export default function News() {
                   <div className="glass" style={{ borderRadius: 16, padding: '32px 28px', display: 'flex', alignItems: 'center', gap: 14 }}>
                     <AlertTriangle size={18} style={{ color: 'var(--danger)', flexShrink: 0 }} />
                     <div>
-                      <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 15, color: 'var(--text-1)', marginBottom: 4 }}>Feed unavailable</p>
-                      <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-3)' }}>{error}</p>
+                      <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 15, color: 'var(--text-1)', marginBottom: 4 }}>Feed unavailable</p>
+                      <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, color: 'var(--text-3)' }}>{error}</p>
                     </div>
                     <button onClick={handleRefresh} style={{ marginLeft: 'auto', padding: '8px 16px', background: 'var(--ovw-0p06)', border: '1px solid var(--glass-border)', borderRadius: 8, color: 'var(--text-2)', fontFamily: 'JetBrains Mono', fontSize: 11, cursor: 'pointer' }}>
                       Retry
@@ -375,7 +375,7 @@ export default function News() {
                   </label>
                   <textarea value={content} onChange={(e) => setContent(e.target.value)}
                     placeholder="Paste any news headline, claim, or article URL..." rows={4}
-                    style={{ width: '100%', background: 'var(--ovw-0p03)', border: '1px solid var(--glass-border)', borderRadius: 12, padding: '14px 16px', color: 'var(--text-1)', fontFamily: 'Syne', fontSize: 15, resize: 'vertical', outline: 'none', marginBottom: 20, lineHeight: 1.6, boxSizing: 'border-box' }}
+                    style={{ width: '100%', background: 'var(--ovw-0p03)', border: '1px solid var(--glass-border)', borderRadius: 12, padding: '14px 16px', color: 'var(--text-1)', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 15, resize: 'vertical', outline: 'none', marginBottom: 20, lineHeight: 1.6, boxSizing: 'border-box' }}
                     onFocus={(e) => { e.target.style.borderColor = 'var(--glass-border-bright)' }}
                     onBlur={(e) => { e.target.style.borderColor = 'var(--glass-border)' }}
                   />
@@ -383,7 +383,7 @@ export default function News() {
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
                     <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>3 verifications/day on free tier</p>
                     <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} onClick={handleVerify} disabled={verifying || !content.trim()}
-                      style={{ padding: '12px 36px', background: verifying ? 'var(--void-4)' : 'white', color: verifying ? 'var(--text-3)' : 'black', fontFamily: 'Syne', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10, cursor: verifying ? 'not-allowed' : 'pointer', transition: 'all 0.2s' }}>
+                      style={{ padding: '12px 36px', background: verifying ? 'var(--void-4)' : 'white', color: verifying ? 'var(--text-3)' : 'black', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10, cursor: verifying ? 'not-allowed' : 'pointer', transition: 'all 0.2s' }}>
                       {verifying ? 'ANALYZING...' : 'VERIFY NOW'}
                     </motion.button>
                   </div>
@@ -400,7 +400,7 @@ export default function News() {
                           <span style={{ fontFamily: 'JetBrains Mono', fontSize: 28, color: verdictColor }}>/100</span>
                         </div>
                         <div>
-                          <span style={{ fontFamily: 'Bebas Neue', fontSize: 24, letterSpacing: '0.15em', color: verdictColor, background: `${verdictColor}22`, border: `1px solid ${verdictColor}44`, padding: '6px 16px', borderRadius: 8, display: 'inline-block' }}>
+                          <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 24, letterSpacing: '0.15em', color: verdictColor, background: `${verdictColor}22`, border: `1px solid ${verdictColor}44`, padding: '6px 16px', borderRadius: 8, display: 'inline-block' }}>
                             {result.verdict.replace(/_/g, ' ')}
                           </span>
                           <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)', marginTop: 8 }}>
@@ -408,7 +408,7 @@ export default function News() {
                           </p>
                         </div>
                       </div>
-                      <p style={{ fontFamily: 'Syne', fontSize: 15, color: 'var(--text-2)', lineHeight: 1.7, marginBottom: 28, padding: '18px 22px', background: 'var(--ovw-0p03)', borderRadius: 12, borderLeft: `3px solid ${verdictColor}` }}>
+                      <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 15, color: 'var(--text-2)', lineHeight: 1.7, marginBottom: 28, padding: '18px 22px', background: 'var(--ovw-0p03)', borderRadius: 12, borderLeft: `3px solid ${verdictColor}` }}>
                         {result.summary}
                       </p>
                       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 20 }}>
@@ -418,7 +418,7 @@ export default function News() {
                             {result.red_flags.map((f, i) => (
                               <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 7 }}>
                                 <span style={{ color: 'var(--danger)', fontSize: 9, marginTop: 4, flexShrink: 0 }}>●</span>
-                                <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-2)', lineHeight: 1.5 }}>{f}</p>
+                                <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, color: 'var(--text-2)', lineHeight: 1.5 }}>{f}</p>
                               </div>
                             ))}
                           </div>
@@ -429,7 +429,7 @@ export default function News() {
                             {result.positive_signals.map((s, i) => (
                               <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 7 }}>
                                 <span style={{ color: 'var(--safe)', fontSize: 9, marginTop: 4, flexShrink: 0 }}>●</span>
-                                <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-2)', lineHeight: 1.5 }}>{s}</p>
+                                <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, color: 'var(--text-2)', lineHeight: 1.5 }}>{s}</p>
                               </div>
                             ))}
                           </div>
@@ -437,7 +437,7 @@ export default function News() {
                       </div>
                       <div style={{ background: 'var(--ovw-0p03)', borderRadius: 12, padding: '14px 18px', display: 'flex', gap: 12, alignItems: 'flex-start', marginBottom: 20 }}>
                         <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--chrome-dim)', whiteSpace: 'nowrap', marginTop: 2 }}>NEXT STEP</span>
-                        <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-1)', lineHeight: 1.6 }}>{result.recommendation}</p>
+                        <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 14, color: 'var(--text-1)', lineHeight: 1.6 }}>{result.recommendation}</p>
                       </div>
                       <AskDayeButton
                         contextType="news_verify_result"
@@ -469,7 +469,7 @@ export default function News() {
                       className="glass" style={{ borderRadius: 12, padding: '14px 18px', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 14 }}>
                       <span style={{ fontFamily: 'JetBrains Mono', fontSize: 18, fontWeight: 700, color: col, minWidth: 36 }}>{item.credibility_score}</span>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-1)', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, color: 'var(--text-1)', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {item.content.slice(0, 80)}{item.content.length > 80 ? '…' : ''}
                         </p>
                         <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)' }}>{new Date(item.created_at).toLocaleDateString()}</p>

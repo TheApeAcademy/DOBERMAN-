@@ -38,10 +38,10 @@ function VoiceResult({ scan }: { scan: VoiceScan }) {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <VIcon size={20} style={{ color: config.color }} />
-          <span style={{ fontFamily: 'Bebas Neue', fontSize: 24, letterSpacing: '0.1em', color: config.color }}>{config.label}</span>
+          <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 24, letterSpacing: '0.1em', color: config.color }}>{config.label}</span>
         </div>
         <div style={{ textAlign: 'right' }}>
-          <p style={{ fontFamily: 'Bebas Neue', fontSize: 36, letterSpacing: '0.05em', color: config.color, lineHeight: 1 }}>{scan.trust_score}</p>
+          <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 36, letterSpacing: '0.05em', color: config.color, lineHeight: 1 }}>{scan.trust_score}</p>
           <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.1em' }}>TRUST SCORE</p>
         </div>
       </div>
@@ -50,14 +50,14 @@ function VoiceResult({ scan }: { scan: VoiceScan }) {
         <div style={{ padding: '14px', background: 'var(--ovw-0p03)', border: '1px solid var(--ovw-0p07)', borderRadius: 12 }}>
           <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.12em', marginBottom: 6 }}>MANIPULATION PROBABILITY</p>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-            <span style={{ fontFamily: 'Bebas Neue', fontSize: 28, color: config.color }}>{scan.manipulation_probability}</span>
+            <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 28, color: config.color }}>{scan.manipulation_probability}</span>
             <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>%</span>
           </div>
         </div>
         <div style={{ padding: '14px', background: 'var(--ovw-0p03)', border: '1px solid var(--ovw-0p07)', borderRadius: 12 }}>
           <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.12em', marginBottom: 6 }}>EMOTIONAL MANIPULATION</p>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-            <span style={{ fontFamily: 'Bebas Neue', fontSize: 28, color: scan.emotional_manipulation_score >= 60 ? 'var(--danger)' : 'var(--text-2)' }}>
+            <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 28, color: scan.emotional_manipulation_score >= 60 ? 'var(--danger)' : 'var(--text-2)' }}>
               {scan.emotional_manipulation_score}
             </span>
             <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>%</span>
@@ -76,7 +76,7 @@ function VoiceResult({ scan }: { scan: VoiceScan }) {
             {scan.clone_indicators.map((ind, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
                 <AlertTriangle size={11} style={{ color: 'var(--warning)', flexShrink: 0, marginTop: 2 }} />
-                <span style={{ fontFamily: 'Syne', fontSize: 12, color: 'var(--text-2)' }}>{ind}</span>
+                <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 12, color: 'var(--text-2)' }}>{ind}</span>
               </div>
             ))}
           </div>
@@ -86,7 +86,7 @@ function VoiceResult({ scan }: { scan: VoiceScan }) {
       {scan.daye_analysis && (
         <div style={{ padding: '14px 16px', background: 'var(--ovw-0p03)', border: '1px solid var(--ovw-0p08)', borderRadius: 12 }}>
           <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 8 }}>DAYE VOICE INTELLIGENCE</p>
-          <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-1)', lineHeight: 1.65 }}>{scan.daye_analysis}</p>
+          <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, color: 'var(--text-1)', lineHeight: 1.65 }}>{scan.daye_analysis}</p>
         </div>
       )}
 
@@ -155,7 +155,7 @@ function UploadZone({
         ) : (
           <Upload size={28} style={{ color: 'var(--text-3)', margin: '0 auto 12px' }} />
         )}
-        <p style={{ fontFamily: 'Syne', fontSize: 14, color: 'var(--text-2)', marginBottom: 4 }}>
+        <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 14, color: 'var(--text-2)', marginBottom: 4 }}>
           {loading ? 'Analyzing...' : label}
         </p>
         <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', letterSpacing: '0.1em' }}>{sublabel}</p>
@@ -261,7 +261,7 @@ export default function DeepfakePage() {
           </video>
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.85))', border: '1px solid var(--ovw-0p06)', borderRadius: 24 }} />
           <div style={{ position: 'absolute', bottom: 20, left: 20, zIndex: 2 }}>
-            <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 42, letterSpacing: '0.1em', color: '#F5F5F7', lineHeight: 1 }}>DEEPFAKE INTELLIGENCE</h1>
+            <h1 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 42, letterSpacing: '0.1em', color: '#F5F5F7', lineHeight: 1 }}>DEEPFAKE INTELLIGENCE</h1>
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--ovw-0p4)' }}>IMAGE · VIDEO · VOICE ANALYSIS</p>
           </div>
           <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 2, display: 'flex', gap: 10 }}>
@@ -280,7 +280,7 @@ export default function DeepfakePage() {
             <Eye size={22} style={{ color: 'var(--text-1)' }} />
           </div>
           <div>
-            <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 28, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>DEEPFAKE INTELLIGENCE SYSTEM</h2>
+            <h2 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 28, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>DEEPFAKE INTELLIGENCE SYSTEM</h2>
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.18em', color: 'var(--text-3)', marginTop: 3 }}>SYNTHETIC MEDIA · VOICE CLONING · AI MANIPULATION DETECTION</p>
           </div>
         </div>
@@ -369,7 +369,7 @@ export default function DeepfakePage() {
                   <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid var(--ovw-0p06)' }}>
                     <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 12 }}>CONFIDENCE ANALYSIS</p>
                     <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-                      <span style={{ fontFamily: 'Bebas Neue', fontSize: 40, color: eyesResult.result === 'fake' ? 'var(--danger)' : 'var(--safe)', lineHeight: 1, flexShrink: 0 }}>
+                      <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 40, color: eyesResult.result === 'fake' ? 'var(--danger)' : 'var(--safe)', lineHeight: 1, flexShrink: 0 }}>
                         {eyesResult.confidence_score}%
                       </span>
                       <div style={{ flex: 1 }}>
@@ -417,7 +417,7 @@ export default function DeepfakePage() {
                 <Mic size={14} style={{ color: 'var(--warning)' }} />
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--warning)', letterSpacing: '0.12em' }}>VOICE INTELLIGENCE MODULE</p>
               </div>
-              <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-2)', lineHeight: 1.6 }}>
+              <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, color: 'var(--text-2)', lineHeight: 1.6 }}>
                 DAYE analyzes audio for AI voice cloning, emotional manipulation, and synthetic speech patterns. Upload voice recordings, phone call audio, or any suspicious audio file.
               </p>
             </div>
@@ -501,7 +501,7 @@ export default function DeepfakePage() {
                           }}
                         >
                           <Mic size={14} style={{ color: cfg.color, flexShrink: 0 }} />
-                          <span style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-2)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{scan.file_name}</span>
+                          <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, color: 'var(--text-2)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{scan.file_name}</span>
                           <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: cfg.color, flexShrink: 0 }}>{scan.manipulation_probability}%</span>
                         </button>
                       )

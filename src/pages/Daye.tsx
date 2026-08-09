@@ -202,7 +202,7 @@ export default function DayePage() {
               <Brain size={28} color="#30D158" />
             </div>
             <div>
-              <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 32, letterSpacing: '0.12em', color: 'var(--text-1)', lineHeight: 1 }}>DAYE</h1>
+              <h1 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 32, letterSpacing: '0.12em', color: 'var(--text-1)', lineHeight: 1 }}>DAYE</h1>
               <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--ovw-0p4)', marginTop: 4 }}>AI CYBERSECURITY ANALYST</p>
             </div>
           </div>
@@ -271,7 +271,7 @@ export default function DayePage() {
                 {/* DAYE scam link intro */}
                 <div style={{ padding: '14px 18px', background: 'rgba(48,209,88,0.05)', border: '1px solid rgba(48,209,88,0.15)', borderRadius: 14 }}>
                   <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: '#30D158', letterSpacing: '0.12em', marginBottom: 4 }}>DAYE THREAT ANALYSIS</p>
-                  <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-2)', lineHeight: 1.6 }}>
+                  <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, color: 'var(--text-2)', lineHeight: 1.6 }}>
                     Paste any suspicious URL below. DAYE will analyze phishing patterns, domain risk, SSL validity, and structural anomalies - then give you a direct threat assessment.
                   </p>
                 </div>
@@ -336,7 +336,7 @@ export default function DayePage() {
                       <div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
                           <VerdictIcon size={18} style={{ color: verdictColor }} />
-                          <span style={{ fontFamily: 'Bebas Neue', fontSize: 22, letterSpacing: '0.1em', color: verdictColor }}>
+                          <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 22, letterSpacing: '0.1em', color: verdictColor }}>
                             {scamResult.verdict.toUpperCase()}
                           </span>
                           {scamResult.threat_type && (
@@ -348,7 +348,7 @@ export default function DayePage() {
                         <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)', wordBreak: 'break-all' }}>{scamResult.domain}</p>
                       </div>
                       <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                        <p style={{ fontFamily: 'Bebas Neue', fontSize: 40, letterSpacing: '0.05em', color: verdictColor, lineHeight: 1 }}>{scamResult.risk_score}</p>
+                        <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 40, letterSpacing: '0.05em', color: verdictColor, lineHeight: 1 }}>{scamResult.risk_score}</p>
                         <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.1em' }}>RISK SCORE</p>
                       </div>
                     </div>
@@ -366,7 +366,7 @@ export default function DayePage() {
                           {scamResult.indicators.map((ind, i) => (
                             <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
                               <AlertTriangle size={11} style={{ color: 'var(--warning)', flexShrink: 0, marginTop: 2 }} />
-                              <span style={{ fontFamily: 'Syne', fontSize: 12, color: 'var(--text-2)' }}>{ind}</span>
+                              <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 12, color: 'var(--text-2)' }}>{ind}</span>
                             </div>
                           ))}
                         </div>
@@ -377,7 +377,7 @@ export default function DayePage() {
                     {scamResult.daye_analysis && (
                       <div style={{ padding: '14px 16px', background: 'var(--ovw-0p03)', border: '1px solid var(--ovw-0p08)', borderRadius: 12 }}>
                         <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 8 }}>DAYE ANALYSIS</p>
-                        <p style={{ fontFamily: 'Syne', fontSize: 13, color: 'var(--text-1)', lineHeight: 1.65 }}>{scamResult.daye_analysis}</p>
+                        <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, color: 'var(--text-1)', lineHeight: 1.65 }}>{scamResult.daye_analysis}</p>
                       </div>
                     )}
                   </div>

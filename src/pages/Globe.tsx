@@ -666,7 +666,7 @@ function CountryPanel({ country, brief, loading, articles, onClose }: CountryPan
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-1)', letterSpacing: '-0.02em', fontFamily: 'system-ui, -apple-system, Syne, sans-serif' }}>
+            <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-1)', letterSpacing: '-0.02em', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif' }}>
               {country.name}
             </div>
             <div style={{
@@ -873,7 +873,7 @@ function SearchBar({ onSelect }: SearchBarProps) {
             color: 'var(--text-1)',
             fontSize: 13,
             flex: 1,
-            fontFamily: 'system-ui, -apple-system, Syne, sans-serif',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif',
           }}
         />
         {query && (

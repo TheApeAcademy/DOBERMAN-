@@ -30,7 +30,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
     return (
       <div style={{ minHeight: '100vh', background: 'var(--void)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 20 }}>
         <div style={{ width: 40, height: 40, borderRadius: '50%', border: '2px solid var(--ovw-0p08)', borderTop: '2px solid var(--ovw-0p5)', animation: 'spin 0.8s linear infinite' }} />
-        <span style={{ fontFamily: 'Bebas Neue', fontSize: 20, letterSpacing: '0.2em', color: 'var(--text-3)' }}>D0B3RMAN</span>
+        <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 20, letterSpacing: '0.2em', color: 'var(--text-3)' }}>D0B3RMAN</span>
       </div>
     )
   }

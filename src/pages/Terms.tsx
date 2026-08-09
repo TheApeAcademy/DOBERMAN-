@@ -7,7 +7,7 @@ const SF = '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section style={{ marginBottom: 40 }}>
-      <h2 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 20, color: 'rgba(255,255,255,0.92)', marginBottom: 14 }}>{title}</h2>
+      <h2 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 20, color: 'rgba(255,255,255,0.92)', marginBottom: 14 }}>{title}</h2>
       <div style={{ fontFamily: SF, fontSize: 14.5, color: 'rgba(255,255,255,0.55)', lineHeight: 1.75 }}>{children}</div>
     </section>
   )
@@ -20,14 +20,14 @@ export default function Terms() {
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontFamily: SF, fontSize: 13 }}>
           <ArrowLeft size={16} /> Back
         </Link>
-        <span style={{ fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.2em', marginLeft: 'auto' }}>D0B3RMAN</span>
+        <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 18, letterSpacing: '0.2em', marginLeft: 'auto' }}>D0B3RMAN</span>
       </header>
 
       <div style={{ maxWidth: 720, margin: '0 auto', padding: 'clamp(40px,6vw,72px) clamp(20px,4vw,48px) 96px' }}>
         <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.3)', marginBottom: 12, textTransform: 'uppercase' }}>
           Last updated August 2026
         </p>
-        <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(40px,6vw,64px)', letterSpacing: '0.03em', lineHeight: 1, marginBottom: 32 }}>
+        <h1 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(40px,6vw,64px)', letterSpacing: '0.03em', lineHeight: 1, marginBottom: 32 }}>
           TERMS OF SERVICE
         </h1>
 

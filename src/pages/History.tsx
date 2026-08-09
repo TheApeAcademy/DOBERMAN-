@@ -42,7 +42,7 @@ function ScanDetail({ scan }: { scan: EyesScan }) {
         <div style={{ marginBottom: 16 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
             <span style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.12em', color: 'var(--ovw-0p28)', textTransform: 'uppercase' }}>Confidence</span>
-            <span style={{ fontFamily: 'Bebas Neue', fontSize: 18, letterSpacing: '0.05em', color }}>{Math.round(scan.confidence_score)}%</span>
+            <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 18, letterSpacing: '0.05em', color }}>{Math.round(scan.confidence_score)}%</span>
           </div>
           <ConfidenceBar score={scan.confidence_score} color={color} />
         </div>
@@ -110,7 +110,7 @@ export default function History() {
 
         {/* Header */}
         <div style={{ marginBottom: 22, paddingBottom: 18, borderBottom: '1px solid var(--ovw-0p05)' }}>
-          <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 30, letterSpacing: '0.1em', color: '#F5F5F7', lineHeight: 1 }}>HISTORY</h1>
+          <h1 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 30, letterSpacing: '0.1em', color: '#F5F5F7', lineHeight: 1 }}>HISTORY</h1>
           <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.08em', color: 'var(--ovw-0p22)', marginTop: 3, textTransform: 'uppercase' }}>Scans · Sessions · Activity</p>
         </div>
 
@@ -138,7 +138,7 @@ export default function History() {
               <Icon size={12} />
               {label}
               <span style={{
-                fontFamily: 'Bebas Neue', fontSize: 13,
+                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13,
                 color: tab === id ? 'var(--ovw-0p45)' : 'var(--ovw-0p18)',
               }}>
                 {count}
@@ -227,7 +227,7 @@ export default function History() {
 
                         {/* Score */}
                         <span style={{
-                          fontFamily: 'Bebas Neue', fontSize: 16, letterSpacing: '0.04em',
+                          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 16, letterSpacing: '0.04em',
                           color, flexShrink: 0, minWidth: 36, textAlign: 'right',
                         }}>
                           {Math.round(scan.confidence_score)}%

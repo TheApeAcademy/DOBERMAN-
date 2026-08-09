@@ -69,7 +69,7 @@ export function DownloadModal({ open, onClose }: DownloadModalProps) {
                 <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--ovw-0p3)', marginBottom: 4, textTransform: 'uppercase' }}>
                   Technical Report
                 </p>
-                <p style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 16, color: 'var(--text-1)' }}>
+                <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 16, color: 'var(--text-1)' }}>
                   Download Format
                 </p>
               </div>
@@ -115,7 +115,7 @@ export function DownloadModal({ open, onClose }: DownloadModalProps) {
                     )}
                   </div>
                   <div style={{ flex: 1 }}>
-                    <p style={{ fontFamily: 'Syne', fontWeight: 600, fontSize: 14, color: 'var(--text-1)', marginBottom: 2 }}>{label}</p>
+                    <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 600, fontSize: 14, color: 'var(--text-1)', marginBottom: 2 }}>{label}</p>
                     <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--ovw-0p35)' }}>{sub}</p>
                   </div>
                   {loading === type ? null : (

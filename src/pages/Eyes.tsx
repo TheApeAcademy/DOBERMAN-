@@ -61,12 +61,12 @@ export default function Eyes() {
           </div>
           <div style={{ flex: 1, minWidth: 200 }}>
             <h1 style={{
-              fontFamily: 'Syne, system-ui, -apple-system, sans-serif',
+              fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif',
               fontWeight: 700, fontSize: 24, color: 'var(--text-1)', lineHeight: 1.1,
             }}>
               Deepfake Intelligence
             </h1>
-            <p style={{ fontFamily: 'Syne, sans-serif', fontSize: 13, color: 'var(--text-2)', marginTop: 4 }}>
+            <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, color: 'var(--text-2)', marginTop: 4 }}>
               AI-powered detection of synthetic media
             </p>
           </div>
@@ -106,7 +106,7 @@ export default function Eyes() {
                   <Eye size={18} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#0A84FF' }} />
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                  <p style={{ fontFamily: 'Syne, sans-serif', fontSize: 14, color: 'var(--text-2)' }}>Analyzing media…</p>
+                  <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 14, color: 'var(--text-2)' }}>Analyzing media…</p>
                   <p style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'var(--text-3)', marginTop: 4, letterSpacing: '0.1em' }}>SCANNING FOR SYNTHETIC MARKERS</p>
                 </div>
               </div>
@@ -127,7 +127,7 @@ export default function Eyes() {
                           borderRadius: 100,
                           background: 'rgba(10,132,255,0.08)',
                           border: '1px solid rgba(10,132,255,0.18)',
-                          fontFamily: 'Syne, system-ui, sans-serif',
+                          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif',
                           fontSize: 12,
                           color: 'rgba(10,132,255,0.9)',
                         }}

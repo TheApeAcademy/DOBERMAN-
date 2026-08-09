@@ -62,7 +62,7 @@ export default function Profile() {
 
         {/* Page header */}
         <div style={{ marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid var(--ovw-0p06)' }}>
-          <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>PROFILE</h1>
+          <h1 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>PROFILE</h1>
           <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.04em', color: 'var(--text-3)', marginTop: 3 }}>ACCOUNT OVERVIEW</p>
         </div>
 
@@ -74,7 +74,7 @@ export default function Profile() {
               <div style={{
                 width: 72, height: 72, borderRadius: '50%',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: 'white', fontSize: 22, fontFamily: 'Bebas Neue',
+                color: 'white', fontSize: 22, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif',
                 letterSpacing: '0.05em', flexShrink: 0, background: avatarColor,
                 boxShadow: '0 0 0 3px var(--ovw-0p08)',
               }}>
@@ -113,7 +113,7 @@ export default function Profile() {
               {statItems.map(({ icon: Icon, label, value, color }) => (
                 <div key={label} style={{ ...card, padding: '20px 16px', textAlign: 'center' }}>
                   <Icon size={18} style={{ color, margin: '0 auto 10px' }} />
-                  <p style={{ fontFamily: 'Bebas Neue', fontSize: 36, letterSpacing: '0.05em', color: 'var(--text-1)', lineHeight: 1 }}>
+                  <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 36, letterSpacing: '0.05em', color: 'var(--text-1)', lineHeight: 1 }}>
                     {loading ? '—' : value}
                   </p>
                   <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.04em', color: 'var(--text-3)', marginTop: 6, textTransform: 'uppercase' }}>{label}</p>

@@ -120,6 +120,17 @@
   --breach-warn:     #FBBF24;
   --breach-critical: #F87171;
   --breach-muted:    #9CA3AF;
+
+  /* Apple-style motion + shape — the springy, weighted ease Apple uses for
+     UI transitions (approximates their default CAMediaTimingFunction curve),
+     plus a consistent radius scale for the "squircle" continuous-corner feel. */
+  --ease-apple: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-apple-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 980px;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -254,11 +265,19 @@ html {
 body {
   background: var(--void);
   color: var(--text-1);
-  font-family: 'Inter', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", 'Inter', sans-serif;
+  letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   overflow-x: hidden;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition: background-color 0.25s var(--ease-apple), color 0.25s var(--ease-apple);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", 'Inter', sans-serif;
+  letter-spacing: -0.02em;
+  font-weight: 600;
 }
 
 /* Crosshair cursor */
@@ -302,20 +321,21 @@ body::after {
   min-height: 100vh;
 }
 
-/* True glassmorphism — requires moving content behind it to look real */
+/* True glassmorphism — requires moving content behind it to look real.
+   Radius + easing follow Apple's continuous-corner, weighted-spring feel. */
 .glass {
   background: var(--ovw-0p035);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
   border: 1px solid var(--ovw-0p1);
-  border-radius: 24px;
+  border-radius: var(--radius-xl);
   /* Rim-light effect: bright top edge = light catching premium glass */
   box-shadow:
     inset 0 1px 0 var(--ovw-0p2),
     inset 0 -1px 0 var(--ovw-0p04),
     0 4px 6px rgba(0, 0, 0, 0.15),
     0 32px 64px rgba(0, 0, 0, 0.4);
-  transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.2s ease;
+  transition: border-color 0.4s var(--ease-apple), box-shadow 0.4s var(--ease-apple), transform 0.3s var(--ease-apple);
 }
 .glass:hover {
   border-color: var(--ovw-0p18);
@@ -459,11 +479,11 @@ body::after {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--ovw-0p1);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   box-shadow:
     inset 0 1px 0 var(--ovw-0p2),
     0 2px 8px rgba(0, 0, 0, 0.2);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color 0.35s var(--ease-apple), box-shadow 0.35s var(--ease-apple), transform 0.3s var(--ease-apple);
 }
 .card:hover {
   border-color: var(--ovw-0p18);
@@ -474,26 +494,30 @@ body::after {
 
 /* Page fade utility */
 .page-fade {
-  animation: pageIn 0.4s ease;
+  animation: pageIn 0.5s var(--ease-apple-out);
 }
 @keyframes pageIn {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ─── Buttons ──────────────────────────────────────────────── */
+/* ─── Buttons — Apple pill shape, springy press feedback ──────── */
 .btn-primary, .btn-secondary, .btn-danger {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.05em;
-  transition: all 0.2s;
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 590;
+  letter-spacing: -0.01em;
+  transition: background-color 0.25s var(--ease-apple), border-color 0.25s var(--ease-apple), color 0.25s var(--ease-apple), transform 0.15s var(--ease-apple);
   white-space: nowrap;
+}
+.btn-primary:active:not(:disabled), .btn-secondary:active:not(:disabled), .btn-danger:active:not(:disabled) {
+  transform: scale(0.96);
 }
 .btn-primary {
   background: var(--ovw-0p07);
@@ -530,14 +554,14 @@ body::after {
 .input {
   width: 100%;
   padding: 10px 14px;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   background: var(--ovw-0p03);
   border: 1px solid var(--ovw-0p09);
   color: var(--text-1);
-  font-family: 'Inter', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", 'Inter', sans-serif;
   font-size: 13px;
   outline: none;
-  transition: border-color 0.2s, background 0.2s;
+  transition: border-color 0.25s var(--ease-apple), background 0.25s var(--ease-apple);
 }
 .input::placeholder { color: var(--text-3); }
 .input:focus {

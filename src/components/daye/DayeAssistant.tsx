@@ -219,7 +219,7 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#30D158', boxShadow: '0 0 8px rgba(48,209,88,0.9)', animation: 'daye-pulse 2s infinite' }} />
-                <span style={{ fontFamily: 'Bebas Neue', fontSize: 17, letterSpacing: '0.25em', color: 'var(--text-1)' }}>DAYE</span>
+                <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 17, letterSpacing: '0.25em', color: 'var(--text-1)' }}>DAYE</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <button
@@ -250,7 +250,7 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
                     borderRadius: bubble.role === 'user' ? '14px 14px 4px 14px' : '4px 14px 14px 14px',
                     background: bubble.role === 'user' ? 'rgba(48,209,88,0.1)' : 'var(--ovw-0p04)',
                     border: `1px solid ${bubble.role === 'user' ? 'rgba(48,209,88,0.18)' : 'var(--ovw-0p07)'}`,
-                    fontFamily: 'Syne',
+                    fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif',
                     fontSize: 12.5,
                     color: bubble.role === 'user' ? '#30D158' : '#A0A0A0',
                     lineHeight: 1.6,
@@ -297,7 +297,7 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend() } }}
                   placeholder="Ask DAYE anything..."
-                  style={{ flex: 1, background: 'none', border: 'none', outline: 'none', fontFamily: 'Syne', fontSize: 12.5, color: 'var(--text-1)', padding: '1px 4px', minWidth: 0 }}
+                  style={{ flex: 1, background: 'none', border: 'none', outline: 'none', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 12.5, color: 'var(--text-1)', padding: '1px 4px', minWidth: 0 }}
                 />
                 <button
                   onClick={toggleVoice}
@@ -367,7 +367,7 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
         >
           <source src="/assets/video/blob-di.mp4" type="video/mp4" />
         </video>
-        <span style={{ position: 'relative', zIndex: 1, fontFamily: 'Bebas Neue', fontSize: 13, letterSpacing: '0.12em', color: hasNewMessage ? '#30D158' : '#DADADA', transition: 'color 0.3s', textShadow: '0 0 12px rgba(0,0,0,0.9)' }}>
+        <span style={{ position: 'relative', zIndex: 1, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, letterSpacing: '0.12em', color: hasNewMessage ? '#30D158' : '#DADADA', transition: 'color 0.3s', textShadow: '0 0 12px rgba(0,0,0,0.9)' }}>
           DAYE
         </span>
 
