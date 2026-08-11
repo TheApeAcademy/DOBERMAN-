@@ -24,12 +24,12 @@ const stats = [
 ]
 
 const reviews = [
-  { text: 'I uploaded a video of my CEO that turned out to be completely AI-generated. D0B3RMAN caught it in 3 seconds.', author: 'Marcus T.', role: 'IT Security Lead, London', badge: '98% FAKE', badgeColor: 'var(--danger)', rotate: -1.5 },
-  { text: 'My home network had 4 critical vulnerabilities I had no idea about. Patched all of them in one afternoon.', author: 'Priya K.', role: 'Remote Software Engineer', badge: 'RISK: 74', badgeColor: 'var(--warning)', rotate: 1.5 },
-  { text: 'The news verification alone is worth it. I paste every headline before sharing anything now.', author: 'David O.', role: 'Independent Journalist', badge: '3 FALSE FLAGS', badgeColor: 'var(--danger)', rotate: -1 },
-  { text: 'D0B3RMAN Intelligence explained a zero-day exploit to me like a human being. Not like reading a CVE database. Actually useful.', author: 'Aisha M.', role: 'Cybersecurity Student', badge: 'D0B3RMAN I. 5/5', badgeColor: 'var(--safe)', rotate: 1 },
-  { text: 'Right-clicked a suspicious LinkedIn profile picture. D0B3RMAN said 97% fake. Blocked immediately.', author: 'Tom R.', role: 'Senior Recruiter', badge: '97% FAKE', badgeColor: 'var(--danger)', rotate: -1.5 },
-  { text: 'Scanned my entire smart home. Bulbs, TV, cameras, router. Got a full risk report with numbered steps.', author: 'Yuki N.', role: 'Smart Home Enthusiast', badge: '6 VULNS FOUND', badgeColor: 'var(--warning)', rotate: 1.5 },
+  { text: 'I uploaded a video of my CEO that turned out to be completely AI-generated. D0B3RMAN caught it in 3 seconds.', author: 'Honour J.D', role: 'Cyber Sec Student', badge: '98% FAKE', badgeColor: 'var(--danger)', rotate: -1.5 },
+  { text: 'My home network had 4 critical vulnerabilities I had no idea about. Patched all of them in one afternoon.', author: 'Perez E', role: 'Cyber Sec Student', badge: 'RISK: 74', badgeColor: 'var(--warning)', rotate: 1.5 },
+  { text: 'The news verification alone is worth it. I paste every headline before sharing anything now.', author: 'Issac J', role: 'Computer Science Student', badge: '3 FALSE FLAGS', badgeColor: 'var(--danger)', rotate: -1 },
+  { text: 'D0B3RMAN Intelligence explained a zero-day exploit to me like a human being. Not like reading a CVE database. Actually useful.', author: 'Dave 101', role: 'Software Engineer', badge: 'D0B3RMAN I. 5/5', badgeColor: 'var(--safe)', rotate: 1 },
+  { text: 'Right-clicked a suspicious LinkedIn profile picture. D0B3RMAN said 97% fake. Blocked immediately.', author: 'Baddejo I', role: 'Vice President, PCU', badge: '97% FAKE', badgeColor: 'var(--danger)', rotate: -1.5 },
+  { text: 'Scanned my entire smart home. Bulbs, TV, cameras, router. Got a full risk report with numbered steps.', author: 'Mr Olusanu', role: 'My Dad', badge: '6 VULNS FOUND', badgeColor: 'var(--warning)', rotate: 1.5 },
 ]
 
 const hPanels = [
@@ -160,13 +160,13 @@ export default function Landing() {
           className="hero-portrait"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ delay: 0.25, duration: 1.4 }}
-          style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'clamp(260px, 44%, 580px)', zIndex: 2, pointerEvents: 'none' }}
+          style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'clamp(220px, 36%, 440px)', zIndex: 2, pointerEvents: 'none' }}
         >
           <img
             src="/assets/video/b78ad4f230a4015d24a420fce2a7d53b.jpg"
             alt=""
             onError={(e) => { const p = e.currentTarget.parentElement; if (p) p.style.display = 'none' }}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 18%', display: 'block' }}
           />
           {/* Blend left edge into page; keep right/top transparent so grid lines show through */}
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #000 0%, rgba(0,0,0,0.6) 30%, transparent 65%)' }} />
@@ -175,7 +175,7 @@ export default function Landing() {
 
         <style>{`
           @media(max-width:768px){
-            .hero-portrait{width:100%!important}
+            .hero-portrait{width:60%!important}
             .hero-portrait img{opacity:0.85}
           }
           @media(max-width:640px){
@@ -215,7 +215,7 @@ export default function Landing() {
 
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}
-            style={{ fontFamily: 'Inter', fontSize: 17, color: 'var(--ovw-0p5)', maxWidth: 460, lineHeight: 1.65, position: 'relative', zIndex: 4 }}>
+            style={{ fontFamily: 'Inter', fontSize: 17, color: 'rgba(255,255,255,0.75)', maxWidth: 460, lineHeight: 1.65, position: 'relative', zIndex: 4 }}>
             Detect deepfakes. Verify news.
             Get expert cybersecurity advice.
             Two modules. One platform. Zero guesswork.
@@ -335,57 +335,53 @@ export default function Landing() {
               section's normal page background and use the same theme-adaptive tokens as every other module,
               instead of being dragged into a fixed dark "feature card" that only worked in dark mode. */}
           <motion.div
-            initial={{ opacity: 0, y: 60 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
             viewport={{ once: true, margin: '-60px' }}
           >
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 40 }}>
-              <div style={{ position: 'relative', width: 'clamp(240px, 42vw, 420px)', height: 'clamp(240px, 42vw, 420px)', borderRadius: '22%', overflow: 'hidden', background: '#050505' }}>
-                {/* Ambient glow */}
-                <div style={{ position: 'absolute', top: '42%', left: '50%', transform: 'translate(-50%, -50%)', width: '85%', height: '85%', borderRadius: '50%', background: 'radial-gradient(circle, rgba(48,209,88,0.1) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+            <style>{`@media(max-width:480px){.daye-landing-circle{width:176px!important;height:176px!important}}`}</style>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
+              <div className="daye-landing-circle" style={{ position: 'relative', width: 240, height: 240, borderRadius: '50%', overflow: 'hidden', border: '2px solid rgba(48,209,88,0.35)', boxShadow: '0 0 44px rgba(48,209,88,0.16)', background: '#000' }}>
                 <video
                   autoPlay muted loop playsInline preload="auto"
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', display: 'block', zIndex: 1 }}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                 >
                   <source src="/assets/video/blob-di.mp4" type="video/mp4" />
                 </video>
-                <div style={{ position: 'absolute', top: 16, left: 20, fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em', color: 'rgba(48,209,88,0.55)', zIndex: 2 }}>
-                  DAYE -- AI SECURITY ANALYST
-                </div>
               </div>
             </div>
 
             <div style={{ textAlign: 'center' }}>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.12em', color: 'var(--safe)', marginBottom: 16 }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.12em', color: 'var(--safe)', marginBottom: 12 }}>
                 02 -- AI SECURITY ANALYST
               </p>
-              <h3 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(60px, 10vw, 120px)', letterSpacing: '0.1em', lineHeight: 0.9, marginBottom: 20, color: 'var(--safe)' }}>
+              <h3 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 'clamp(48px, 6vw, 72px)', letterSpacing: '0.08em', lineHeight: 0.9, marginBottom: 16, color: 'var(--safe)' }}>
                 DAYE
               </h3>
-              <p style={{ color: 'var(--ovw-0p8)', fontSize: 16, lineHeight: 1.7, marginBottom: 36, maxWidth: 560, margin: '0 auto 36px' }}>
+              <p style={{ color: 'var(--ovw-0p8)', fontSize: 15, lineHeight: 1.65, marginBottom: 10, maxWidth: 440, margin: '0 auto 10px' }}>
                 Ask anything. DAYE explains threats in plain language and gives you a concrete next step. Like having a security analyst on call 24/7.
               </p>
-              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--ovw-0p4)', marginBottom: 32 }}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--ovw-0p4)', marginBottom: 24 }}>
                 VOICE · FILE ANALYSIS · REAL-TIME INTEL · GLOBE BRIEFS
               </p>
               <motion.button
-                whileHover={{ scale: 1.04, boxShadow: '0 0 50px rgba(48,209,88,0.2)' }}
+                whileHover={{ scale: 1.04, boxShadow: '0 0 40px rgba(48,209,88,0.3)' }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => navigate('/auth')}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 10,
-                  padding: '16px 44px',
+                  padding: '13px 32px',
                   background: 'var(--safe)',
-                  color: 'var(--void)',
-                  fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif',
-                  fontSize: 18,
+                  color: '#000',
+                  fontFamily: 'Inter',
+                  fontWeight: 700,
+                  fontSize: 14,
                   border: 'none',
-                  borderRadius: 14,
+                  borderRadius: 12,
                   cursor: 'pointer',
-                  letterSpacing: '0.08em',
                 }}
               >
                 Chat with DAYE

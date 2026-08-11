@@ -117,7 +117,18 @@ export function EyesResult({ scan }: EyesResultProps) {
 
         <AskDayeButton
           contextType="deepfake_result"
-          data={{ file_type: scan.file_type, result: scan.result, confidence_score: Math.round(scan.confidence_score) }}
+          data={{
+            file_type: scan.file_type,
+            result: scan.result,
+            confidence_score: Math.round(scan.confidence_score),
+            ai_probability: scan.ai_probability,
+            deepfake_probability: scan.deepfake_probability,
+            model_attribution: scan.model_attribution,
+            top_signals: technicalSignals.slice(0, 6),
+            c2pa_present: scan.c2pa_present,
+            c2pa_valid: scan.c2pa_valid,
+            existing_explanation: scan.explanation,
+          }}
         />
       </div>
 

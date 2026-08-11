@@ -446,6 +446,9 @@ export default function News() {
                           verdict: result.verdict,
                           source_quality: result.source_quality,
                           content: content.slice(0, 200),
+                          red_flags: result.red_flags,
+                          positive_signals: result.positive_signals,
+                          summary: result.summary,
                         }}
                       />
                     </motion.div>

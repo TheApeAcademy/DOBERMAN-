@@ -94,7 +94,7 @@ export type ChatMessage = {
 export type UsageLog = {
   id: string
   user_id: string
-  module: 'eyes' | 'nose' | 'brain' | 'breach' | 'scam_link' | 'voice' | 'news'
+  module: 'eyes' | 'nose' | 'brain' | 'breach' | 'scam_link' | 'voice' | 'news' | 'text'
   action: string
   created_at: string
 }
@@ -123,6 +123,18 @@ export type VoiceScan = {
   verdict: 'authentic' | 'likely_authentic' | 'uncertain' | 'likely_ai' | 'certain_ai'
   daye_analysis: string
   trust_score: number
+  created_at: string
+}
+
+export type TextScan = {
+  id: string
+  user_id: string
+  content_excerpt: string
+  word_count: number
+  ai_probability: number
+  verdict: 'human' | 'likely_human' | 'uncertain' | 'likely_ai' | 'ai_generated'
+  signals: string[]
+  explanation: string
   created_at: string
 }
 

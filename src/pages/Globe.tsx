@@ -4,11 +4,10 @@ import { OrbitControls, Html } from '@react-three/drei'
 import * as THREE from 'three'
 import { motion, AnimatePresence } from 'framer-motion'
 import gsap from 'gsap'
-import { Search, X, Newspaper, Brain, AlertTriangle, Clock, ExternalLink, Radio } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Search, X, Brain, AlertTriangle, Clock, ExternalLink, Radio } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
-import { useCyberNews, SOURCE_COLORS, timeAgo, type CyberArticle } from '../hooks/useCyberNews'
+import { useCyberNews, SOURCE_COLORS, timeAgo } from '../hooks/useCyberNews'
 import { supabase } from '../lib/supabase'
 import { AskDayeButton } from '../components/daye/AskDayeButton'
 
@@ -538,88 +537,19 @@ function SkeletonLines({ count = 6 }: { count?: number }) {
   )
 }
 
-// ─── Live news matching (no fabricated headlines — filters the real feed) ─────
-
-// A few common aliases so obvious references still match without overengineering.
-const COUNTRY_ALIASES: Record<string, string[]> = {
-  US: ['united states', 'u.s.', 'usa', 'american'],
-  GB: ['united kingdom', 'u.k.', 'uk', 'british'],
-  KR: ['south korea'],
-  KP: ['north korea'],
-  AE: ['uae', 'emirates'],
-  RU: ['russian'],
-  CN: ['chinese'],
-}
-
-function matchesCountry(article: CyberArticle, country: Country): boolean {
-  const haystack = `${article.title} ${article.description || ''}`.toLowerCase()
-  const terms = [country.name.toLowerCase(), ...(COUNTRY_ALIASES[country.code] || [])]
-  return terms.some((t) => haystack.includes(t))
-}
-
-function NewsMatchCard({ article }: { article: CyberArticle }) {
-  const color = SOURCE_COLORS[article.source_name] || '#98989D'
-  return (
-    <a
-      href={article.article_url}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{
-        display: 'flex',
-        gap: 12,
-        alignItems: 'flex-start',
-        background: 'var(--ovw-0p03)',
-        border: '1px solid var(--ovw-0p07)',
-        borderRadius: 14,
-        padding: '14px 16px',
-        marginBottom: 10,
-        textDecoration: 'none',
-      }}
-    >
-      <div style={{
-        width: 3,
-        flexShrink: 0,
-        alignSelf: 'stretch',
-        background: color,
-        borderRadius: 99,
-        boxShadow: `0 0 8px ${color}66`,
-      }} />
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 12, color: 'var(--text-2)', marginBottom: 5, letterSpacing: '0.04em', display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ color, fontWeight: 600, textTransform: 'uppercase', fontSize: 10 }}>{article.source_name}</span>
-          <span style={{ color: 'var(--text-3)' }}>·</span>
-          <span>{timeAgo(article.published_at)}</span>
-        </div>
-        <div style={{ fontSize: 13, color: 'var(--text-1)', lineHeight: 1.5 }}>{article.title}</div>
-      </div>
-      <ExternalLink size={13} color="var(--text-3)" style={{ flexShrink: 0, marginTop: 2 }} />
-    </a>
-  )
-}
-
 // ─── Country Panel ────────────────────────────────────────────────────────────
-
-type Tab = 'situation' | 'news'
 
 interface CountryPanelProps {
   country: Country
   brief: CountryBrief | null
   loading: boolean
-  articles: CyberArticle[]
   onClose: () => void
 }
 
-function CountryPanel({ country, brief, loading, articles, onClose }: CountryPanelProps) {
-  const [activeTab, setActiveTab] = useState<Tab>('situation')
+function CountryPanel({ country, brief, loading, onClose }: CountryPanelProps) {
   const [expanded, setExpanded] = useState(false)
 
-  const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
-    { id: 'situation', label: 'DAYE Briefing', icon: <Brain size={12} /> },
-    { id: 'news', label: 'News', icon: <Newspaper size={12} /> },
-  ]
-
   const color = threatColor(brief?.threatLabel)
-  const matchedArticles = articles.filter((a) => matchesCountry(a, country))
 
   return (
     <motion.div
@@ -728,104 +658,55 @@ function CountryPanel({ country, brief, loading, articles, onClose }: CountryPan
           <ThreatBar level={brief.threatLevel} color={color} />
         ) : null}
 
-        {/* Tab pills */}
-        <div style={{ display: 'flex', gap: 6, marginTop: 16, paddingBottom: 0 }}>
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 5,
-                padding: '7px 14px',
-                borderRadius: 99,
-                border: activeTab === tab.id ? '1px solid rgba(10,132,255,0.5)' : '1px solid var(--ovw-0p08)',
-                background: activeTab === tab.id ? 'rgba(10,132,255,0.18)' : 'var(--ovw-0p04)',
-                color: activeTab === tab.id ? '#0A84FF' : 'var(--text-2)',
-                fontSize: 11,
-                fontWeight: activeTab === tab.id ? 600 : 400,
-                letterSpacing: '0.04em',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              {tab.icon}
-              {tab.label}
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Scrollable content */}
       <div style={{ flex: 1, overflowY: 'auto', padding: '18px 24px 32px' }}>
-        <AnimatePresence mode="wait">
-          {activeTab === 'situation' && (
-            <motion.div key="situation" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-                <div style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 10,
-                  background: 'rgba(10,132,255,0.15)',
-                  border: '1px solid rgba(10,132,255,0.3)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}>
-                  <Brain size={18} color="#0A84FF" />
-                </div>
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-1)', letterSpacing: '-0.01em' }}>DAYE Live Assessment</div>
-                  <div style={{ fontSize: 11, color: 'var(--text-3)', marginTop: 1 }}>Generated on demand for {country.name} — not pre-written</div>
-                </div>
-              </div>
-              {loading && <SkeletonLines count={6} />}
-              {!loading && brief && (
-                <>
-                  <SituationRow label="The Overview" text={brief.overview} accent="#98989D" />
-                  <SituationRow label="The Good" text={brief.good} accent="#30D158" />
-                  <SituationRow label="The Bad" text={brief.bad} accent="#FF9500" />
-                  <SituationRow label="The Ugly" text={brief.ugly} accent="#FF2D2D" />
-                  <SituationRow label="Be Aware Of" text={brief.aware} accent="#FFD60A" />
-                  <SituationRow label="Recommended Actions" text={brief.recommended} accent="#0A84FF" />
-                  <AskDayeButton
-                    contextType="globe_country"
-                    data={{ country: country.name, threatLevel: brief.threatLevel, threatLabel: brief.threatLabel, overview: brief.overview }}
-                    label="Ask DAYE to go deeper"
-                  />
-                </>
-              )}
-              {!loading && !brief && (
-                <div style={{ textAlign: 'center', padding: '24px 0' }}>
-                  <AlertTriangle size={20} color="var(--text-3)" style={{ marginBottom: 10 }} />
-                  <p style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.6 }}>
-                    DAYE could not generate a live brief for this region. Try again shortly.
-                  </p>
-                </div>
-              )}
-            </motion.div>
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+            <div style={{
+              width: 36,
+              height: 36,
+              borderRadius: 10,
+              background: 'rgba(10,132,255,0.15)',
+              border: '1px solid rgba(10,132,255,0.3)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+            }}>
+              <Brain size={18} color="#0A84FF" />
+            </div>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-1)', letterSpacing: '-0.01em' }}>DAYE Live Assessment</div>
+              <div style={{ fontSize: 11, color: 'var(--text-3)', marginTop: 1 }}>Generated on demand for {country.name} — not pre-written</div>
+            </div>
+          </div>
+          {loading && <SkeletonLines count={6} />}
+          {!loading && brief && (
+            <>
+              <SituationRow label="The Overview" text={brief.overview} accent="#98989D" />
+              <SituationRow label="The Good" text={brief.good} accent="#30D158" />
+              <SituationRow label="The Bad" text={brief.bad} accent="#FF9500" />
+              <SituationRow label="The Ugly" text={brief.ugly} accent="#FF2D2D" />
+              <SituationRow label="Be Aware Of" text={brief.aware} accent="#FFD60A" />
+              <SituationRow label="Recommended Actions" text={brief.recommended} accent="#0A84FF" />
+              <AskDayeButton
+                contextType="globe_country"
+                data={{ country: country.name, threatLevel: brief.threatLevel, threatLabel: brief.threatLabel, overview: brief.overview }}
+                label="Ask DAYE to go deeper"
+              />
+            </>
           )}
-          {activeTab === 'news' && (
-            <motion.div key="news" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}>
-              {matchedArticles.length > 0 ? (
-                matchedArticles.map((article) => (
-                  <NewsMatchCard key={article.article_url} article={article} />
-                ))
-              ) : (
-                <div style={{ textAlign: 'center', padding: '32px 16px' }}>
-                  <Newspaper size={20} color="var(--text-3)" style={{ marginBottom: 10 }} />
-                  <p style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.6, marginBottom: 10 }}>
-                    No live reports mentioning {country.name} right now — check the global feed.
-                  </p>
-                  <Link to="/news" style={{ fontSize: 12, color: '#0A84FF', fontWeight: 600, textDecoration: 'none' }}>
-                    View global threat feed →
-                  </Link>
-                </div>
-              )}
-            </motion.div>
+          {!loading && !brief && (
+            <div style={{ textAlign: 'center', padding: '24px 0' }}>
+              <AlertTriangle size={20} color="var(--text-3)" style={{ marginBottom: 10 }} />
+              <p style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.6 }}>
+                DAYE could not generate a live brief for this region. Try again shortly.
+              </p>
+            </div>
           )}
-        </AnimatePresence>
+        </motion.div>
       </div>
     </motion.div>
   )
@@ -1164,7 +1045,6 @@ export default function Globe() {
               country={selectedCountry}
               brief={briefs[selectedCountry.code] || null}
               loading={!!briefLoading[selectedCountry.code]}
-              articles={articles}
               onClose={handleClosePanel}
             />
           )}

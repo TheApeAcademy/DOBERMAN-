@@ -139,7 +139,7 @@ export function DayeAssistant({ userId }: DayeAssistantProps) {
           user_id: userId,
           conversation_id: conversationIdRef.current,
           messages: [
-            { role: 'system', content: 'You are DAYE, a sharp cybersecurity intelligence assistant. Keep replies concise — 2-3 sentences max for this mini chat view.' },
+            { role: 'system', content: 'This is the compact popup chat view, not the full DAYE page — keep replies reasonably tight, but never sacrifice a real explanation for brevity. If the Operator is asking you to interpret a result or explain something, actually explain it with the specific evidence, not a one-liner.' },
             ...history,
             { role: 'user', content: text },
           ],

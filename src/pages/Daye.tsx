@@ -8,6 +8,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useBrain } from '../hooks/useBrain'
 import { supabase } from '../lib/supabase'
 import { dayeNotify } from '../components/daye/DayeAssistant'
+import { AskDayeButton } from '../components/daye/AskDayeButton'
 import { GridLines } from '../components/ui/GridLines'
 import type { BrainConversation, ScamLinkCheck } from '../lib/supabase'
 
@@ -375,11 +376,23 @@ export default function DayePage() {
 
                     {/* DAYE Analysis */}
                     {scamResult.daye_analysis && (
-                      <div style={{ padding: '14px 16px', background: 'var(--ovw-0p03)', border: '1px solid var(--ovw-0p08)', borderRadius: 12 }}>
+                      <div style={{ padding: '14px 16px', background: 'var(--ovw-0p03)', border: '1px solid var(--ovw-0p08)', borderRadius: 12, marginBottom: 18 }}>
                         <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 8 }}>DAYE ANALYSIS</p>
                         <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, color: 'var(--text-1)', lineHeight: 1.65 }}>{scamResult.daye_analysis}</p>
                       </div>
                     )}
+
+                    <AskDayeButton
+                      contextType="scam_link_result"
+                      data={{
+                        domain: scamResult.domain,
+                        risk_score: scamResult.risk_score,
+                        verdict: scamResult.verdict,
+                        threat_type: scamResult.threat_type,
+                        indicators: scamResult.indicators,
+                        existing_analysis: scamResult.daye_analysis,
+                      }}
+                    />
                   </div>
                 )}
 

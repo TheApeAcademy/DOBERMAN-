@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Eye, Mic, Image, Upload, CheckCircle, AlertTriangle, XCircle, Loader } from 'lucide-react'
+import { Eye, Mic, Image, FileText, Upload, CheckCircle, AlertTriangle, XCircle, Loader } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { EyesResult } from '../components/eyes/EyesResult'
 import { EyesScanHistory } from '../components/eyes/EyesScanHistory'
@@ -7,9 +7,11 @@ import { UpgradeModal } from '../components/ui/Modal'
 import { useAuth } from '../hooks/useAuth'
 import { useEyes } from '../hooks/useEyes'
 import { useVoice } from '../hooks/useVoice'
+import { useText } from '../hooks/useText'
 import { dayeNotify } from '../components/daye/DayeAssistant'
+import { AskDayeButton } from '../components/daye/AskDayeButton'
 import { GridLines } from '../components/ui/GridLines'
-import type { EyesScan, VoiceScan } from '../lib/supabase'
+import type { EyesScan, VoiceScan, TextScan } from '../lib/supabase'
 
 const card: React.CSSProperties = {
   background: 'var(--ovw-0p03)',
@@ -90,7 +92,85 @@ function VoiceResult({ scan }: { scan: VoiceScan }) {
         </div>
       )}
 
+      <AskDayeButton
+        contextType="voice_result"
+        data={{
+          verdict: scan.verdict,
+          manipulation_probability: scan.manipulation_probability,
+          trust_score: scan.trust_score,
+          emotional_manipulation_score: scan.emotional_manipulation_score,
+          clone_indicators: scan.clone_indicators,
+          existing_analysis: scan.daye_analysis,
+        }}
+      />
+
       <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', textAlign: 'center' }}>{scan.file_name}</p>
+    </div>
+  )
+}
+
+const TEXT_VERDICT_CONFIG = {
+  human: { color: '#30D158', icon: CheckCircle, label: 'HUMAN-WRITTEN' },
+  likely_human: { color: '#30D158', icon: CheckCircle, label: 'LIKELY HUMAN' },
+  uncertain: { color: '#FF9500', icon: AlertTriangle, label: 'UNCERTAIN' },
+  likely_ai: { color: '#FF9500', icon: AlertTriangle, label: 'LIKELY AI-GENERATED' },
+  ai_generated: { color: '#FF2D2D', icon: XCircle, label: 'AI-GENERATED' },
+}
+
+function TextResult({ scan }: { scan: TextScan }) {
+  const config = TEXT_VERDICT_CONFIG[scan.verdict] || TEXT_VERDICT_CONFIG.uncertain
+  const TIcon = config.icon
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <TIcon size={20} style={{ color: config.color }} />
+          <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 24, letterSpacing: '0.1em', color: config.color }}>{config.label}</span>
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 36, letterSpacing: '0.05em', color: config.color, lineHeight: 1 }}>{scan.ai_probability}</p>
+          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.1em' }}>AI PROBABILITY</p>
+        </div>
+      </div>
+
+      <div style={{ height: 3, background: 'var(--void-4)', borderRadius: 2 }}>
+        <div style={{ height: '100%', borderRadius: 2, background: config.color, width: `${scan.ai_probability}%`, boxShadow: `0 0 8px ${config.color}50` }} />
+      </div>
+
+      {scan.signals && scan.signals.length > 0 && (
+        <div>
+          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 10 }}>SIGNALS DETECTED</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {scan.signals.map((sig, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+                <AlertTriangle size={11} style={{ color: 'var(--warning)', flexShrink: 0, marginTop: 2 }} />
+                <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 12, color: 'var(--text-2)' }}>{sig}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {scan.explanation && (
+        <div style={{ padding: '14px 16px', background: 'var(--ovw-0p03)', border: '1px solid var(--ovw-0p08)', borderRadius: 12 }}>
+          <p style={{ fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.15em', color: 'var(--text-3)', marginBottom: 8 }}>DAYE ANALYST REPORT</p>
+          <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, color: 'var(--text-1)', lineHeight: 1.65 }}>{scan.explanation}</p>
+        </div>
+      )}
+
+      <AskDayeButton
+        contextType="text_result"
+        data={{
+          verdict: scan.verdict,
+          ai_probability: scan.ai_probability,
+          word_count: scan.word_count,
+          signals: scan.signals,
+          existing_explanation: scan.explanation,
+        }}
+      />
+
+      <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', textAlign: 'center' }}>{scan.word_count} words analyzed</p>
     </div>
   )
 }
@@ -176,24 +256,32 @@ export default function DeepfakePage() {
   const { user, profile, signOut } = useAuth()
   const { scanning: eyesScanning, result: eyesResult, error: eyesError, analyze: eyesAnalyze, getHistory: getEyesHistory, getDailyCount: getEyesCount, setResult: setEyesResult } = useEyes(user?.id)
   const { scanning: voiceScanning, result: voiceResult, error: voiceError, analyze: voiceAnalyze, getHistory: getVoiceHistory, getDailyCount: getVoiceCount, setResult: setVoiceResult } = useVoice(user?.id)
+  const { scanning: textScanning, result: textResult, error: textError, analyze: textAnalyze, getHistory: getTextHistory, getDailyCount: getTextCount, setResult: setTextResult } = useText(user?.id)
 
-  const [activeTab, setActiveTab] = useState<'media' | 'voice'>('media')
+  const [activeTab, setActiveTab] = useState<'media' | 'voice' | 'text'>('media')
   const [eyesCount, setEyesCount] = useState(0)
   const [voiceCount, setVoiceCount] = useState(0)
+  const [textCount, setTextCount] = useState(0)
   const [upgradeOpen, setUpgradeOpen] = useState(false)
   const [historyKey, setHistoryKey] = useState(0)
   const [voiceHistory, setVoiceHistory] = useState<VoiceScan[]>([])
+  const [textHistory, setTextHistory] = useState<TextScan[]>([])
+  const [textInput, setTextInput] = useState('')
 
   useEffect(() => {
     if (user) {
       getEyesCount().then(setEyesCount)
       getVoiceCount().then(setVoiceCount)
+      getTextCount().then(setTextCount)
     }
   }, [user])
 
   useEffect(() => {
     if (activeTab === 'voice' && user) {
       getVoiceHistory().then(setVoiceHistory)
+    }
+    if (activeTab === 'text' && user) {
+      getTextHistory().then(setTextHistory)
     }
   }, [activeTab, user])
 
@@ -210,6 +298,15 @@ export default function DeepfakePage() {
     setVoiceCount(count)
     const history = await getVoiceHistory()
     setVoiceHistory(history)
+  }
+
+  const handleTextAnalyze = async () => {
+    if (!textInput.trim()) return
+    await textAnalyze(textInput.trim())
+    const count = await getTextCount()
+    setTextCount(count)
+    const history = await getTextHistory()
+    setTextHistory(history)
   }
 
   useEffect(() => {
@@ -239,12 +336,29 @@ export default function DeepfakePage() {
     }
   }, [voiceResult])
 
+  useEffect(() => {
+    if (textResult) {
+      dayeNotify({
+        context_type: 'text_result',
+        data: {
+          verdict: textResult.verdict,
+          ai_probability: textResult.ai_probability,
+          word_count: textResult.word_count,
+        },
+        message: textResult.explanation,
+      })
+    }
+  }, [textResult])
+
   const eyesRemaining = Math.max(0, 3 - eyesCount)
   const voiceRemaining = Math.max(0, 3 - voiceCount)
+  const textRemaining = Math.max(0, 5 - textCount)
+  const textWordCount = textInput.trim().split(/\s+/).filter(Boolean).length
 
   const tabs = [
     { id: 'media', label: 'IMAGE / VIDEO', icon: Image },
     { id: 'voice', label: 'VOICE INTELLIGENCE', icon: Mic },
+    { id: 'text', label: 'TEXT AI DETECTION', icon: FileText },
   ]
 
   return (
@@ -262,7 +376,7 @@ export default function DeepfakePage() {
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.85))', border: '1px solid var(--ovw-0p06)', borderRadius: 24 }} />
           <div style={{ position: 'absolute', bottom: 20, left: 20, zIndex: 2 }}>
             <h1 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 42, letterSpacing: '0.1em', color: '#F5F5F7', lineHeight: 1 }}>DEEPFAKE INTELLIGENCE</h1>
-            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--ovw-0p4)' }}>IMAGE · VIDEO · VOICE ANALYSIS</p>
+            <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--ovw-0p4)' }}>IMAGE · VIDEO · VOICE · TEXT ANALYSIS</p>
           </div>
           <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 2, display: 'flex', gap: 10 }}>
             <div style={{ padding: '6px 14px', borderRadius: 8, background: eyesRemaining > 0 ? 'rgba(48,209,88,0.1)' : 'rgba(255,45,45,0.1)', border: `1px solid ${eyesRemaining > 0 ? 'rgba(48,209,88,0.3)' : 'rgba(255,45,45,0.3)'}`, fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em', color: eyesRemaining > 0 ? 'var(--safe)' : 'var(--danger)' }}>
@@ -270,6 +384,9 @@ export default function DeepfakePage() {
             </div>
             <div style={{ padding: '6px 14px', borderRadius: 8, background: voiceRemaining > 0 ? 'rgba(48,209,88,0.1)' : 'rgba(255,45,45,0.1)', border: `1px solid ${voiceRemaining > 0 ? 'rgba(48,209,88,0.3)' : 'rgba(255,45,45,0.3)'}`, fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em', color: voiceRemaining > 0 ? 'var(--safe)' : 'var(--danger)' }}>
               VOICE {voiceRemaining}/3
+            </div>
+            <div style={{ padding: '6px 14px', borderRadius: 8, background: textRemaining > 0 ? 'rgba(48,209,88,0.1)' : 'rgba(255,45,45,0.1)', border: `1px solid ${textRemaining > 0 ? 'rgba(48,209,88,0.3)' : 'rgba(255,45,45,0.3)'}`, fontFamily: 'JetBrains Mono', fontSize: 9, letterSpacing: '0.1em', color: textRemaining > 0 ? 'var(--safe)' : 'var(--danger)' }}>
+              TEXT {textRemaining}/5
             </div>
           </div>
         </div>
@@ -290,7 +407,7 @@ export default function DeepfakePage() {
           {tabs.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
-              onClick={() => setActiveTab(id as 'media' | 'voice')}
+              onClick={() => setActiveTab(id as 'media' | 'voice' | 'text')}
               style={{
                 flex: 1,
                 display: 'flex',
@@ -525,6 +642,142 @@ export default function DeepfakePage() {
                     </div>
                   )}
                 </div>
+            )}
+          </div>
+        )}
+
+        {/* TEXT AI DETECTION TAB */}
+        {activeTab === 'text' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {/* Text intro */}
+            <div style={{ padding: '14px 18px', background: 'rgba(10,132,255,0.05)', border: '1px solid rgba(10,132,255,0.15)', borderRadius: 14 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+                <FileText size={14} style={{ color: '#0A84FF' }} />
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: '#0A84FF', letterSpacing: '0.12em' }}>TEXT AI DETECTION MODULE</p>
+              </div>
+              <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, color: 'var(--text-2)', lineHeight: 1.6 }}>
+                DAYE analyzes writing for statistical and structural signs of AI generation — sentence uniformity, predictable phrasing, and structural tells. Probabilistic, not a courtroom-grade verdict — use it alongside other evidence.
+              </p>
+            </div>
+
+            {/* Input */}
+            <div style={card}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', textTransform: 'uppercase' }}>Paste Text To Analyze</p>
+                <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: textWordCount < 20 ? 'var(--warning)' : 'var(--text-3)' }}>{textWordCount} words {textWordCount < 20 && '(min 20)'}</span>
+              </div>
+              <textarea
+                value={textInput}
+                onChange={(e) => setTextInput(e.target.value)}
+                disabled={textRemaining <= 0 || textScanning}
+                placeholder="Paste an essay, article, email, or any passage of text..."
+                style={{
+                  width: '100%',
+                  minHeight: 160,
+                  padding: '14px 16px',
+                  background: 'var(--ovw-0p03)',
+                  border: '1px solid var(--ovw-0p1)',
+                  borderRadius: 12,
+                  color: 'var(--text-1)',
+                  fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif',
+                  fontSize: 14,
+                  lineHeight: 1.6,
+                  resize: 'vertical',
+                  outline: 'none',
+                }}
+              />
+              <button
+                onClick={handleTextAnalyze}
+                disabled={textRemaining <= 0 || textScanning || textWordCount < 20}
+                style={{
+                  marginTop: 12,
+                  width: '100%',
+                  padding: '12px',
+                  background: textRemaining <= 0 || textWordCount < 20 ? 'var(--ovw-0p05)' : 'var(--chrome-white)',
+                  color: textRemaining <= 0 || textWordCount < 20 ? 'var(--text-3)' : 'var(--void)',
+                  border: 'none',
+                  borderRadius: 10,
+                  fontFamily: 'JetBrains Mono',
+                  fontSize: 11,
+                  letterSpacing: '0.1em',
+                  cursor: textRemaining <= 0 || textWordCount < 20 ? 'not-allowed' : 'pointer',
+                }}
+              >
+                {textScanning ? 'ANALYZING...' : 'RUN TEXT AI DETECTION'}
+              </button>
+              {textRemaining <= 0 && (
+                <button
+                  onClick={() => setUpgradeOpen(true)}
+                  style={{ width: '100%', marginTop: 10, padding: '10px', background: 'rgba(255,149,0,0.08)', border: '1px solid rgba(255,149,0,0.2)', borderRadius: 10, fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--warning)', cursor: 'pointer' }}
+                >
+                  UPGRADE FOR MORE SCANS
+                </button>
+              )}
+            </div>
+
+            {textError && (
+              <div style={{ padding: '12px 16px', borderRadius: 12, background: 'rgba(255,45,45,0.06)', border: '1px solid rgba(255,45,45,0.18)' }}>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--danger)' }}>{textError}</p>
+              </div>
+            )}
+
+            {/* Results */}
+            <div style={card}>
+              <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Analysis Results</p>
+              {textScanning ? (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 0', gap: 16 }}>
+                  <div style={{ position: 'relative', width: 56, height: 56 }}>
+                    <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '1px solid var(--ovw-0p08)' }} />
+                    <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid transparent', borderTopColor: '#0A84FF', animation: 'spin 0.8s linear infinite' }} />
+                    <FileText size={18} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: 'var(--text-3)' }} />
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-2)' }}>DAYE analyzing writing patterns...</p>
+                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', marginTop: 4, letterSpacing: '0.12em' }}>SCANNING FOR AI GENERATION SIGNALS</p>
+                  </div>
+                </div>
+              ) : textResult ? (
+                <TextResult scan={textResult} />
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 0', gap: 10, textAlign: 'center' }}>
+                  <FileText size={28} style={{ color: 'var(--text-3)', opacity: 0.5 }} />
+                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-3)' }}>Paste text to begin AI detection analysis.</p>
+                  <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--text-3)', letterSpacing: '0.1em', opacity: 0.6 }}>{textRemaining} / 5 SCANS TODAY</p>
+                </div>
+              )}
+            </div>
+
+            {/* Text history */}
+            {textHistory.length > 0 && (
+              <div style={card}>
+                <p style={{ fontFamily: 'JetBrains Mono', fontSize: 10, letterSpacing: '0.2em', color: 'var(--text-3)', marginBottom: 18, textTransform: 'uppercase' }}>Scan History</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+                  {textHistory.map((scan, i) => {
+                    const cfg = TEXT_VERDICT_CONFIG[scan.verdict] || TEXT_VERDICT_CONFIG.uncertain
+                    return (
+                      <button
+                        key={scan.id}
+                        onClick={() => setTextResult(scan)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 14,
+                          padding: '12px 0',
+                          background: 'none',
+                          border: 'none',
+                          borderBottom: i < textHistory.length - 1 ? '1px solid var(--ovw-0p05)' : 'none',
+                          cursor: 'pointer',
+                          textAlign: 'left',
+                        }}
+                      >
+                        <FileText size={14} style={{ color: cfg.color, flexShrink: 0 }} />
+                        <span style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, color: 'var(--text-2)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{scan.content_excerpt.slice(0, 60)}{scan.content_excerpt.length > 60 ? '…' : ''}</span>
+                        <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: cfg.color, flexShrink: 0 }}>{scan.ai_probability}%</span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
             )}
           </div>
         )}

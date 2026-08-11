@@ -133,8 +133,13 @@ export default function Breach() {
       context_type: 'breach_result',
       data: {
         check_type: result.type,
+        breached: result.breached,
+        unavailable: result.unavailable ?? false,
         breach_count: result.breach_count ?? result.occurrences ?? (result.sources as string[] | undefined)?.length ?? 0,
+        breach_names: (result.breaches as Array<{ name?: string }> | undefined)?.map((b) => b.name).filter(Boolean) ?? (result.sources as string[] | undefined) ?? [],
         risk_level: result.severity,
+        message: result.message,
+        recommendations: result.recommendations,
       },
     })
   }
