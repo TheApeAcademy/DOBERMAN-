@@ -981,28 +981,31 @@ export default function Landing() {
 
       {/* ─── REVIEWS ─────────────────────────────────────── */}
       <section id="reviews" style={{ padding: 'clamp(60px,8vw,100px) 0 clamp(60px,8vw,100px) clamp(20px,4vw,48px)', overflow: 'hidden', background: 'var(--void)' }}>
+        <style>{`@media(max-width:900px){.reviews-heading-row{grid-template-columns:1fr!important}.reviews-heading-row .reviews-portrait-box{order:-1;width:100%!important;height:220px!important}}`}</style>
         <motion.div {...IN_VIEW} style={{ maxWidth: 1200, marginBottom: 56 }}>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.0, ease: [0.25, 0.1, 0.25, 1] }}
-            viewport={{ once: true }}
-            style={{ margin: '0 auto 40px', borderRadius: 20, overflow: 'hidden', width: '100%', maxWidth: 1120, height: 'clamp(240px,35vw,420px)', position: 'relative' }}
-          >
-            <img
-              src="/assets/video/b78ad4f230a4015d24a420fce2a7d53b.jpg"
-              alt="Doberman"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
-            />
-            {/* No text sits on this photo — the fade exists purely to blend its bottom edge into the page, so it
-                targets the actual page background color instead of a hardcoded black that would leave a hard
-                seam against a light page. */}
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '40%', background: 'linear-gradient(to bottom, transparent, var(--void))' }} />
-          </motion.div>
-          <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'var(--ovw-0p25)', marginBottom: 20 }}>[ WHAT USERS SAY ]</p>
-          <h2 className="gsap-heading" style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92 }}>
-            The dog<br />delivers.
-          </h2>
+          <div className="reviews-heading-row" style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 24, alignItems: 'end' }}>
+            <div>
+              <p style={{ fontFamily: 'Inter', fontSize: 11, letterSpacing: '0.05em', color: 'var(--ovw-0p25)', marginBottom: 20 }}>[ WHAT USERS SAY ]</p>
+              <h2 className="gsap-heading" style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 'clamp(40px, 7vw, 88px)', lineHeight: 0.92 }}>
+                The dog<br />delivers.
+              </h2>
+            </div>
+            <motion.div
+              className="reviews-portrait-box"
+              initial={{ opacity: 0, scale: 0.96 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.0, ease: [0.25, 0.1, 0.25, 1] }}
+              viewport={{ once: true }}
+              style={{ borderRadius: 20, overflow: 'hidden', width: 320, height: 380, position: 'relative', flexShrink: 0 }}
+            >
+              <img
+                src="/assets/video/b78ad4f230a4015d24a420fce2a7d53b.jpg"
+                alt="Doberman"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+              />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, #000 100%)' }} />
+            </motion.div>
+          </div>
         </motion.div>
 
         <motion.div
