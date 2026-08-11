@@ -146,37 +146,39 @@ serve(async (req) => {
       }
     }
 
-    // Generate explanation via Claude
-    const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
+    // Generate explanation via Gemini
+    const geminiKey = Deno.env.get('GEMINI_API_KEY') ?? ''
     let explanation = 'Analysis complete. Review the confidence score for details.'
 
     try {
-      const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'x-api-key': anthropicKey,
-          'anthropic-version': '2023-06-01',
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 200,
-          messages: [
-            {
-              role: 'user',
-              content: `You are a deepfake detection expert. AI analysis result: result="${result}", confidence=${confidenceScore}%. File type: ${file_type}.
+      const geminiResponse = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
+        {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            contents: [
+              {
+                role: 'user',
+                parts: [
+                  {
+                    text: `You are a deepfake detection expert. AI analysis result: result="${result}", confidence=${confidenceScore}%. File type: ${file_type}.
 Write a clear 2-3 sentence explanation for the user. Be direct and specific. Do not use em dashes.`,
-            },
-          ],
-        }),
-      })
+                  },
+                ],
+              },
+            ],
+            generationConfig: { maxOutputTokens: 200 },
+          }),
+        }
+      )
 
-      if (claudeResponse.ok) {
-        const claudeData = await claudeResponse.json() as { content?: Array<{ text?: string }> }
-        explanation = claudeData.content?.[0]?.text || explanation
+      if (geminiResponse.ok) {
+        const geminiData = await geminiResponse.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }
+        explanation = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || explanation
       }
-    } catch (claudeError) {
-      console.error('Claude API error:', claudeError)
+    } catch (geminiError) {
+      console.error('Gemini API error:', geminiError)
     }
 
     const { data: scan, error: dbError } = await supabase

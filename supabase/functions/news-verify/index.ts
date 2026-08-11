@@ -45,7 +45,7 @@ serve(async (req) => {
       )
     }
 
-    const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
+    const geminiKey = Deno.env.get('GEMINI_API_KEY') ?? ''
 
     const prompt = `You are DOBERMAN's News Verification Analyst. A senior journalist with 20 years of fact-checking experience and deep knowledge of misinformation tactics.
 
@@ -70,26 +70,24 @@ Return ONLY valid JSON. No extra text. No markdown:
   "recommendation": "<one concrete action the user should take>"
 }`
 
-    const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': anthropicKey,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }],
-      }),
-    })
+    const geminiResponse = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
+      {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          generationConfig: { maxOutputTokens: 1000, responseMimeType: 'application/json' },
+        }),
+      }
+    )
 
-    if (!claudeResponse.ok) {
-      throw new Error(`Claude API error: ${claudeResponse.status}`)
+    if (!geminiResponse.ok) {
+      throw new Error(`Gemini API error: ${geminiResponse.status}`)
     }
 
-    const claudeData = await claudeResponse.json() as { content?: Array<{ text?: string }> }
-    const rawText = claudeData.content?.[0]?.text || ''
+    const geminiData = await geminiResponse.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }
+    const rawText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || ''
 
     let result: {
       credibility_score: number

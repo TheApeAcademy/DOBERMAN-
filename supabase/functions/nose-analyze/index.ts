@@ -46,7 +46,7 @@ serve(async (req) => {
       )
     }
 
-    const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
+    const geminiKey = Deno.env.get('GEMINI_API_KEY') ?? ''
     const deviceList = Array.isArray(devices) && devices.length > 0
       ? devices.join(', ')
       : 'unspecified devices'
@@ -82,28 +82,26 @@ Return ONLY valid JSON in this exact structure, no markdown, no explanation:
   }
 }`
 
-    const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': anthropicKey,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 2000,
-        messages: [{ role: 'user', content: prompt }],
-      }),
-    })
+    const geminiResponse = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
+      {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          generationConfig: { maxOutputTokens: 2000, responseMimeType: 'application/json' },
+        }),
+      }
+    )
 
-    if (!claudeResponse.ok) {
-      throw new Error(`Claude API error: ${claudeResponse.status}`)
+    if (!geminiResponse.ok) {
+      throw new Error(`Gemini API error: ${geminiResponse.status}`)
     }
 
-    const claudeData = await claudeResponse.json() as { content?: Array<{ text?: string }> }
-    const rawText = claudeData.content?.[0]?.text || ''
+    const geminiData = await geminiResponse.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }
+    const rawText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || ''
 
-    // Parse JSON from Claude's response
+    // Parse JSON from Gemini's response
     let analysisData: {
       overall_risk_score: number
       devices: Array<{

@@ -85,27 +85,25 @@ serve(async (req) => {
       indicators.push('Homoglyph attack detected - non-ASCII characters mimicking Latin')
     }
 
-    const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
+    const geminiKey = Deno.env.get('GEMINI_API_KEY') ?? ''
     let riskScore = Math.min(indicators.length * 20, 95)
     let verdict = 'safe'
     let threatType = ''
     let dayeAnalysis = ''
 
     try {
-      const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'x-api-key': anthropicKey,
-          'anthropic-version': '2023-06-01',
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 350,
-          messages: [
-            {
-              role: 'user',
-              content: `You are DAYE, Doberman Intelligence cyber analyst. Analyze this URL for scam/phishing/malware threats.
+      const geminiResponse = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
+        {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            contents: [
+              {
+                role: 'user',
+                parts: [
+                  {
+                    text: `You are DAYE, Doberman Intelligence cyber analyst. Analyze this URL for scam/phishing/malware threats.
 
 URL: ${url}
 Domain: ${domain}
@@ -118,14 +116,18 @@ Respond ONLY in valid JSON format:
   "threat_type": "<brief category like Phishing Attack, Credential Harvester, Malware Distribution, or empty string if safe>",
   "daye_analysis": "<2-3 sentence personal advisory from DAYE to the Operator. Be direct. Reference the specific risk.>"
 }`,
-            },
-          ],
-        }),
-      })
+                  },
+                ],
+              },
+            ],
+            generationConfig: { maxOutputTokens: 350, responseMimeType: 'application/json' },
+          }),
+        }
+      )
 
-      if (claudeResponse.ok) {
-        const cd = await claudeResponse.json() as { content?: Array<{ text?: string }> }
-        const text = cd.content?.[0]?.text || ''
+      if (geminiResponse.ok) {
+        const cd = await geminiResponse.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }
+        const text = cd.candidates?.[0]?.content?.parts?.[0]?.text || ''
         const jsonMatch = text.match(/\{[\s\S]*\}/)
         if (jsonMatch) {
           const parsed = JSON.parse(jsonMatch[0])

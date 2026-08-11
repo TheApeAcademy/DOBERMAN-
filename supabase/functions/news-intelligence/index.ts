@@ -74,33 +74,34 @@ URL: ${article_url}`
 
     const userMessage = message || 'Give me an intelligence briefing on this article. What are the key security implications and what should I know?'
 
-    const claudeMessages = [
+    const geminiContents = [
       ...existingMessages,
       { role: 'user', content: userMessage },
-    ]
+    ].map((m) => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }],
+    }))
 
-    const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
-    const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': anthropicKey,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 600,
-        system: systemPrompt,
-        messages: claudeMessages,
-      }),
-    })
+    const geminiKey = Deno.env.get('GEMINI_API_KEY') ?? ''
+    const geminiResponse = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
+      {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          contents: geminiContents,
+          systemInstruction: { parts: [{ text: systemPrompt }] },
+          generationConfig: { maxOutputTokens: 600 },
+        }),
+      }
+    )
 
-    if (!claudeResponse.ok) {
-      throw new Error('Claude API failed')
+    if (!geminiResponse.ok) {
+      throw new Error('Gemini API failed')
     }
 
-    const claudeData = await claudeResponse.json() as { content?: Array<{ text?: string }> }
-    const aiResponse = claudeData.content?.[0]?.text || 'Analysis unavailable.'
+    const geminiData = await geminiResponse.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }
+    const aiResponse = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || 'Analysis unavailable.'
 
     const updatedMessages = [
       ...existingMessages,

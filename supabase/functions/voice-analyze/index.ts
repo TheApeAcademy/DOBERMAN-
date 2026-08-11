@@ -85,7 +85,7 @@ serve(async (req) => {
       } catch (_) {}
     }
 
-    const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
+    const geminiKey = Deno.env.get('GEMINI_API_KEY') ?? ''
     let manipulationProbability = rawManipulationScore
     let cloneIndicators: string[] = []
     let emotionalManipulationScore = 0
@@ -93,20 +93,18 @@ serve(async (req) => {
     let dayeAnalysis = ''
 
     try {
-      const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'x-api-key': anthropicKey,
-          'anthropic-version': '2023-06-01',
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 400,
-          messages: [
-            {
-              role: 'user',
-              content: `You are DAYE, Doberman Intelligence voice analysis system. A voice audio file has been submitted for AI/deepfake detection analysis.
+      const geminiResponse = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
+        {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            contents: [
+              {
+                role: 'user',
+                parts: [
+                  {
+                    text: `You are DAYE, Doberman Intelligence voice analysis system. A voice audio file has been submitted for AI/deepfake detection analysis.
 
 File: ${file_name || 'audio file'} (${format} format)
 Hive AI manipulation score: ${rawManipulationScore}% (0=authentic, 100=AI-generated)
@@ -119,14 +117,18 @@ Based on this data, provide a voice intelligence assessment. Respond ONLY in val
   "verdict": "<authentic|likely_authentic|uncertain|likely_ai|certain_ai>",
   "daye_analysis": "<2-3 sentence intelligence brief from DAYE to the Operator about this voice file. Reference specific findings.>"
 }`,
-            },
-          ],
-        }),
-      })
+                  },
+                ],
+              },
+            ],
+            generationConfig: { maxOutputTokens: 400, responseMimeType: 'application/json' },
+          }),
+        }
+      )
 
-      if (claudeResponse.ok) {
-        const cd = await claudeResponse.json() as { content?: Array<{ text?: string }> }
-        const text = cd.content?.[0]?.text || ''
+      if (geminiResponse.ok) {
+        const cd = await geminiResponse.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }
+        const text = cd.candidates?.[0]?.content?.parts?.[0]?.text || ''
         const jsonMatch = text.match(/\{[\s\S]*\}/)
         if (jsonMatch) {
           const parsed = JSON.parse(jsonMatch[0])

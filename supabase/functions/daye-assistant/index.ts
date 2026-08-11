@@ -19,7 +19,7 @@ serve(async (req) => {
   try {
     const { context_type, data } = await req.json()
 
-    const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
+    const geminiKey = Deno.env.get('GEMINI_API_KEY') ?? ''
 
     let prompt = ''
 
@@ -54,26 +54,24 @@ serve(async (req) => {
 
     let message = 'DAYE is monitoring all systems. All threat detection modules are online.'
 
-    if (anthropicKey) {
+    if (geminiKey) {
       try {
-        const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: {
-            'x-api-key': anthropicKey,
-            'anthropic-version': '2023-06-01',
-            'content-type': 'application/json',
-          },
-          body: JSON.stringify({
-            model: 'claude-sonnet-4-20250514',
-            max_tokens: 120,
-            system: DAYE_PERSONA,
-            messages: [{ role: 'user', content: prompt }],
-          }),
-        })
+        const geminiResponse = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
+          {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ role: 'user', parts: [{ text: prompt }] }],
+              systemInstruction: { parts: [{ text: DAYE_PERSONA }] },
+              generationConfig: { maxOutputTokens: 120 },
+            }),
+          }
+        )
 
-        if (claudeResponse.ok) {
-          const cd = await claudeResponse.json() as { content?: Array<{ text?: string }> }
-          message = cd.content?.[0]?.text || message
+        if (geminiResponse.ok) {
+          const cd = await geminiResponse.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }
+          message = cd.candidates?.[0]?.content?.parts?.[0]?.text || message
         }
       } catch (_) {}
     }
