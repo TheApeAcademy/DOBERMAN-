@@ -98,11 +98,18 @@ serve(async (req) => {
               else { result = 'fake'; confidenceScore = 100 - realScore }
               analysisSucceeded = true
             }
+          } else {
+            console.error('Hive API returned 200 but no usable output field:', JSON.stringify(hiveData).slice(0, 500))
           }
+        } else {
+          const bodyText = await hiveResponse.text()
+          console.error(`Hive API non-OK response: status=${hiveResponse.status}`, bodyText.slice(0, 500))
         }
       } catch (hiveError) {
         console.error('Hive API error:', hiveError)
       }
+    } else {
+      console.error('HIVE_API_KEY is empty or not set')
     }
 
     // ── HUGGINGFACE (fallback — key stored as HF_API_KEY) ──────────
@@ -121,8 +128,15 @@ serve(async (req) => {
             if (hfResponse.ok) {
               hfResult = await hfResponse.json() as HFLabel[]
             } else {
+              const primaryBody = await hfResponse.text()
+              console.error(`HuggingFace primary model non-OK: status=${hfResponse.status}`, primaryBody.slice(0, 500))
               const fallback = await callHuggingFace('prithivMLmods/Deep-Fake-Detector-v2-Model', imageBuffer, hfApiKey)
-              if (fallback.ok) hfResult = await fallback.json() as HFLabel[]
+              if (fallback.ok) {
+                hfResult = await fallback.json() as HFLabel[]
+              } else {
+                const fallbackBody = await fallback.text()
+                console.error(`HuggingFace fallback model non-OK: status=${fallback.status}`, fallbackBody.slice(0, 500))
+              }
             }
             if (hfResult && Array.isArray(hfResult)) {
               const fakeEntry = hfResult.find((item) => item.label.toLowerCase().includes('fake') || item.label.toLowerCase().includes('deepfake'))
@@ -137,12 +151,20 @@ serve(async (req) => {
                 if (realScore >= 70) { result = 'authentic'; confidenceScore = realScore }
                 else if (realScore >= 40) { result = 'uncertain'; confidenceScore = 100 - realScore }
                 else { result = 'fake'; confidenceScore = 100 - realScore }
+              } else {
+                console.error('HuggingFace returned labels that matched neither fake nor real patterns:', JSON.stringify(hfResult).slice(0, 500))
               }
+            } else if (hfResult) {
+              console.error('HuggingFace result was not an array:', JSON.stringify(hfResult).slice(0, 500))
             }
+          } else {
+            console.error(`Could not fetch source file for HF analysis: status=${imageResponse.status}`, file_url)
           }
         } catch (hfError) {
           console.error('HuggingFace API error:', hfError)
         }
+      } else {
+        console.error('HF_API_KEY is empty or not set')
       }
     }
 
@@ -176,6 +198,9 @@ Write a clear 2-3 sentence explanation for the user. Be direct and specific. Do 
       if (geminiResponse.ok) {
         const geminiData = await geminiResponse.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }
         explanation = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || explanation
+      } else {
+        const geminiBody = await geminiResponse.text()
+        console.error(`Gemini API non-OK response: status=${geminiResponse.status}`, geminiBody.slice(0, 500))
       }
     } catch (geminiError) {
       console.error('Gemini API error:', geminiError)
