@@ -86,26 +86,13 @@ serve(async (req) => {
     }
 
     const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
+    const geminiKey = Deno.env.get('GEMINI_API_KEY') ?? ''
     let riskScore = Math.min(indicators.length * 20, 95)
     let verdict = 'safe'
     let threatType = ''
     let dayeAnalysis = ''
 
-    try {
-      const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'x-api-key': anthropicKey,
-          'anthropic-version': '2023-06-01',
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 350,
-          messages: [
-            {
-              role: 'user',
-              content: `You are DAYE, Doberman Intelligence cyber analyst. Analyze this URL for scam/phishing/malware threats.
+    const analysisPrompt = `You are DAYE, Doberman Intelligence cyber analyst. Analyze this URL for scam/phishing/malware threats.
 
 URL: ${url}
 Domain: ${domain}
@@ -117,25 +104,70 @@ Respond ONLY in valid JSON format:
   "verdict": "<safe|suspicious|dangerous|phishing|malware>",
   "threat_type": "<brief category like Phishing Attack, Credential Harvester, Malware Distribution, or empty string if safe>",
   "daye_analysis": "<2-3 sentence personal advisory from DAYE to the Operator. Be direct. Reference the specific risk.>"
-}`,
-            },
-          ],
-        }),
-      })
+}`
 
-      if (claudeResponse.ok) {
-        const cd = await claudeResponse.json() as { content?: Array<{ text?: string }> }
-        const text = cd.content?.[0]?.text || ''
-        const jsonMatch = text.match(/\{[\s\S]*\}/)
-        if (jsonMatch) {
-          const parsed = JSON.parse(jsonMatch[0])
-          riskScore = typeof parsed.risk_score === 'number' ? parsed.risk_score : riskScore
-          verdict = parsed.verdict || verdict
-          threatType = parsed.threat_type || ''
-          dayeAnalysis = parsed.daye_analysis || ''
+    function applyParsedAnalysis(text: string): boolean {
+      const jsonMatch = text.match(/\{[\s\S]*\}/)
+      if (!jsonMatch) return false
+      const parsed = JSON.parse(jsonMatch[0])
+      riskScore = typeof parsed.risk_score === 'number' ? parsed.risk_score : riskScore
+      verdict = parsed.verdict || verdict
+      threatType = parsed.threat_type || ''
+      dayeAnalysis = parsed.daye_analysis || ''
+      return true
+    }
+
+    let analysisGenerated = false
+
+    if (anthropicKey) {
+      try {
+        const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'x-api-key': anthropicKey,
+            'anthropic-version': '2023-06-01',
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 350,
+            messages: [{ role: 'user', content: analysisPrompt }],
+          }),
+        })
+
+        if (claudeResponse.ok) {
+          const cd = await claudeResponse.json() as { content?: Array<{ text?: string }> }
+          analysisGenerated = applyParsedAnalysis(cd.content?.[0]?.text || '')
         }
+      } catch (claudeError) {
+        console.error('Claude API error:', claudeError)
       }
-    } catch (_) {}
+    }
+
+    if (!analysisGenerated && geminiKey) {
+      try {
+        const geminiResponse = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${geminiKey}`,
+          {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ role: 'user', parts: [{ text: analysisPrompt }] }],
+              generationConfig: { maxOutputTokens: 350, responseMimeType: 'application/json' },
+            }),
+          }
+        )
+
+        if (geminiResponse.ok) {
+          const gd = await geminiResponse.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }
+          applyParsedAnalysis(gd.candidates?.[0]?.content?.parts?.[0]?.text || '')
+        } else {
+          console.error('Gemini API non-OK response:', geminiResponse.status, await geminiResponse.text())
+        }
+      } catch (geminiError) {
+        console.error('Gemini API error:', geminiError)
+      }
+    }
 
     if (!dayeAnalysis) {
       if (riskScore >= 70) {

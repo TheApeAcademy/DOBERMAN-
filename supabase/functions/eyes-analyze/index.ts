@@ -277,25 +277,13 @@ serve(async (req) => {
       top_signals: topSignals,
     }
 
-    // Generate explanation via Claude
+    // Generate explanation via Claude, falling back to Gemini if no
+    // ANTHROPIC_API_KEY is configured on this project.
     const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
+    const geminiKey = Deno.env.get('GEMINI_API_KEY') ?? ''
     let explanation = 'Analysis complete. Review the confidence score for details.'
 
-    try {
-      const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'x-api-key': anthropicKey,
-          'anthropic-version': '2023-06-01',
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 250,
-          messages: [
-            {
-              role: 'user',
-              content: `You are a deepfake and synthetic-media forensic analyst. You are given structured evidence only — do not add facts beyond it, never name a generator unless model_attribution.model is non-null, and never cite a named signal that isn't in top_signals or other_attribution_candidates.
+    const explanationPrompt = `You are a deepfake and synthetic-media forensic analyst. You are given structured evidence only — do not add facts beyond it, never name a generator unless model_attribution.model is non-null, and never cite a named signal that isn't in top_signals or other_attribution_candidates.
 
 File type: ${file_type}
 Overall verdict: ${result} (${Math.round(confidenceScore)}%)
@@ -307,18 +295,59 @@ Write a clear, 3-5 sentence forensic-style explanation for the user covering, in
 3. Whether C2PA provenance was found and valid (only mention this if c2pa_present is true).
 4. Generator attribution: if model_attribution.model is null, say "Generator attribution unavailable." If it's non-null but confidence is below 0.15, phrase it as a tentative, low-confidence guess (e.g. "there is a weak signal suggesting..."). If confidence is 0.15 or above, state it plainly. Mention other_attribution_candidates only if there is more than one and they are worth noting as alternates.
 
-Do not use em dashes. Do not use hedging language beyond what's called for in step 4.`,
-            },
-          ],
-        }),
-      })
+Do not use em dashes. Do not use hedging language beyond what's called for in step 4.`
 
-      if (claudeResponse.ok) {
-        const claudeData = await claudeResponse.json() as { content?: Array<{ text?: string }> }
-        explanation = claudeData.content?.[0]?.text || explanation
+    let explanationGenerated = false
+
+    if (anthropicKey) {
+      try {
+        const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'x-api-key': anthropicKey,
+            'anthropic-version': '2023-06-01',
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 250,
+            messages: [{ role: 'user', content: explanationPrompt }],
+          }),
+        })
+
+        if (claudeResponse.ok) {
+          const claudeData = await claudeResponse.json() as { content?: Array<{ text?: string }> }
+          explanation = claudeData.content?.[0]?.text || explanation
+          explanationGenerated = true
+        }
+      } catch (claudeError) {
+        console.error('Claude API error:', claudeError)
       }
-    } catch (claudeError) {
-      console.error('Claude API error:', claudeError)
+    }
+
+    if (!explanationGenerated && geminiKey) {
+      try {
+        const geminiResponse = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${geminiKey}`,
+          {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ role: 'user', parts: [{ text: explanationPrompt }] }],
+              generationConfig: { maxOutputTokens: 250 },
+            }),
+          }
+        )
+
+        if (geminiResponse.ok) {
+          const geminiData = await geminiResponse.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }
+          explanation = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || explanation
+        } else {
+          console.error('Gemini API non-OK response:', geminiResponse.status, await geminiResponse.text())
+        }
+      } catch (geminiError) {
+        console.error('Gemini API error:', geminiError)
+      }
     }
 
     const { data: scan, error: dbError } = await supabase

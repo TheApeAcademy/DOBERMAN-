@@ -86,27 +86,14 @@ serve(async (req) => {
     }
 
     const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
+    const geminiKey = Deno.env.get('GEMINI_API_KEY') ?? ''
     let manipulationProbability = rawManipulationScore
     let cloneIndicators: string[] = []
     let emotionalManipulationScore = 0
     let verdict = 'uncertain'
     let dayeAnalysis = ''
 
-    try {
-      const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'x-api-key': anthropicKey,
-          'anthropic-version': '2023-06-01',
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 400,
-          messages: [
-            {
-              role: 'user',
-              content: `You are DAYE, Doberman Intelligence voice analysis system. A voice audio file has been submitted for AI/deepfake detection analysis.
+    const analysisPrompt = `You are DAYE, Doberman Intelligence voice analysis system. A voice audio file has been submitted for AI/deepfake detection analysis.
 
 File: ${file_name || 'audio file'} (${format} format)
 Hive AI manipulation score: ${rawManipulationScore}% (0=authentic, 100=AI-generated)
@@ -118,26 +105,71 @@ Based on this data, provide a voice intelligence assessment. Respond ONLY in val
   "emotional_manipulation_score": <0-100 integer, how much this audio is designed to manipulate emotions>,
   "verdict": "<authentic|likely_authentic|uncertain|likely_ai|certain_ai>",
   "daye_analysis": "<2-3 sentence intelligence brief from DAYE to the Operator about this voice file. Reference specific findings.>"
-}`,
-            },
-          ],
-        }),
-      })
+}`
 
-      if (claudeResponse.ok) {
-        const cd = await claudeResponse.json() as { content?: Array<{ text?: string }> }
-        const text = cd.content?.[0]?.text || ''
-        const jsonMatch = text.match(/\{[\s\S]*\}/)
-        if (jsonMatch) {
-          const parsed = JSON.parse(jsonMatch[0])
-          manipulationProbability = typeof parsed.manipulation_probability === 'number' ? parsed.manipulation_probability : rawManipulationScore
-          cloneIndicators = Array.isArray(parsed.clone_indicators) ? parsed.clone_indicators : []
-          emotionalManipulationScore = typeof parsed.emotional_manipulation_score === 'number' ? parsed.emotional_manipulation_score : 0
-          verdict = parsed.verdict || 'uncertain'
-          dayeAnalysis = parsed.daye_analysis || ''
+    function applyParsedAnalysis(text: string): boolean {
+      const jsonMatch = text.match(/\{[\s\S]*\}/)
+      if (!jsonMatch) return false
+      const parsed = JSON.parse(jsonMatch[0])
+      manipulationProbability = typeof parsed.manipulation_probability === 'number' ? parsed.manipulation_probability : rawManipulationScore
+      cloneIndicators = Array.isArray(parsed.clone_indicators) ? parsed.clone_indicators : []
+      emotionalManipulationScore = typeof parsed.emotional_manipulation_score === 'number' ? parsed.emotional_manipulation_score : 0
+      verdict = parsed.verdict || 'uncertain'
+      dayeAnalysis = parsed.daye_analysis || ''
+      return true
+    }
+
+    let analysisGenerated = false
+
+    if (anthropicKey) {
+      try {
+        const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'x-api-key': anthropicKey,
+            'anthropic-version': '2023-06-01',
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 400,
+            messages: [{ role: 'user', content: analysisPrompt }],
+          }),
+        })
+
+        if (claudeResponse.ok) {
+          const cd = await claudeResponse.json() as { content?: Array<{ text?: string }> }
+          analysisGenerated = applyParsedAnalysis(cd.content?.[0]?.text || '')
         }
+      } catch (claudeError) {
+        console.error('Claude API error:', claudeError)
       }
-    } catch (_) {}
+    }
+
+    if (!analysisGenerated && geminiKey) {
+      try {
+        const geminiResponse = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${geminiKey}`,
+          {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ role: 'user', parts: [{ text: analysisPrompt }] }],
+              generationConfig: { maxOutputTokens: 400, responseMimeType: 'application/json' },
+            }),
+          }
+        )
+
+        if (geminiResponse.ok) {
+          const gd = await geminiResponse.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }
+          applyParsedAnalysis(gd.candidates?.[0]?.content?.parts?.[0]?.text || '')
+        } else {
+          console.error('Gemini API non-OK response:', geminiResponse.status, await geminiResponse.text())
+        }
+      } catch (geminiError) {
+        console.error('Gemini API error:', geminiError)
+      }
+    }
 
     if (!dayeAnalysis) {
       dayeAnalysis = manipulationProbability >= 70

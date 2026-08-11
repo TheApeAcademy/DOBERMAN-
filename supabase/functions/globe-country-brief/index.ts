@@ -99,8 +99,9 @@ serve(async (req) => {
     }
 
     const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
+    const geminiKey = Deno.env.get('GEMINI_API_KEY') ?? ''
 
-    if (!anthropicKey) {
+    if (!anthropicKey && !geminiKey) {
       return new Response(JSON.stringify(fallbackBrief()), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
@@ -122,27 +123,67 @@ Return STRICT JSON only. No markdown code fences. No prose before or after the J
 
 Base this on realistic, general knowledge of this country's cyber threat environment (known APT activity, sectors of concern, government cyber posture, notable incident history). If you are not confident about specific claims for a small or low-profile nation, keep the brief accurate, general, and honest rather than inventing specifics. Do not fabricate precise statistics (breach counts, dollar figures, percentages) — describe threats qualitatively instead.`
 
-    const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': anthropicKey,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 900,
-        system: DAYE_PERSONA,
-        messages: [{ role: 'user', content: prompt }],
-      }),
-    })
+    let rawText = ''
 
-    if (!claudeResponse.ok) {
-      throw new Error(`Claude API error: ${claudeResponse.status}`)
+    if (anthropicKey) {
+      try {
+        const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'x-api-key': anthropicKey,
+            'anthropic-version': '2023-06-01',
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 900,
+            system: DAYE_PERSONA,
+            messages: [{ role: 'user', content: prompt }],
+          }),
+        })
+
+        if (claudeResponse.ok) {
+          const claudeData = await claudeResponse.json() as { content?: Array<{ text?: string }> }
+          rawText = claudeData.content?.[0]?.text || ''
+        } else {
+          console.error('Claude API non-OK response:', claudeResponse.status, await claudeResponse.text())
+        }
+      } catch (claudeError) {
+        console.error('Claude API error:', claudeError)
+      }
     }
 
-    const claudeData = await claudeResponse.json() as { content?: Array<{ text?: string }> }
-    const rawText = claudeData.content?.[0]?.text || ''
+    if (!rawText && geminiKey) {
+      try {
+        const geminiResponse = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${geminiKey}`,
+          {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ role: 'user', parts: [{ text: prompt }] }],
+              systemInstruction: { parts: [{ text: DAYE_PERSONA }] },
+              generationConfig: { maxOutputTokens: 900 },
+            }),
+          }
+        )
+
+        if (geminiResponse.ok) {
+          const geminiData = await geminiResponse.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }
+          rawText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || ''
+        } else {
+          console.error('Gemini API non-OK response:', geminiResponse.status, await geminiResponse.text())
+        }
+      } catch (geminiError) {
+        console.error('Gemini API error:', geminiError)
+      }
+    }
+
+    if (!rawText) {
+      return new Response(JSON.stringify(fallbackBrief()), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
 
     let brief: CountryBrief
     try {
