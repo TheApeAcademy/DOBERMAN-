@@ -80,27 +80,69 @@ URL: ${article_url}`
     ]
 
     const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
-    const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': anthropicKey,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 600,
-        system: systemPrompt,
-        messages: claudeMessages,
-      }),
-    })
+    const geminiKey = Deno.env.get('GEMINI_API_KEY') ?? ''
+    let aiResponse = ''
 
-    if (!claudeResponse.ok) {
-      throw new Error('Claude API failed')
+    if (anthropicKey) {
+      try {
+        const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'x-api-key': anthropicKey,
+            'anthropic-version': '2023-06-01',
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 600,
+            system: systemPrompt,
+            messages: claudeMessages,
+          }),
+        })
+
+        if (claudeResponse.ok) {
+          const claudeData = await claudeResponse.json() as { content?: Array<{ text?: string }> }
+          aiResponse = claudeData.content?.[0]?.text || ''
+        } else {
+          console.error('Claude API non-OK response:', claudeResponse.status, await claudeResponse.text())
+        }
+      } catch (claudeError) {
+        console.error('Claude API error:', claudeError)
+      }
     }
 
-    const claudeData = await claudeResponse.json() as { content?: Array<{ text?: string }> }
-    const aiResponse = claudeData.content?.[0]?.text || 'Analysis unavailable.'
+    if (!aiResponse && geminiKey) {
+      try {
+        const geminiResponse = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${geminiKey}`,
+          {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              contents: claudeMessages.map((m) => ({
+                role: m.role === 'assistant' ? 'model' : 'user',
+                parts: [{ text: m.content }],
+              })),
+              systemInstruction: { parts: [{ text: systemPrompt }] },
+              generationConfig: { maxOutputTokens: 600 },
+            }),
+          }
+        )
+
+        if (geminiResponse.ok) {
+          const geminiData = await geminiResponse.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }
+          aiResponse = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || ''
+        } else {
+          console.error('Gemini API non-OK response:', geminiResponse.status, await geminiResponse.text())
+        }
+      } catch (geminiError) {
+        console.error('Gemini API error:', geminiError)
+      }
+    }
+
+    if (!aiResponse) {
+      aiResponse = 'Analysis unavailable.'
+    }
 
     const updatedMessages = [
       ...existingMessages,

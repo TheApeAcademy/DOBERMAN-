@@ -54,35 +54,49 @@ serve(async (req) => {
       : nameLower.endsWith('.flac') ? 'FLAC'
       : 'audio'
 
-    // Analyze with Hive if available (for audio deepfake detection)
+    // Analyze with Hive's v3 AI-generated/deepfake model, which also scores
+    // an audio track (ai_generated_audio / not_ai_generated_audio classes) —
+    // see supabase/functions/eyes-analyze for the same endpoint used on images.
     const hiveApiKey = Deno.env.get('HIVE_API_KEY') ?? ''
     let hiveResult: Record<string, unknown> = {}
     let rawManipulationScore = 50
+    let hiveSucceeded = false
 
     if (hiveApiKey) {
       try {
-        const hiveResponse = await fetch('https://api.thehive.ai/api/v2/task/sync', {
-          method: 'POST',
-          headers: {
-            'Authorization': `token ${hiveApiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ url: file_url }),
-        })
+        const hiveResponse = await fetch(
+          'https://api.thehive.ai/api/v3/hive/ai-generated-and-deepfake-content-detection',
+          {
+            method: 'POST',
+            headers: {
+              'authorization': `Bearer ${hiveApiKey}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ media_metadata: true, input: [{ media_url: file_url }] }),
+          }
+        )
 
         if (hiveResponse.ok) {
           hiveResult = await hiveResponse.json() as Record<string, unknown>
-          const output = (hiveResult as { status?: { response?: { output?: Array<{ classes?: Array<{ class: string; score: number }> }> } } })
-            ?.status?.response?.output
-          if (output && Array.isArray(output) && output.length > 0) {
-            const classes = output[0]?.classes || []
-            const fakeClass = classes.find((c: { class: string }) =>
-              c.class === 'yes' || c.class === 'fake' || c.class === 'ai_generated'
-            )
-            if (fakeClass) rawManipulationScore = Math.round(fakeClass.score * 100)
+          const output = (hiveResult as { output?: Array<{ classes?: Array<{ class: string; value: number }> }> })?.output
+          const classes = output?.flatMap((o) => o?.classes || []) || []
+          const audioClass = classes.find((c) => c.class === 'ai_generated_audio')
+          const notAudioClass = classes.find((c) => c.class === 'not_ai_generated_audio')
+          if (audioClass) {
+            rawManipulationScore = Math.round(audioClass.value * 100)
+            hiveSucceeded = true
+          } else if (notAudioClass) {
+            rawManipulationScore = Math.round((1 - notAudioClass.value) * 100)
+            hiveSucceeded = true
+          } else {
+            console.error('Hive API returned 200 but no audio class labels:', JSON.stringify(hiveResult).slice(0, 500))
           }
+        } else {
+          console.error('Hive API non-OK response:', hiveResponse.status, await hiveResponse.text())
         }
-      } catch (_) {}
+      } catch (hiveError) {
+        console.error('Hive API error:', hiveError)
+      }
     }
 
     const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
@@ -96,7 +110,7 @@ serve(async (req) => {
     const analysisPrompt = `You are DAYE, Doberman Intelligence voice analysis system. A voice audio file has been submitted for AI/deepfake detection analysis.
 
 File: ${file_name || 'audio file'} (${format} format)
-Hive AI manipulation score: ${rawManipulationScore}% (0=authentic, 100=AI-generated)
+Hive AI manipulation score: ${hiveSucceeded ? `${rawManipulationScore}% (0=authentic, 100=AI-generated)` : 'unavailable — the live detector could not be reached, so no measured score exists. Do not invent one.'}
 
 Based on this data, provide a voice intelligence assessment. Respond ONLY in valid JSON:
 {

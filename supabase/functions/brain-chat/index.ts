@@ -57,6 +57,7 @@ serve(async (req) => {
     }
 
     const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
+    const geminiKey = Deno.env.get('GEMINI_API_KEY') ?? ''
 
     // Build messages array (strip timestamps, keep only role/content)
     const apiMessages = messages.map((m: { role: string; content: string }) => ({
@@ -64,28 +65,68 @@ serve(async (req) => {
       content: m.content,
     }))
 
-    const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': anthropicKey,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: SYSTEM_PROMPT,
-        messages: apiMessages,
-      }),
-    })
+    let reply = ''
 
-    if (!claudeResponse.ok) {
-      const err = await claudeResponse.text()
-      throw new Error(`Claude API error: ${err}`)
+    if (anthropicKey) {
+      try {
+        const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'x-api-key': anthropicKey,
+            'anthropic-version': '2023-06-01',
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 1000,
+            system: SYSTEM_PROMPT,
+            messages: apiMessages,
+          }),
+        })
+
+        if (claudeResponse.ok) {
+          const claudeData = await claudeResponse.json() as { content?: Array<{ text?: string }> }
+          reply = claudeData.content?.[0]?.text || ''
+        } else {
+          console.error('Claude API non-OK response:', claudeResponse.status, await claudeResponse.text())
+        }
+      } catch (claudeError) {
+        console.error('Claude API error:', claudeError)
+      }
     }
 
-    const claudeData = await claudeResponse.json() as { content?: Array<{ text?: string }> }
-    const reply = claudeData.content?.[0]?.text || 'I was unable to generate a response. Please try again.'
+    if (!reply && geminiKey) {
+      try {
+        const geminiResponse = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${geminiKey}`,
+          {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              contents: apiMessages.map((m: { role: string; content: string }) => ({
+                role: m.role === 'assistant' ? 'model' : 'user',
+                parts: [{ text: m.content }],
+              })),
+              systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+              generationConfig: { maxOutputTokens: 1000 },
+            }),
+          }
+        )
+
+        if (geminiResponse.ok) {
+          const geminiData = await geminiResponse.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }
+          reply = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || ''
+        } else {
+          console.error('Gemini API non-OK response:', geminiResponse.status, await geminiResponse.text())
+        }
+      } catch (geminiError) {
+        console.error('Gemini API error:', geminiError)
+      }
+    }
+
+    if (!reply) {
+      reply = 'I was unable to generate a response. Please try again.'
+    }
 
     // Build full messages array for storage
     const allMessages = [

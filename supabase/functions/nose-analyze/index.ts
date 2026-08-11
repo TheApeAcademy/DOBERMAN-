@@ -47,6 +47,7 @@ serve(async (req) => {
     }
 
     const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
+    const geminiKey = Deno.env.get('GEMINI_API_KEY') ?? ''
     const deviceList = Array.isArray(devices) && devices.length > 0
       ? devices.join(', ')
       : 'unspecified devices'
@@ -82,28 +83,61 @@ Return ONLY valid JSON in this exact structure, no markdown, no explanation:
   }
 }`
 
-    const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': anthropicKey,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 2000,
-        messages: [{ role: 'user', content: prompt }],
-      }),
-    })
+    let rawText = ''
 
-    if (!claudeResponse.ok) {
-      throw new Error(`Claude API error: ${claudeResponse.status}`)
+    if (anthropicKey) {
+      try {
+        const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'x-api-key': anthropicKey,
+            'anthropic-version': '2023-06-01',
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 2000,
+            messages: [{ role: 'user', content: prompt }],
+          }),
+        })
+
+        if (claudeResponse.ok) {
+          const claudeData = await claudeResponse.json() as { content?: Array<{ text?: string }> }
+          rawText = claudeData.content?.[0]?.text || ''
+        } else {
+          console.error('Claude API non-OK response:', claudeResponse.status, await claudeResponse.text())
+        }
+      } catch (claudeError) {
+        console.error('Claude API error:', claudeError)
+      }
     }
 
-    const claudeData = await claudeResponse.json() as { content?: Array<{ text?: string }> }
-    const rawText = claudeData.content?.[0]?.text || ''
+    if (!rawText && geminiKey) {
+      const geminiResponse = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${geminiKey}`,
+        {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ role: 'user', parts: [{ text: prompt }] }],
+            generationConfig: { maxOutputTokens: 2000, responseMimeType: 'application/json' },
+          }),
+        }
+      )
 
-    // Parse JSON from Claude's response
+      if (geminiResponse.ok) {
+        const geminiData = await geminiResponse.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }
+        rawText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || ''
+      } else {
+        console.error('Gemini API non-OK response:', geminiResponse.status, await geminiResponse.text())
+      }
+    }
+
+    if (!rawText) {
+      throw new Error('Analysis unavailable — no AI provider is configured or reachable.')
+    }
+
+    // Parse JSON from the model's response
     let analysisData: {
       overall_risk_score: number
       devices: Array<{

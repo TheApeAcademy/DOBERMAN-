@@ -20,6 +20,7 @@ serve(async (req) => {
     const { context_type, data } = await req.json()
 
     const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
+    const geminiKey = Deno.env.get('GEMINI_API_KEY') ?? ''
 
     let prompt = ''
 
@@ -58,6 +59,7 @@ serve(async (req) => {
     }
 
     let message = 'DAYE is monitoring all systems. All threat detection modules are online.'
+    let messageGenerated = false
 
     if (anthropicKey) {
       try {
@@ -79,6 +81,29 @@ serve(async (req) => {
         if (claudeResponse.ok) {
           const cd = await claudeResponse.json() as { content?: Array<{ text?: string }> }
           message = cd.content?.[0]?.text || message
+          messageGenerated = true
+        }
+      } catch (_) {}
+    }
+
+    if (!messageGenerated && geminiKey) {
+      try {
+        const geminiResponse = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${geminiKey}`,
+          {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ role: 'user', parts: [{ text: prompt }] }],
+              systemInstruction: { parts: [{ text: DAYE_PERSONA }] },
+              generationConfig: { maxOutputTokens: 120 },
+            }),
+          }
+        )
+
+        if (geminiResponse.ok) {
+          const gd = await geminiResponse.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }
+          message = gd.candidates?.[0]?.content?.parts?.[0]?.text || message
         }
       } catch (_) {}
     }
