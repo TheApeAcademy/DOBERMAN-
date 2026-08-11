@@ -138,7 +138,7 @@ export default function ShareTarget() {
                 <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
                   <motion.button
                     whileHover={{ scale: 1.03 }}
-                    onClick={() => navigate(result.type === 'eyes' ? '/deepfake' : '/news')}
+                    onClick={() => navigate(result.type === 'eyes' ? '/eyes' : '/news')}
                     style={{ padding: '12px 28px', background: 'var(--chrome-white)', color: 'var(--void)', fontFamily: 'Inter', fontWeight: 700, fontSize: 13, border: 'none', borderRadius: 10 }}
                   >
                     View Full Report

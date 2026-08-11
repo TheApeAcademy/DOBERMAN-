@@ -5,6 +5,7 @@ import { PageWrapper } from './components/ui/PageWrapper'
 import Landing from './pages/Landing'
 import Auth from './pages/Auth'
 import Dashboard from './pages/Dashboard'
+import Eyes from './pages/Eyes'
 import Nose from './pages/Nose'
 import Brain from './pages/Brain'
 import News from './pages/News'
@@ -53,10 +54,7 @@ function AnimatedRoutes() {
         <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
         <Route path="/share-target" element={<ProtectedRoute><ShareTarget /></ProtectedRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><PageWrapper><Dashboard /></PageWrapper></ProtectedRoute>} />
-        {/* /eyes was the old single-mode deepfake scanner; /deepfake replaced it with
-            image/video, voice, and text tabs, so old links redirect there instead of
-            rendering a second, out-of-date scanning page. */}
-        <Route path="/eyes" element={<Navigate to="/deepfake" replace />} />
+        <Route path="/eyes" element={<ProtectedRoute><PageWrapper><Eyes /></PageWrapper></ProtectedRoute>} />
         <Route path="/nose" element={<ProtectedRoute><PageWrapper><Nose /></PageWrapper></ProtectedRoute>} />
         <Route path="/brain" element={<ProtectedRoute><PageWrapper><Brain /></PageWrapper></ProtectedRoute>} />
         <Route path="/news" element={<ProtectedRoute><PageWrapper><News /></PageWrapper></ProtectedRoute>} />

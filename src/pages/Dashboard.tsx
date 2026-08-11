@@ -290,7 +290,7 @@ export default function Dashboard() {
 
             {/* EYES — DEEPFAKE DETECTION */}
             <ModuleTile
-              onClick={() => navigate('/deepfake')}
+              onClick={() => navigate('/eyes')}
               kicker="01 -- DEEPFAKE DETECTION"
               title={<>DEEP FAKE<br />INTELLIGENCE</>}
               description="Upload any image, video, or audio. D0B3RMAN analyzes it against known deepfake signatures and returns a trust score in seconds."
