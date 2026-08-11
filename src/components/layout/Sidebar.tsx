@@ -18,7 +18,7 @@ const IOS_BLUE = '#0A84FF'
 
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', sub: '' },
-  { to: '/eyes', icon: Eye, label: 'Deepfake Intelligence', sub: 'D.F.I.' },
+  { to: '/deepfake', icon: Eye, label: 'Deepfake Intelligence', sub: 'D.F.I.' },
   { to: '/brain', icon: Brain, label: 'DAYE', sub: 'AI Analyst' },
   { to: '/news', icon: Newspaper, label: 'NEWS', sub: 'Verify Content' },
   { to: '/globe', icon: Globe2, label: 'Cyber Globe', sub: 'Threat Intelligence' },
