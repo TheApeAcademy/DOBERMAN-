@@ -19,11 +19,9 @@ const QUICK_DEVICES = [
 interface NoseScannerProps {
   onAnalyze: (description: string, devices: string[]) => void
   scanning: boolean
-  remainingScans: number
-  onUpgradeClick: () => void
 }
 
-export function NoseScanner({ onAnalyze, scanning, remainingScans, onUpgradeClick }: NoseScannerProps) {
+export function NoseScanner({ onAnalyze, scanning }: NoseScannerProps) {
   const [description, setDescription] = useState('')
   const [selectedDevices, setSelectedDevices] = useState<string[]>([])
   const [customDevice, setCustomDevice] = useState('')
@@ -49,28 +47,6 @@ export function NoseScanner({ onAnalyze, scanning, remainingScans, onUpgradeClic
 
   return (
     <div className="space-y-5">
-      {/* Daily limit */}
-      <div className="flex items-center justify-between p-3 bg-bg-tertiary rounded-lg border border-border-color">
-        <span className="text-text-secondary font-label text-xs">Daily scans remaining</span>
-        <div className="flex items-center gap-2">
-          <div className="flex gap-1">
-            {[...Array(3)].map((_, i) => (
-              <div
-                key={i}
-                className="w-5 h-1.5 rounded-full"
-                style={{ background: i < remainingScans ? '#8B5CF6' : '#21262D' }}
-              />
-            ))}
-          </div>
-          <span
-            className="font-display text-lg"
-            style={{ color: remainingScans > 0 ? '#8B5CF6' : '#FF3B3B' }}
-          >
-            {remainingScans}/3
-          </span>
-        </div>
-      </div>
-
       {/* Description */}
       <div className="space-y-2">
         <label className="text-text-secondary font-label text-xs font-medium tracking-wide">
@@ -144,44 +120,38 @@ export function NoseScanner({ onAnalyze, scanning, remainingScans, onUpgradeClic
       )}
 
       {/* Analyze button */}
-      {remainingScans === 0 ? (
-        <button onClick={onUpgradeClick} className="w-full btn-danger py-3">
-          Daily limit reached - Upgrade to Pro
-        </button>
-      ) : (
-        <button
-          onClick={handleSubmit}
-          disabled={(!description.trim() && selectedDevices.length === 0) || scanning}
-          className="w-full py-3"
-          style={{
-            background: '#8B5CF6',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 500,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px',
-            cursor: !description.trim() && selectedDevices.length === 0 ? 'not-allowed' : 'pointer',
-            opacity: !description.trim() && selectedDevices.length === 0 ? 0.5 : 1,
-            transition: 'all 0.2s',
-          }}
-        >
-          {scanning ? (
-            <>
-              <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              Scanning network...
-            </>
-          ) : (
-            <>
-              <Zap size={16} />
-              Analyze My Network
-            </>
-          )}
-        </button>
-      )}
+      <button
+        onClick={handleSubmit}
+        disabled={(!description.trim() && selectedDevices.length === 0) || scanning}
+        className="w-full py-3"
+        style={{
+          background: '#8B5CF6',
+          color: 'white',
+          border: 'none',
+          borderRadius: '8px',
+          fontFamily: 'Inter, sans-serif',
+          fontWeight: 500,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '8px',
+          cursor: !description.trim() && selectedDevices.length === 0 ? 'not-allowed' : 'pointer',
+          opacity: !description.trim() && selectedDevices.length === 0 ? 0.5 : 1,
+          transition: 'all 0.2s',
+        }}
+      >
+        {scanning ? (
+          <>
+            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            Scanning network...
+          </>
+        ) : (
+          <>
+            <Zap size={16} />
+            Analyze My Network
+          </>
+        )}
+      </button>
     </div>
   )
 }

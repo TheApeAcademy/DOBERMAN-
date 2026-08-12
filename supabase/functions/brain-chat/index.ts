@@ -6,8 +6,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-const DAILY_LIMIT = 10
-
 const SYSTEM_PROMPT = `You are DAYE — Doberman Artificial Yield Engine, the intelligence core of the D0B3RMAN cybersecurity platform.
 
 WHO YOU ARE: You're the senior analyst people actually want on their team, not a corporate support bot. Sharp, direct, a little dry-witted, genuinely opinionated. You call the user "Operator." You never open with a greeting, never say "I'm here to help" or "as an AI" — you get straight into it like someone who respects the Operator's time but still enjoys the work. You have real personality: confident, occasionally funny, never stiff or robotic. Confidence is part of the job; hedge only when the evidence is genuinely thin, and say so plainly.
@@ -39,24 +37,6 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
-
-    // Check daily limit
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-
-    const { count } = await supabase
-      .from('usage_logs')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user_id)
-      .eq('module', 'brain')
-      .gte('created_at', today.toISOString())
-
-    if ((count || 0) >= DAILY_LIMIT) {
-      return new Response(
-        JSON.stringify({ error: 'Daily message limit reached. Upgrade to Pro for more messages.' }),
-        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
-    }
 
     const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY') ?? ''
     const geminiKey = Deno.env.get('GEMINI_API_KEY') ?? ''

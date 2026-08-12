@@ -17,11 +17,9 @@ interface BrainChatProps {
   onSend: (content: string) => void
   loading: boolean
   error: string | null
-  dailyRemaining: number
-  onUpgradeClick: () => void
 }
 
-export function BrainChat({ messages, onSend, loading, error, dailyRemaining, onUpgradeClick }: BrainChatProps) {
+export function BrainChat({ messages, onSend, loading, error }: BrainChatProps) {
   const [input, setInput] = useState('')
   const [isRecording, setIsRecording] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
@@ -34,7 +32,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
   }, [messages, loading])
 
   const handleSend = () => {
-    if (!input.trim() || loading || dailyRemaining <= 0) return
+    if (!input.trim() || loading) return
     onSend(input.trim())
     setInput('')
     if (textareaRef.current) textareaRef.current.style.height = 'auto'
@@ -68,7 +66,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
     setIsRecording(true)
   }
 
-  const canSend = !!input.trim() && !loading && dailyRemaining > 0
+  const canSend = !!input.trim() && !loading
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', fontFamily: SF }}>
@@ -86,22 +84,6 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
           <Zap size={11} style={{ color: '#30D158' }} />
           <span style={{ fontSize: 11, color: 'var(--ovw-0p3)', fontWeight: 500, letterSpacing: '0.01em' }}>
             Doberman Intelligence
-          </span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-          <div style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
-            {Array.from({ length: 10 }).map((_, i) => (
-              <div key={i} style={{
-                width: 5,
-                height: 5,
-                borderRadius: '50%',
-                background: i < dailyRemaining ? '#30D158' : 'var(--ovw-0p08)',
-                transition: 'background 0.2s',
-              }} />
-            ))}
-          </div>
-          <span style={{ fontSize: 11, color: 'var(--ovw-0p22)', letterSpacing: '-0.01em' }}>
-            {dailyRemaining}/10
           </span>
         </div>
       </div>
@@ -145,8 +127,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
               {STARTER_PROMPTS.map((p) => (
                 <button
                   key={p}
-                  onClick={() => { if (dailyRemaining > 0) onSend(p) }}
-                  disabled={dailyRemaining <= 0}
+                  onClick={() => onSend(p)}
                   style={{
                     padding: '12px 13px',
                     textAlign: 'left',
@@ -159,7 +140,7 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
                     color: 'var(--ovw-0p5)',
                     fontFamily: SF,
                     transition: 'background 0.15s, border-color 0.15s',
-                    cursor: dailyRemaining > 0 ? 'pointer' : 'not-allowed',
+                    cursor: 'pointer',
                   }}
                 >
                   {p}
@@ -194,24 +175,6 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
 
       {/* Input bar */}
       <div style={{ padding: '10px 12px 22px', borderTop: '1px solid var(--ovw-0p05)', flexShrink: 0 }}>
-        {dailyRemaining <= 0 ? (
-          <button
-            onClick={onUpgradeClick}
-            style={{
-              width: '100%',
-              padding: '14px',
-              borderRadius: 14,
-              background: 'rgba(255,45,45,0.07)',
-              border: '1px solid rgba(255,45,45,0.2)',
-              color: '#FF2D2D',
-              fontSize: 15,
-              fontWeight: 600,
-              fontFamily: SF,
-            }}
-          >
-            Daily limit reached — Upgrade to Pro
-          </button>
-        ) : (
           <div style={{
             display: 'flex',
             alignItems: 'flex-end',
@@ -322,7 +285,6 @@ export function BrainChat({ messages, onSend, loading, error, dailyRemaining, on
               <ArrowUp size={15} style={{ color: canSend ? '#000' : 'var(--ovw-0p22)' }} />
             </button>
           </div>
-        )}
       </div>
     </div>
   )

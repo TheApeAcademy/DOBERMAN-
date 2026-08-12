@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 :root {
+  /* Tells the browser which palette native form controls (textarea, input,
+     select, scrollbars, autofill) should render in — without this, WebKit
+     falls back to the OS-level light/dark preference regardless of the
+     app's own theme, which is how a textarea ends up with a white native
+     background and white app-applied text on a light-mode device. */
+  color-scheme: dark;
+
   /* Void blacks — rich deep black, not flat #000 */
   --void:    #09090b;
   --void-1:  #0d0d10;
@@ -149,6 +156,8 @@
    "white catching light on black" becomes "ink catching light on white".
    ═══════════════════════════════════════════════════════════════ */
 :root[data-theme='light'] {
+  color-scheme: light;
+
   --void:    #F4F4F6;
   --void-1:  #FFFFFF;
   --void-2:  #EFEFF2;

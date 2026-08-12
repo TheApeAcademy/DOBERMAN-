@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Wifi } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { NoseScanner } from '../components/nose/NoseScanner'
 import { NoseResult } from '../components/nose/NoseResult'
 import { NoseScanHistory } from '../components/nose/NoseScanHistory'
-import { UpgradeModal } from '../components/ui/Modal'
 import { useAuth } from '../hooks/useAuth'
 import { useNose } from '../hooks/useNose'
 import type { NoseScan } from '../lib/supabase'
@@ -21,23 +20,13 @@ const card: React.CSSProperties = {
 
 export default function Nose() {
   const { user, profile, signOut } = useAuth()
-  const { scanning, result, error, analyze, getHistory, getDailyCount, setResult } = useNose(user?.id)
-  const [dailyCount, setDailyCount] = useState(0)
-  const [upgradeOpen, setUpgradeOpen] = useState(false)
+  const { scanning, result, error, analyze, getHistory, setResult } = useNose(user?.id)
   const [historyKey, setHistoryKey] = useState(0)
-
-  useEffect(() => {
-    if (user) getDailyCount().then(setDailyCount)
-  }, [user])
 
   const handleAnalyze = async (description: string, devices: string[]) => {
     await analyze(description, devices)
-    const count = await getDailyCount()
-    setDailyCount(count)
     setHistoryKey((k) => k + 1)
   }
-
-  const remainingScans = Math.max(0, 3 - dailyCount)
 
   return (
     <Layout profile={profile} onSignOut={signOut} title="NOSE — IoT INTELLIGENCE">
@@ -59,15 +48,6 @@ export default function Nose() {
             <h1 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 34, letterSpacing: '0.1em', color: 'var(--text-1)', lineHeight: 1 }}>NOSE</h1>
             <p style={{ fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.05em', color: 'var(--text-3)', marginTop: 3 }}>IoT + NETWORK VULNERABILITY INTELLIGENCE</p>
           </div>
-          <div style={{
-            padding: '6px 14px', borderRadius: 8,
-            background: remainingScans > 0 ? 'rgba(48,209,88,0.07)' : 'rgba(255,45,45,0.07)',
-            border: `1px solid ${remainingScans > 0 ? 'rgba(48,209,88,0.2)' : 'rgba(255,45,45,0.2)'}`,
-            fontFamily: 'Inter', fontSize: 10, letterSpacing: '0.03em',
-            color: remainingScans > 0 ? 'var(--safe)' : 'var(--danger)',
-          }}>
-            {remainingScans} / 3 SCANS TODAY
-          </div>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, alignItems: 'start' }}>
@@ -79,8 +59,6 @@ export default function Nose() {
               <NoseScanner
                 onAnalyze={handleAnalyze}
                 scanning={scanning}
-                remainingScans={remainingScans}
-                onUpgradeClick={() => setUpgradeOpen(true)}
               />
             </div>
             {error && (
@@ -128,8 +106,6 @@ export default function Nose() {
           />
         </div>
       </div>
-
-      <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
     </Layout>
   )
 }
