@@ -305,10 +305,7 @@ export default function ReportFull() {
               <h2 style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 22, color: 'var(--ovw-0p9)', textAlign: 'center', marginBottom: 28, letterSpacing: '0.02em' }}>References</h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                 {REPORT.references.map((ref) => (
-                  <div key={ref.number} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                    <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: 'var(--ovw-0p22)', flexShrink: 0, paddingTop: 4, minWidth: 26, textAlign: 'right' }}>
-                      [{ref.number}]
-                    </span>
+                  <div key={ref.citation} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
                     <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontSize: 13, color: 'var(--ovw-0p55)', lineHeight: 1.75, margin: 0 }}>
                       {renderText(ref.citation)}
                       {ref.url && (

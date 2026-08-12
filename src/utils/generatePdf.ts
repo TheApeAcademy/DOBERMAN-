@@ -80,11 +80,12 @@ function addFrontBody(
   fontSize = 12,
   bold = false,
   italic = false,
+  spacingMult = 2.0,
 ): void {
   doc.setFont(FONT, bold && italic ? 'bolditalic' : bold ? 'bold' : italic ? 'italic' : 'normal')
   doc.setFontSize(fontSize)
   const lines = doc.splitTextToSize(text, USABLE_W)
-  const lineH = fontSize * 0.5 * 2.0
+  const lineH = fontSize * 0.5 * spacingMult
 
   for (const line of lines) {
     if (y.v + lineH > PAGE_H - BOT - 16) {
@@ -168,7 +169,8 @@ function addChapterHeading(
   arabic.n++
   y.v = TOP + 20
 
-  toc.push({ label: `CHAPTER ${CH_WORDS[chNum] || chNum}: ${title.toUpperCase()}`, page: arabic.n, level: 0 })
+  toc.push({ label: `CHAPTER ${CH_WORDS[chNum] || chNum}`, page: arabic.n, level: 0 })
+  toc.push({ label: title.toUpperCase(), page: arabic.n, level: 0 })
 
   doc.setFont(FONT, 'bold')
   doc.setFontSize(14)
@@ -400,7 +402,7 @@ export async function downloadPdf() {
   y.v = TOP + 15
   doc.setFont(FONT, 'bold'); doc.setFontSize(14)
   doc.text('ABSTRACT', PAGE_W / 2, y.v, { align: 'center' }); y.v += 16
-  REPORT.abstract.split('\n\n').forEach((para) => addFrontBody(doc, para, y, physPage, romanIdx))
+  REPORT.abstract.split('\n\n').forEach((para) => addFrontBody(doc, para, y, physPage, romanIdx, 12, false, false, 1.0))
   y.v += 6
   doc.setFont(FONT, 'bold'); doc.setFontSize(12)
   const kwLabel = 'Keywords: '
@@ -444,8 +446,7 @@ export async function downloadPdf() {
   doc.setFont(FONT, 'bold'); doc.setFontSize(14)
   doc.text('REFERENCES', PAGE_W / 2, y.v, { align: 'center' }); y.v += 16
   REPORT.references.forEach((ref) => {
-    const refText = `[${ref.number}]  ${ref.citation}`
-    addBody(doc, refText, y, physPage, arabic, 11)
+    addBody(doc, ref.citation, y, physPage, arabic, 11)
   })
   writeBodyFooter(doc, arabic.n)
 

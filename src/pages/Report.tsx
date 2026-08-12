@@ -213,7 +213,7 @@ export default function Report() {
               Ready to read the full document?
             </p>
             <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--ovw-0p35)' }}>
-              {REPORT.chapters.length} chapters · {REPORT.references.length} references · IEEE citation format
+              {REPORT.chapters.length} chapters · {REPORT.references.length} references · APA citation format
             </p>
           </div>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>

@@ -37,6 +37,15 @@ function body(text: string, italic = false): Paragraph {
   })
 }
 
+// Single-spaced body, used for the Abstract so it fits within one page
+function bodySingleSpaced(text: string): Paragraph {
+  return new Paragraph({
+    children: [new TextRun({ text, font: FONT, size: SIZE_BODY })],
+    spacing: { line: 240, lineRule: 'auto', before: 0, after: 160 },
+    alignment: AlignmentType.JUSTIFIED,
+  })
+}
+
 function centred(text: string, size: number, bold = false, italic = false, spaceAfter = 120): Paragraph {
   return new Paragraph({
     children: [new TextRun({ text, font: FONT, size: size * 2, bold, italics: italic })],
@@ -121,11 +130,10 @@ async function figureParagraphs(images: ReportImage[] | undefined): Promise<Para
   return out
 }
 
-function referenceItem(num: number, citation: string): Paragraph {
+function referenceItem(citation: string): Paragraph {
   return new Paragraph({
     children: [
-      new TextRun({ text: `[${num}]`, font: FONT, size: SIZE_BODY, bold: true }),
-      new TextRun({ text: `  ${citation}`, font: FONT, size: SIZE_BODY }),
+      new TextRun({ text: citation, font: FONT, size: SIZE_BODY }),
     ],
     spacing: { before: 0, after: 160 },
     indent: { hanging: convertInchesToTwip(0.5), left: convertInchesToTwip(0.5) },
@@ -236,7 +244,7 @@ export async function downloadDocx() {
   // ── ABSTRACT ──────────────────────────────────────────
   children.push(pageBreak())
   children.push(sectionTitle('ABSTRACT'))
-  REPORT.abstract.split('\n\n').forEach((para) => children.push(body(para)))
+  REPORT.abstract.split('\n\n').forEach((para) => children.push(bodySingleSpaced(para)))
   children.push(blank())
   children.push(new Paragraph({
     children: [
@@ -270,7 +278,8 @@ export async function downloadDocx() {
   }
   for (const ch of REPORT.chapters) {
     const startPage = approxPages[ch.number] ?? 1
-    children.push(tocEntry(`Chapter ${CH_WORDS[ch.number] || ch.number}: ${ch.title}`, String(startPage), true))
+    children.push(tocEntry(`CHAPTER ${CH_WORDS[ch.number] || ch.number}`, String(startPage), true))
+    children.push(tocEntry(ch.title.toUpperCase(), String(startPage), true))
     let secPage = startPage
     for (const sec of ch.sections) {
       children.push(tocEntry(sec.heading, String(secPage + 1), false, 0.3))
@@ -297,7 +306,7 @@ export async function downloadDocx() {
   // ── REFERENCES ────────────────────────────────────────
   children.push(pageBreak())
   children.push(sectionTitle('REFERENCES'))
-  REPORT.references.forEach((ref) => children.push(referenceItem(ref.number, ref.citation)))
+  REPORT.references.forEach((ref) => children.push(referenceItem(ref.citation)))
 
   // ── APPENDICES ────────────────────────────────────────
   for (const app of REPORT.appendices) {
