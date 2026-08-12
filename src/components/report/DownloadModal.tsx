@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { FileText, File, X, Download, Loader } from 'lucide-react'
+import { FileText, File, Presentation, X, Download, Loader } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface DownloadModalProps {
@@ -8,17 +8,24 @@ interface DownloadModalProps {
 }
 
 export function DownloadModal({ open, onClose }: DownloadModalProps) {
-  const [loading, setLoading] = useState<'pdf' | 'docx' | null>(null)
+  const [loading, setLoading] = useState<'pdf' | 'docx' | 'pptx' | null>(null)
 
-  const handleDownload = async (type: 'pdf' | 'docx') => {
+  const handleDownload = async (type: 'pdf' | 'docx' | 'pptx') => {
     setLoading(type)
     try {
       if (type === 'docx') {
         const { downloadDocx } = await import('../../utils/generateDocx')
         await downloadDocx()
-      } else {
+      } else if (type === 'pdf') {
         const { downloadPdf } = await import('../../utils/generatePdf')
         await downloadPdf()
+      } else {
+        const a = document.createElement('a')
+        a.href = '/DOBERMAN_Defence_Presentation.pptx'
+        a.download = 'DOBERMAN_Defence_Presentation.pptx'
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
       }
     } catch (err) {
       console.error('Download failed', err)
@@ -86,6 +93,7 @@ export function DownloadModal({ open, onClose }: DownloadModalProps) {
               {[
                 { type: 'docx' as const, icon: FileText, label: 'Word Document', sub: '.docx — Microsoft Word compatible', color: '#2B579A' },
                 { type: 'pdf' as const, icon: File, label: 'PDF Document', sub: '.pdf — Universal, print-ready', color: '#FF3B30' },
+                { type: 'pptx' as const, icon: Presentation, label: 'Defence Presentation', sub: '.pptx — Final-year defence slides', color: '#D24726' },
               ].map(({ type, icon: Icon, label, sub, color }) => (
                 <motion.button
                   key={type}
