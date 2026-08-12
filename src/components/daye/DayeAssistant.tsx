@@ -24,7 +24,7 @@ export function dayeAskAbout(event: Omit<DayeEventPayload, 'forceOpen'>) {
 
 const PAGE_MESSAGES: Record<string, string> = {
   '/dashboard': 'Operator, your threat overview is ready. All detection systems are online.',
-  '/deepfake': 'Deepfake Intelligence active. Upload media and I will analyze for synthetic markers.',
+  '/eyes': 'Deepfake Intelligence active. Upload media and I will analyze for synthetic markers.',
   '/daye': 'DAYE Intelligence online. Ask me anything or use the Scam Link Analyzer.',
   '/breach': 'Breach System ready. I will check if your credentials have been compromised in known data breaches.',
   '/globe': 'Cyber Globe active. Select any country for a real-time threat intelligence briefing.',
