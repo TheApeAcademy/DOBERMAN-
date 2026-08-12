@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { Eye, Mic, FileText } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { Eye, Mic, FileText, Upload, Link as LinkIcon, RotateCcw } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Layout } from '../components/layout/Layout'
 import { EyesUploader } from '../components/eyes/EyesUploader'
@@ -36,30 +36,43 @@ const sectionLabel: React.CSSProperties = {
   textTransform: 'uppercase' as const,
 }
 
+const newScanBtn: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: 6,
+  padding: '6px 12px',
+  borderRadius: 8,
+  background: 'var(--ovw-0p05)',
+  border: '1px solid var(--ovw-0p1)',
+  fontFamily: 'JetBrains Mono, monospace',
+  fontSize: 10,
+  letterSpacing: '0.06em',
+  color: 'var(--text-2)',
+  cursor: 'pointer',
+}
+
 type Tab = 'media' | 'voice' | 'text'
+type TextMode = 'paste' | 'file' | 'link'
 
 export default function Eyes() {
   const { user, profile, signOut } = useAuth()
-  const { scanning: eyesScanning, result: eyesResult, error: eyesError, analyze: eyesAnalyze, getHistory: getEyesHistory, getDailyCount: getEyesCount, setResult: setEyesResult } = useEyes(user?.id)
-  const { scanning: voiceScanning, result: voiceResult, error: voiceError, analyze: voiceAnalyze, getHistory: getVoiceHistory, getDailyCount: getVoiceCount, setResult: setVoiceResult } = useVoice(user?.id)
-  const { scanning: textScanning, result: textResult, error: textError, analyze: textAnalyze, getHistory: getTextHistory, getDailyCount: getTextCount, setResult: setTextResult } = useText(user?.id)
+  const { scanning: eyesScanning, result: eyesResult, error: eyesError, analyze: eyesAnalyze, getHistory: getEyesHistory, setResult: setEyesResult } = useEyes(user?.id)
+  const { scanning: voiceScanning, result: voiceResult, error: voiceError, analyze: voiceAnalyze, getHistory: getVoiceHistory, setResult: setVoiceResult } = useVoice(user?.id)
+  const { scanning: textScanning, result: textResult, error: textError, analyze: textAnalyze, getHistory: getTextHistory, setResult: setTextResult } = useText(user?.id)
 
   const [activeTab, setActiveTab] = useState<Tab>('media')
   const [historyKey, setHistoryKey] = useState(0)
-  const [eyesCount, setEyesCount] = useState(0)
-  const [voiceCount, setVoiceCount] = useState(0)
-  const [textCount, setTextCount] = useState(0)
+  const [mediaUploaderKey, setMediaUploaderKey] = useState(0)
+  const [voiceUploaderKey, setVoiceUploaderKey] = useState(0)
   const [voiceHistory, setVoiceHistory] = useState<VoiceScan[]>([])
   const [textHistory, setTextHistory] = useState<TextScan[]>([])
-  const [textInput, setTextInput] = useState('')
 
-  useEffect(() => {
-    if (user) {
-      getEyesCount().then(setEyesCount)
-      getVoiceCount().then(setVoiceCount)
-      getTextCount().then(setTextCount)
-    }
-  }, [user])
+  const [textMode, setTextMode] = useState<TextMode>('paste')
+  const [textInput, setTextInput] = useState('')
+  const [linkInput, setLinkInput] = useState('')
+  const [importedFileName, setImportedFileName] = useState('')
+  const [textFileError, setTextFileError] = useState('')
+  const textFileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (activeTab === 'voice' && user) getVoiceHistory().then(setVoiceHistory)
@@ -68,21 +81,65 @@ export default function Eyes() {
 
   const handleMediaAnalyze = async (file: File) => {
     await eyesAnalyze(file)
-    setEyesCount(await getEyesCount())
     setHistoryKey((k) => k + 1)
   }
 
   const handleVoiceAnalyze = async (file: File) => {
     await voiceAnalyze(file)
-    setVoiceCount(await getVoiceCount())
     setVoiceHistory(await getVoiceHistory())
   }
 
+  const handleTextFileChosen = (file: File) => {
+    const allowedExt = /\.(txt|md|markdown|rtf|csv)$/i
+    const allowedMime = ['text/plain', 'text/markdown', 'text/csv', 'text/rtf', '']
+    if (!allowedExt.test(file.name) && !allowedMime.includes(file.type)) {
+      setTextFileError('Only plain text files are supported (.txt, .md, .rtf, .csv).')
+      return
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setTextFileError('File is too large — max 2MB of text.')
+      return
+    }
+    setTextFileError('')
+    const reader = new FileReader()
+    reader.onload = () => {
+      const text = typeof reader.result === 'string' ? reader.result : ''
+      setTextInput(text)
+      setImportedFileName(file.name)
+      setTextMode('paste')
+    }
+    reader.onerror = () => setTextFileError('Could not read that file.')
+    reader.readAsText(file)
+  }
+
   const handleTextAnalyze = async () => {
-    if (!textInput.trim()) return
-    await textAnalyze(textInput.trim())
-    setTextCount(await getTextCount())
+    if (textMode === 'link') {
+      if (!linkInput.trim()) return
+      await textAnalyze({ source_url: linkInput.trim() })
+    } else {
+      if (!textInput.trim()) return
+      await textAnalyze({ content: textInput.trim() })
+    }
     setTextHistory(await getTextHistory())
+  }
+
+  const handleNewMediaScan = () => {
+    setEyesResult(null)
+    setMediaUploaderKey((k) => k + 1)
+  }
+
+  const handleNewVoiceScan = () => {
+    setVoiceResult(null)
+    setVoiceUploaderKey((k) => k + 1)
+  }
+
+  const handleNewTextScan = () => {
+    setTextResult(null)
+    setTextInput('')
+    setLinkInput('')
+    setImportedFileName('')
+    setTextFileError('')
+    setTextMode('paste')
   }
 
   useEffect(() => {
@@ -115,15 +172,18 @@ export default function Eyes() {
     }
   }, [textResult])
 
-  const eyesRemaining = Math.max(0, 3 - eyesCount)
-  const voiceRemaining = Math.max(0, 3 - voiceCount)
-  const textRemaining = Math.max(0, 5 - textCount)
   const textWordCount = textInput.trim().split(/\s+/).filter(Boolean).length
 
   const tabs: { id: Tab; label: string; icon: typeof Eye }[] = [
     { id: 'media', label: 'IMAGE / VIDEO', icon: Eye },
     { id: 'voice', label: 'VOICE', icon: Mic },
     { id: 'text', label: 'TEXT', icon: FileText },
+  ]
+
+  const textModes: { id: TextMode; label: string; icon: typeof FileText }[] = [
+    { id: 'paste', label: 'Paste Text', icon: FileText },
+    { id: 'file', label: 'Upload File', icon: Upload },
+    { id: 'link', label: 'From Link', icon: LinkIcon },
   ]
 
   return (
@@ -193,9 +253,9 @@ export default function Eyes() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 <div style={card}>
                   <p style={sectionLabel}>Upload Media</p>
-                  <EyesUploader onAnalyze={handleMediaAnalyze} scanning={eyesScanning} />
+                  <EyesUploader key={mediaUploaderKey} onAnalyze={handleMediaAnalyze} scanning={eyesScanning} />
                   <p style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'var(--text-3)', marginTop: 14, letterSpacing: '0.06em' }}>
-                    Supported: Images, Videos · Max 50MB · {eyesRemaining}/3 scans today
+                    Supported: Images, Videos · Max 50MB
                   </p>
                 </div>
                 {eyesError && (
@@ -206,7 +266,14 @@ export default function Eyes() {
               </div>
 
               <div style={card}>
-                <p style={sectionLabel}>Analysis Results</p>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+                  <p style={{ ...sectionLabel, marginBottom: 0 }}>Analysis Results</p>
+                  {eyesResult && !eyesScanning && (
+                    <button onClick={handleNewMediaScan} style={newScanBtn}>
+                      <RotateCcw size={11} /> New Scan
+                    </button>
+                  )}
+                </div>
                 {eyesScanning ? (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 0', gap: 16 }}>
                     <div style={{ position: 'relative', width: 52, height: 52 }}>
@@ -268,6 +335,7 @@ export default function Eyes() {
                 <div style={card}>
                   <p style={sectionLabel}>Upload Voice File</p>
                   <EyesUploader
+                    key={voiceUploaderKey}
                     onAnalyze={handleVoiceAnalyze}
                     scanning={voiceScanning}
                     accept="audio/mpeg,audio/wav,audio/ogg,audio/mp4,audio/aac"
@@ -275,7 +343,7 @@ export default function Eyes() {
                     analyzingLabel="DAYE analyzing voice patterns..."
                   />
                   <p style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'var(--text-3)', marginTop: 14, letterSpacing: '0.06em' }}>
-                    Supported: MP3, WAV, M4A, OGG · Max 50MB · {voiceRemaining}/3 scans today
+                    Supported: MP3, WAV, M4A, OGG · Max 50MB
                   </p>
                 </div>
                 {voiceError && (
@@ -286,7 +354,14 @@ export default function Eyes() {
               </div>
 
               <div style={card}>
-                <p style={sectionLabel}>Voice Intelligence Results</p>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+                  <p style={{ ...sectionLabel, marginBottom: 0 }}>Voice Intelligence Results</p>
+                  {voiceResult && !voiceScanning && (
+                    <button onClick={handleNewVoiceScan} style={newScanBtn}>
+                      <RotateCcw size={11} /> New Scan
+                    </button>
+                  )}
+                </div>
                 {voiceScanning ? (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 0', gap: 16 }}>
                     <div style={{ position: 'relative', width: 52, height: 52 }}>
@@ -360,21 +435,93 @@ export default function Eyes() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16, alignItems: 'start', marginBottom: 16 }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 <div style={card}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-                    <p style={{ ...sectionLabel, marginBottom: 0 }}>Paste Text</p>
-                    <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: textWordCount < 20 ? 'var(--warning)' : 'var(--text-3)' }}>{textWordCount} words {textWordCount < 20 && '(min 20)'}</span>
+                  {/* Source mode pills */}
+                  <div style={{ display: 'flex', gap: 6, marginBottom: 16 }}>
+                    {textModes.map(({ id, label, icon: Icon }) => (
+                      <button
+                        key={id}
+                        onClick={() => setTextMode(id)}
+                        style={{
+                          flex: 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: 6,
+                          padding: '9px 8px',
+                          borderRadius: 9,
+                          background: textMode === id ? 'var(--ovw-0p07)' : 'transparent',
+                          border: textMode === id ? '1px solid var(--ovw-0p1)' : '1px solid var(--ovw-0p05)',
+                          fontFamily: 'JetBrains Mono, monospace',
+                          fontSize: 9,
+                          letterSpacing: '0.06em',
+                          color: textMode === id ? 'var(--text-1)' : 'var(--text-3)',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <Icon size={12} />
+                        {label}
+                      </button>
+                    ))}
                   </div>
-                  <textarea
-                    value={textInput}
-                    onChange={(e) => setTextInput(e.target.value)}
-                    disabled={textRemaining <= 0 || textScanning}
-                    placeholder="Paste an essay, article, email, or any passage of text..."
-                    className="w-full rounded-xl border border-border-color bg-bg-tertiary/50 text-text-primary p-4 text-sm leading-relaxed resize-y outline-none"
-                    style={{ minHeight: 160, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif' }}
-                  />
+
+                  {textMode === 'link' ? (
+                    <>
+                      <p style={{ ...sectionLabel, marginBottom: 10 }}>Article / Page URL</p>
+                      <input
+                        type="url"
+                        value={linkInput}
+                        onChange={(e) => setLinkInput(e.target.value)}
+                        disabled={textScanning}
+                        placeholder="https://example.com/article"
+                        className="w-full rounded-xl border border-border-color px-4 py-3 text-sm outline-none"
+                        style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', background: 'var(--void-2)', color: 'var(--text-1)' }}
+                      />
+                    </>
+                  ) : textMode === 'file' ? (
+                    <>
+                      <div
+                        onClick={() => textFileInputRef.current?.click()}
+                        onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleTextFileChosen(f) }}
+                        onDragOver={(e) => e.preventDefault()}
+                        className="border-2 border-dashed border-border-color rounded-xl p-8 text-center cursor-pointer hover:border-text-muted transition-colors bg-bg-tertiary/50"
+                      >
+                        <input
+                          ref={textFileInputRef}
+                          type="file"
+                          accept=".txt,.md,.markdown,.rtf,.csv,text/plain,text/markdown"
+                          className="hidden"
+                          onChange={(e) => e.target.files?.[0] && handleTextFileChosen(e.target.files[0])}
+                        />
+                        <Upload size={22} className="mx-auto text-text-muted" style={{ marginBottom: 10 }} />
+                        <p className="text-text-primary font-body text-sm">
+                          Drop a file here or <span className="text-accent-blue">browse</span>
+                        </p>
+                        <p className="text-text-muted font-label text-xs mt-1">TXT, MD, RTF, CSV - Max 2MB</p>
+                      </div>
+                      {textFileError && (
+                        <p style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'var(--danger)', marginTop: 10 }}>{textFileError}</p>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                        <p style={{ ...sectionLabel, marginBottom: 0 }}>{importedFileName ? `Loaded: ${importedFileName}` : 'Paste Text'}</p>
+                        <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: textWordCount < 20 ? 'var(--warning)' : 'var(--text-3)' }}>{textWordCount} words {textWordCount < 20 && '(min 20)'}</span>
+                      </div>
+                      <textarea
+                        value={textInput}
+                        onChange={(e) => { setTextInput(e.target.value); setImportedFileName('') }}
+                        disabled={textScanning}
+                        placeholder="Paste an essay, article, email, or any passage of text..."
+                        className="w-full rounded-xl border border-border-color p-4 text-sm leading-relaxed resize-y outline-none"
+                        style={{ minHeight: 160, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', background: 'var(--void-2)', color: 'var(--text-1)' }}
+                      />
+                    </>
+                  )}
+
                   <button
                     onClick={handleTextAnalyze}
-                    disabled={textRemaining <= 0 || textScanning || textWordCount < 20}
+                    disabled={textScanning || (textMode === 'link' ? !linkInput.trim() : textWordCount < 20)}
                     className="w-full btn-primary py-3 mt-3"
                     style={{ fontSize: 15 }}
                   >
@@ -388,7 +535,7 @@ export default function Eyes() {
                     )}
                   </button>
                   <p style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'var(--text-3)', marginTop: 14, letterSpacing: '0.06em' }}>
-                    Min 20 words · {textRemaining}/5 scans today
+                    {textMode === 'link' ? 'DAYE fetches the page and analyzes its text automatically.' : 'Min 20 words for a reliable read.'}
                   </p>
                 </div>
                 {textError && (
@@ -399,7 +546,14 @@ export default function Eyes() {
               </div>
 
               <div style={card}>
-                <p style={sectionLabel}>Analysis Results</p>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+                  <p style={{ ...sectionLabel, marginBottom: 0 }}>Analysis Results</p>
+                  {textResult && !textScanning && (
+                    <button onClick={handleNewTextScan} style={newScanBtn}>
+                      <RotateCcw size={11} /> New Scan
+                    </button>
+                  )}
+                </div>
                 {textScanning ? (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 0', gap: 16 }}>
                     <div style={{ position: 'relative', width: 52, height: 52 }}>

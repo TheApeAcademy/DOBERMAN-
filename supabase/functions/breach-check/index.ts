@@ -6,8 +6,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-const DAILY_LIMIT = 3
-
 async function sha1Hex(text: string): Promise<string> {
   const data = new TextEncoder().encode(text)
   const hashBuffer = await crypto.subtle.digest('SHA-1', data)
@@ -37,22 +35,6 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-
-    const { count } = await supabase
-      .from('usage_logs')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user_id)
-      .eq('module', 'breach')
-      .gte('created_at', today.toISOString())
-
-    if ((count || 0) >= DAILY_LIMIT) {
-      return new Response(
-        JSON.stringify({ error: 'Daily scan limit reached. Upgrade to Pro for unlimited scans.' }),
-        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
-    }
 
     const HIBP_KEY = Deno.env.get('HIBP_API_KEY') ?? ''
     let result: Record<string, unknown> = {}

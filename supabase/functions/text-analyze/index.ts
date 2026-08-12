@@ -6,8 +6,47 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-const DAILY_LIMIT = 5
 const MAX_CONTENT_LENGTH = 8000
+
+async function extractTextFromUrl(sourceUrl: string): Promise<string> {
+  let parsed: URL
+  try {
+    parsed = new URL(sourceUrl)
+  } catch {
+    throw new Error('That link doesn\'t look like a valid URL.')
+  }
+  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+    throw new Error('Only http/https links are supported.')
+  }
+
+  const res = await fetch(parsed.toString(), {
+    headers: { 'User-Agent': 'Mozilla/5.0 (compatible; D0B3RMAN/1.0; +text-ai-detection)' },
+  })
+  if (!res.ok) throw new Error(`Could not fetch that link (status ${res.status}).`)
+
+  const contentType = res.headers.get('content-type') || ''
+  if (!contentType.includes('text/html') && !contentType.includes('text/plain')) {
+    throw new Error('That link does not point to a readable text or HTML page.')
+  }
+
+  const raw = await res.text()
+  const text = raw
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#0?39;/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim()
+
+  if (!text) throw new Error('Could not extract any readable text from that link.')
+  return text
+}
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -15,16 +54,36 @@ serve(async (req) => {
   }
 
   try {
-    const { content, user_id } = await req.json()
+    const { content, source_url, user_id } = await req.json()
 
-    if (!content || typeof content !== 'string' || !content.trim() || !user_id) {
+    if (!user_id || (!content && !source_url)) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
     }
 
-    const trimmedContent = content.trim()
+    let resolvedContent = typeof content === 'string' ? content : ''
+
+    if (!resolvedContent.trim() && typeof source_url === 'string' && source_url.trim()) {
+      try {
+        resolvedContent = await extractTextFromUrl(source_url.trim())
+      } catch (linkError) {
+        return new Response(
+          JSON.stringify({ error: linkError instanceof Error ? linkError.message : 'Failed to read that link.' }),
+          { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        )
+      }
+    }
+
+    if (!resolvedContent.trim()) {
+      return new Response(JSON.stringify({ error: 'Missing required fields' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
+    const trimmedContent = resolvedContent.trim()
     const wordCount = trimmedContent.split(/\s+/).filter(Boolean).length
 
     if (wordCount < 20) {
@@ -38,23 +97,6 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
-
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-
-    const { count } = await supabase
-      .from('usage_logs')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user_id)
-      .eq('module', 'text')
-      .gte('created_at', today.toISOString())
-
-    if ((count || 0) >= DAILY_LIMIT) {
-      return new Response(
-        JSON.stringify({ error: 'Daily scan limit reached. Upgrade to Pro for more scans.' }),
-        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
-    }
 
     const analysisText = trimmedContent.slice(0, MAX_CONTENT_LENGTH)
 

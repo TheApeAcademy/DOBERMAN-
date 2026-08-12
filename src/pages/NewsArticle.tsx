@@ -7,8 +7,6 @@ import { useAuth } from '../hooks/useAuth'
 import { PageWrapper } from '../components/ui/PageWrapper'
 import type { FeedArticle } from './News'
 
-const DAILY_LIMIT = 10
-
 interface ChatMessage {
   role: 'user' | 'assistant'
   content: string
@@ -80,7 +78,6 @@ export default function NewsArticle() {
 
   async function sendMessage() {
     if (!input.trim() || !user || !article || chatLoading) return
-    if (usageCount >= DAILY_LIMIT) return
 
     const userMsg = input.trim()
     setInput('')
@@ -274,46 +271,40 @@ export default function NewsArticle() {
 
                 {/* Input */}
                 <div style={{ padding: '12px 16px', borderTop: '1px solid var(--ovw-0p08)', flexShrink: 0 }}>
-                  {usageCount >= DAILY_LIMIT ? (
-                    <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--danger)', textAlign: 'center', padding: '8px 0' }}>
-                      Daily limit reached ({DAILY_LIMIT} queries/day)
-                    </p>
-                  ) : (
-                    <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
-                      <textarea
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        placeholder="Ask about this article..."
-                        rows={1}
-                        onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() } }}
-                        style={{
-                          flex: 1,
-                          background: 'var(--ovw-0p04)',
-                          border: '1px solid var(--ovw-0p1)',
-                          borderRadius: 10,
-                          padding: '9px 12px',
-                          color: 'var(--text-1)',
-                          fontFamily: 'Inter',
-                          fontSize: 13,
-                          resize: 'none',
-                          outline: 'none',
-                          lineHeight: 1.5,
-                          maxHeight: 80,
-                        }}
-                        onFocus={(e) => { e.target.style.borderColor = 'var(--ovw-0p25)' }}
-                        onBlur={(e) => { e.target.style.borderColor = 'var(--ovw-0p1)' }}
-                      />
-                      <button
-                        onClick={sendMessage}
-                        disabled={chatLoading || !input.trim()}
-                        style={{ width: 36, height: 36, borderRadius: 10, background: input.trim() && !chatLoading ? '#fff' : 'var(--ovw-0p06)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: input.trim() && !chatLoading ? 'pointer' : 'not-allowed', flexShrink: 0, transition: 'all 0.2s' }}
-                      >
-                        <Send size={14} style={{ color: input.trim() && !chatLoading ? '#000' : 'var(--ovw-0p25)' }} />
-                      </button>
-                    </div>
-                  )}
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
+                    <textarea
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      placeholder="Ask about this article..."
+                      rows={1}
+                      onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() } }}
+                      style={{
+                        flex: 1,
+                        background: 'var(--ovw-0p04)',
+                        border: '1px solid var(--ovw-0p1)',
+                        borderRadius: 10,
+                        padding: '9px 12px',
+                        color: 'var(--text-1)',
+                        fontFamily: 'Inter',
+                        fontSize: 13,
+                        resize: 'none',
+                        outline: 'none',
+                        lineHeight: 1.5,
+                        maxHeight: 80,
+                      }}
+                      onFocus={(e) => { e.target.style.borderColor = 'var(--ovw-0p25)' }}
+                      onBlur={(e) => { e.target.style.borderColor = 'var(--ovw-0p1)' }}
+                    />
+                    <button
+                      onClick={sendMessage}
+                      disabled={chatLoading || !input.trim()}
+                      style={{ width: 36, height: 36, borderRadius: 10, background: input.trim() && !chatLoading ? '#fff' : 'var(--ovw-0p06)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: input.trim() && !chatLoading ? 'pointer' : 'not-allowed', flexShrink: 0, transition: 'all 0.2s' }}
+                    >
+                      <Send size={14} style={{ color: input.trim() && !chatLoading ? '#000' : 'var(--ovw-0p25)' }} />
+                    </button>
+                  </div>
                   <p style={{ fontFamily: 'Inter', fontSize: 9, color: 'var(--ovw-0p2)', marginTop: 8, textAlign: 'right' }}>
-                    {usageCount}/{DAILY_LIMIT} queries today
+                    {usageCount} {usageCount === 1 ? 'query' : 'queries'} today
                   </p>
                 </div>
               </motion.div>

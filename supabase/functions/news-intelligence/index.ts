@@ -6,8 +6,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-const DAILY_LIMIT = 10
-
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
@@ -45,23 +43,6 @@ serve(async (req) => {
       })
     }
 
-    // Check daily limit before generating new response
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-
-    const { count } = await supabase
-      .from('usage_logs')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user_id)
-      .eq('module', 'news_intelligence')
-      .gte('created_at', today.toISOString())
-
-    if ((count || 0) >= DAILY_LIMIT) {
-      return new Response(
-        JSON.stringify({ error: 'Daily intelligence limit reached (10/day).' }),
-        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
-    }
 
     const systemPrompt = `You are DOBERMAN's Intelligence Analyst. You analyze cybersecurity news and answer questions about articles.
 Provide tangible, actionable advice. Reference specific details from the article context.

@@ -7,7 +7,7 @@ export function useText(userId: string | undefined) {
   const [result, setResult] = useState<TextScan | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  const analyze = async (content: string) => {
+  const analyze = async (input: { content?: string; source_url?: string }) => {
     if (!userId) return
 
     setScanning(true)
@@ -16,7 +16,7 @@ export function useText(userId: string | undefined) {
 
     try {
       const { data, error: fnError } = await supabase.functions.invoke('text-analyze', {
-        body: { content, user_id: userId },
+        body: { content: input.content, source_url: input.source_url, user_id: userId },
       })
 
       if (fnError) throw new Error(fnError.message)

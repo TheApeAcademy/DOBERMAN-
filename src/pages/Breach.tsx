@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { useBreach } from '../hooks/useBreach'
-import { UpgradeModal } from '../components/ui/Modal'
 import { dayeNotify, dayeAskAbout } from '../components/daye/DayeAssistant'
 
 /* Coffee-brown identity — dedicated to this module, not the neutral chrome
@@ -93,30 +92,22 @@ function OccurrenceMeter({ occurrences, severity }: { occurrences: number; sever
 
 export default function Breach() {
   const { user, profile, signOut } = useAuth()
-  const { scanning, result, error, scan, getHistory, getDailyCount } = useBreach(user?.id)
+  const { scanning, result, error, scan, getHistory } = useBreach(user?.id)
 
   const [activeTab, setActiveTab] = useState<ScanType>('email')
   const [inputValue, setInputValue] = useState('')
-  const [dailyCount, setDailyCount] = useState(0)
-  const [upgradeOpen, setUpgradeOpen] = useState(false)
   const [history, setHistory] = useState<Array<{ id: string; scan_type: string; query: string; created_at: string }>>([])
   const [historyLoaded, setHistoryLoaded] = useState(false)
 
   useEffect(() => {
     if (user) {
-      getDailyCount().then(setDailyCount)
       getHistory().then((h) => { setHistory(h); setHistoryLoaded(true) })
     }
   }, [user])
 
-  const remaining = Math.max(0, 3 - dailyCount)
-
   const handleScan = async () => {
     if (!inputValue.trim()) return
-    if (remaining <= 0) { setUpgradeOpen(true); return }
     await scan(activeTab, inputValue.trim())
-    const count = await getDailyCount()
-    setDailyCount(count)
     const h = await getHistory()
     setHistory(h)
   }
@@ -198,20 +189,6 @@ export default function Breach() {
           <p style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 500, fontSize: 11, letterSpacing: '0.1em', color: B.dim, marginBottom: 52 }}>
             HAVEIBEENPWNED · BREACH DATABASES · CREDENTIAL EXPOSURE
           </p>
-
-          {/* Quota bar */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 40 }}>
-            <span style={{
-              fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 11, letterSpacing: '0.12em',
-              color: remaining > 0 ? B.bright : B.critical,
-              background: remaining > 0 ? mix(B.accent, 12) : mix(B.critical, 10),
-              border: `1px solid ${remaining > 0 ? B.border : mix(B.critical, 30)}`,
-              padding: '5px 14px', borderRadius: 4,
-            }}>
-              {remaining} / 3 SCANS TODAY
-            </span>
-            <div style={{ flex: 1, height: 1, background: `linear-gradient(to right, ${B.border}, transparent)` }} />
-          </div>
 
           {/* Tabs */}
           <div style={{ display: 'flex', gap: 0, marginBottom: 28, borderBottom: `1px solid ${B.border}` }}>
@@ -532,8 +509,6 @@ export default function Breach() {
 
         </div>
       </div>
-
-      <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
     </Layout>
   )
 }

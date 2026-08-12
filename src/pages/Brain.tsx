@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { MessageSquarePlus, Target, Link2, X, History } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { BrainChat } from '../components/brain/BrainChat'
 import { BrainHistory } from '../components/brain/BrainHistory'
 import { ScarAnalyzer } from '../components/brain/ScarAnalyzer'
-import { UpgradeModal } from '../components/ui/Modal'
 import { useAuth } from '../hooks/useAuth'
 import { useBrain } from '../hooks/useBrain'
 import { GridLines } from '../components/ui/GridLines'
@@ -16,22 +15,14 @@ type Tab = 'intelligence' | 'scar'
 
 export default function BrainPage() {
   const { user, profile, signOut } = useAuth()
-  const { loading, error, activeConversation, sendMessage, getHistory, loadConversation, newConversation, getDailyCount } = useBrain(user?.id)
+  const { loading, error, activeConversation, sendMessage, getHistory, loadConversation, newConversation } = useBrain(user?.id)
 
-  const [dailyCount, setDailyCount] = useState(0)
-  const [upgradeOpen, setUpgradeOpen] = useState(false)
   const [historyOpen, setHistoryOpen] = useState(false)
   const [historyKey, setHistoryKey] = useState(0)
   const [activeTab, setActiveTab] = useState<Tab>('intelligence')
 
-  useEffect(() => {
-    if (user) getDailyCount().then(setDailyCount)
-  }, [user])
-
   const handleSend = async (content: string) => {
     await sendMessage(content, activeConversation?.id)
-    const count = await getDailyCount()
-    setDailyCount(count)
     setHistoryKey((k) => k + 1)
   }
 
@@ -39,8 +30,6 @@ export default function BrainPage() {
     loadConversation(conv.id)
     setHistoryOpen(false)
   }
-
-  const dailyRemaining = Math.max(0, 10 - dailyCount)
 
   const tabBtn = (tab: Tab, icon: React.ReactNode, label: string) => {
     const active = activeTab === tab
@@ -161,8 +150,6 @@ export default function BrainPage() {
                 onSend={handleSend}
                 loading={loading}
                 error={error}
-                dailyRemaining={dailyRemaining}
-                onUpgradeClick={() => setUpgradeOpen(true)}
               />
             ) : (
               <ScarAnalyzer />
@@ -170,8 +157,6 @@ export default function BrainPage() {
           </div>
         </div>
       </div>
-
-      <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
     </Layout>
   )
 }

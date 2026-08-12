@@ -3,7 +3,6 @@ import { Brain, X, MessageSquarePlus, Link2, Shield, AlertTriangle, CheckCircle,
 import { Layout } from '../components/layout/Layout'
 import { BrainChat } from '../components/brain/BrainChat'
 import { BrainHistory } from '../components/brain/BrainHistory'
-import { UpgradeModal } from '../components/ui/Modal'
 import { useAuth } from '../hooks/useAuth'
 import { useBrain } from '../hooks/useBrain'
 import { supabase } from '../lib/supabase'
@@ -48,12 +47,9 @@ export default function DayePage() {
     getHistory,
     loadConversation,
     newConversation,
-    getDailyCount,
   } = useBrain(user?.id)
 
   const [activeTab, setActiveTab] = useState<'chat' | 'scam'>('chat')
-  const [dailyCount, setDailyCount] = useState(0)
-  const [upgradeOpen, setUpgradeOpen] = useState(false)
   const [historyOpen, setHistoryOpen] = useState(false)
   const [historyKey, setHistoryKey] = useState(0)
 
@@ -63,10 +59,6 @@ export default function DayePage() {
   const [scamResult, setScamResult] = useState<ScamLinkCheck | null>(null)
   const [scamError, setScamError] = useState('')
   const [scamHistory, setScamHistory] = useState<ScamLinkCheck[]>([])
-
-  useEffect(() => {
-    if (user) getDailyCount().then(setDailyCount)
-  }, [user])
 
   useEffect(() => {
     if (activeTab === 'scam' && user) loadScamHistory()
@@ -85,8 +77,6 @@ export default function DayePage() {
 
   const handleSend = async (content: string) => {
     await sendMessage(content, activeConversation?.id)
-    const count = await getDailyCount()
-    setDailyCount(count)
     setHistoryKey((k) => k + 1)
   }
 
@@ -120,8 +110,6 @@ export default function DayePage() {
       setScamLoading(false)
     }
   }
-
-  const dailyRemaining = Math.max(0, 10 - dailyCount)
 
   const sidebarStyle: React.CSSProperties = {
     width: 240,
@@ -262,8 +250,6 @@ export default function DayePage() {
               onSend={handleSend}
               loading={chatLoading}
               error={chatError}
-              dailyRemaining={dailyRemaining}
-              onUpgradeClick={() => setUpgradeOpen(true)}
             />
           ) : (
             <div style={{ flex: 1, overflowY: 'auto', padding: '24px' }}>
@@ -436,7 +422,6 @@ export default function DayePage() {
         </div>
       </div>
 
-      <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </Layout>
   )

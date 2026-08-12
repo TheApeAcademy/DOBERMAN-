@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import type { ReactNode } from 'react'
-import { X, Crown } from 'lucide-react'
+import { X } from 'lucide-react'
 
 interface ModalProps {
   open: boolean
@@ -45,38 +45,5 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
         <div style={{ padding: '20px 22px' }}>{children}</div>
       </div>
     </div>
-  )
-}
-
-export function UpgradeModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  return (
-    <Modal open={open} onClose={onClose} title="Upgrade to Pro">
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, textAlign: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 48, height: 48, borderRadius: 14, background: 'rgba(255,176,32,0.1)', border: '1px solid rgba(255,176,32,0.2)', margin: '0 auto' }}>
-          <Crown size={20} style={{ color: '#FFB020' }} />
-        </div>
-        <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-2)', lineHeight: 1.7 }}>
-          You have reached your daily limit. Pro gives you unlimited scans,
-          priority analysis, and advanced threat reports.
-        </p>
-        <div style={{ background: 'var(--ovw-0p02)', border: '1px solid var(--ovw-0p07)', borderRadius: 12, padding: '14px 16px', textAlign: 'left' }}>
-          <p style={{ fontFamily: 'Inter', fontSize: 9, letterSpacing: '0.04em', color: 'var(--text-3)', marginBottom: 10, textTransform: 'uppercase' }}>Pro includes:</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {['Unlimited EYES scans', 'Unlimited NOSE scans', '100 BRAIN messages/day', 'Export reports', 'Priority support'].map((item) => (
-              <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ color: 'var(--safe)', fontFamily: 'Inter', fontSize: 10 }}>+</span>
-                <span style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-1)' }}>{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <button onClick={onClose} className="btn-primary" style={{ width: '100%', padding: '12px 0' }}>
-          Coming Soon — Notify Me
-        </button>
-        <button onClick={onClose} className="btn-secondary" style={{ width: '100%', padding: '10px 0', fontSize: 11 }}>
-          Maybe Later
-        </button>
-      </div>
-    </Modal>
   )
 }
