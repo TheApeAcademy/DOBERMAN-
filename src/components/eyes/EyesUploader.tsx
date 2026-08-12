@@ -4,15 +4,22 @@ import { Upload, File, Image, Video, Music, X, Zap } from 'lucide-react'
 interface EyesUploaderProps {
   onAnalyze: (file: File) => void
   scanning: boolean
+  accept?: string
+  hint?: string
+  analyzingLabel?: string
 }
 
-export function EyesUploader({ onAnalyze, scanning }: EyesUploaderProps) {
+export function EyesUploader({
+  onAnalyze,
+  scanning,
+  accept = 'image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,audio/mpeg,audio/wav,audio/ogg',
+  hint = 'JPG, PNG, MP4, MP3, WAV - Max 50MB',
+  analyzingLabel = 'Analyzing with D0B3RMAN...',
+}: EyesUploaderProps) {
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [dragOver, setDragOver] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
-
-  const accept = 'image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,audio/mpeg,audio/wav,audio/ogg'
 
   const handleFile = (f: File) => {
     setFile(f)
@@ -114,7 +121,7 @@ export function EyesUploader({ onAnalyze, scanning }: EyesUploaderProps) {
                 Drop file here or <span className="text-accent-blue">browse</span>
               </p>
               <p className="text-text-muted font-label text-xs mt-1">
-                JPG, PNG, MP4, MP3, WAV - Max 50MB
+                {hint}
               </p>
             </div>
           </div>
@@ -131,7 +138,7 @@ export function EyesUploader({ onAnalyze, scanning }: EyesUploaderProps) {
         {scanning ? (
           <span className="flex items-center gap-2">
             <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-            Analyzing with D0B3RMAN...
+            {analyzingLabel}
           </span>
         ) : (
           <span className="flex items-center gap-2">
