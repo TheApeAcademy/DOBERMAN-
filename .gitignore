@@ -34,3 +34,6 @@ dist-extension
 # Supabase local
 .supabase/
 supabase/.temp/
+
+# Local documentation/screenshot tooling (not part of the product)
+.eval-scripts/

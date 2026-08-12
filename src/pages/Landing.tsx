@@ -25,18 +25,21 @@ const stats = [
 
 const reviews = [
   { text: 'I uploaded a video of my CEO that turned out to be completely AI-generated. D0B3RMAN caught it in 3 seconds.', author: 'Honour J.D', role: 'Cyber Sec Student', badge: '98% FAKE', badgeColor: 'var(--danger)', rotate: -1.5 },
-  { text: 'My home network had 4 critical vulnerabilities I had no idea about. Patched all of them in one afternoon.', author: 'Perez E', role: 'Cyber Sec Student', badge: 'RISK: 74', badgeColor: 'var(--warning)', rotate: 1.5 },
+  { text: 'My password showed up 48,000 times in the Breach Detector. Changed everything that afternoon.', author: 'Perez E', role: 'Cyber Sec Student', badge: 'PWNED 48K', badgeColor: 'var(--warning)', rotate: 1.5 },
   { text: 'The news verification alone is worth it. I paste every headline before sharing anything now.', author: 'Issac J', role: 'Computer Science Student', badge: '3 FALSE FLAGS', badgeColor: 'var(--danger)', rotate: -1 },
-  { text: 'D0B3RMAN Intelligence explained a zero-day exploit to me like a human being. Not like reading a CVE database. Actually useful.', author: 'Dave 101', role: 'Software Engineer', badge: 'D0B3RMAN I. 5/5', badgeColor: 'var(--safe)', rotate: 1 },
+  { text: 'DAYE explained a zero-day exploit to me like a human being. Not like reading a CVE database. Actually useful.', author: 'Dave 101', role: 'Software Engineer', badge: 'DAYE 5/5', badgeColor: 'var(--safe)', rotate: 1 },
   { text: 'Right-clicked a suspicious LinkedIn profile picture. D0B3RMAN said 97% fake. Blocked immediately.', author: 'Baddejo I', role: 'Vice President, PCU', badge: '97% FAKE', badgeColor: 'var(--danger)', rotate: -1.5 },
-  { text: 'Scanned my entire smart home. Bulbs, TV, cameras, router. Got a full risk report with numbered steps.', author: 'Mr Olusanu', role: 'My Dad', badge: '6 VULNS FOUND', badgeColor: 'var(--warning)', rotate: 1.5 },
+  { text: 'Pasted a "verify your account" link before clicking it. Scam Link Analyzer flagged it as a phishing kit in seconds.', author: 'Mr Olusanu', role: 'My Dad', badge: '92 RISK', badgeColor: 'var(--danger)', rotate: 1.5 },
 ]
 
 const hPanels = [
-  { num: '01', module: 'DEEP FAKE INTELLIGENCE', headline: 'See\nthrough\nthe fake.', sub: 'Upload any media. Get a trust score in seconds.' },
-  { num: '02', module: 'D0B3RMAN INTELLIGENCE', headline: 'Ask\nanything.\nKnow it all.', sub: 'A security analyst available every second of every day.' },
-  { num: '03', module: 'NEWS', headline: 'Real or\nfake?\nKnow now.', sub: 'Verify any headline or article in seconds.' },
-  { num: '04', module: 'EXTENSION', headline: 'Works\neverywhere\nyou do.', sub: 'Right-click any image on the web. Get results instantly.' },
+  { num: '01', module: 'DEEPFAKE INTELLIGENCE', headline: 'See\nthrough\nthe fake.', sub: 'Upload any media. Get a trust score in seconds.' },
+  { num: '02', module: 'DAYE', headline: 'Ask\nanything.\nKnow it all.', sub: 'A context-aware security analyst available every second of every day.' },
+  { num: '03', module: 'BREACH DETECTION', headline: 'Pwned?\nFind out\nnow.', sub: 'Check passwords and emails against real breach data.' },
+  { num: '04', module: 'SCAM LINK ANALYZER', headline: 'Before\nyou\nclick.', sub: 'Score any link for phishing and malware indicators.' },
+  { num: '05', module: 'NEWS', headline: 'Real or\nfake?\nKnow now.', sub: 'Verify any headline or article in seconds.' },
+  { num: '06', module: 'CYBER GLOBE', headline: 'The world,\nthreat by\nthreat.', sub: 'Live cyber-threat briefings for any country.' },
+  { num: '07', module: 'EXTENSION', headline: 'Works\neverywhere\nyou do.', sub: 'Right-click any image on the web. Get results instantly.' },
 ]
 
 const IN_VIEW = {

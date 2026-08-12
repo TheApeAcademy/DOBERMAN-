@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { BookOpen, Download, ArrowRight, Eye, Wifi, Brain, Newspaper, Globe, Database, Layers, Shield } from 'lucide-react'
+import { BookOpen, Download, ArrowRight, Eye, Wifi, Brain, Newspaper, Globe, Database, Layers, Shield, Lock, Link2, Mic, FileText, Bot, Puzzle } from 'lucide-react'
 import { Layout } from '../components/layout/Layout'
 import { useAuth } from '../hooks/useAuth'
 import { REPORT } from '../data/reportContent'
@@ -26,14 +26,20 @@ const chapterColors = [
 ]
 
 const highlights = [
-  { icon: Eye, label: 'EYES', sub: 'Deepfake Detection', color: 'var(--safe)' },
+  { icon: Eye, label: 'DEEPFAKE INTEL', sub: 'Image / Video Detection', color: 'var(--safe)' },
+  { icon: Mic, label: 'VOICE INTEL', sub: 'Clone Detection', color: 'rgba(191,90,242,0.9)' },
+  { icon: FileText, label: 'TEXT AI-DETECT', sub: 'Stylometric Signals', color: 'rgba(100,210,255,0.9)' },
   { icon: Wifi, label: 'NOSE', sub: 'IoT Intelligence', color: 'var(--warning)' },
-  { icon: Brain, label: 'BRAIN', sub: 'AI Analyst', color: 'rgba(191,90,242,0.9)' },
-  { icon: Newspaper, label: 'NEWS', sub: 'Credibility', color: 'var(--danger)' },
-  { icon: Globe, label: 'EXTENSION', sub: 'Browser', color: 'rgba(100,210,255,0.9)' },
+  { icon: Lock, label: 'BREACH DETECT', sub: 'HIBP + k-Anonymity', color: 'var(--safe)' },
+  { icon: Link2, label: 'SCAM LINK', sub: 'Phishing Scoring', color: 'var(--danger)' },
+  { icon: Newspaper, label: 'NEWS', sub: 'Feed / Verify / Chat', color: 'var(--danger)' },
+  { icon: Globe, label: 'CYBER GLOBE', sub: 'Country Threat Briefs', color: 'rgba(100,210,255,0.9)' },
+  { icon: Bot, label: 'DAYE', sub: 'Context-Aware Analyst', color: 'rgba(191,90,242,0.9)' },
+  { icon: Brain, label: 'CLAUDE + GEMINI', sub: 'Dual-Provider LLM', color: 'rgba(191,90,242,0.9)' },
   { icon: Database, label: 'SUPABASE', sub: 'PostgreSQL + RLS', color: 'var(--ovw-0p6)' },
-  { icon: Layers, label: 'EDGE FNS', sub: 'Deno Serverless', color: 'rgba(255,149,0,0.9)' },
+  { icon: Layers, label: 'EDGE FNS', sub: '18 Deno Functions', color: 'rgba(255,149,0,0.9)' },
   { icon: Shield, label: 'HIVE AI', sub: 'Vision Models', color: 'rgba(48,209,88,0.9)' },
+  { icon: Puzzle, label: 'EXTENSION', sub: 'Browser Right-Click', color: 'rgba(255,149,0,0.9)' },
 ]
 
 export default function Report() {
