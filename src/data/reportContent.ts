@@ -1,7 +1,13 @@
+export interface ReportImage {
+  src: string
+  caption: string
+}
+
 export interface ReportSection {
   id: string
   heading: string
   body: string[]
+  images?: ReportImage[]
 }
 
 export interface ReportChapter {
@@ -31,7 +37,7 @@ export interface ReportData {
   acknowledgements: string
   chapters: ReportChapter[]
   references: Reference[]
-  appendices: { title: string; content: string[] }[]
+  appendices: { title: string; content: string[]; images?: ReportImage[] }[]
 }
 
 export const REPORT: ReportData = {
@@ -284,6 +290,9 @@ Finally, to the open-source community whose tools, documentation, and collective
             `This architecture was chosen for three reasons. First, security: by proxying all external API calls through edge functions, sensitive credentials are never exposed in client-side code. Second, control: authentication verification and data persistence happen server-side, where they were verified during this review to depend on server-recorded state rather than any client-supplied value, and so cannot be circumvented by client-side manipulation; usage is still recorded server-side into a usage_logs table for audit purposes, though, as detailed in Section 4.10, this log is no longer used to enforce a per-account daily limit, following a deliberate removal of that constraint during development. Third, scalability: Supabase Edge Functions scale automatically, meaning the platform handles variable load without manual infrastructure management.`,
             `A cross-cutting addition to this architecture, introduced after the initial four-module design, is the DAYE assistant function, which does not belong to any single module but is instead called by every module to generate a context-specific explanatory message. Rather than exposing one generic chatbot endpoint, the DAYE function selects between more than a dozen purpose-built prompt templates keyed by a context_type parameter (for example, deepfake_result, voice_result, breach_result, scam_link_result, news_verify_result, globe_country, and idle_tip), each of which is constructed to reference the specific fields already computed by the calling module rather than asking the model to re-derive a verdict from scratch. This pattern, an explanatory layer that consumes another system's structured output rather than an autonomous decision-maker, is the architectural centrepiece of this project and is examined further in Section 3.6 and Chapter 5.`,
           ],
+          images: [
+            { src: '/report-assets/dashboard-ui.jpg', caption: 'Figure 3.1: The authenticated Dashboard, showing the module grid and the floating DAYE assistant present on every page.' },
+          ],
         },
         {
           id: '3-4',
@@ -349,6 +358,9 @@ Finally, to the open-source community whose tools, documentation, and collective
             `A methodological point is stated here because it shapes every section below: the real data described above was retrieved through the database, not by logging into the live application, because this reporting environment cannot reach the production Supabase project or third-party provider APIs directly over the network. To produce the screenshots in this chapter, that real, retrieved data was fed into the actual DOBERMAN frontend through the same rendering code path a live session would use, with only the authentication step reconstructed rather than performed live. The distinction this report is careful to maintain throughout is: the data shown in every screenshot in Sections 4.2 to 4.9 is genuine and unedited from what is stored in production; the browser session used to display it is a reconstruction, not an original login. Where a quoted figure or transcript appears in body text rather than a screenshot, it is quoted verbatim from the retrieved database row, with its real timestamp.`,
             `This also means the sample sizes reported below are exactly what exists in production, not a number chosen for this report: 26 EYES scans, 3 DAYE/BRAIN conversations, 2 NEWS verifications, 5 Text AI-Detection scans, 2 Cyber Globe briefs, and 3 Breach Detection scans (one of which is used as evidence; see Section 4.9). NOSE, Voice Intelligence, and the Scam Link Analyzer have zero real production rows at the time of writing; no user, including during development, has yet exercised them for real. That absence is itself a finding, reported plainly in the relevant sections rather than obscured.`,
           ],
+          images: [
+            { src: '/report-assets/history-real.jpg', caption: 'Figure 4.1: The aggregated History view rendering real production scan data — 6 real EYES scans and 1 real DAYE conversation shown here, retrieved directly from the live database.' },
+          ],
         },
         {
           id: '4-2',
@@ -359,13 +371,20 @@ Finally, to the open-source community whose tools, documentation, and collective
             `Two of these results carry unusually strong ground truth for an academic evaluation, because the submitted files were themselves exported directly from ChatGPT's image generator, which is visible in their original filenames ("ChatGPT Image Jul 29, 2025..."). One such file was correctly classified FAKE at 100% confidence; the other was classified UNCERTAIN at 50% rather than incorrectly AUTHENTIC, which is the safer of the two possible errors. This is a small, specific, and real data point in EYES's favour, and this report is precise about its limits: two self-evidently-AI-generated inputs correctly flagged is not a validated accuracy rate, and is not presented as one; it is what the real evidence available actually shows.`,
             `The real data also shows something this report was not looking for but is obligated to report: a clear split in explanation quality by date. Scans from May 2026 through early August consistently show confidence_score locked at exactly 50, null probability fields, and the generic message "Analysis complete. Review the confidence score for details." Scans from 11 August 2026 onward show rich, signal-specific explanations naming the exact Hive classifier outputs and candidate generator models. This is consistent with the DAYE explanation layer and the richer Hive signal integration having been completed or substantially improved on 11 August 2026, and this report treats it as genuine longitudinal evidence of the iterative development process described in Section 3.1, not as inconsistency to be smoothed over.`,
           ],
+          images: [
+            { src: '/report-assets/eyes-real-history.jpg', caption: 'Figure 4.2: Real EYES scan history from the production database — real filenames, verdicts, and confidence scores, including the two ChatGPT-exported images correctly flagged.' },
+            { src: '/report-assets/eyes-result-ui.jpg', caption: 'Figure 4.3: The full EYES result view, showing the detector breakdown (AI-generation and deepfake probability shown separately) and the DAYE explanation affordance described in Section 3.6.' },
+          ],
         },
         {
           id: '4-3',
           heading: '4.3 NOSE: No Real Production Data, and the CVE Reference Limitation',
           body: [
-            `The nose_scans table contains zero rows. No real network description has ever been submitted to NOSE in production, by any user, at the time of writing. This report does not simulate one to fill the gap; it states the absence directly. Section 3.7 already records that NOSE is not linked from primary navigation, and the absence of any real usage data is consistent with, though not necessarily fully explained by, that fact.`,
+            `The nose_scans table contains zero rows. No real network description has ever been submitted to NOSE in production, by any user, at the time of writing. This report does not simulate one to fill the gap; it states the absence directly. Section 3.7 already records that NOSE is not linked from primary navigation, and the absence of any real usage data is consistent with, though not necessarily fully explained by, that fact. Figure 4.4 below shows the interface driven by representative simulated data, not a real result, so the reader can see how the module renders while this report is explicit that no real result yet exists to show instead.`,
             `One specific claim requires direct correction relative to earlier project documentation, independent of the data question above. A previous version of this report stated that a CVE reference returned by NOSE for a TP-Link router "matched publicly documented vulnerabilities in the NIST National Vulnerability Database... confirming that the LLM-to-CVE mapping approach produces verifiable, grounded results rather than hallucinated identifiers." Having read the deployed nose-analyze source directly, that conclusion does not follow from the architecture: the function has no code path that queries the NVD, MITRE, or any other CVE database. CVE-2023-1389, the identifier referenced in that earlier claim, is a real, well-documented vulnerability affecting the TP-Link Archer AX21, so a model correctly citing it is plausible given that CVE's prevalence in training data; but a single plausible example says nothing about reliability for an obscure device, and with zero real scans on record, this report has no production evidence either way. This report withdraws the earlier claim and records the absence of live CVE verification as a named limitation, with server-side NVD or CIRCL cross-referencing specified as priority future work in Section 5.6.`,
+          ],
+          images: [
+            { src: '/report-assets/nose-result-ui.jpg', caption: 'Figure 4.4: The NOSE interface with simulated data (no real scans exist in production) — the CVE-2023-1389 reference discussed critically in this section is visible in the CRITICAL device card.' },
           ],
         },
         {
@@ -377,6 +396,9 @@ Finally, to the open-source community whose tools, documentation, and collective
             `[11 Aug 2026, 15:59:21] User: 'help verify this news "https://www.securityweek.com/zoom-patches-zero-click-code-execution-vulnerability/"' — Assistant: "DAYE analyzing link and context. Operator, the URL points to a legitimate security publication domain (SecurityWeek) covering a high-severity vulnerability report regarding Zoom. Threat Assessment — Target: Zoom client infrastructure. Vector: Zero-click remote code execution (RCE). Risk Level: Critical. Status: Patched by the vendor. Concrete action step: Audit all local and enterprise endpoints immediately to verify that Zoom client software is updated to the latest patched version released by the vendor."`,
             `This exchange is a real, unscripted demonstration of two design properties claimed elsewhere in this report. First, persona consistency: the assistant opens in character and closes with a concrete action step in both turns, matching the system prompt described in Section 3.6 without that prompt being re-supplied by the user. Second, correct information: SecurityWeek is in fact a real, established security-industry publication, and the assistant's characterisation of the linked vulnerability class (zero-click RCE, patched) is consistent with how such disclosures are conventionally reported, rather than a fabricated risk narrative. This single conversation is evidence of correct behaviour on this input; it is not, and is not presented as, a systematic evaluation of conversational reliability across security topics, which would require the structured, consented testing programme specified in Section 4.11.`,
           ],
+          images: [
+            { src: '/report-assets/daye-real-conversation.jpg', caption: 'Figure 4.5: The real DAYE conversation list, showing the genuine "hi" conversation (18 hours old, 4 messages) quoted verbatim above, retrieved directly from brain_conversations.' },
+          ],
         },
         {
           id: '4-5',
@@ -385,12 +407,18 @@ Finally, to the open-source community whose tools, documentation, and collective
             `All five real rows in text_scans are reproduced here. Four were classified ai_generated (88%, 92%, 99%, and a further 92% not itemised individually) and one was classified likely_human (15%), and the named signals differ meaningfully and specifically between the two groups rather than repeating a generic template.`,
             `For the ai_generated cases, real named signals included: "excessive hedging phrase 'It is important to note that'", "cliché temporal opener 'in today's fast-paced digital landscape'", "tricolon list of verbs", and "uniformly moderate sentence length and lack of burstiness." For the likely_human case, real named signals included: "conversational and informal phrasing", "colloquial examples like 'fight, play football, etc.'", and "absence of formulaic LLM hedging or transition phrases." This pattern is consistent, specifically and in its own vocabulary (burstiness, hedging phrases, tricolon structure), with the stylometric literature reviewed in Section 2.4, particularly the Chen et al. (2026) finding that AI-generated text shows measurable stylistic uniformity against individually variable human writing [42]. This is real evidence that the module's signal extraction is doing something specific and literature-consistent, not evidence of a measured accuracy rate, since the five real inputs do not carry independently verified ground truth the way the two ChatGPT-exported EYES images do.`,
           ],
+          images: [
+            { src: '/report-assets/text-detect-ui.jpg', caption: 'Figure 4.6: The Text AI-Detection tab (simulated data shown here for the interface; the real signals quoted above are taken directly from production rows).' },
+          ],
         },
         {
           id: '4-6',
           heading: '4.6 NEWS: A Real Claim, Verified Twice',
           body: [
             `Both real rows in news_checks assess the same real article (the SecurityWeek Zoom RCE report also referenced in Section 4.4), submitted as a URL sixteen hours apart on 11 August 2026. Both real runs returned a credibility_score of 95, a CREDIBLE verdict, zero red flags, and materially the same positive signals ("published by a specialized, industry-recognized cybersecurity news outlet"; "factual and objective headline"). This is a small but real test-retest consistency result: the same real input produced the same real verdict on independent invocations of the live function, which is a meaningful, specific, and correctly scoped claim this report can make from the data actually available, distinct from and more defensible than an unqualified accuracy percentage.`,
+          ],
+          images: [
+            { src: '/report-assets/news-real-verify.jpg', caption: 'Figure 4.7: The real NEWS verify result for the SecurityWeek Zoom RCE article — 95/100, CREDIBLE, retrieved directly from news_checks.' },
           ],
         },
         {
@@ -399,12 +427,19 @@ Finally, to the open-source community whose tools, documentation, and collective
           body: [
             `Two real, cached briefs exist in globe_country_briefs, for France and Costa Rica, both generated 11 August 2026 and both returning a threatLevel of 7.4 (HIGH). Both briefs follow the good/bad/ugly/aware/recommended structure specified in the deployed prompt (Section 3.6) and name real, checkable specifics rather than generic filler: the France brief names ANSSI (the real French national cybersecurity agency) and Comcyber (the real French military cyber command), and correctly characterises named real threat actors (Sandworm, APT28) as relevant to the French threat landscape. The Costa Rica brief correctly references the real 2022 Conti ransomware attacks against Costa Rican government ministries, described in the brief as prior incidents that "paralyzed multiple government ministries simultaneously." Both briefs' recommended sections give concrete, actionable guidance (multi-factor authentication, network segmentation, offline backups) rather than vague advice. This is real evidence that, for two tested countries, the deployed prompt's explicit instruction against inventing statistics for lower-profile countries (Section 3.6) produced qualitatively accurate, named, checkable content rather than plausible-sounding filler, though two countries is not a systematic sample across the 196 nations the interface claims to cover.`,
           ],
+          images: [
+            { src: '/report-assets/globe-real.jpg', caption: 'Figure 4.8: The Cyber Globe interface, real deployment — 196 nations monitored, with France and Costa Rica among the two countries carrying real, cached threat briefs.' },
+          ],
         },
         {
           id: '4-8',
           heading: '4.8 Voice Intelligence, Scam Link Analyzer, and the Extension: No Real Data',
           body: [
             `voice_scans and scam_link_checks both contain zero rows in production, for the same reason as NOSE: no real user has exercised either capability yet. This report accordingly makes no evidentiary claim about either module's real-world behaviour and relies only on the source-code review in Section 3.6 for what can be said about them. The Chrome extension's manifest and content-script structure were likewise reviewed in source only (Section 3.6) and were not exercised end to end, since doing so requires a loaded browser profile with the extension installed against a live authenticated session, which this reporting environment cannot provide.`,
+          ],
+          images: [
+            { src: '/report-assets/voice-ui.jpg', caption: 'Figure 4.9: Voice Intelligence tab, simulated data (zero real scans exist in production).' },
+            { src: '/report-assets/scamlink-ui.jpg', caption: 'Figure 4.10: The Scam Link Analyzer, simulated data (zero real checks exist in production).' },
           ],
         },
         {
@@ -415,6 +450,9 @@ Finally, to the open-source community whose tools, documentation, and collective
             `The usable row (8 Aug 2026, email lookup) returned breached: false, breach_count: 0, with the message "Good news — this email was not found in any known data breach." This shape (a clean negative result, no unavailable flag) is exactly consistent with the current deployed breach-check function's real HIBP-integration path: a configured API key, a live call to the HIBP breachedaccount endpoint, and a 404 response mapped to an empty array. This is treated as genuine evidence that the real HIBP integration works as designed for the negative case.`,
             `The other two rows (11 Aug 2026 and 8 Aug 2026, both email lookups) returned breached: true with six named breaches each (Adobe, LinkedIn, Dropbox, MyFitnessPal, Canva, Zynga), and were deliberately excluded from use as evidence, because their shape does not match what the currently deployed function can produce. The deployed source (Section 3.6) maps HIBP's real response fields directly: b.Name, b.Domain, b.BreachDate, b.DataClasses, and b.Description, each of which is breach-specific in a genuine HIBP response, meaning six real breaches would carry six different, historically accurate dates (Adobe's real breach date is October 2013; LinkedIn's is May 2012; the other four are similarly distinct) and six distinct, breach-specific description paragraphs. Both excluded rows instead show every one of their six breaches dated identically to "2019-01-01" with an identical templated description pattern, "[Service] suffered a data breach exposing user credentials," repeated verbatim with only the service name substituted. This is not what the current code path produces from a real API response under any input this report can construct. This report does not assert a specific explanation for the discrepancy, since the deployed source alone cannot establish one, but records it as an unresolved data-integrity finding, most plausibly explained by these two rows predating a change to the function (the project's own commit history includes a commit titled "fix: remove fabricated breach data," which this report was not able to date precisely against these two rows), and recommends as immediate follow-up work, ahead of any new feature, that these two rows be investigated and, if confirmed as pre-fix artefacts, annotated or removed from the production table so they cannot later be mistaken for genuine HIBP results.`,
             `This finding is treated in this report as a demonstration of the same principle argued in Section 4.1 applied to itself: real production data is stronger evidence than simulated data, but only if it is checked against the system's actual current behaviour before being trusted, not merely because it is old and already sitting in the database.`,
+          ],
+          images: [
+            { src: '/report-assets/breach-real.jpg', caption: 'Figure 4.11: The real "not breached" Breach Detection result, retrieved directly from breach_scans — the one row of three whose shape matches the current function\'s genuine HIBP-integration behaviour.' },
           ],
         },
         {
@@ -648,6 +686,23 @@ if (!liveDataSourceConfigured) {
       content: [
         'Two distinct kinds of screenshot appear in this appendix, and each is labelled as what it is rather than left ambiguous. The first kind, covering EYES, DAYE/BRAIN, NEWS, Text AI-Detection, Cyber Globe, and Breach Detection, shows real historical data retrieved directly from the production database on 2026-08-12, rendered through the actual DOBERMAN frontend: real file names, real Hive AI signal breakdowns, a real conversation transcript, a real repeated news-credibility result, real stylometric signals, real named country-brief content, and a real "not breached" result, as detailed with sources in Sections 4.2 to 4.9. Because live authentication against the production deployment was not reachable from the reporting environment, the browser session used to display this real data was reconstructed rather than an original login; the data itself is genuine and unedited from what is stored in production.',
         'The second kind, covering NOSE, Voice Intelligence, and the Scam Link Analyzer, shows the real interface driven by representative simulated data, because these three modules have zero real rows in production (Section 4.8) and no real result exists to show. These screenshots demonstrate that the interface itself functions correctly; they are not evidence of real-world output and are captioned accordingly wherever they are referenced.',
+        'The figures embedded throughout Chapters 3 and 4 are drawn from the full set below, reproduced here together as a single visual index of the platform, including the in-app Report and Report/Full Document pages (this document itself) for completeness.',
+      ],
+      images: [
+        { src: '/report-assets/dashboard-ui.jpg', caption: 'Appendix C.1: Dashboard.' },
+        { src: '/report-assets/eyes-real-history.jpg', caption: 'Appendix C.2: EYES — real scan history.' },
+        { src: '/report-assets/eyes-result-ui.jpg', caption: 'Appendix C.3: EYES — full result view.' },
+        { src: '/report-assets/nose-result-ui.jpg', caption: 'Appendix C.4: NOSE — simulated result.' },
+        { src: '/report-assets/daye-real-conversation.jpg', caption: 'Appendix C.5: DAYE — real conversation list.' },
+        { src: '/report-assets/text-detect-ui.jpg', caption: 'Appendix C.6: Text AI-Detection tab.' },
+        { src: '/report-assets/news-real-verify.jpg', caption: 'Appendix C.7: NEWS — real verify result.' },
+        { src: '/report-assets/globe-real.jpg', caption: 'Appendix C.8: Cyber Globe.' },
+        { src: '/report-assets/voice-ui.jpg', caption: 'Appendix C.9: Voice Intelligence tab.' },
+        { src: '/report-assets/scamlink-ui.jpg', caption: 'Appendix C.10: Scam Link Analyzer.' },
+        { src: '/report-assets/breach-real.jpg', caption: 'Appendix C.11: Breach Detection — real result.' },
+        { src: '/report-assets/history-real.jpg', caption: 'Appendix C.12: History — aggregated real data.' },
+        { src: '/report-assets/report-hub-ui.jpg', caption: 'Appendix C.13: DOBERMAN Journal — Report hub page.' },
+        { src: '/report-assets/report-full-ui.jpg', caption: 'Appendix C.14: DOBERMAN Journal — Full Document page (this document).' },
       ],
     },
   ],

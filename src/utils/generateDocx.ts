@@ -12,7 +12,7 @@ import {
   LeaderType,
   ImageRun,
 } from 'docx'
-import { REPORT } from '../data/reportContent'
+import { REPORT, type ReportImage } from '../data/reportContent'
 
 const FONT = 'Times New Roman'
 const SIZE_BODY = 24          // half-points → 12pt
@@ -86,6 +86,39 @@ function sectionHeading(text: string): Paragraph {
     alignment: AlignmentType.LEFT,
     spacing: { before: 360, after: 120 },
   })
+}
+
+async function fetchWithRetry(src: string, attempts = 3): Promise<ArrayBuffer | null> {
+  for (let i = 0; i < attempts; i++) {
+    try {
+      const resp = await fetch(src)
+      if (resp.ok) return await resp.arrayBuffer()
+    } catch { /* retry */ }
+    await new Promise((r) => setTimeout(r, 250))
+  }
+  return null
+}
+
+async function figureParagraphs(images: ReportImage[] | undefined): Promise<Paragraph[]> {
+  if (!images || images.length === 0) return []
+  const out: Paragraph[] = []
+  for (const img of images) {
+    try {
+      const buf = await fetchWithRetry(img.src)
+      if (!buf) continue
+      out.push(new Paragraph({
+        children: [new ImageRun({ data: buf, transformation: { width: 460, height: 288 }, type: 'jpg' })],
+        alignment: AlignmentType.CENTER,
+        spacing: { before: 200, after: 60 },
+      }))
+      out.push(new Paragraph({
+        children: [new TextRun({ text: img.caption, font: FONT, size: SIZE_SM, italics: true })],
+        alignment: AlignmentType.CENTER,
+        spacing: { before: 0, after: 240 },
+      }))
+    } catch { /* skip missing image */ }
+  }
+  return out
 }
 
 function referenceItem(num: number, citation: string): Paragraph {
@@ -257,6 +290,7 @@ export async function downloadDocx() {
     for (const section of chapter.sections) {
       children.push(sectionHeading(section.heading))
       section.body.forEach((para) => children.push(body(para)))
+      children.push(...(await figureParagraphs(section.images)))
     }
   }
 
@@ -281,6 +315,7 @@ export async function downloadDocx() {
         children.push(body(para))
       }
     })
+    children.push(...(await figureParagraphs(app.images)))
   }
 
   // ── Build document ────────────────────────────────────

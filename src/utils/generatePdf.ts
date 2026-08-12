@@ -1,5 +1,5 @@
 import jsPDF from 'jspdf'
-import { REPORT } from '../data/reportContent'
+import { REPORT, type ReportImage } from '../data/reportContent'
 
 // ── Page geometry ──────────────────────────────────────────
 const LEFT   = 38.1  // 1.5 inch — binding margin
@@ -98,6 +98,58 @@ function addFrontBody(
     y.v += lineH
   }
   y.v += lineH * 0.35
+}
+
+async function fetchAsDataUrl(src: string, attempts = 3): Promise<string | null> {
+  for (let i = 0; i < attempts; i++) {
+    try {
+      const resp = await fetch(src)
+      if (resp.ok) {
+        const blob = await resp.blob()
+        return await new Promise<string>((res) => {
+          const reader = new FileReader()
+          reader.onload = () => res(reader.result as string)
+          reader.readAsDataURL(blob)
+        })
+      }
+    } catch { /* retry */ }
+    await new Promise((r) => setTimeout(r, 250))
+  }
+  return null
+}
+
+async function addFigures(
+  doc: jsPDF,
+  images: ReportImage[] | undefined,
+  y: { v: number },
+  page: { n: number },
+  arabic: { n: number },
+): Promise<void> {
+  if (!images || images.length === 0) return
+  const imgW = 120
+  const imgH = 75
+  for (const img of images) {
+    const dataUrl = await fetchAsDataUrl(img.src)
+    if (!dataUrl) continue
+    const blockH = imgH + 14
+    if (y.v + blockH > PAGE_H - BOT - 16) {
+      writeBodyFooter(doc, arabic.n)
+      doc.addPage()
+      page.n++
+      arabic.n++
+      y.v = TOP + 15
+    }
+    y.v += 4
+    const x = LEFT + (USABLE_W - imgW) / 2
+    doc.addImage(dataUrl, 'JPEG', x, y.v, imgW, imgH)
+    y.v += imgH + 5
+    doc.setFont(FONT, 'italic')
+    doc.setFontSize(9)
+    const capLines = doc.splitTextToSize(img.caption, USABLE_W)
+    doc.text(capLines, PAGE_W / 2, y.v, { align: 'center' })
+    y.v += capLines.length * 4.5 + 8
+    doc.setFont(FONT, 'normal')
+  }
 }
 
 function addChapterHeading(
@@ -380,6 +432,7 @@ export async function downloadPdf() {
     for (const section of chapter.sections) {
       addSectionHeading(doc, section.heading, y, physPage, arabic, toc)
       section.body.forEach((para) => addBody(doc, para, y, physPage, arabic))
+      await addFigures(doc, section.images, y, physPage, arabic)
     }
     writeBodyFooter(doc, arabic.n)
   }
@@ -419,6 +472,7 @@ export async function downloadPdf() {
         addBody(doc, para, y, physPage, arabic)
       }
     })
+    await addFigures(doc, app.images, y, physPage, arabic)
     writeBodyFooter(doc, arabic.n)
   }
 

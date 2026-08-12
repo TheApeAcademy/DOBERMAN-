@@ -288,6 +288,13 @@ export default function ReportFull() {
                     {section.body.map((para, i) => (
                       <BodyText key={i}>{para}</BodyText>
                     ))}
+                    {section.images && section.images.length > 0 && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 24, margin: '24px 0 8px' }}>
+                        {section.images.map((img, i) => (
+                          <Figure key={i} src={img.src} caption={img.caption} />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 ))}
               </section>
@@ -330,6 +337,13 @@ export default function ReportFull() {
                     <BodyText key={j}>{para}</BodyText>
                   )
                 })}
+                {app.images && app.images.length > 0 && (
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20, marginTop: 24 }}>
+                    {app.images.map((img, j) => (
+                      <Figure key={j} src={img.src} caption={img.caption} compact />
+                    ))}
+                  </div>
+                )}
               </section>
             ))}
 
@@ -388,6 +402,19 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
         <div style={{ flex: 1, height: 1, background: 'var(--ovw-0p06)' }} />
       </div>
     </div>
+  )
+}
+
+function Figure({ src, caption, compact }: { src: string; caption: string; compact?: boolean }) {
+  return (
+    <figure style={{ margin: 0 }}>
+      <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid var(--ovw-0p1)', background: 'var(--ovw-0p02)' }}>
+        <img src={src} alt={caption} loading="lazy" style={{ display: 'block', width: '100%', height: 'auto' }} />
+      </div>
+      <figcaption style={{ fontFamily: 'JetBrains Mono', fontSize: compact ? 10 : 11, color: 'var(--ovw-0p4)', lineHeight: 1.6, marginTop: 8, textAlign: 'left' }}>
+        {caption}
+      </figcaption>
+    </figure>
   )
 }
 
