@@ -1094,7 +1094,7 @@ export default function Landing() {
               Get Started Free
             </motion.button>
             <p style={{ fontFamily: 'Inter', fontSize: 11, color: 'var(--ovw-0p2)', marginTop: 20 }}>
-              3 free scans per module per day -- no card required
+              Free tier -- no card required -- no limits on intelligence
             </p>
           </motion.div>
         </div>

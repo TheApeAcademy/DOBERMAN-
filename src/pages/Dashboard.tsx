@@ -375,7 +375,6 @@ export default function Dashboard() {
               title={<>NEWS<br />VERIFICATION</>}
               description="Paste any headline, claim, or article URL. D0B3RMAN cross-references it and gives you a credibility verdict in seconds."
               meta="Cross-reference · Source Quality · Fact Check"
-              progress={{ value: stats.newsToday, max: 3 }}
               media={
                 <video autoPlay muted loop playsInline preload="auto" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
                   <source src="/assets/video/blob-news.mp4" type="video/mp4" />
@@ -391,7 +390,6 @@ export default function Dashboard() {
               description="Scan any email, password, or phone number against known breach databases. D0B3RMAN checks instantly — no data ever retained."
               meta="HaveIBeenPwned · HIBP · DeHashed"
               accentColor="#CD853F"
-              progress={{ value: stats.breachToday, max: 3 }}
               media={
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(20,10,4,1) 0%, rgba(42,20,8,0.9) 100%)' }}>
                   <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(205,133,63,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(205,133,63,0.035) 1px,transparent 1px)', backgroundSize: '32px 32px' }} />
@@ -643,7 +641,7 @@ export default function Dashboard() {
                   </div>
                 ) : (
                   activity.map((item, i) => {
-                    const typeLabel: Record<string, string> = { eyes: 'D.F.I.', brain: 'D0B3RMAN I.', news: 'NEWS' }
+                    const typeLabel: Record<string, string> = { eyes: 'D.F.I.', brain: 'DAYE', news: 'NEWS' }
                     const IconComp = item.type === 'brain' ? Zap : item.type === 'news' ? ExternalLink : Shield
                     return (
                       <motion.div key={item.id} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}

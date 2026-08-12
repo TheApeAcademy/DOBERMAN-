@@ -15,7 +15,6 @@ import Settings from './pages/Settings'
 import Profile from './pages/Profile'
 import ShareTarget from './pages/ShareTarget'
 import Globe from './pages/Globe'
-import Daye from './pages/Daye'
 import Breach from './pages/Breach'
 import Report from './pages/Report'
 import ReportFull from './pages/ReportFull'
@@ -63,7 +62,7 @@ function AnimatedRoutes() {
         <Route path="/profile" element={<ProtectedRoute><PageWrapper><Profile /></PageWrapper></ProtectedRoute>} />
         <Route path="/globe" element={<ProtectedRoute><PageWrapper><Globe /></PageWrapper></ProtectedRoute>} />
         <Route path="/deepfake" element={<Navigate to="/eyes" replace />} />
-        <Route path="/daye" element={<ProtectedRoute><PageWrapper><Daye /></PageWrapper></ProtectedRoute>} />
+        <Route path="/daye" element={<Navigate to="/brain" replace />} />
         <Route path="/breach" element={<ProtectedRoute><PageWrapper><Breach /></PageWrapper></ProtectedRoute>} />
         <Route path="/report" element={<ProtectedRoute><PageWrapper><Report /></PageWrapper></ProtectedRoute>} />
         <Route path="/report/full" element={<ProtectedRoute><PageWrapper><ReportFull /></PageWrapper></ProtectedRoute>} />

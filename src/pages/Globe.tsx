@@ -907,7 +907,7 @@ export default function Globe() {
   }, [])
 
   return (
-    <Layout profile={profile} onSignOut={signOut} title="Global Threat Map">
+    <Layout profile={profile} onSignOut={signOut} title="Cyber Globe">
       <div style={{ height: 'calc(100vh - 64px)', position: 'relative', overflow: 'hidden', background: '#000508' }}>
 
         {/* Three.js Canvas */}

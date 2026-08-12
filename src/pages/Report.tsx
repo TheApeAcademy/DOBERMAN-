@@ -32,7 +32,7 @@ const highlights = [
   { icon: Wifi, label: 'NOSE', sub: 'IoT Intelligence', color: 'var(--warning)' },
   { icon: Lock, label: 'BREACH DETECT', sub: 'HIBP + k-Anonymity', color: 'var(--safe)' },
   { icon: Link2, label: 'SCAM LINK', sub: 'Phishing Scoring', color: 'var(--danger)' },
-  { icon: Newspaper, label: 'NEWS', sub: 'Feed / Verify / Chat', color: 'var(--danger)' },
+  { icon: Newspaper, label: 'NEWS', sub: 'Feed / Verify', color: 'var(--danger)' },
   { icon: Globe, label: 'CYBER GLOBE', sub: 'Country Threat Briefs', color: 'rgba(100,210,255,0.9)' },
   { icon: Bot, label: 'DAYE', sub: 'Context-Aware Analyst', color: 'rgba(191,90,242,0.9)' },
   { icon: Brain, label: 'CLAUDE + GEMINI', sub: 'Dual-Provider LLM', color: 'rgba(191,90,242,0.9)' },

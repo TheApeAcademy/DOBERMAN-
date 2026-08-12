@@ -189,7 +189,7 @@ export default function Settings() {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: 12, background: 'var(--ovw-0p02)', border: '1px solid var(--ovw-0p06)' }}>
                 <div>
                   <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-1)', marginBottom: 3 }}>Delete scan history</p>
-                  <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)' }}>Removes all EYES, NOSE, and BRAIN data</p>
+                  <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)' }}>Removes all Deepfake Intelligence, NOSE, and DAYE data</p>
                 </div>
                 <button onClick={() => setDeleteHistoryOpen(true)} className="btn-danger" style={{ padding: '7px 16px', fontSize: 11 }}>
                   Delete History
@@ -236,7 +236,7 @@ export default function Settings() {
       <Modal open={deleteHistoryOpen} onClose={() => setDeleteHistoryOpen(false)} title="Delete Scan History">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <p style={{ fontFamily: 'Inter', fontSize: 12, color: 'var(--text-2)', lineHeight: 1.6 }}>
-            This will permanently delete all your EYES scans, NOSE scans, and BRAIN conversations. This cannot be undone.
+            This will permanently delete all your Deepfake Intelligence scans, NOSE scans, and DAYE conversations. This cannot be undone.
           </p>
           <div style={{ display: 'flex', gap: 10 }}>
             <button onClick={() => setDeleteHistoryOpen(false)} className="btn-secondary" style={{ flex: 1 }}>Cancel</button>

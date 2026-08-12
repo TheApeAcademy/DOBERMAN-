@@ -381,7 +381,7 @@ export default function News() {
                   />
                   {verifyError && <p style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--danger)', marginBottom: 16 }}>{verifyError}</p>}
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>3 verifications/day on free tier</p>
+                    <p style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-3)' }}>Cross-referenced against live sources</p>
                     <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} onClick={handleVerify} disabled={verifying || !content.trim()}
                       style={{ padding: '12px 36px', background: verifying ? 'var(--void-4)' : 'white', color: verifying ? 'var(--text-3)' : 'black', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, sans-serif', fontWeight: 700, fontSize: 14, border: 'none', borderRadius: 10, cursor: verifying ? 'not-allowed' : 'pointer', transition: 'all 0.2s' }}>
                       {verifying ? 'ANALYZING...' : 'VERIFY NOW'}

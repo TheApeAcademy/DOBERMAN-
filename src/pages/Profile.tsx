@@ -51,9 +51,9 @@ export default function Profile() {
   const isPro = profile?.plan === 'pro'
 
   const statItems = [
-    { icon: Eye, label: 'EYES Scans', value: stats.eyesTotal, color: 'var(--text-2)' },
+    { icon: Eye, label: 'Deepfake Scans', value: stats.eyesTotal, color: 'var(--text-2)' },
     { icon: Wifi, label: 'NOSE Scans', value: stats.noseTotal, color: 'var(--text-2)' },
-    { icon: Brain, label: 'BRAIN Chats', value: stats.brainTotal, color: 'var(--text-2)' },
+    { icon: Brain, label: 'DAYE Chats', value: stats.brainTotal, color: 'var(--text-2)' },
   ]
 
   return (
@@ -128,7 +128,7 @@ export default function Profile() {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 18px', borderRadius: 14, background: 'var(--ovw-0p02)', border: '1px solid var(--ovw-0p07)', gap: 16 }}>
               <div>
                 <p style={{ fontFamily: 'Inter', fontSize: 14, fontWeight: 600, color: 'var(--text-1)', marginBottom: 4 }}>Free Plan</p>
-                <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)' }}>3 EYES · 3 NOSE · 10 BRAIN / day</p>
+                <p style={{ fontFamily: 'Inter', fontSize: 10, color: 'var(--text-3)' }}>Full access to every module -- no daily caps</p>
               </div>
               <button className="btn-primary" style={{ padding: '9px 18px', fontSize: 11, flexShrink: 0 }}>
                 Upgrade to Pro
